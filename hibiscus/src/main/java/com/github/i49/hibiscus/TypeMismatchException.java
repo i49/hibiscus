@@ -1,37 +1,39 @@
 package com.github.i49.hibiscus;
 
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-
 public class TypeMismatchException extends ValidationException {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String fieldName;
-	private final JsonNodeType expectedType;
-	private final JsonNodeType actualType;
+	private final String propertyName;
+	private final TypeKind expectedType;
+	private final TypeKind actualType;
 	
-	public TypeMismatchException(String fieldName, JsonNodeType expectedType, JsonNodeType actualType) {
-		this.fieldName = fieldName;
+	public TypeMismatchException(String propertyName, TypeKind expectedType, TypeKind actualType) {
+		this.propertyName = propertyName;
 		this.expectedType = expectedType;
 		this.actualType = actualType;
 	}
 
-	public String getFieldName() {
-		return fieldName;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public JsonNodeType getExpectedType() {
+	public TypeKind getExpectedType() {
 		return expectedType;
 	}
 
-	public JsonNodeType getActualType() {
+	public TypeKind getActualType() {
 		return actualType;
 	}
 	
 	@Override
 	public String getMessage() {
-		return "Expected type of field \"" + getFieldName() + 
+		String name = getPropertyName();
+		if (name == null) {
+			name = "(undefined)";
+		}
+		return "Expected type of property \"" + name + 
 				"\" is " + getExpectedType() + 
-				" but specified type is " + getActualType();
+				" but actual type is " + getActualType();
 	}
 }

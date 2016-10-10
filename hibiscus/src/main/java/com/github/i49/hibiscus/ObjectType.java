@@ -5,32 +5,34 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-
 public class ObjectType extends ContainerType {
 
 	private final Map<String, Property> all = new HashMap<>();
 	private final Set<Property> required = new HashSet<>();
 
-	public ObjectType(Property[] properties) {
-		super(JsonNodeType.OBJECT);
+	public ObjectType() {
+		super(TypeKind.OBJECT);
+	}
+	
+	public ObjectType properties(Property... properties) {
 		for (Property p: properties) {
 			this.all.put(p.getName(), p);
 			if (p.isRequired()) {
 				this.required.add(p);
 			}
 		}
+		return this;
 	}
 
-	public boolean containsProperty(String name) {
+	boolean containsProperty(String name) {
 		return all.containsKey(name); 
 	}
 	
-	public Property getProperty(String name) {
+	Property getProperty(String name) {
 		return this.all.get(name);
 	}
 	
-	public Iterable<Property> required() {
+	Iterable<Property> getRequiredProperties() {
 		return required;
 	}
 }

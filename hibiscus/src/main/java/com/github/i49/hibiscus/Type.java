@@ -1,16 +1,14 @@
 package com.github.i49.hibiscus;
 
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-
 public abstract class Type {
 
-	private final JsonNodeType nodeType;
+	private final TypeKind typeKind;
 	
-	public Type(JsonNodeType nodeType) {
-		this.nodeType = nodeType;
+	public Type(TypeKind typeKind) {
+		this.typeKind = typeKind;
 	}
 	
-	public JsonNodeType getNodeType() {
-		return nodeType;
+	public TypeKind getTypeKind() {
+		return typeKind;
 	}
 }

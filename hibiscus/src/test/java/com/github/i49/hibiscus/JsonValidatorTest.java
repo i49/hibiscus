@@ -10,24 +10,25 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static com.github.i49.hibiscus.Schema.*;
+import static com.github.i49.hibiscus.SchemaObjects.*;
 
 public class JsonValidatorTest {
 
 	@Test
 	public void test() throws Exception {
-		JsonNode json = loadJson("person.json");
 		JsonValidator v = createPersonValidator();
+		JsonNode json = loadJson("person.json");
 		v.validate(json);
 	}
 	
 	private JsonValidator createPersonValidator() {
-		return new JsonValidator() {
-			@Override
-			protected Type getSchema() {
-				return object();
-			}
-		};
+		ObjectType object = object()
+				.properties(
+					required("firstName", string()),
+					required("lastName", string()),
+					optional("age", number())
+				);
+		return new JsonValidator(object);
 	}
 
 	private static JsonNode loadJson(String name) throws IOException {

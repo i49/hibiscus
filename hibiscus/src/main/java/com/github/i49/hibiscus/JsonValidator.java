@@ -1,30 +1,45 @@
 package com.github.i49.hibiscus;
 
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
-public abstract class JsonValidator {
+public class JsonValidator {
 
-	public JsonValidator() {
+	private final Type schemaObject;
+
+	private static final EnumMap<JsonNodeType, TypeKind> typeMap = new EnumMap<>(JsonNodeType.class);
+	
+	static {
+		typeMap.put(JsonNodeType.ARRAY, TypeKind.ARRAY);
+		typeMap.put(JsonNodeType.BOOLEAN, TypeKind.BOOLEAN);
+		typeMap.put(JsonNodeType.NUMBER, TypeKind.NUMBER);
+		typeMap.put(JsonNodeType.OBJECT, TypeKind.OBJECT);
+		typeMap.put(JsonNodeType.STRING, TypeKind.STRING);
+	}
+	
+	public JsonValidator(Type schemaObject) {
+		this.schemaObject = schemaObject;
+	}
+	
+	public Type getSchemaObject() {
+		return schemaObject;
 	}
 	
 	public void validate(JsonNode node) throws ValidationException {
-		validateAgainstSchema(node, getSchema());
+		validateAgainstSchema(node, getSchemaObject());
 	} 
-	
-	protected abstract Type getSchema();
 	
 	private void validateAgainstSchema(JsonNode node, Type type) throws ValidationException {
 		validate("(root node)", node, type);
 	}
 	
 	private void validate(String name, JsonNode node, Type type) throws ValidationException {
-		JsonNodeType nodeType = node.getNodeType();
-		if (nodeType != type.getNodeType()) {
-			throw new TypeMismatchException(name, type.getNodeType(), nodeType);
+		if (!matchTypes(node, type)) {
+			throw new TypeMismatchException(name, type.getTypeKind(), getTypeOf(node));
 		}
 		
 		if (type instanceof ObjectType) {
@@ -36,7 +51,7 @@ public abstract class JsonValidator {
 	
 	private void validateObject(JsonNode node, ObjectType type) throws ValidationException {
 		
-		for (Property p: type.required()) {
+		for (Property p: type.getRequiredProperties()) {
 			if (!node.hasNonNull(p.getName())) {
 				throw new MissingPropertyException(p.getName());
 			}
@@ -60,5 +75,17 @@ public abstract class JsonValidator {
 			String itemName = name + "[" + index++ + "]";
 			validate(itemName, item, type.getItemType()); 
 		}
+	}
+
+	private static boolean matchTypes(JsonNode node, Type type) {
+		return getTypeOf(node).isCompatible(type.getTypeKind());
+	}
+	
+	private static TypeKind getTypeOf(JsonNode node) {
+		TypeKind type = typeMap.get(node.getNodeType());
+		if (type == TypeKind.NUMBER && !node.isFloatingPointNumber()) {
+			type = TypeKind.INTEGER;
+		}
+		return type;
 	}
 }

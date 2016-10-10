@@ -1,12 +1,10 @@
 package com.github.i49.hibiscus;
 
-import com.fasterxml.jackson.databind.node.JsonNodeType;
+public abstract class SchemaObjects {
 
-public abstract class Schema {
-
-	private static final ValueType STRING_TYPE = new ValueType(JsonNodeType.STRING);
-	private static final ValueType NUMBER_TYPE = new ValueType(JsonNodeType.NUMBER);
-	private static final ValueType BOOLEAN_TYPE = new ValueType(JsonNodeType.BOOLEAN);
+	private static final ValueType STRING_TYPE = new ValueType(TypeKind.STRING);
+	private static final ValueType NUMBER_TYPE = new ValueType(TypeKind.NUMBER);
+	private static final ValueType BOOLEAN_TYPE = new ValueType(TypeKind.BOOLEAN);
 	
 	public static Property optional(String name, Type type) {
 		return new Property(name, type, false);
@@ -16,8 +14,8 @@ public abstract class Schema {
 		return new Property(name, type, true);
 	}
 	
-	public static ObjectType object(Property...properties) {
-		return new ObjectType(properties);
+	public static ObjectType object() {
+		return new ObjectType();
 	}
 	
 	public static ArrayType array(Type itemType) {
