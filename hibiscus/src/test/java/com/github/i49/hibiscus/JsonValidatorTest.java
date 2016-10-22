@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 
 import static com.github.i49.hibiscus.SchemaObjects.*;
 
@@ -57,12 +58,38 @@ public class JsonValidatorTest {
 		assertEquals("lastName", ((MissingPropertyProblem)p).getPropertyName());
 	}
 	
+	@Test
+	public void testTypeMismatch() throws Exception {
+		JsonValidator v = createPersonValidator();
+		ValidationResult result = null;
+		try (Reader reader = openReader("person-type-mismatch.json")) {
+			result = v.validate(reader);
+		}
+		
+		assertTrue(result.hasProblems());
+		
+		List<Problem> problems = result.getProblems();
+		assertEquals(2, problems.size());
+		
+		assertTrue(problems.get(0) instanceof TypeMismatchProblem);
+		TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
+		assertEquals(ValueType.Type.STRING, p0.getExpectedType());
+		assertEquals(ValueType.Type.INTEGER, p0.getActualType());
+		System.out.println(p0);
+
+		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
+		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
+		assertEquals(ValueType.Type.INTEGER, p1.getExpectedType());
+		assertEquals(ValueType.Type.STRING, p1.getActualType());
+		System.out.println(p1);
+	}
+	
 	private JsonValidator createPersonValidator() {
 		ObjectType rootType = object()
 				.properties(
 					required("firstName", string()),
 					required("lastName", string()),
-					optional("age", number()),
+					optional("age", integer()),
 					optional("hobbies", array(string()))
 				);
 		return new JsonValidator(rootType);

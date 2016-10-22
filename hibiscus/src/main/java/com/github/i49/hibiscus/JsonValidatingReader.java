@@ -15,6 +15,7 @@ import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 
 public class JsonValidatingReader {
 
@@ -122,17 +123,20 @@ public class JsonValidatingReader {
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
 		String key = parser.getString();
 		Property property = object.getProperty(key);
-		Type type = property.getType();
+		ValueType type = property.getType();
 		JsonParser.Event e = parser.next();
 		switch (e) {
 		case START_ARRAY:
+			validateType(type, ValueType.Type.ARRAY);
 			builder.add(key, readArray((ArrayType)type));
 			break;
 		case START_OBJECT:
+			validateType(type, ValueType.Type.OBJECT);
 			builder.add(key, readObject((ObjectType)type));
 			break;
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
+				validateType(type, ValueType.Type.INTEGER);
 				long value = parser.getLong();
 				if (checkIfInt(value)) {
 					builder.add(key, Math.toIntExact(value));
@@ -140,23 +144,34 @@ public class JsonValidatingReader {
 					builder.add(key, value);
 				}
 			} else {
+				validateType(type, ValueType.Type.NUMBER);
 				builder.add(key, parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
+			validateType(type, ValueType.Type.STRING);
 			builder.add(key, parser.getString());
 			break;
 		case VALUE_TRUE:
+			validateType(type, ValueType.Type.BOOLEAN);
 			builder.add(key, JsonValue.TRUE);
 			break;
 		case VALUE_FALSE:
+			validateType(type, ValueType.Type.BOOLEAN);
 			builder.add(key, JsonValue.FALSE);
 			break;
 		case VALUE_NULL:
+			validateType(type, ValueType.Type.NULL);
 			builder.addNull(key);
 			break;
 		default:
 			throw internalError();
+		}
+	}
+	
+	private void validateType(ValueType expected, ValueType.Type actual) {
+		if (!expected.isTypeOf(actual)) {
+			addProblem(new TypeMismatchProblem(expected.getType(), actual, getLocation()));
 		}
 	}
 	

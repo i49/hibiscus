@@ -1,7 +1,14 @@
 package com.github.i49.hibiscus;
 
-public class StringType extends Type {
+public class StringType extends ValueType {
 
-	public StringType() {
+	@Override
+	public Type getType() {
+		return Type.STRING;
+	}
+
+	@Override
+	public boolean isTypeOf(Type type) {
+		return (type == Type.STRING);
 	}
 }

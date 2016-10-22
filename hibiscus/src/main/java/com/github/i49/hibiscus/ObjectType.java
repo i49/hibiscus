@@ -10,9 +10,6 @@ public class ObjectType extends ContainerType {
 	private final Map<String, Property> all = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
 
-	public ObjectType() {
-	}
-	
 	public ObjectType properties(Property... properties) {
 		for (Property p: properties) {
 			this.all.put(p.getKey(), p);
@@ -21,6 +18,16 @@ public class ObjectType extends ContainerType {
 			}
 		}
 		return this;
+	}
+
+	@Override
+	public Type getType() {
+		return Type.OBJECT;
+	}
+
+	@Override
+	public boolean isTypeOf(Type type) {
+		return (type == Type.OBJECT);
 	}
 
 	boolean containsProperty(String name) {

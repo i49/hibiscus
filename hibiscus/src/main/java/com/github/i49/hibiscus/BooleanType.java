@@ -1,7 +1,14 @@
 package com.github.i49.hibiscus;
 
-public class BooleanType extends Type {
+public class BooleanType extends ValueType {
 
-	public BooleanType() {
+	@Override
+	public Type getType() {
+		return Type.BOOLEAN;
+	}
+
+	@Override
+	public boolean isTypeOf(Type type) {
+		return (type == Type.BOOLEAN);
 	}
 }

@@ -1,7 +1,14 @@
 package com.github.i49.hibiscus;
 
-public class IntegerType extends Type {
+public class IntegerType extends ValueType {
 
-	public IntegerType() {
+	@Override
+	public Type getType() {
+		return Type.INTEGER;
+	}
+
+	@Override
+	public boolean isTypeOf(Type type) {
+		return (type == Type.INTEGER);
 	}
 }
