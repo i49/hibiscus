@@ -11,7 +11,6 @@ public class ObjectType extends ContainerType {
 	private final Set<String> required = new HashSet<>();
 
 	public ObjectType() {
-		super(TypeKind.OBJECT);
 	}
 	
 	public ObjectType properties(Property... properties) {
