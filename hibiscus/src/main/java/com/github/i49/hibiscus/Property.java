@@ -2,18 +2,18 @@ package com.github.i49.hibiscus;
 
 public class Property {
 
-	private final String name;
+	private final String key;
 	private final Type type;
 	private final boolean required;
 	
-	public Property(String name, Type type, boolean required) {
-		this.name = name;
+	public Property(String key, Type type, boolean required) {
+		this.key = key;
 		this.type = type;
 		this.required = required;
 	}
 	
-	public String getName() {
-		return name;
+	public String getKey() {
+		return key;
 	}
 	
 	public Type getType() {

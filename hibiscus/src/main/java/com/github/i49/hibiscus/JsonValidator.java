@@ -1,91 +1,200 @@
 package com.github.i49.hibiscus;
 
-import java.util.EnumMap;
-import java.util.Iterator;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
+import javax.json.JsonValue;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
 
 public class JsonValidator {
 
-	private final Type schemaObject;
-
-	private static final EnumMap<JsonNodeType, TypeKind> typeMap = new EnumMap<>(JsonNodeType.class);
+	private final ContainerType rootType;
 	
-	static {
-		typeMap.put(JsonNodeType.ARRAY, TypeKind.ARRAY);
-		typeMap.put(JsonNodeType.BOOLEAN, TypeKind.BOOLEAN);
-		typeMap.put(JsonNodeType.NUMBER, TypeKind.NUMBER);
-		typeMap.put(JsonNodeType.OBJECT, TypeKind.OBJECT);
-		typeMap.put(JsonNodeType.STRING, TypeKind.STRING);
+	private final JsonParserFactory parserFactory;
+	private final JsonBuilderFactory builderFactory;
+	private JsonParser parser; 
+	
+	public JsonValidator(ContainerType rootType) {
+		this.rootType = rootType;
+		this.parserFactory = createParserFactory();
+		this.builderFactory = createBuilderFactory();
 	}
 	
-	public JsonValidator(Type schemaObject) {
-		this.schemaObject = schemaObject;
+	public Type getRootType() {
+		return rootType;
 	}
 	
-	public Type getSchemaObject() {
-		return schemaObject;
+	public JsonStructure validate(Reader reader) throws ValidationException {
+		this.parser = this.parserFactory.createParser(reader);
+		JsonStructure root = readRoot(getRootType());
+		return root;
 	}
 	
-	public void validate(JsonNode node) throws ValidationException {
-		validateAgainstSchema(node, getSchemaObject());
-	} 
-	
-	private void validateAgainstSchema(JsonNode node, Type type) throws ValidationException {
-		validate("(root node)", node, type);
+	public JsonStructure validate(InputStream stream, Charset charset) throws ValidationException {
+		this.parser = this.parserFactory.createParser(stream,  charset);
+		JsonStructure root = readRoot(getRootType());
+		return root;
 	}
 	
-	private void validate(String name, JsonNode node, Type type) throws ValidationException {
-		if (!matchTypes(node, type)) {
-			throw new TypeMismatchException(name, type.getTypeKind(), getTypeOf(node));
-		}
-		
-		if (type instanceof ObjectType) {
-			validateObject(node, (ObjectType)type);
-		} else if (type instanceof ArrayType) {
-			validateArray(name, node, (ArrayType)type);
-		}
-	}
-	
-	private void validateObject(JsonNode node, ObjectType type) throws ValidationException {
-		
-		for (Property p: type.getRequiredProperties()) {
-			if (!node.hasNonNull(p.getName())) {
-				throw new MissingPropertyException(p.getName());
-			}
-		}
-
-		Iterator<Map.Entry<String, JsonNode>> it = node.fields();
-		while (it.hasNext()) {
-			Map.Entry<String, JsonNode> entry = it.next();
-			String name = entry.getKey();
-			if (type.containsProperty(name)) {
-				validate(name, entry.getValue(), type.getProperty(name).getType());
+	private JsonStructure readRoot(Type type) {
+		if (parser.hasNext()) {
+			JsonParser.Event e = parser.next();
+			if (e == JsonParser.Event.START_ARRAY) {
+				if (type instanceof ArrayType) {
+					return readArray((ArrayType)type);
+				}
+			} else if (e == JsonParser.Event.START_OBJECT) {
+				if (type instanceof ObjectType) {
+					return readObject((ObjectType)type);
+				}
 			} else {
-				throw new UnknownPropertyException(name);
+			}
+		}
+		return null;
+	}
+	
+	private JsonArray readArray(ArrayType type) {
+		JsonArrayBuilder builder = this.builderFactory.createArrayBuilder();
+		while (parser.hasNext()) {
+			JsonParser.Event e = parser.next();
+			if (e == JsonParser.Event.END_ARRAY) {
+				JsonArray array = builder.build();
+				return array;
+			} else {
+				readItem(type, builder);
+			}
+		}
+		throw internalError();
+	}
+	
+	private void readItem(ArrayType type, JsonArrayBuilder builder) {
+		JsonParser.Event e = parser.next();
+		switch (e) {
+		case START_ARRAY:
+			break;
+		case START_OBJECT:
+			break;
+		case VALUE_NUMBER:
+			if (parser.isIntegralNumber()) {
+				long value = parser.getLong();
+				if (checkIfInt(value)) {
+					builder.add(Math.toIntExact(value));
+				} else {
+					builder.add(value);
+				}
+			} else {
+				builder.add(parser.getBigDecimal());
+			}
+			break;
+		case VALUE_STRING:
+			builder.add(parser.getString());
+			break;
+		case VALUE_TRUE:
+			builder.add(JsonValue.TRUE);
+			break;
+		case VALUE_FALSE:
+			builder.add(JsonValue.FALSE);
+			break;
+		case VALUE_NULL:
+			builder.addNull();
+			break;
+		default:
+			throw internalError();
+		}
+	}
+	
+	private JsonObject readObject(ObjectType type) {
+		JsonObjectBuilder builder = this.builderFactory.createObjectBuilder();
+		while (parser.hasNext()) {
+			JsonParser.Event e = parser.next();
+			if (e == JsonParser.Event.END_OBJECT) {
+				JsonObject object = builder.build();
+				validateObject(type, object);
+				return object;
+			} else if (e == JsonParser.Event.KEY_NAME) {
+				readProperty(type, builder);
+			} else {
+				throw internalError();
+			}
+		}
+		throw internalError();
+	}
+	
+	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
+		String key = parser.getString();
+		Property property = object.getProperty(key);
+		Type type = property.getType();
+		JsonParser.Event e = parser.next();
+		switch (e) {
+		case START_ARRAY:
+			builder.add(key, readArray((ArrayType)type));
+			break;
+		case START_OBJECT:
+			builder.add(key, readObject((ObjectType)type));
+			break;
+		case VALUE_NUMBER:
+			if (parser.isIntegralNumber()) {
+				long value = parser.getLong();
+				if (checkIfInt(value)) {
+					builder.add(key, Math.toIntExact(value));
+				} else {
+					builder.add(key, value);
+				}
+			} else {
+				builder.add(key, parser.getBigDecimal());
+			}
+			break;
+		case VALUE_STRING:
+			builder.add(key, parser.getString());
+			break;
+		case VALUE_TRUE:
+			builder.add(key, JsonValue.TRUE);
+			break;
+		case VALUE_FALSE:
+			builder.add(key, JsonValue.FALSE);
+			break;
+		case VALUE_NULL:
+			builder.addNull(key);
+			break;
+		default:
+			throw internalError();
+		}
+	}
+	
+	private void validateObject(ObjectType type, JsonObject object) {
+		for (String key: type.getRequiredProperties()) {
+			if (!object.containsKey(key)) {
+				
 			}
 		}
 	}
 	
-	private void validateArray(String name, JsonNode node, ArrayType type) throws ValidationException {
-		int index = 0;
-		for (JsonNode item: node) {
-			String itemName = name + "[" + index++ + "]";
-			validate(itemName, item, type.getItemType()); 
-		}
+	private static IllegalStateException internalError() {
+		return new IllegalStateException("Internal Error");
 	}
 
-	private static boolean matchTypes(JsonNode node, Type type) {
-		return getTypeOf(node).isCompatible(type.getTypeKind());
+	private static boolean checkIfInt(long value) {
+		return (Integer.MIN_VALUE <= value && value <= Integer.MAX_VALUE);
 	}
 	
-	private static TypeKind getTypeOf(JsonNode node) {
-		TypeKind type = typeMap.get(node.getNodeType());
-		if (type == TypeKind.NUMBER && !node.isFloatingPointNumber()) {
-			type = TypeKind.INTEGER;
-		}
-		return type;
+	private static JsonParserFactory createParserFactory() {
+		Map<String, ?> config = new HashMap<>();
+		return Json.createParserFactory(config);
+	}
+	
+	private static JsonBuilderFactory createBuilderFactory() {
+		Map<String, ?> config = new HashMap<>();
+		return Json.createBuilderFactory(config);
 	}
 }

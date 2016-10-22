@@ -8,7 +8,7 @@ import java.util.Set;
 public class ObjectType extends ContainerType {
 
 	private final Map<String, Property> all = new HashMap<>();
-	private final Set<Property> required = new HashSet<>();
+	private final Set<String> required = new HashSet<>();
 
 	public ObjectType() {
 		super(TypeKind.OBJECT);
@@ -16,9 +16,9 @@ public class ObjectType extends ContainerType {
 	
 	public ObjectType properties(Property... properties) {
 		for (Property p: properties) {
-			this.all.put(p.getName(), p);
+			this.all.put(p.getKey(), p);
 			if (p.isRequired()) {
-				this.required.add(p);
+				this.required.add(p.getKey());
 			}
 		}
 		return this;
@@ -32,7 +32,7 @@ public class ObjectType extends ContainerType {
 		return this.all.get(name);
 	}
 	
-	Iterable<Property> getRequiredProperties() {
+	Iterable<String> getRequiredProperties() {
 		return required;
 	}
 }
