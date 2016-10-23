@@ -31,7 +31,7 @@ public abstract class SchemaObjects {
 		return NUMBER_TYPE;
 	}
 	
-	public static NullType none() {
+	public static NullType nullValue() {
 		return NullType.INSTANCE;
 	}
 
