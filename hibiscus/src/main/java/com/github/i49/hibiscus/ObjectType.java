@@ -9,17 +9,22 @@ public class ObjectType extends ContainerType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
-
-	public ObjectType properties(Property... properties) {
+	private boolean moreProperties = false;
+	
+	public ObjectType(Property[] properties) {
 		for (Property p: properties) {
 			this.properties.put(p.getKey(), p);
 			if (p.isRequired()) {
 				this.required.add(p.getKey());
 			}
 		}
+	}
+	
+	public ObjectType moreProperties() {
+		this.moreProperties = true;
 		return this;
 	}
-
+	
 	@Override
 	public Type getType() {
 		return Type.OBJECT;
@@ -30,15 +35,15 @@ public class ObjectType extends ContainerType {
 		return (type == Type.OBJECT);
 	}
 
-	boolean containsProperty(String name) {
-		return properties.containsKey(name); 
-	}
-	
 	Property getProperty(String name) {
 		return this.properties.get(name);
 	}
 	
 	Iterable<String> getRequiredProperties() {
 		return required;
+	}
+	
+	boolean allowsMoreProperties() {
+		return moreProperties;
 	}
 }

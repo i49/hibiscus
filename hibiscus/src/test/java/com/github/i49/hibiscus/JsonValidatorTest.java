@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 
 import static com.github.i49.hibiscus.SchemaObjects.*;
 
@@ -60,6 +61,7 @@ public class JsonValidatorTest {
 	
 	@Test
 	public void testTypeMismatch() throws Exception {
+
 		JsonValidator v = createPersonValidator();
 		ValidationResult result = null;
 		try (Reader reader = openReader("person-type-mismatch.json")) {
@@ -75,29 +77,43 @@ public class JsonValidatorTest {
 		TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
 		assertEquals(ValueType.Type.STRING, p0.getExpectedType());
 		assertEquals(ValueType.Type.INTEGER, p0.getActualType());
-		System.out.println(p0);
 
 		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
 		assertEquals(ValueType.Type.INTEGER, p1.getExpectedType());
 		assertEquals(ValueType.Type.STRING, p1.getActualType());
-		System.out.println(p1);
 
 		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
 		assertEquals(ValueType.Type.ARRAY, p2.getExpectedType());
 		assertEquals(ValueType.Type.OBJECT, p2.getActualType());
-		System.out.println(p2);
+	}
+	
+	@Test
+	public void testUnknownProperties() throws Exception {
+		
+		JsonValidator v = createPersonValidator();
+		ValidationResult result = null;
+		try (Reader reader = openReader("person-unknown-property.json")) {
+			result = v.validate(reader);
+		}
+		
+		assertTrue(result.hasProblems());
+		
+		List<Problem> problems = result.getProblems();
+		assertEquals(1, problems.size());
+		Problem p = problems.get(0);
+		assertTrue(p instanceof UnknownPropertyProblem);
+		assertEquals("birthplace", ((UnknownPropertyProblem)p).getPropertyName());
 	}
 	
 	private JsonValidator createPersonValidator() {
-		ObjectType rootType = object()
-				.properties(
-					required("firstName", string()),
-					required("lastName", string()),
-					optional("age", integer()),
-					optional("hobbies", array(string()))
-				);
+		ObjectType rootType = object(
+				required("firstName", string()),
+				required("lastName", string()),
+				optional("age", integer()),
+				optional("hobbies", array(string()))
+			);
 		return new JsonValidator(rootType);
 	}
 

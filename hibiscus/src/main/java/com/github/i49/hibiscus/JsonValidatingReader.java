@@ -16,6 +16,7 @@ import javax.json.stream.JsonParser;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 
 public class JsonValidatingReader {
 
@@ -211,23 +212,26 @@ public class JsonValidatingReader {
 		}
 	}
 	
+	private ValueType validateProperty(ObjectType objectType, String propertyName) {
+		if (objectType == null) {
+			return null;
+		}
+		Property property = objectType.getProperty(propertyName);
+		if (property == null) {
+			if (!objectType.allowsMoreProperties()) {
+				addProblem(new UnknownPropertyProblem(propertyName, getLocation()));
+			}
+			return null;
+		}
+		return property.getType();
+	}
+
 	private JsonLocation getLocation() {
 		return parser.getLocation();
 	}
 	
 	private void addProblem(Problem problem) {
 		this.problems.add(problem);
-	}
-	
-	private ValueType validateProperty(ObjectType objectType, String name) {
-		if (objectType == null) {
-			return null;
-		}
-		Property property = objectType.getProperty(name);
-		if (property == null) {
-			return null;
-		}
-		return property.getType();
 	}
 	
 	private static IllegalStateException internalError() {

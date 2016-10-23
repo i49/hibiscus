@@ -35,8 +35,8 @@ public abstract class SchemaObjects {
 		return NullType.INSTANCE;
 	}
 
-	public static ObjectType object() {
-		return new ObjectType();
+	public static ObjectType object(Property... properties) {
+		return new ObjectType(properties);
 	}
 	
 	public static StringType string() {
