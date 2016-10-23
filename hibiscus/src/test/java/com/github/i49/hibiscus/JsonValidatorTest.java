@@ -69,7 +69,7 @@ public class JsonValidatorTest {
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();
-		assertEquals(2, problems.size());
+		assertEquals(3, problems.size());
 		
 		assertTrue(problems.get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
@@ -82,6 +82,12 @@ public class JsonValidatorTest {
 		assertEquals(ValueType.Type.INTEGER, p1.getExpectedType());
 		assertEquals(ValueType.Type.STRING, p1.getActualType());
 		System.out.println(p1);
+
+		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
+		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
+		assertEquals(ValueType.Type.ARRAY, p2.getExpectedType());
+		assertEquals(ValueType.Type.OBJECT, p2.getActualType());
+		System.out.println(p2);
 	}
 	
 	private JsonValidator createPersonValidator() {

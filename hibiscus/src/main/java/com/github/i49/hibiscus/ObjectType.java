@@ -7,12 +7,12 @@ import java.util.Set;
 
 public class ObjectType extends ContainerType {
 
-	private final Map<String, Property> all = new HashMap<>();
+	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
 
 	public ObjectType properties(Property... properties) {
 		for (Property p: properties) {
-			this.all.put(p.getKey(), p);
+			this.properties.put(p.getKey(), p);
 			if (p.isRequired()) {
 				this.required.add(p.getKey());
 			}
@@ -31,11 +31,11 @@ public class ObjectType extends ContainerType {
 	}
 
 	boolean containsProperty(String name) {
-		return all.containsKey(name); 
+		return properties.containsKey(name); 
 	}
 	
 	Property getProperty(String name) {
-		return this.all.get(name);
+		return this.properties.get(name);
 	}
 	
 	Iterable<String> getRequiredProperties() {
