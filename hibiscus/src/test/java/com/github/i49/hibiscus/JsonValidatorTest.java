@@ -18,7 +18,7 @@ import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 
-import static com.github.i49.hibiscus.SchemaObjects.*;
+import static com.github.i49.hibiscus.SchemaComponents.*;
 
 public class JsonValidatorTest {
 

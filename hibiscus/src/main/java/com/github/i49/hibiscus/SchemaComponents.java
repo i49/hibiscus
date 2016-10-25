@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus;
 
-public abstract class SchemaObjects {
+public abstract class SchemaComponents {
 
 	private static final BooleanType BOOLEAN_TYPE = new BooleanType();
 	private static final IntegerType INTEGER_TYPE = new IntegerType();
