@@ -3,12 +3,12 @@ package com.github.i49.hibiscus;
 public class StringType extends ValueType {
 
 	@Override
-	public Type getType() {
-		return Type.STRING;
+	public TypeId getType() {
+		return TypeId.STRING;
 	}
 
 	@Override
-	public boolean isTypeOf(Type type) {
-		return (type == Type.STRING);
+	public boolean isTypeOf(TypeId type) {
+		return (type == TypeId.STRING);
 	}
 }

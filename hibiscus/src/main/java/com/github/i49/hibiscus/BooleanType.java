@@ -3,12 +3,12 @@ package com.github.i49.hibiscus;
 public class BooleanType extends ValueType {
 
 	@Override
-	public Type getType() {
-		return Type.BOOLEAN;
+	public TypeId getType() {
+		return TypeId.BOOLEAN;
 	}
 
 	@Override
-	public boolean isTypeOf(Type type) {
-		return (type == Type.BOOLEAN);
+	public boolean isTypeOf(TypeId type) {
+		return (type == TypeId.BOOLEAN);
 	}
 }

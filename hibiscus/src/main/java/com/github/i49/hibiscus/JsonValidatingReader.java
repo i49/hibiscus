@@ -44,13 +44,13 @@ public class JsonValidatingReader {
 		if (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.START_ARRAY) {
-				if (validateType(rootType, ValueType.Type.ARRAY)) {
+				if (validateType(rootType, TypeId.ARRAY)) {
 					return readArray((ArrayType)rootType);
 				} else {
 					return readArray(null);
 				}
 			} else if (e == JsonParser.Event.START_OBJECT) {
-				if (validateType(rootType, ValueType.Type.OBJECT)) {
+				if (validateType(rootType, TypeId.OBJECT)) {
 					return readObject((ObjectType)rootType);
 				} else {
 					return readObject(null);
@@ -78,7 +78,7 @@ public class JsonValidatingReader {
 	}
 	
 	private JsonArray readArray(ValueType type) {
-		if (!validateType(type, ValueType.Type.ARRAY)) {
+		if (!validateType(type, TypeId.ARRAY)) {
 			type = null;
 		}
 		return readArray((ArrayType)type);
@@ -138,7 +138,7 @@ public class JsonValidatingReader {
 	}
 	
 	private JsonObject readObject(ValueType type) {
-		if (!validateType(type, ValueType.Type.OBJECT)) {
+		if (!validateType(type, TypeId.OBJECT)) {
 			type = null;
 		}
 		return readObject((ObjectType)type);
@@ -157,7 +157,7 @@ public class JsonValidatingReader {
 			break;
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
-				validateType(type, ValueType.Type.INTEGER);
+				validateType(type, TypeId.INTEGER);
 				long value = parser.getLong();
 				if (checkIfInt(value)) {
 					builder.add(key, Math.toIntExact(value));
@@ -165,24 +165,24 @@ public class JsonValidatingReader {
 					builder.add(key, value);
 				}
 			} else {
-				validateType(type, ValueType.Type.NUMBER);
+				validateType(type, TypeId.NUMBER);
 				builder.add(key, parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
-			validateType(type, ValueType.Type.STRING);
+			validateType(type, TypeId.STRING);
 			builder.add(key, parser.getString());
 			break;
 		case VALUE_TRUE:
-			validateType(type, ValueType.Type.BOOLEAN);
+			validateType(type, TypeId.BOOLEAN);
 			builder.add(key, JsonValue.TRUE);
 			break;
 		case VALUE_FALSE:
-			validateType(type, ValueType.Type.BOOLEAN);
+			validateType(type, TypeId.BOOLEAN);
 			builder.add(key, JsonValue.FALSE);
 			break;
 		case VALUE_NULL:
-			validateType(type, ValueType.Type.NULL);
+			validateType(type, TypeId.NULL);
 			builder.addNull(key);
 			break;
 		default:
@@ -190,7 +190,7 @@ public class JsonValidatingReader {
 		}
 	}
 	
-	private boolean validateType(ValueType expected, ValueType.Type actual) {
+	private boolean validateType(ValueType expected, TypeId actual) {
 		if (expected == null) {
 			return true;
 		} else if (expected.isTypeOf(actual)) {

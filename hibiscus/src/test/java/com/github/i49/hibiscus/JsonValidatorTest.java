@@ -75,18 +75,18 @@ public class JsonValidatorTest {
 		
 		assertTrue(problems.get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
-		assertEquals(ValueType.Type.STRING, p0.getExpectedType());
-		assertEquals(ValueType.Type.INTEGER, p0.getActualType());
+		assertEquals(TypeId.STRING, p0.getExpectedType());
+		assertEquals(TypeId.INTEGER, p0.getActualType());
 
 		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
-		assertEquals(ValueType.Type.INTEGER, p1.getExpectedType());
-		assertEquals(ValueType.Type.STRING, p1.getActualType());
+		assertEquals(TypeId.INTEGER, p1.getExpectedType());
+		assertEquals(TypeId.STRING, p1.getActualType());
 
 		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
-		assertEquals(ValueType.Type.ARRAY, p2.getExpectedType());
-		assertEquals(ValueType.Type.OBJECT, p2.getActualType());
+		assertEquals(TypeId.ARRAY, p2.getExpectedType());
+		assertEquals(TypeId.OBJECT, p2.getActualType());
 	}
 	
 	@Test

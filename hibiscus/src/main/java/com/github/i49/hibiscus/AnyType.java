@@ -8,12 +8,12 @@ public class AnyType extends ValueType {
 	}
 
 	@Override
-	public Type getType() {
+	public TypeId getType() {
 		return null;
 	}
 
 	@Override
-	public boolean isTypeOf(Type type) {
+	public boolean isTypeOf(TypeId type) {
 		return true;
 	}
 }

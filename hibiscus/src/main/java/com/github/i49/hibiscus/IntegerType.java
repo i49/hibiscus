@@ -3,12 +3,12 @@ package com.github.i49.hibiscus;
 public class IntegerType extends ValueType {
 
 	@Override
-	public Type getType() {
-		return Type.INTEGER;
+	public TypeId getType() {
+		return TypeId.INTEGER;
 	}
 
 	@Override
-	public boolean isTypeOf(Type type) {
-		return (type == Type.INTEGER);
+	public boolean isTypeOf(TypeId type) {
+		return (type == TypeId.INTEGER);
 	}
 }

@@ -26,13 +26,13 @@ public class ObjectType extends ContainerType {
 	}
 	
 	@Override
-	public Type getType() {
-		return Type.OBJECT;
+	public TypeId getType() {
+		return TypeId.OBJECT;
 	}
 
 	@Override
-	public boolean isTypeOf(Type type) {
-		return (type == Type.OBJECT);
+	public boolean isTypeOf(TypeId type) {
+		return (type == TypeId.OBJECT);
 	}
 
 	Property getProperty(String name) {

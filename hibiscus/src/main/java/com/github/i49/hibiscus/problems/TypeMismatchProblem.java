@@ -2,24 +2,24 @@ package com.github.i49.hibiscus.problems;
 
 import javax.json.stream.JsonLocation;
 
-import com.github.i49.hibiscus.ValueType;
+import com.github.i49.hibiscus.TypeId;
 
 public class TypeMismatchProblem extends Problem {
 	
-	private final ValueType.Type expected;
-	private final ValueType.Type actual;
+	private final TypeId expected;
+	private final TypeId actual;
 
-	public TypeMismatchProblem(ValueType.Type expected, ValueType.Type actual, JsonLocation location) {
+	public TypeMismatchProblem(TypeId expected, TypeId actual, JsonLocation location) {
 		super(location);
 		this.expected = expected;
 		this.actual = actual;
 	}
 	
-	public ValueType.Type getExpectedType() {
+	public TypeId getExpectedType() {
 		return expected;
 	}
 
-	public ValueType.Type getActualType() {
+	public TypeId getActualType() {
 		return actual;
 	}
 

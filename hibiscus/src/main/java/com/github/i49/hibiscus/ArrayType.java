@@ -9,13 +9,13 @@ public class ArrayType extends ContainerType {
 	}
 	
 	@Override
-	public Type getType() {
-		return Type.ARRAY;
+	public TypeId getType() {
+		return TypeId.ARRAY;
 	}
 	
 	@Override
-	public boolean isTypeOf(Type type) {
-		return (type == Type.ARRAY);
+	public boolean isTypeOf(TypeId type) {
+		return (type == TypeId.ARRAY);
 	}
 
 	public ValueType getItemType() {
