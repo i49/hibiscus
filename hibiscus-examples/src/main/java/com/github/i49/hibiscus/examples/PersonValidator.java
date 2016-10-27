@@ -20,6 +20,6 @@ public class PersonValidator extends JsonValidator {
 
 	public static void main(String[] args) {
 		JsonValidator validator = new PersonValidator();
-		Example.run("person.json", validator);
+		JsonLoader.load("person.json", validator);
 	}
 }
