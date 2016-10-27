@@ -5,11 +5,15 @@ import java.math.BigInteger;
 
 import javax.json.JsonNumber;
 
-public class JsonDecimalNumberImpl extends JsonNumberImpl {
+class JsonDecimalNumberImpl extends JsonNumberImpl {
 	
 	private final BigDecimal value;
+	
+	public static JsonNumber valueOf(BigDecimal value) {
+		return new JsonDecimalNumberImpl(value);
+	}
 
-	public JsonDecimalNumberImpl(BigDecimal value) {
+	private JsonDecimalNumberImpl(BigDecimal value) {
 		this.value = value;
 	}
 

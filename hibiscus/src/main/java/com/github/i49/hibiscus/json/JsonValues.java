@@ -8,31 +8,19 @@ import javax.json.JsonString;
 public abstract class JsonValues {
 
 	public JsonString createString(String value) {
-		return new JsonStringImpl(value);
+		return JsonStringImpl.valueOf(value);
 	}
 	
 	public JsonNumber createNumber(int value) {
-		if (value == 0) {
-			return JsonIntNumberImpl.ZERO;
-		} else if (value == 1) {
-			return JsonIntNumberImpl.ONE;
-		} else {
-			return new JsonIntNumberImpl(value);
-		}
+		return JsonIntNumberImpl.valueOf(value);
 	}
 	
 	public JsonNumber createNumber(long value) {
-		if (value == 0) {
-			return JsonLongNumberImpl.ZERO;
-		} else if (value == 1) {
-			return JsonLongNumberImpl.ONE;
-		} else {
-			return new JsonLongNumberImpl(value);
-		}
+		return JsonLongNumberImpl.valueOf(value);
 	}
 	
 	public JsonNumber createNumber(BigDecimal value) {
-		return new JsonDecimalNumberImpl(value);
+		return JsonDecimalNumberImpl.valueOf(value);
 	}
 	
 	private JsonValues() {

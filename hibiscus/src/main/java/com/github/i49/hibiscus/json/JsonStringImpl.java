@@ -2,11 +2,22 @@ package com.github.i49.hibiscus.json;
 
 import javax.json.JsonString;
 
-public class JsonStringImpl implements JsonString {
+class JsonStringImpl implements JsonString {
+	
+	public static final JsonString BLANK = new JsonStringImpl("");
 	
 	private final String value;
+	
+	public static JsonString valueOf(String value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		} else if (value.isEmpty()) {
+			return BLANK;
+		}
+		return new JsonStringImpl(value);
+	}
 
-	public JsonStringImpl(String value) {
+	private JsonStringImpl(String value) {
 		this.value = value;
 	}
 

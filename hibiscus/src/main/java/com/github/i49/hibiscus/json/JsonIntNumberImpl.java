@@ -5,14 +5,24 @@ import java.math.BigInteger;
 
 import javax.json.JsonNumber;
 
-public class JsonIntNumberImpl extends JsonNumberImpl {
+class JsonIntNumberImpl extends JsonNumberImpl {
 	
 	public static final JsonIntNumberImpl ZERO = new JsonIntNumberImpl(0);
 	public static final JsonIntNumberImpl ONE = new JsonIntNumberImpl(1);
 	
 	private final int value;
+	
+	public static JsonNumber valueOf(int value) {
+		if (value == 0) {
+			return ZERO;
+		} else if (value == 1) {
+			return ONE; 
+		} else {
+			return new JsonIntNumberImpl(value);
+		}
+	}
 
-	public JsonIntNumberImpl(int value) {
+	private JsonIntNumberImpl(int value) {
 		this.value = value;
 	}
 
