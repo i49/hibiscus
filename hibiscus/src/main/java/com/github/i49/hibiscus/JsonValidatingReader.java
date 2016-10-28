@@ -13,6 +13,7 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 
+import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
@@ -40,41 +41,12 @@ public class JsonValidatingReader {
 		return problems;
 	}
 	
-	private JsonValue readRoot(ValueType rootType) {
+	private JsonValue readRoot(ValueType type) {
 		if (parser.hasNext()) {
-			JsonParser.Event e = parser.next();
-			if (e == JsonParser.Event.START_ARRAY) {
-				if (validateType(rootType, TypeId.ARRAY)) {
-					return readArray((ArrayType)rootType);
-				} else {
-					return readArray(null);
-				}
-			} else if (e == JsonParser.Event.START_OBJECT) {
-				if (validateType(rootType, TypeId.OBJECT)) {
-					return readObject((ObjectType)rootType);
-				} else {
-					return readObject(null);
-				}
-			} else {
-				throw new JsonException("Internal Error"); 
-			}
-			
+			return readValue(type, parser.next());
+		} else {
+			return null;
 		}
-		return null;
-	}
-
-	private JsonArray readArray(ArrayType type) {
-		JsonArrayBuilder builder = this.factory.createArrayBuilder();
-		while (parser.hasNext()) {
-			JsonParser.Event e = parser.next();
-			if (e == JsonParser.Event.END_ARRAY) {
-				JsonArray array = builder.build();
-				return array;
-			} else {
-				readItem(type, builder);
-			}
-		}
-		throw internalError();
 	}
 	
 	private JsonArray readArray(ValueType type) {
@@ -84,40 +56,33 @@ public class JsonValidatingReader {
 		return readArray((ArrayType)type);
 	}
 	
-	private void readItem(ArrayType type, JsonArrayBuilder builder) {
-		JsonParser.Event e = parser.next();
-		switch (e) {
-		case START_ARRAY:
-			break;
-		case START_OBJECT:
-			break;
-		case VALUE_NUMBER:
-			if (parser.isIntegralNumber()) {
-				long value = parser.getLong();
-				if (checkIfInt(value)) {
-					builder.add(Math.toIntExact(value));
-				} else {
-					builder.add(value);
-				}
+	private JsonArray readArray(ArrayType type) {
+		JsonArrayBuilder builder = this.factory.createArrayBuilder();
+		while (parser.hasNext()) {
+			JsonParser.Event event = parser.next();
+			if (event == JsonParser.Event.END_ARRAY) {
+				JsonArray array = builder.build();
+				return array;
 			} else {
-				builder.add(parser.getBigDecimal());
+				readItem(type, builder, event);
 			}
-			break;
-		case VALUE_STRING:
-			builder.add(parser.getString());
-			break;
-		case VALUE_TRUE:
-			builder.add(JsonValue.TRUE);
-			break;
-		case VALUE_FALSE:
-			builder.add(JsonValue.FALSE);
-			break;
-		case VALUE_NULL:
-			builder.addNull();
-			break;
-		default:
-			throw internalError();
 		}
+		throw internalError();
+	}
+	
+	private void readItem(ArrayType type, JsonArrayBuilder builder, JsonParser.Event event) {
+		ValueType expectedType = null;
+		JsonValue value = readValue(expectedType, event);
+		if (value != null) {
+			builder.add(value);
+		}
+	}
+	
+	private JsonObject readObject(ValueType type) {
+		if (!validateType(type, TypeId.OBJECT)) {
+			type = null;
+		}
+		return readObject((ObjectType)type);
 	}
 	
 	private JsonObject readObject(ObjectType type) {
@@ -137,54 +102,47 @@ public class JsonValidatingReader {
 		throw internalError();
 	}
 	
-	private JsonObject readObject(ValueType type) {
-		if (!validateType(type, TypeId.OBJECT)) {
-			type = null;
-		}
-		return readObject((ObjectType)type);
-	}
-	
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
 		String key = parser.getString();
-		ValueType type = validateProperty(object, key);
-		JsonParser.Event e = parser.next();
-		switch (e) {
+		ValueType expectedType = validateProperty(object, key);
+		JsonParser.Event event = parser.next();
+		JsonValue value = readValue(expectedType, event);
+		if (value != null) {
+			builder.add(key, value);
+		}
+	}
+	
+	private JsonValue readValue(ValueType expectedType, JsonParser.Event event) {
+		switch (event) {
 		case START_ARRAY:
-			builder.add(key, readArray(type));
-			break;
+			return readArray(expectedType);
 		case START_OBJECT:
-			builder.add(key, readObject(type));
-			break;
+			return readObject(expectedType);
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
-				validateType(type, TypeId.INTEGER);
+				validateType(expectedType, TypeId.INTEGER);
 				long value = parser.getLong();
 				if (checkIfInt(value)) {
-					builder.add(key, Math.toIntExact(value));
+					return JsonValues.createNumber(Math.toIntExact(value));
 				} else {
-					builder.add(key, value);
+					return JsonValues.createNumber(value);
 				}
 			} else {
-				validateType(type, TypeId.NUMBER);
-				builder.add(key, parser.getBigDecimal());
+				validateType(expectedType, TypeId.NUMBER);
+				return JsonValues.createNumber(parser.getBigDecimal());
 			}
-			break;
 		case VALUE_STRING:
-			validateType(type, TypeId.STRING);
-			builder.add(key, parser.getString());
-			break;
+			validateType(expectedType, TypeId.STRING);
+			return JsonValues.createString(parser.getString());
 		case VALUE_TRUE:
-			validateType(type, TypeId.BOOLEAN);
-			builder.add(key, JsonValue.TRUE);
-			break;
+			validateType(expectedType, TypeId.BOOLEAN);
+			return JsonValue.TRUE;
 		case VALUE_FALSE:
-			validateType(type, TypeId.BOOLEAN);
-			builder.add(key, JsonValue.FALSE);
-			break;
+			validateType(expectedType, TypeId.BOOLEAN);
+			return JsonValue.FALSE;
 		case VALUE_NULL:
-			validateType(type, TypeId.NULL);
-			builder.addNull(key);
-			break;
+			validateType(expectedType, TypeId.NULL);
+			return JsonValue.NULL;
 		default:
 			throw internalError();
 		}
@@ -234,8 +192,8 @@ public class JsonValidatingReader {
 		this.problems.add(problem);
 	}
 	
-	private static IllegalStateException internalError() {
-		return new IllegalStateException("Internal Error");
+	private static JsonException internalError() {
+		return new JsonException("Internal Error");
 	}
 
 	private static boolean checkIfInt(long value) {

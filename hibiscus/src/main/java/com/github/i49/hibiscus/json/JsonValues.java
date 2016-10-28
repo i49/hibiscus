@@ -7,19 +7,19 @@ import javax.json.JsonString;
 
 public abstract class JsonValues {
 
-	public JsonString createString(String value) {
+	public static JsonString createString(String value) {
 		return JsonStringImpl.valueOf(value);
 	}
 	
-	public JsonNumber createNumber(int value) {
+	public static JsonNumber createNumber(int value) {
 		return JsonIntNumberImpl.valueOf(value);
 	}
 	
-	public JsonNumber createNumber(long value) {
+	public static JsonNumber createNumber(long value) {
 		return JsonLongNumberImpl.valueOf(value);
 	}
 	
-	public JsonNumber createNumber(BigDecimal value) {
+	public static JsonNumber createNumber(BigDecimal value) {
 		return JsonDecimalNumberImpl.valueOf(value);
 	}
 	

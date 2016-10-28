@@ -14,18 +14,18 @@ import javax.json.stream.JsonParserFactory;
 
 public class JsonValidator {
 
-	private final ContainerType rootType;
+	private final ValueType rootType;
 	
 	private final JsonParserFactory parserFactory;
 	private final JsonBuilderFactory builderFactory;
 	
-	public JsonValidator(ContainerType rootType) {
+	public JsonValidator(ValueType rootType) {
 		this.rootType = rootType;
 		this.parserFactory = createParserFactory();
 		this.builderFactory = createBuilderFactory();
 	}
 	
-	public ContainerType getRootType() {
+	public ValueType getRootType() {
 		return rootType;
 	}
 
