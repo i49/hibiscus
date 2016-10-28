@@ -2,7 +2,7 @@ package com.github.i49.hibiscus.problems;
 
 import javax.json.stream.JsonLocation;
 
-import com.github.i49.hibiscus.TypeId;
+import com.github.i49.hibiscus.validation.TypeId;
 
 public class TypeMismatchProblem extends Problem {
 	

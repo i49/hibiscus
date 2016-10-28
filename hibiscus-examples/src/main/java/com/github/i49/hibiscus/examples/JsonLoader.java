@@ -8,9 +8,9 @@ import java.nio.charset.StandardCharsets;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.JsonValidator;
-import com.github.i49.hibiscus.ValidationResult;
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.validation.JsonValidator;
+import com.github.i49.hibiscus.validation.ValidationResult;
 
 public abstract class JsonLoader {
 
@@ -22,6 +22,8 @@ public abstract class JsonLoader {
 	 */
 	public static JsonValue load(String name, JsonValidator validator) {
 	
+		System.out.println("Validating... " + name);
+
 		InputStream stream = JsonLoader.class.getResourceAsStream(name);
 		try (Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
 			ValidationResult result = validator.validate(reader);
@@ -30,7 +32,7 @@ public abstract class JsonLoader {
 					System.out.println(p.getMessage());
 				}
 			} else {
-				System.out.println("No problem found in " + name);
+				System.out.println("No problem found.");
 			}
 			return result.getValue();
 		} catch (IOException e) {

@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus;
+package com.github.i49.hibiscus.validation;
 
 import java.util.ArrayList;
 import java.util.List;

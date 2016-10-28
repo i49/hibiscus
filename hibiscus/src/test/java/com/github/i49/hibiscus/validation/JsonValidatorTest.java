@@ -1,5 +1,6 @@
-package com.github.i49.hibiscus;
+package com.github.i49.hibiscus.validation;
 
+import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
@@ -17,8 +18,10 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
-
-import static com.github.i49.hibiscus.SchemaComponents.*;
+import com.github.i49.hibiscus.validation.JsonValidator;
+import com.github.i49.hibiscus.validation.ObjectType;
+import com.github.i49.hibiscus.validation.TypeId;
+import com.github.i49.hibiscus.validation.ValidationResult;
 
 public class JsonValidatorTest {
 
