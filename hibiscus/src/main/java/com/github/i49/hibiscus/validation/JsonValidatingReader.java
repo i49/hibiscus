@@ -21,6 +21,9 @@ public class JsonValidatingReader {
 	private final JsonBuilderFactory factory;
 	private final List<Problem> problems = new ArrayList<>();
 	
+	private static final ArrayType UNKNOWN_ARRAY_TYPE = new UnknownArrayType();
+	private static final ObjectType UNKNOWN_OBJECT_TYPE = new UnknownObjectType();
+
 	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory factory) {
 		this.parser = parser;
 		this.factory = factory;
@@ -48,7 +51,7 @@ public class JsonValidatingReader {
 	
 	private JsonArray readArray(TypeMap expected) {
 		ValueType type = validateType(expected, TypeId.ARRAY);
-		ArrayType arrayType = (type != null) ? ((ArrayType)type) : ArrayType.getGeneric();
+		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UNKNOWN_ARRAY_TYPE;
 		return readArray(arrayType);
 	}
 	
@@ -71,7 +74,7 @@ public class JsonValidatingReader {
 	
 	private JsonObject readObject(TypeMap expected) {
 		ValueType type = validateType(expected, TypeId.OBJECT);
-		ObjectType objectType = (type != null) ? ((ObjectType)type) : ObjectType.getGeneric();
+		ObjectType objectType = (type != null) ? ((ObjectType)type) : UNKNOWN_OBJECT_TYPE;
 		return readObject(objectType);
 	}
 	
@@ -94,7 +97,7 @@ public class JsonValidatingReader {
 	
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
 		String name = parser.getString();
-		TypeMap typeMap = validateProperty(object, name);
+		TypeMap typeMap = findPropertyType(object, name);
 		JsonParser.Event event = parser.next();
 		JsonValue value = readValue(typeMap, event);
 		if (value != null) {
@@ -112,7 +115,7 @@ public class JsonValidatingReader {
 			if (parser.isIntegralNumber()) {
 				validateType(typeMap, TypeId.INTEGER);
 				long value = parser.getLong();
-				if (checkIfInt(value)) {
+				if (Integer.MIN_VALUE <= value && value <= Integer.MAX_VALUE) {
 					return JsonValues.createNumber(Math.toIntExact(value));
 				} else {
 					return JsonValues.createNumber(value);
@@ -138,26 +141,18 @@ public class JsonValidatingReader {
 		}
 	}
 	
-	private ValueType validateType(TypeMap expected, TypeId actual) {
-		if (expected == null) {
+	private ValueType validateType(TypeMap candidates, TypeId actual) {
+		if (candidates == null) {
 			return null;
 		}
-		ValueType type = expected.getType(actual);
+		ValueType type = candidates.getType(actual);
 		if (type == null) {
-			addProblem(new TypeMismatchProblem(expected.getTypeIds(), actual, getLocation()));
+			addProblem(new TypeMismatchProblem(candidates.getTypeIds(), actual, getLocation()));
 		}
 		return type;
 	}
 	
-	private void validateObject(ObjectType type, JsonObject object) {
-		for (String key: type.getRequiredProperties()) {
-			if (!object.containsKey(key)) {
-				addProblem(new MissingPropertyProblem(key, getLocation()));
-			}
-		}
-	}
-	
-	private TypeMap validateProperty(ObjectType objectType, String propertyName) {
+	private TypeMap findPropertyType(ObjectType objectType, String propertyName) {
 		Property property = objectType.getProperty(propertyName);
 		if (property == null) {
 			if (!objectType.allowsMoreProperties()) {
@@ -168,6 +163,14 @@ public class JsonValidatingReader {
 		return property.getTypeMap();
 	}
 
+	private void validateObject(ObjectType type, JsonObject object) {
+		for (String key: type.getRequiredProperties()) {
+			if (!object.containsKey(key)) {
+				addProblem(new MissingPropertyProblem(key, getLocation()));
+			}
+		}
+	}
+	
 	private JsonLocation getLocation() {
 		return parser.getLocation();
 	}
@@ -179,8 +182,24 @@ public class JsonValidatingReader {
 	private static JsonException internalError() {
 		return new JsonException("Internal Error");
 	}
-
-	private static boolean checkIfInt(long value) {
-		return (Integer.MIN_VALUE <= value && value <= Integer.MAX_VALUE);
+	
+	/**
+	 * Unknown array type.
+	 */
+	private static class UnknownArrayType extends ArrayType {
+		@Override
+		public TypeMap getItemTypes() {
+			return null;
+		}
+	}
+	
+	/**
+	 * Unknown object type.
+	 */
+	private static class UnknownObjectType extends ObjectType {
+		@Override
+		public boolean allowsMoreProperties() {
+			return true;
+		}
 	}
 }

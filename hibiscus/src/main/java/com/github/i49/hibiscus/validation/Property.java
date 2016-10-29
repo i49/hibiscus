@@ -6,9 +6,9 @@ public class Property {
 	private final TypeMap typeMap;
 	private final boolean required;
 	
-	public Property(String name, ValueType[] types, boolean required) {
+	public Property(String name, ValueType type, ValueType[] moreTypes, boolean required) {
 		this.name = name;
-		this.typeMap = TypeMap.of(types);
+		this.typeMap = TypeMap.of(type, moreTypes);
 		this.required = required;
 	}
 	

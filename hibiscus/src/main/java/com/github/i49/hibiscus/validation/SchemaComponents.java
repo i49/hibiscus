@@ -2,12 +2,12 @@ package com.github.i49.hibiscus.validation;
 
 public class SchemaComponents {
 
-	public static Property optional(String name, ValueType... types) {
-		return new Property(name, types, false);
+	public static Property optional(String name, ValueType type, ValueType... moreTypes) {
+		return new Property(name, type, moreTypes, false);
 	}
 	
-	public static Property required(String name, ValueType... types) {
-		return new Property(name, types, true);
+	public static Property required(String name, ValueType type, ValueType... moreTypes) {
+		return new Property(name, type, moreTypes, true);
 	}
 	
 	public static ArrayType array(ValueType... itemTypes) {

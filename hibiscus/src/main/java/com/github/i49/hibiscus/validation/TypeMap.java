@@ -1,6 +1,5 @@
 package com.github.i49.hibiscus.validation;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,40 +15,31 @@ public class TypeMap {
 	}
 	
 	public static TypeMap of(ValueType type) {
-		Map<TypeId, ValueType> map = new EnumMap<>(TypeId.class);
-		map.put(type.getTypeId(), type);
-		return new TypeMap(map);
+		return new TypeMap().addType(type);
 	}
 	
 	public static TypeMap of(ValueType... types) {
-		Map<TypeId, ValueType> map = new EnumMap<>(TypeId.class);
+		TypeMap map = new TypeMap();
 		for (ValueType type: types) {
-			TypeId typeId = type.getTypeId();
-			if (map.containsKey(typeId)) {
-				throw new DuplicateTypeException(typeId);
-			} else {
-				map.put(typeId, type);
-			}
+			map.addType(type);
 		}
-		return new TypeMap(map);
+		return map;
+	}
+	
+	public static TypeMap of(ValueType type, ValueType... moreTypes) {
+		TypeMap map = new TypeMap();
+		map.addType(type);
+		for (ValueType other: moreTypes) {
+			map.addType(other);
+		}
+		return map;
 	}
 	
 	private TypeMap() {
-		this.map = Collections.emptyMap();
+		this.map = new EnumMap<>(TypeId.class);
 	}
 
-	private TypeMap(Map<TypeId, ValueType> map) {
-		this.map = map;
-	}
-	
-	public boolean isEmpty() {
-		return map.isEmpty();
-	}
-	
 	public boolean containsType(TypeId typeId) {
-		if (isEmpty()) {
-			return true;
-		}
 		return map.containsKey(typeId);
 	}
 
@@ -69,5 +59,18 @@ public class TypeMap {
 	
 	public Set<TypeId> getTypeIds() {
 		return map.keySet();
+	}
+
+	private TypeMap addType(ValueType type) {
+		if (type == null) {
+			throw new IllegalArgumentException();
+		}
+		TypeId typeId = type.getTypeId();
+		if (map.containsKey(typeId)) {
+			throw new DuplicateTypeException(typeId);
+		} else {
+			map.put(typeId, type);
+		}
+		return this;
 	}
 }

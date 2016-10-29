@@ -14,6 +14,16 @@ import com.github.i49.hibiscus.validation.ValueType;
 public class ArrayValidationTest {
 
 	@Test
+	public void testEmptyArray() {
+		String json = "[]";
+		ValueType schema = array();
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
 	public void testBooleans() {
 		String json = "[true, false, true]";
 		ValueType schema = array(bool());
@@ -77,6 +87,16 @@ public class ArrayValidationTest {
 	public void testArrays() {
 		String json = "[[1, 2, 3], [4, 5, 6]]";
 		ValueType schema = array(array(integer()));
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+	
+	@Test
+	public void testObjects() {
+		String json = "[{}, {}, {}]";
+		ValueType schema = array(object());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

@@ -2,19 +2,17 @@ package com.github.i49.hibiscus.validation;
 
 public class ArrayType extends ContainerType {
 
-	private static final ArrayType GENERIC_ARRAY_TYPE = new ArrayType(TypeMap.empty());
-	
 	private final TypeMap typeMap;
 
 	public static ArrayType of(ValueType[] itemTypes) {
 		return new ArrayType(TypeMap.of(itemTypes));
 	}
 	
-	public static ArrayType getGeneric() {
-		return GENERIC_ARRAY_TYPE;
+	protected ArrayType() {
+		this.typeMap = TypeMap.empty();
 	}
-	
-	private ArrayType(TypeMap typeMap) {
+
+	protected ArrayType(TypeMap typeMap) {
 		this.typeMap = typeMap;
 	}
 	
