@@ -1,9 +1,8 @@
 package com.github.i49.hibiscus.examples;
 
-import static com.github.i49.hibiscus.validation.SchemaComponents.*;
-
 import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ObjectType;
+import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class PersonValidator extends JsonValidator {
 
