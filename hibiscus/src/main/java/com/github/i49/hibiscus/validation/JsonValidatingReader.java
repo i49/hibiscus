@@ -14,10 +14,6 @@ import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.json.JsonValues;
-import com.github.i49.hibiscus.problems.MissingPropertyProblem;
-import com.github.i49.hibiscus.problems.Problem;
-import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 
 public class JsonValidatingReader {
 

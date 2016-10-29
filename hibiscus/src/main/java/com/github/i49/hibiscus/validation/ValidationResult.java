@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.Problem;
-
 public class ValidationResult {
 	
 	private final JsonValue value;

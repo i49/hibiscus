@@ -7,8 +7,6 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-import com.github.i49.hibiscus.problems.Problem;
-import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ValidationResult;
 import com.github.i49.hibiscus.validation.ValueType;

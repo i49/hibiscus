@@ -14,10 +14,6 @@ import javax.json.JsonValue;
 
 import org.junit.Test;
 
-import com.github.i49.hibiscus.problems.MissingPropertyProblem;
-import com.github.i49.hibiscus.problems.Problem;
-import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ObjectType;
 import com.github.i49.hibiscus.validation.TypeId;
