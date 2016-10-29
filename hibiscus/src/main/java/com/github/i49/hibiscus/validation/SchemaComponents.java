@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-public abstract class SchemaComponents {
+public class SchemaComponents {
 
 	public static Property optional(String name, ValueType... types) {
 		return new Property(name, types, false);
@@ -38,7 +38,6 @@ public abstract class SchemaComponents {
 		return StringType.getDefault();
 	}
 	
-	public static AnyType any() {
-		return AnyType.INSTANCE;
+	private SchemaComponents() {
 	}
 }

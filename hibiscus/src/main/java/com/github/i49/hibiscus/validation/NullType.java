@@ -11,9 +11,4 @@ public class NullType extends ValueType {
 	public TypeId getTypeId() {
 		return TypeId.NULL;
 	}
-
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.NULL);
-	}
 }

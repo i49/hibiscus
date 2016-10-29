@@ -12,9 +12,4 @@ public class NumberType extends ValueType {
 	public TypeId getTypeId() {
 		return TypeId.NUMBER;
 	}
-
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.NUMBER || type == TypeId.INTEGER);
-	}
 }

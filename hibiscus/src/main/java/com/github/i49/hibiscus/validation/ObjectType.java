@@ -17,7 +17,7 @@ public class ObjectType extends ContainerType {
 		return new ObjectType(properties);
 	}
 	
-	public static ObjectType ofAny() {
+	public static ObjectType getGeneric() {
 		return GENERIC_OBJECT_TYPE;
 	}
 	
@@ -43,11 +43,6 @@ public class ObjectType extends ContainerType {
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.OBJECT;
-	}
-
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.OBJECT);
 	}
 
 	Property getProperty(String name) {

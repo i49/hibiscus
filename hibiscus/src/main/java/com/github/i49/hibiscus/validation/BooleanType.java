@@ -12,9 +12,4 @@ public class BooleanType extends ValueType {
 	public TypeId getTypeId() {
 		return TypeId.BOOLEAN;
 	}
-
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.BOOLEAN);
-	}
 }

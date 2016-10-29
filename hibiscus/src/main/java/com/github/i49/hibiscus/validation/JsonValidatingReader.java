@@ -48,7 +48,7 @@ public class JsonValidatingReader {
 	
 	private JsonArray readArray(TypeMap expected) {
 		ValueType type = validateType(expected, TypeId.ARRAY);
-		ArrayType arrayType = (type != null) ? ((ArrayType)type) : ArrayType.ofAny();
+		ArrayType arrayType = (type != null) ? ((ArrayType)type) : ArrayType.getGeneric();
 		return readArray(arrayType);
 	}
 	
@@ -71,7 +71,7 @@ public class JsonValidatingReader {
 	
 	private JsonObject readObject(TypeMap expected) {
 		ValueType type = validateType(expected, TypeId.OBJECT);
-		ObjectType objectType = (type != null) ? ((ObjectType)type) : ObjectType.ofAny();
+		ObjectType objectType = (type != null) ? ((ObjectType)type) : ObjectType.getGeneric();
 		return readObject(objectType);
 	}
 	

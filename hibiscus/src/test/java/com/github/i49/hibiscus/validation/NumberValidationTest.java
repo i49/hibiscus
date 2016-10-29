@@ -11,12 +11,12 @@ import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ValidationResult;
 import com.github.i49.hibiscus.validation.ValueType;
 
-public class StringValidationTest {
+public class NumberValidationTest {
 
 	@Test
-	public void testValidateString() {
-		String json = "[\"abc\"]";
-		ValueType schema = array(string());
+	public void testValidateNumber() {
+		String json = "[123.45]";
+		ValueType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -24,9 +24,19 @@ public class StringValidationTest {
 	}
 
 	@Test
-	public void testValidateBlankString() {
-		String json = "[\"\"]";
-		ValueType schema = array(string());
+	public void testValidateNegativeNumber() {
+		String json = "[-123.45]";
+		ValueType schema = array(number());
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testValidateIntegralNumber() {
+		String json = "[123]";
+		ValueType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -35,14 +45,14 @@ public class StringValidationTest {
 
 	@Test
 	public void testTypeMismatch() {
-		String json = "[123]";
-		ValueType schema = array(string());
+		String json = "[\"123.45\"]";
+		ValueType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
-		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getActualType());
+		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
 	}
 }

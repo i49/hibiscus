@@ -12,9 +12,4 @@ public class StringType extends ValueType {
 	public TypeId getTypeId() {
 		return TypeId.STRING;
 	}
-
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.STRING);
-	}
 }

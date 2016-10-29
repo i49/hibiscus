@@ -2,7 +2,7 @@ package com.github.i49.hibiscus.validation;
 
 public class ArrayType extends ContainerType {
 
-	private static final ArrayType GENERIC_ARRAY_TYPE = new ArrayType(TypeMap.ofAny());
+	private static final ArrayType GENERIC_ARRAY_TYPE = new ArrayType(TypeMap.empty());
 	
 	private final TypeMap typeMap;
 
@@ -10,7 +10,7 @@ public class ArrayType extends ContainerType {
 		return new ArrayType(TypeMap.of(itemTypes));
 	}
 	
-	public static ArrayType ofAny() {
+	public static ArrayType getGeneric() {
 		return GENERIC_ARRAY_TYPE;
 	}
 	
@@ -23,11 +23,6 @@ public class ArrayType extends ContainerType {
 		return TypeId.ARRAY;
 	}
 	
-	@Override
-	public boolean isTypeOf(TypeId type) {
-		return (type == TypeId.ARRAY);
-	}
-
 	public TypeMap getItemTypes() {
 		return typeMap;
 	}

@@ -1,59 +1,53 @@
 package com.github.i49.hibiscus.validation;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TypeMap {
 
-	public static final TypeMap TYPEMAP_OF_ANY = TypeMap.of(AnyType.INSTANCE);
+	public static final TypeMap EMPTY = new TypeMap();
 	
 	private final Map<TypeId, ValueType> map;
-	private final boolean anyType;
 	
-	public static TypeMap ofAny() {
-		return TYPEMAP_OF_ANY;
+	public static TypeMap empty() {
+		return EMPTY;
 	}
 	
 	public static TypeMap of(ValueType type) {
 		Map<TypeId, ValueType> map = new EnumMap<>(TypeId.class);
-		boolean anyType = (type == AnyType.INSTANCE);
-		if (!anyType) {
-			map.put(type.getTypeId(), type);
-		}
-		return new TypeMap(map, anyType);
+		map.put(type.getTypeId(), type);
+		return new TypeMap(map);
 	}
 	
 	public static TypeMap of(ValueType... types) {
 		Map<TypeId, ValueType> map = new EnumMap<>(TypeId.class);
-		boolean anyType = false;
 		for (ValueType type: types) {
-			if (type == AnyType.INSTANCE) {
-				anyType = true;
+			TypeId typeId = type.getTypeId();
+			if (map.containsKey(typeId)) {
+				throw new DuplicateTypeException(typeId);
 			} else {
-				TypeId typeId = type.getTypeId();
-				if (map.containsKey(typeId)) {
-					throw new DuplicateTypeException(typeId);
-				} else {
-					map.put(typeId, type);
-				}
+				map.put(typeId, type);
 			}
 		}
-		return new TypeMap(map, anyType);
+		return new TypeMap(map);
 	}
 	
-	private TypeMap(Map<TypeId, ValueType> map, boolean anyType) {
+	private TypeMap() {
+		this.map = Collections.emptyMap();
+	}
+
+	private TypeMap(Map<TypeId, ValueType> map) {
 		this.map = map;
-		this.anyType = anyType;
 	}
 	
-	public boolean containsAnyType() {
-		return anyType;
+	public boolean isEmpty() {
+		return map.isEmpty();
 	}
 	
 	public boolean containsType(TypeId typeId) {
-		if (containsAnyType()) {
+		if (isEmpty()) {
 			return true;
 		}
 		return map.containsKey(typeId);
@@ -61,18 +55,19 @@ public class TypeMap {
 
 	public ValueType getType(TypeId typeId) {
 		ValueType type = map.get(typeId);
-		if (type == null && containsAnyType()) {
-			type = AnyType.INSTANCE;
+		if (type != null) {
+			return type;
 		}
-		return type;
+		if (typeId == TypeId.INTEGER) {
+			type = map.get(TypeId.NUMBER);
+			if (type != null) {
+				return type;
+			}
+		}
+		return null;
 	}
 	
 	public Set<TypeId> getTypeIds() {
 		return map.keySet();
-	}
-	
-	@Override
-	public String toString() {
-		return map.values().stream().map(ValueType::toString).collect(Collectors.joining(", "));
 	}
 }
