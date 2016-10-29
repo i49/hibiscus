@@ -30,71 +30,65 @@ public class JsonValidatingReader {
 		this.factory = factory;
 	}
 	
-	public JsonValue readAll(ValueType rootType) {
-		if (rootType instanceof AnyType) {
-			rootType = null;
-		}
-		return readRoot(rootType);
+	public JsonValue readAll(ValueType expected) {
+		return readRoot(TypeMap.of(expected));
 	}
 	
+	/**
+	 * Returns all problems found.
+	 * @return problems found
+	 */
 	public List<Problem> getProblems() {
 		return problems;
 	}
 	
-	private JsonValue readRoot(ValueType type) {
+	private JsonValue readRoot(TypeMap expected) {
 		if (parser.hasNext()) {
-			return readValue(type, parser.next());
+			return readValue(expected, parser.next());
 		} else {
 			return null;
 		}
 	}
 	
-	private JsonArray readArray(ValueType type) {
-		if (!validateType(type, TypeId.ARRAY)) {
-			type = null;
-		}
-		return readArray((ArrayType)type);
+	private JsonArray readArray(TypeMap expected) {
+		ValueType type = validateType(expected, TypeId.ARRAY);
+		ArrayType arrayType = (type != null) ? ((ArrayType)type) : ArrayType.ofAny();
+		return readArray(arrayType);
 	}
 	
 	private JsonArray readArray(ArrayType type) {
 		JsonArrayBuilder builder = this.factory.createArrayBuilder();
+		TypeMap itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
 			if (event == JsonParser.Event.END_ARRAY) {
-				JsonArray array = builder.build();
-				return array;
+				return builder.build();
 			} else {
-				readItem(type, builder, event);
+				JsonValue item = readValue(itemTypes, event);
+				if (item != null) {
+					builder.add(item);
+				}
 			}
 		}
 		throw internalError();
 	}
 	
-	private void readItem(ArrayType type, JsonArrayBuilder builder, JsonParser.Event event) {
-		ValueType expectedType = null;
-		JsonValue value = readValue(expectedType, event);
-		if (value != null) {
-			builder.add(value);
-		}
+	private JsonObject readObject(TypeMap expected) {
+		ValueType type = validateType(expected, TypeId.OBJECT);
+		ObjectType objectType = (type != null) ? ((ObjectType)type) : ObjectType.ofAny();
+		return readObject(objectType);
 	}
 	
-	private JsonObject readObject(ValueType type) {
-		if (!validateType(type, TypeId.OBJECT)) {
-			type = null;
-		}
-		return readObject((ObjectType)type);
-	}
-	
-	private JsonObject readObject(ObjectType type) {
+	private JsonObject readObject(ObjectType objectType) {
 		JsonObjectBuilder builder = this.factory.createObjectBuilder();
 		while (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.END_OBJECT) {
 				JsonObject object = builder.build();
-				validateObject(type, object);
+				validateObject(objectType, object);
 				return object;
 			} else if (e == JsonParser.Event.KEY_NAME) {
-				readProperty(type, builder);
+				readProperty(objectType, builder);
 			} else {
 				throw internalError();
 			}
@@ -103,24 +97,24 @@ public class JsonValidatingReader {
 	}
 	
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
-		String key = parser.getString();
-		ValueType expectedType = validateProperty(object, key);
+		String name = parser.getString();
+		TypeMap typeMap = validateProperty(object, name);
 		JsonParser.Event event = parser.next();
-		JsonValue value = readValue(expectedType, event);
+		JsonValue value = readValue(typeMap, event);
 		if (value != null) {
-			builder.add(key, value);
+			builder.add(name, value);
 		}
 	}
 	
-	private JsonValue readValue(ValueType expectedType, JsonParser.Event event) {
+	private JsonValue readValue(TypeMap typeMap, JsonParser.Event event) {
 		switch (event) {
 		case START_ARRAY:
-			return readArray(expectedType);
+			return readArray(typeMap);
 		case START_OBJECT:
-			return readObject(expectedType);
+			return readObject(typeMap);
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
-				validateType(expectedType, TypeId.INTEGER);
+				validateType(typeMap, TypeId.INTEGER);
 				long value = parser.getLong();
 				if (checkIfInt(value)) {
 					return JsonValues.createNumber(Math.toIntExact(value));
@@ -128,41 +122,38 @@ public class JsonValidatingReader {
 					return JsonValues.createNumber(value);
 				}
 			} else {
-				validateType(expectedType, TypeId.NUMBER);
+				validateType(typeMap, TypeId.NUMBER);
 				return JsonValues.createNumber(parser.getBigDecimal());
 			}
 		case VALUE_STRING:
-			validateType(expectedType, TypeId.STRING);
+			validateType(typeMap, TypeId.STRING);
 			return JsonValues.createString(parser.getString());
 		case VALUE_TRUE:
-			validateType(expectedType, TypeId.BOOLEAN);
+			validateType(typeMap, TypeId.BOOLEAN);
 			return JsonValue.TRUE;
 		case VALUE_FALSE:
-			validateType(expectedType, TypeId.BOOLEAN);
+			validateType(typeMap, TypeId.BOOLEAN);
 			return JsonValue.FALSE;
 		case VALUE_NULL:
-			validateType(expectedType, TypeId.NULL);
+			validateType(typeMap, TypeId.NULL);
 			return JsonValue.NULL;
 		default:
 			throw internalError();
 		}
 	}
 	
-	private boolean validateType(ValueType expected, TypeId actual) {
+	private ValueType validateType(TypeMap expected, TypeId actual) {
 		if (expected == null) {
-			return true;
-		} else if (expected.isTypeOf(actual)) {
-			return true;
-		} else {
-			addProblem(new TypeMismatchProblem(expected.getType(), actual, getLocation()));
-			return false;
+			return null;
 		}
+		ValueType type = expected.getType(actual);
+		if (type == null) {
+			addProblem(new TypeMismatchProblem(expected.getTypeIds(), actual, getLocation()));
+		}
+		return type;
 	}
 	
 	private void validateObject(ObjectType type, JsonObject object) {
-		if (type == null) {
-			return;
-		}
 		for (String key: type.getRequiredProperties()) {
 			if (!object.containsKey(key)) {
 				addProblem(new MissingPropertyProblem(key, getLocation()));
@@ -170,10 +161,7 @@ public class JsonValidatingReader {
 		}
 	}
 	
-	private ValueType validateProperty(ObjectType objectType, String propertyName) {
-		if (objectType == null) {
-			return null;
-		}
+	private TypeMap validateProperty(ObjectType objectType, String propertyName) {
 		Property property = objectType.getProperty(propertyName);
 		if (property == null) {
 			if (!objectType.allowsMoreProperties()) {
@@ -181,7 +169,7 @@ public class JsonValidatingReader {
 			}
 			return null;
 		}
-		return property.getType();
+		return property.getTypeMap();
 	}
 
 	private JsonLocation getLocation() {

@@ -1,9 +1,15 @@
 package com.github.i49.hibiscus.validation;
 
 public class StringType extends ValueType {
+	
+	private static final StringType DEFAULT = new StringType();
 
+	public static StringType getDefault() {
+		return DEFAULT;
+	}
+	
 	@Override
-	public TypeId getType() {
+	public TypeId getTypeId() {
 		return TypeId.STRING;
 	}
 

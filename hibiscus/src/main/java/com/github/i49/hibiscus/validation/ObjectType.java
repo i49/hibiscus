@@ -9,15 +9,30 @@ public class ObjectType extends ContainerType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
-	private boolean moreProperties = false;
+	private boolean moreProperties;
 	
-	public ObjectType(Property[] properties) {
+	private static final ObjectType GENERIC_OBJECT_TYPE = new ObjectType(); 
+	
+	public static ObjectType of(Property[] properties) {
+		return new ObjectType(properties);
+	}
+	
+	public static ObjectType ofAny() {
+		return GENERIC_OBJECT_TYPE;
+	}
+	
+	private ObjectType() {
+		moreProperties = true;
+	}
+
+	private ObjectType(Property[] properties) {
 		for (Property p: properties) {
-			this.properties.put(p.getKey(), p);
+			this.properties.put(p.getName(), p);
 			if (p.isRequired()) {
-				this.required.add(p.getKey());
+				this.required.add(p.getName());
 			}
 		}
+		moreProperties = false;
 	}
 	
 	public ObjectType moreProperties() {
@@ -26,7 +41,7 @@ public class ObjectType extends ContainerType {
 	}
 	
 	@Override
-	public TypeId getType() {
+	public TypeId getTypeId() {
 		return TypeId.OBJECT;
 	}
 

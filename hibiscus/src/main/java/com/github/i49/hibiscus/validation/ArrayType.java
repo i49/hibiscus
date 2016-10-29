@@ -2,14 +2,24 @@ package com.github.i49.hibiscus.validation;
 
 public class ArrayType extends ContainerType {
 
-	private final ValueType itemType;
+	private static final ArrayType GENERIC_ARRAY_TYPE = new ArrayType(TypeMap.ofAny());
 	
-	public ArrayType(ValueType itemType) {
-		this.itemType = itemType;
+	private final TypeMap typeMap;
+
+	public static ArrayType of(ValueType[] itemTypes) {
+		return new ArrayType(TypeMap.of(itemTypes));
+	}
+	
+	public static ArrayType ofAny() {
+		return GENERIC_ARRAY_TYPE;
+	}
+	
+	private ArrayType(TypeMap typeMap) {
+		this.typeMap = typeMap;
 	}
 	
 	@Override
-	public TypeId getType() {
+	public TypeId getTypeId() {
 		return TypeId.ARRAY;
 	}
 	
@@ -18,7 +28,7 @@ public class ArrayType extends ContainerType {
 		return (type == TypeId.ARRAY);
 	}
 
-	public ValueType getItemType() {
-		return itemType;
+	public TypeMap getItemTypes() {
+		return typeMap;
 	}
 }

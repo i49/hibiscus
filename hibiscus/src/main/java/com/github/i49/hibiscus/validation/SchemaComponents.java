@@ -2,33 +2,28 @@ package com.github.i49.hibiscus.validation;
 
 public abstract class SchemaComponents {
 
-	private static final BooleanType BOOLEAN_TYPE = new BooleanType();
-	private static final IntegerType INTEGER_TYPE = new IntegerType();
-	private static final NumberType NUMBER_TYPE = new NumberType();
-	private static final StringType STRING_TYPE = new StringType();
-	
-	public static Property optional(String name, ValueType type) {
-		return new Property(name, type, false);
+	public static Property optional(String name, ValueType... types) {
+		return new Property(name, types, false);
 	}
 	
-	public static Property required(String name, ValueType type) {
-		return new Property(name, type, true);
+	public static Property required(String name, ValueType... types) {
+		return new Property(name, types, true);
 	}
 	
-	public static ArrayType array(ValueType itemType) {
-		return new ArrayType(itemType);
+	public static ArrayType array(ValueType... itemTypes) {
+		return ArrayType.of(itemTypes);
 	}
 
 	public static BooleanType bool() {
-		return BOOLEAN_TYPE;
+		return BooleanType.getDefault();
 	}
 
 	public static IntegerType integer() {
-		return INTEGER_TYPE;
+		return IntegerType.getDefault();
 	}
 	
 	public static NumberType number() {
-		return NUMBER_TYPE;
+		return NumberType.getDefault();
 	}
 	
 	public static NullType nullValue() {
@@ -36,11 +31,11 @@ public abstract class SchemaComponents {
 	}
 
 	public static ObjectType object(Property... properties) {
-		return new ObjectType(properties);
+		return ObjectType.of(properties);
 	}
 	
 	public static StringType string() {
-		return STRING_TYPE;
+		return StringType.getDefault();
 	}
 	
 	public static AnyType any() {

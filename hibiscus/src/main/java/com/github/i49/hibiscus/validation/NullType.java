@@ -8,7 +8,7 @@ public class NullType extends ValueType {
 	}
 	
 	@Override
-	public TypeId getType() {
+	public TypeId getTypeId() {
 		return TypeId.NULL;
 	}
 

@@ -8,7 +8,7 @@ public class AnyType extends ValueType {
 	}
 
 	@Override
-	public TypeId getType() {
+	public TypeId getTypeId() {
 		return null;
 	}
 

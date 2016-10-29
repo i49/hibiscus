@@ -2,22 +2,22 @@ package com.github.i49.hibiscus.validation;
 
 public class Property {
 
-	private final String key;
-	private final ValueType type;
+	private final String name;
+	private final TypeMap typeMap;
 	private final boolean required;
 	
-	public Property(String key, ValueType type, boolean required) {
-		this.key = key;
-		this.type = type;
+	public Property(String name, ValueType[] types, boolean required) {
+		this.name = name;
+		this.typeMap = TypeMap.of(types);
 		this.required = required;
 	}
 	
-	public String getKey() {
-		return key;
+	public String getName() {
+		return name;
 	}
 	
-	public ValueType getType() {
-		return type;
+	public TypeMap getTypeMap() {
+		return typeMap;
 	}
 	
 	public boolean isRequired() {
