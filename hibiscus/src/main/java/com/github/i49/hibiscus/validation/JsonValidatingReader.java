@@ -15,6 +15,9 @@ import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.json.JsonValues;
 
+/**
+ * Object to read and validate JSON at the same time.
+ */
 public class JsonValidatingReader {
 
 	private final JsonParser parser;
@@ -30,7 +33,12 @@ public class JsonValidatingReader {
 	}
 	
 	public JsonValue readAll(ValueType expected) {
-		return readRoot(TypeMap.of(expected));
+		if (parser.hasNext()) {
+			TypeMap typeMap = TypeMap.of(expected);
+			return readValue(parser.next(), typeMap);
+		} else {
+			return null;
+		}
 	}
 	
 	/**
@@ -41,16 +49,8 @@ public class JsonValidatingReader {
 		return problems;
 	}
 	
-	private JsonValue readRoot(TypeMap expected) {
-		if (parser.hasNext()) {
-			return readValue(expected, parser.next());
-		} else {
-			return null;
-		}
-	}
-	
 	private JsonArray readArray(TypeMap expected) {
-		ValueType type = validateType(expected, TypeId.ARRAY);
+		ValueType type = validateType(TypeId.ARRAY, expected);
 		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UNKNOWN_ARRAY_TYPE;
 		return readArray(arrayType);
 	}
@@ -63,7 +63,7 @@ public class JsonValidatingReader {
 			if (event == JsonParser.Event.END_ARRAY) {
 				return builder.build();
 			} else {
-				JsonValue item = readValue(itemTypes, event);
+				JsonValue item = readValue(event, itemTypes);
 				if (item != null) {
 					builder.add(item);
 				}
@@ -73,7 +73,7 @@ public class JsonValidatingReader {
 	}
 	
 	private JsonObject readObject(TypeMap expected) {
-		ValueType type = validateType(expected, TypeId.OBJECT);
+		ValueType type = validateType(TypeId.OBJECT, expected);
 		ObjectType objectType = (type != null) ? ((ObjectType)type) : UNKNOWN_OBJECT_TYPE;
 		return readObject(objectType);
 	}
@@ -97,23 +97,22 @@ public class JsonValidatingReader {
 	
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
 		String name = parser.getString();
-		TypeMap typeMap = findPropertyType(object, name);
-		JsonParser.Event event = parser.next();
-		JsonValue value = readValue(typeMap, event);
+		TypeMap candidates = findPropertyType(object, name);
+		JsonValue value = readValue(parser.next(), candidates);
 		if (value != null) {
 			builder.add(name, value);
 		}
 	}
 	
-	private JsonValue readValue(TypeMap typeMap, JsonParser.Event event) {
+	private JsonValue readValue(JsonParser.Event event, TypeMap candidates) {
 		switch (event) {
 		case START_ARRAY:
-			return readArray(typeMap);
+			return readArray(candidates);
 		case START_OBJECT:
-			return readObject(typeMap);
+			return readObject(candidates);
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
-				validateType(typeMap, TypeId.INTEGER);
+				validateType(TypeId.INTEGER, candidates);
 				long value = parser.getLong();
 				if (Integer.MIN_VALUE <= value && value <= Integer.MAX_VALUE) {
 					return JsonValues.createNumber(Math.toIntExact(value));
@@ -121,27 +120,27 @@ public class JsonValidatingReader {
 					return JsonValues.createNumber(value);
 				}
 			} else {
-				validateType(typeMap, TypeId.NUMBER);
+				validateType(TypeId.NUMBER, candidates);
 				return JsonValues.createNumber(parser.getBigDecimal());
 			}
 		case VALUE_STRING:
-			validateType(typeMap, TypeId.STRING);
+			validateType(TypeId.STRING, candidates);
 			return JsonValues.createString(parser.getString());
 		case VALUE_TRUE:
-			validateType(typeMap, TypeId.BOOLEAN);
+			validateType(TypeId.BOOLEAN, candidates);
 			return JsonValue.TRUE;
 		case VALUE_FALSE:
-			validateType(typeMap, TypeId.BOOLEAN);
+			validateType(TypeId.BOOLEAN, candidates);
 			return JsonValue.FALSE;
 		case VALUE_NULL:
-			validateType(typeMap, TypeId.NULL);
+			validateType(TypeId.NULL, candidates);
 			return JsonValue.NULL;
 		default:
 			throw internalError();
 		}
 	}
 	
-	private ValueType validateType(TypeMap candidates, TypeId actual) {
+	private ValueType validateType(TypeId actual, TypeMap candidates) {
 		if (candidates == null) {
 			return null;
 		}

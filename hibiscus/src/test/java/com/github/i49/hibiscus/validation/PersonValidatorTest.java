@@ -12,6 +12,7 @@ import java.util.List;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.validation.JsonValidator;
@@ -19,15 +20,29 @@ import com.github.i49.hibiscus.validation.ObjectType;
 import com.github.i49.hibiscus.validation.TypeId;
 import com.github.i49.hibiscus.validation.ValidationResult;
 
-public class JsonValidatorTest {
+public class PersonValidatorTest {
+	
+	private JsonValidator validator;
+	
+	@Before
+	public void setUp() {
+
+		ObjectType schema = object(
+				required("firstName", string()),
+				required("lastName", string()),
+				optional("age", integer()),
+				optional("hobbies", array(string()))
+			);
+
+		validator = new JsonValidator(schema);
+	}
 
 	@Test
 	public void testRead() throws Exception {
 
-		JsonValidator v = createPersonValidator();
 		ValidationResult result = null;
 		try (Reader reader = openReader("person.json")) {
-			result = v.validate(reader);
+			result = validator.validate(reader);
 		}
 		
 		assertFalse(result.hasProblems());
@@ -43,10 +58,9 @@ public class JsonValidatorTest {
 	@Test
 	public void testMissingProperty() throws Exception {
 		
-		JsonValidator v = createPersonValidator();
 		ValidationResult result = null;
 		try (Reader reader = openReader("person-missing-property.json")) {
-			result = v.validate(reader);
+			result = validator.validate(reader);
 		}
 		
 		assertTrue(result.hasProblems());
@@ -61,10 +75,9 @@ public class JsonValidatorTest {
 	@Test
 	public void testTypeMismatch() throws Exception {
 
-		JsonValidator v = createPersonValidator();
 		ValidationResult result = null;
 		try (Reader reader = openReader("person-type-mismatch.json")) {
-			result = v.validate(reader);
+			result = validator.validate(reader);
 		}
 		
 		assertTrue(result.hasProblems());
@@ -94,10 +107,9 @@ public class JsonValidatorTest {
 	@Test
 	public void testUnknownProperties() throws Exception {
 		
-		JsonValidator v = createPersonValidator();
 		ValidationResult result = null;
 		try (Reader reader = openReader("person-unknown-property.json")) {
-			result = v.validate(reader);
+			result = validator.validate(reader);
 		}
 		
 		assertTrue(result.hasProblems());
@@ -109,18 +121,8 @@ public class JsonValidatorTest {
 		assertEquals("birthplace", ((UnknownPropertyProblem)p).getPropertyName());
 	}
 	
-	private JsonValidator createPersonValidator() {
-		ObjectType rootType = object(
-				required("firstName", string()),
-				required("lastName", string()),
-				optional("age", integer()),
-				optional("hobbies", array(string()))
-			);
-		return new JsonValidator(rootType);
-	}
-
 	private static Reader openReader(String name) {
-		InputStream stream = JsonValidatorTest.class.getResourceAsStream(name);
+		InputStream stream = PersonValidatorTest.class.getResourceAsStream(name);
 		return new InputStreamReader(stream, StandardCharsets.UTF_8);
 	}
 }
