@@ -40,7 +40,7 @@ ObjectType schema = object(
    ```java
    import com.github.i49.hibiscus.validation.JsonValidator;
 
-   public class YourValidator extends JsonValidator {
+   public class PersonValidator extends JsonValidator {
    }
    ```
 
@@ -104,6 +104,7 @@ ObjectType schema = object(
    ```java
    for (Problem p: result.getProblems()) {
        // handles each problem here.
+       // We just print message of the problem.
        System.out.println(p.getMessage());
    }
    ```
@@ -115,7 +116,7 @@ ObjectType schema = object(
    ```
    
    Hibiscus does both reading and validating at the same time.
-   It returns JSON primitives defined in [JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/) even when schema validation found some problems.
+   It returns JSON primitives defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/) even when schema validation found some problems.
 
 ## How to build
 
@@ -136,3 +137,8 @@ Hibiscus depends on [Java API for JSON Processing](http://json-processing-spec.j
     <version>1.0.4</version>
 </dependency>
 ```
+
+## Validator examples
+
+Examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
+
