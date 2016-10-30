@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON schema language defined by Java constructs.
+Hibiscus is JSON validator against schema defined by Java-based DSL. 
 
 ## Why do we write JSON schema in Java?
 Writing JSON schema in Java has following merits:
@@ -107,8 +107,8 @@ ObjectType schema = object(
   ```java
   for (Problem p: result.getProblems()) {
     // handles each problem here.
-    // We just print text representing of the problem.
-    System.out.println(p.getMessage());
+    // We just print text representation of the problem here.
+    System.out.println(p);
   }
   ```
 

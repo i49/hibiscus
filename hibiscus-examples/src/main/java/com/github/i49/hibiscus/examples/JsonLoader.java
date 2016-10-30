@@ -22,18 +22,19 @@ public abstract class JsonLoader {
 	 */
 	public static JsonValue load(String name, JsonValidator validator) {
 	
-		System.out.println("Validating... " + name);
+		System.out.println("Validating JSON file: \"" + name + "\"");
 
 		InputStream stream = JsonLoader.class.getResourceAsStream(name);
 		try (Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
 			ValidationResult result = validator.validate(reader);
 			if (result.hasProblems()) {
 				for (Problem p: result.getProblems()) {
-					System.out.println(p.getMessage());
+					System.out.println(p);
 				}
 			} else {
 				System.out.println("No problem found.");
 			}
+			System.out.println();
 			return result.getValue();
 		} catch (IOException e) {
 			System.err.println(e);
