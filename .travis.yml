@@ -1,7 +1,5 @@
 language: java
 jdk:
   - oraclejdk8
-env:
-  - TEST_DIR=hibiscus
-  - TEST_DIR=hibiscus-examples
-script: cd $TEST_DIR && mvn test
+script: 
+  - cd hibiscus && mvn test
