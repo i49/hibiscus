@@ -1,6 +1,4 @@
 language: java
 jdk:
   - oraclejdk8
-script: 
-  - cd hibiscus && mvn install && cd ..
-  - cd hibiscus-examples && mvn package && java -jar target/hibiscus-examples-0.1.0.jar
+script: ./run-tests.sh
