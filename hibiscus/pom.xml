@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- The Basics -->
+
   <groupId>com.github.i49</groupId>
   <artifactId>hibiscus</artifactId>
   <version>0.1.0</version>
@@ -30,8 +31,32 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
+
+  <!-- Build Settings -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <locale>en_US</locale>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   
   <!-- Project Information -->
+
   <name>Hibiscus</name>
   <description>Hibiscus is JSON validator</description>
   <url>https://github.com/i49/Hibiscus</url>
