@@ -1,6 +1,5 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -9,13 +8,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.validation.JsonValidator;
-import com.github.i49.hibiscus.validation.ValidationResult;
-import com.github.i49.hibiscus.validation.ValueType;
+import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class ObjectValiadtionTest {
 
-	private ValueType schema;
+	private ObjectType schema;
 	
 	@Before
 	public void setUp() {
@@ -144,10 +141,8 @@ public class ObjectValiadtionTest {
 		assertEquals("d", p.getPropertyName());
 	}
 	
-	@Test
-	public void testUnknownProperty() {
-		
-		String json = "{"
+	private static String jsonWithUnknownProperty() {
+		return "{"
 				+ "\"a\": \"abc\","
 				+ "\"b\": 123,"
 				+ "\"c\": 123.45,"
@@ -157,7 +152,12 @@ public class ObjectValiadtionTest {
 				+ "\"g\": [1, 2, 3],"
 				+ "\"h\": 123"
 				+ "}";
-
+	}
+	
+	@Test
+	public void testUnknownProperty() {
+		
+		String json = jsonWithUnknownProperty();
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -168,5 +168,15 @@ public class ObjectValiadtionTest {
 
 		UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
 		assertEquals("h", p.getPropertyName());
+	}
+	
+	@Test
+	public void testMoreProperties() {
+		
+		String json = jsonWithUnknownProperty();
+		JsonValidator validator = new JsonValidator(schema.moreProperties());
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
 	}
 }

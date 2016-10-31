@@ -1,6 +1,5 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
@@ -15,10 +14,7 @@ import javax.json.JsonValue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.validation.JsonValidator;
-import com.github.i49.hibiscus.validation.ObjectType;
-import com.github.i49.hibiscus.validation.TypeId;
-import com.github.i49.hibiscus.validation.ValidationResult;
+import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class PersonValidatorTest {
 	
