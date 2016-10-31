@@ -1,6 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.i49.hibiscus</groupId>
+
+  <!-- The Basics -->
+  <groupId>com.github.i49</groupId>
   <artifactId>hibiscus-examples</artifactId>
   <version>0.1.0</version>
   <properties>
@@ -10,7 +12,7 @@
   </properties>
   <dependencies>
   	<dependency>
-  		<groupId>com.github.i49.hibiscus</groupId>
+  		<groupId>com.github.i49</groupId>
   		<artifactId>hibiscus</artifactId>
   		<version>0.1.0</version>
   	</dependency>
@@ -21,6 +23,8 @@
   		<scope>runtime</scope>
   	</dependency>
   </dependencies>
+
+  <!-- Build Settings -->
   <build>
     <plugins>
       <plugin>
@@ -55,4 +59,23 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Project Information -->
+  <name>Hibiscus Examples</name>
+  <description>Sample validators implemented by Hibiscus</description>
+  <url>https://github.com/i49/Hibiscus</url>
+  <inceptionYear>2016</inceptionYear>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:https://github.com/i49/Hibiscus.git</connection>
+    <developerConnection>scm:git@github.com:i49/Hibiscus.git</developerConnection>
+    <url>https://github.com/i49/Hibiscus</url>  
+  </scm>
+
 </project>
