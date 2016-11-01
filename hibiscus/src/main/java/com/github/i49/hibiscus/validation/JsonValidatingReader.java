@@ -16,9 +16,9 @@ import javax.json.stream.JsonParser;
 import com.github.i49.hibiscus.json.JsonValues;
 
 /**
- * Object to read and validate JSON at the same time.
+ * JSON reader which validates contents against given schema at the same time.
  */
-public class JsonValidatingReader {
+class JsonValidatingReader {
 
 	private final JsonParser parser;
 	private final JsonBuilderFactory factory;
