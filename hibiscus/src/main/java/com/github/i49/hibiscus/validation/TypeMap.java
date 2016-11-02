@@ -4,6 +4,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.i49.schema.TypeId;
+import com.github.i49.schema.types.ValueType;
+
 public class TypeMap {
 
 	public static final TypeMap EMPTY = new TypeMap();

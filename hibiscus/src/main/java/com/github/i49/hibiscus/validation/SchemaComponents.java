@@ -1,5 +1,14 @@
 package com.github.i49.hibiscus.validation;
 
+import com.github.i49.schema.types.ArrayType;
+import com.github.i49.schema.types.BooleanType;
+import com.github.i49.schema.types.IntegerType;
+import com.github.i49.schema.types.NullType;
+import com.github.i49.schema.types.NumberType;
+import com.github.i49.schema.types.ObjectType;
+import com.github.i49.schema.types.StringType;
+import com.github.i49.schema.types.ValueType;
+
 public class SchemaComponents {
 
 	public static Property optional(String name, ValueType type, ValueType... moreTypes) {

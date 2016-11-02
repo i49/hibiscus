@@ -12,6 +12,8 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 
+import com.github.i49.schema.types.ValueType;
+
 public class JsonValidator {
 
 	private final ValueType rootType;

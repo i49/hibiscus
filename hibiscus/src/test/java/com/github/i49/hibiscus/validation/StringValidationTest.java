@@ -6,6 +6,11 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
+import com.github.i49.schema.TypeId;
+import com.github.i49.schema.problems.Problem;
+import com.github.i49.schema.problems.TypeMismatchProblem;
+import com.github.i49.schema.types.ValueType;
+
 import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class StringValidationTest {

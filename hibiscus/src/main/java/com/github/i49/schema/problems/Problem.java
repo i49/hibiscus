@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.problems;
 
 import javax.json.stream.JsonLocation;
 

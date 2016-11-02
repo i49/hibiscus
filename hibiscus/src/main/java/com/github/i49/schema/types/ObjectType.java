@@ -1,9 +1,12 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.types;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.github.i49.hibiscus.validation.Property;
+import com.github.i49.schema.TypeId;
 
 public class ObjectType extends ContainerType {
 
@@ -37,15 +40,15 @@ public class ObjectType extends ContainerType {
 		return TypeId.OBJECT;
 	}
 
-	Property getProperty(String name) {
+	public Property getProperty(String name) {
 		return this.properties.get(name);
 	}
 	
-	Iterable<String> getRequiredProperties() {
+	public Iterable<String> getRequiredProperties() {
 		return required;
 	}
 	
-	boolean allowsMoreProperties() {
+	public boolean allowsMoreProperties() {
 		return moreProperties;
 	}
 }

@@ -1,8 +1,10 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.problems;
 
 import java.util.Set;
 
 import javax.json.stream.JsonLocation;
+
+import com.github.i49.schema.TypeId;
 
 public class TypeMismatchProblem extends Problem {
 	

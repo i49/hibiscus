@@ -14,6 +14,13 @@ import javax.json.JsonValue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.i49.schema.TypeId;
+import com.github.i49.schema.problems.MissingPropertyProblem;
+import com.github.i49.schema.problems.Problem;
+import com.github.i49.schema.problems.TypeMismatchProblem;
+import com.github.i49.schema.problems.UnknownPropertyProblem;
+import com.github.i49.schema.types.ObjectType;
+
 import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class PersonValidatorTest {

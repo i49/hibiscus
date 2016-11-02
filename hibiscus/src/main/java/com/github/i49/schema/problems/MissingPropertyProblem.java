@@ -1,23 +1,22 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.problems;
 
 import javax.json.stream.JsonLocation;
 
-public class UnknownPropertyProblem extends Problem {
+public class MissingPropertyProblem extends Problem {
 
 	private final String propertyName;
 	
-	public UnknownPropertyProblem(String propertyName, JsonLocation location) {
+	public MissingPropertyProblem(String propertyName, JsonLocation location) {
 		super(location);
 		this.propertyName = propertyName;
 	}
-
+	
 	public String getPropertyName() {
 		return propertyName;
 	}
-	
+
 	@Override
 	public String getMessage() {
-		return "Property \"" + getPropertyName() + "\" is not allowed.";
+		return "Property \"" + getPropertyName() + "\" is required.";
 	}
-
 }

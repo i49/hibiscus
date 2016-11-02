@@ -1,4 +1,7 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.types;
+
+import com.github.i49.hibiscus.validation.TypeMap;
+import com.github.i49.schema.TypeId;
 
 public class ArrayType extends ContainerType {
 

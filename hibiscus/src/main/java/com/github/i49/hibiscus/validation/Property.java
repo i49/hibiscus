@@ -1,5 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
+import com.github.i49.schema.types.ValueType;
+
 public class Property {
 
 	private final String name;

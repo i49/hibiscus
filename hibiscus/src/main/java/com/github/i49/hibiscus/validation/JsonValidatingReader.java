@@ -14,6 +14,14 @@ import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.schema.TypeId;
+import com.github.i49.schema.problems.MissingPropertyProblem;
+import com.github.i49.schema.problems.Problem;
+import com.github.i49.schema.problems.TypeMismatchProblem;
+import com.github.i49.schema.problems.UnknownPropertyProblem;
+import com.github.i49.schema.types.ArrayType;
+import com.github.i49.schema.types.ObjectType;
+import com.github.i49.schema.types.ValueType;
 
 /**
  * JSON reader which validates contents against given schema at the same time.

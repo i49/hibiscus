@@ -1,4 +1,6 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.types;
+
+import com.github.i49.schema.TypeId;
 
 /**
  * Primitive type in JSON schema.
