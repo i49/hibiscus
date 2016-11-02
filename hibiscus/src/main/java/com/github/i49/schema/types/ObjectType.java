@@ -2,12 +2,22 @@ package com.github.i49.schema.types;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.json.stream.JsonLocation;
+
 import com.github.i49.hibiscus.validation.Property;
 import com.github.i49.schema.TypeId;
+import com.github.i49.schema.problems.MissingPropertyProblem;
+import com.github.i49.schema.problems.Problem;
 
+/**
+ * JSON object which can hold zero or more key-value pairs as members.
+ */
 public class ObjectType extends ContainerType {
 
 	private final Map<String, Property> properties = new HashMap<>();
@@ -40,12 +50,18 @@ public class ObjectType extends ContainerType {
 		return TypeId.OBJECT;
 	}
 
+	@Override
+	public void validateInstance(JsonValue value, JsonLocation location, List<Problem> problems) {
+		JsonObject object = (JsonObject)value;
+		for (String key: this.required) {
+			if (!object.containsKey(key)) {
+				problems.add(new MissingPropertyProblem(key, location));
+			}
+		}
+	}
+
 	public Property getProperty(String name) {
 		return this.properties.get(name);
-	}
-	
-	public Iterable<String> getRequiredProperties() {
-		return required;
 	}
 	
 	public boolean allowsMoreProperties() {

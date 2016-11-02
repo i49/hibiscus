@@ -3,6 +3,9 @@ package com.github.i49.schema.types;
 import com.github.i49.hibiscus.validation.TypeMap;
 import com.github.i49.schema.TypeId;
 
+/**
+ * JSON array which can hold zero or more values as elements.
+ */
 public class ArrayType extends ContainerType {
 
 	private final TypeMap typeMap;
