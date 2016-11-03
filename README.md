@@ -39,7 +39,7 @@ ObjectType schema = object(
 
 ## How to write your own JSON validator
 
-1. Create class extending `JsonValidator` class.
+1. Create a class extending `JsonValidator` class.
 
   ```java
   import com.github.i49.hibiscus.validation.JsonValidator;
@@ -48,18 +48,18 @@ ObjectType schema = object(
   }
   ```
 
-2. Add `static import` statement that will help building schema.
+2. Add `static import` statement that will help your schema building.
 
   ```java
-  import static com.github.i49.hibiscus.validation.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
   ```
 
-3. Define your schema as class variable of your validator class.
+3. Define your schema as a class variable of your validator class.
 
   ```java
   import com.github.i49.hibiscus.validation.JsonValidator;
-  import com.github.i49.hibiscus.validation.ObjectType;
-  import static com.github.i49.hibiscus.validation.SchemaComponents.*;
+  import com.github.i49.hibiscus.schema.types.ObjectType;
+  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
 
   public class PersonValidator extends JsonValidator {
     private static final ObjectType schema = object(
@@ -70,12 +70,12 @@ ObjectType schema = object(
     );
   }
   ```  
-4. Pass the schema to constructor of super class and then your work is done.
+4. Pass the schema to constructor of superclass and then your work is done.
 
   ```java
   import com.github.i49.hibiscus.validation.JsonValidator;
-  import com.github.i49.hibiscus.validation.ObjectType;
-  import static com.github.i49.hibiscus.validation.SchemaComponents.*;
+  import com.github.i49.hibiscus.schema.types.ObjectType;
+  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
 
   public class PersonValidator extends JsonValidator {
     private static final ObjectType schema = object(
@@ -117,14 +117,14 @@ ObjectType schema = object(
  such as line number and column number. This can be accomplished because the library do
  both loading and validating JSON contents at the same time, not after completely loading them.
 
-3. Use parsed JSON value.
+3. Use loaded JSON value as you like in your application.
 
   ```java
   JsonValue root = result.getValue();
   ```
    
-   Hibiscus does both reading and validating JSON at the same time.
-   It returns JSON primitives defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/) even when schema validation found some problems.
+   Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/),
+   even when JSON content does not satisfy the given schema.
 
 ## How to build
 
