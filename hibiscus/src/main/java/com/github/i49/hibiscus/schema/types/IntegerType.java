@@ -5,7 +5,7 @@ import com.github.i49.hibiscus.schema.TypeId;
 /**
  * JSON number without a fraction or exponent part.
  */
-public class IntegerType extends ValueType {
+public class IntegerType extends JsonType {
 
 	private static final IntegerType DEFAULT = new IntegerType();
 	

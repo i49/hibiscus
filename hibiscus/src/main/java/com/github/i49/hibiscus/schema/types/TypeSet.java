@@ -14,28 +14,28 @@ public class TypeSet {
 
 	public static final TypeSet EMPTY = new TypeSet();
 	
-	private final Map<TypeId, ValueType> map;
+	private final Map<TypeId, JsonType> map;
 	
 	public static TypeSet empty() {
 		return EMPTY;
 	}
 	
-	public static TypeSet of(ValueType type) {
+	public static TypeSet of(JsonType type) {
 		return new TypeSet().addType(type);
 	}
 	
-	public static TypeSet of(ValueType... types) {
+	public static TypeSet of(JsonType... types) {
 		TypeSet map = new TypeSet();
-		for (ValueType type: types) {
+		for (JsonType type: types) {
 			map.addType(type);
 		}
 		return map;
 	}
 	
-	public static TypeSet of(ValueType type, ValueType... moreTypes) {
+	public static TypeSet of(JsonType type, JsonType... moreTypes) {
 		TypeSet map = new TypeSet();
 		map.addType(type);
-		for (ValueType other: moreTypes) {
+		for (JsonType other: moreTypes) {
 			map.addType(other);
 		}
 		return map;
@@ -49,8 +49,8 @@ public class TypeSet {
 		return map.containsKey(typeId);
 	}
 
-	public ValueType getType(TypeId typeId) {
-		ValueType type = map.get(typeId);
+	public JsonType getType(TypeId typeId) {
+		JsonType type = map.get(typeId);
 		if (type != null) {
 			return type;
 		}
@@ -71,7 +71,7 @@ public class TypeSet {
 		return map.keySet();
 	}
 
-	private TypeSet addType(ValueType type) {
+	private TypeSet addType(JsonType type) {
 		if (type == null) {
 			throw new IllegalArgumentException();
 		}

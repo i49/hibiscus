@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -11,14 +11,14 @@ import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 public class StringValidationTest {
 
 	@Test
 	public void testValidateString() {
 		String json = "[\"abc\"]";
-		ValueType schema = array(string());
+		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -28,7 +28,7 @@ public class StringValidationTest {
 	@Test
 	public void testValidateBlankString() {
 		String json = "[\"\"]";
-		ValueType schema = array(string());
+		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -38,7 +38,7 @@ public class StringValidationTest {
 	@Test
 	public void testTypeMismatch() {
 		String json = "[123]";
-		ValueType schema = array(string());
+		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -52,7 +52,7 @@ public class StringValidationTest {
 	public void testMinLength() {
 		
 		String json = "[\"abc\"]";
-		ValueType schema = array(string().minLength(3));
+		JsonType schema = array(string().minLength(3));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -63,7 +63,7 @@ public class StringValidationTest {
 	public void testMinLength2() {
 		
 		String json = "[\"ab\"]";
-		ValueType schema = array(string().minLength(3));
+		JsonType schema = array(string().minLength(3));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -78,7 +78,7 @@ public class StringValidationTest {
 	public void testMaxLength() {
 		
 		String json = "[\"abcd\"]";
-		ValueType schema = array(string().maxLength(4));
+		JsonType schema = array(string().maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -89,7 +89,7 @@ public class StringValidationTest {
 	public void testMaxLength2() {
 		
 		String json = "[\"abcde\"]";
-		ValueType schema = array(string().maxLength(4));
+		JsonType schema = array(string().maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -103,7 +103,7 @@ public class StringValidationTest {
 	@Test
 	public void testMinAndMaxLength() {
 		String json = "[\"abcd\"]";
-		ValueType schema = array(string().minLength(3).maxLength(4));
+		JsonType schema = array(string().minLength(3).maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

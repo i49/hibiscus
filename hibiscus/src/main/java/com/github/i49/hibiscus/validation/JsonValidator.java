@@ -12,14 +12,14 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 /**
  * JSON validator which will be base class of your custom validator.  
  */
 public class JsonValidator {
 
-	private final ValueType rootType;
+	private final JsonType rootType;
 	
 	private final JsonParserFactory parserFactory;
 	private final JsonBuilderFactory builderFactory;
@@ -28,7 +28,7 @@ public class JsonValidator {
 	 * Constructs this validator.
 	 * @param rootType expected JSON type at root, which must be array or object.
 	 */
-	public JsonValidator(ValueType rootType) {
+	public JsonValidator(JsonType rootType) {
 		this.rootType = rootType;
 		this.parserFactory = createParserFactory();
 		this.builderFactory = createBuilderFactory();
@@ -38,7 +38,7 @@ public class JsonValidator {
 	 * Returns expected JSON type at root.
 	 * @return expected JSON type at root.
 	 */
-	public ValueType getRootType() {
+	public JsonType getRootType() {
 		return rootType;
 	}
 

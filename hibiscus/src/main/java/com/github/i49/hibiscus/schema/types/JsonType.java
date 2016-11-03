@@ -10,7 +10,7 @@ import com.github.i49.hibiscus.schema.problems.Problem;
 /**
  * The superclass of all types in JSON schema.
  */
-public abstract class ValueType {
+public abstract class JsonType {
 
 	/**
 	 * Returns type identifier of this type.

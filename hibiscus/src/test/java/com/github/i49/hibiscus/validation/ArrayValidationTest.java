@@ -1,11 +1,11 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.problems.ArraySizeProblem;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
 
@@ -14,7 +14,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testEmptyArray() {
 		String json = "[]";
-		ValueType schema = array();
+		JsonType schema = array();
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -24,7 +24,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testBooleans() {
 		String json = "[true, false, true]";
-		ValueType schema = array(bool());
+		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -34,7 +34,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testIntegers() {
 		String json = "[1, 2, 3, 4, 5]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -44,7 +44,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testNumbers() {
 		String json = "[1.2, 3.4, 5.6]";
-		ValueType schema = array(number());
+		JsonType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -54,7 +54,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testNulls() {
 		String json = "[null, null, null]";
-		ValueType schema = array(nullValue());
+		JsonType schema = array(nullValue());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -64,7 +64,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testStrings() {
 		String json = "[\"abc\", \"xyz\", \"123\"]";
-		ValueType schema = array(string());
+		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -74,7 +74,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMixed() {
 		String json = "[123, \"abc\", 456, \"xyz\"]";
-		ValueType schema = array(integer(), string());
+		JsonType schema = array(integer(), string());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -84,7 +84,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testArrays() {
 		String json = "[[1, 2, 3], [4, 5, 6]]";
-		ValueType schema = array(array(integer()));
+		JsonType schema = array(array(integer()));
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -94,7 +94,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testObjects() {
 		String json = "[{}, {}, {}]";
-		ValueType schema = array(object());
+		JsonType schema = array(object());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -104,7 +104,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMinItems() {
 		String json = "[1, 2, 3]";
-		ValueType schema = array(integer()).minItems(3);
+		JsonType schema = array(integer()).minItems(3);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -114,7 +114,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMinItems2() {
 		String json = "[1, 2]";
-		ValueType schema = array(integer()).minItems(3);
+		JsonType schema = array(integer()).minItems(3);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -128,7 +128,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMaxItems() {
 		String json = "[1, 2, 3, 4]";
-		ValueType schema = array(integer()).maxItems(4);
+		JsonType schema = array(integer()).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -138,7 +138,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMaxItems2() {
 		String json = "[1, 2, 3, 4, 5]";
-		ValueType schema = array(integer()).maxItems(4);
+		JsonType schema = array(integer()).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -152,7 +152,7 @@ public class ArrayValidationTest {
 	@Test
 	public void testMinAndMaxItems() {
 		String json = "[1, 2, 3, 4]";
-		ValueType schema = array(integer()).minItems(3).maxItems(4);
+		JsonType schema = array(integer()).minItems(3).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

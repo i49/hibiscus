@@ -22,7 +22,7 @@ import com.github.i49.hibiscus.schema.types.ArrayType;
 import com.github.i49.hibiscus.schema.types.ObjectType;
 import com.github.i49.hibiscus.schema.types.Property;
 import com.github.i49.hibiscus.schema.types.TypeSet;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 /**
  * JSON reader which reads and validates contents against specified schema.
@@ -50,7 +50,7 @@ class JsonValidatingReader {
 	 * @param expected expected root type which must be array or object.
 	 * @return JSON value at root.
 	 */
-	public JsonValue readAll(ValueType expected) {
+	public JsonValue readAll(JsonType expected) {
 		if (parser.hasNext()) {
 			TypeSet typeMap = TypeSet.of(expected);
 			return readValue(parser.next(), typeMap);
@@ -68,7 +68,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonArray readArray(TypeSet expected) {
-		ValueType type = validateType(TypeId.ARRAY, expected);
+		JsonType type = validateType(TypeId.ARRAY, expected);
 		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UnknownArrayType.INSTANCE;
 		JsonArray value = readArray(arrayType);
 		validateInstance(arrayType, value);
@@ -93,7 +93,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonObject readObject(TypeSet expected) {
-		ValueType type = validateType(TypeId.OBJECT, expected);
+		JsonType type = validateType(TypeId.OBJECT, expected);
 		ObjectType objectType = (type != null) ? ((ObjectType)type) : UnknownObjectType.INSTANCE;
 		JsonObject value = readObject(objectType);
 		validateInstance(objectType, value);
@@ -147,7 +147,7 @@ class JsonValidatingReader {
 	 */
 	private JsonValue readSimpleValue(JsonParser.Event event, TypeSet candidates) {
 		
-		ValueType type = null;
+		JsonType type = null;
 		JsonValue value = null;
 
 		switch (event) {
@@ -188,18 +188,18 @@ class JsonValidatingReader {
 		return validateInstance(type, value);
 	}
 	
-	private ValueType validateType(TypeId actual, TypeSet candidates) {
+	private JsonType validateType(TypeId actual, TypeSet candidates) {
 		if (candidates == null) {
 			return null;
 		}
-		ValueType type = candidates.getType(actual);
+		JsonType type = candidates.getType(actual);
 		if (type == null) {
 			addProblem(new TypeMismatchProblem(candidates.getTypeIds(), actual));
 		}
 		return type;
 	}
 	
-	private JsonValue validateInstance(ValueType type, JsonValue value) {
+	private JsonValue validateInstance(JsonType type, JsonValue value) {
 		if (type == null) {
 			return value;
 		}

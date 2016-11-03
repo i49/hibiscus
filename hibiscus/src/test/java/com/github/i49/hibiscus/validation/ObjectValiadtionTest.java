@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -15,7 +15,7 @@ import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.schema.types.ObjectType;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 public class ObjectValiadtionTest {
 
@@ -37,7 +37,7 @@ public class ObjectValiadtionTest {
 	@Test
 	public void testEmptyOject() {
 		String json = "{}";
-		ValueType schema = object();
+		JsonType schema = object();
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

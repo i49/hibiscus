@@ -16,7 +16,7 @@ public class Property {
 	 * @param moreTypes other types allowed for property value.
 	 * @param required whether the property is required or not in containing object.
 	 */
-	public Property(String name, ValueType type, ValueType[] moreTypes, boolean required) {
+	public Property(String name, JsonType type, JsonType[] moreTypes, boolean required) {
 		this.name = name;
 		this.typeSet = TypeSet.of(type, moreTypes);
 		this.required = required;

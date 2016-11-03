@@ -23,7 +23,7 @@ public class ArrayType extends ContainerType {
 	 * @param itemTypes types allowed for elements of the array. 
 	 * @return instance of array type.
 	 */
-	public static ArrayType of(ValueType[] itemTypes) {
+	public static ArrayType of(JsonType[] itemTypes) {
 		return new ArrayType(TypeSet.of(itemTypes));
 	}
 	

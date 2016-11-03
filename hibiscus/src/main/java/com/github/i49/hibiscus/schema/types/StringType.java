@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 /**
  * JSON type to hold string.
  */
-public class StringType extends ValueType {
+public class StringType extends JsonType {
 	
 	private static final StringType DEFAULT = new DefaultStringType();
 

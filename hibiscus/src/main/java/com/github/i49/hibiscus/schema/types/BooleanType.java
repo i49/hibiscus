@@ -5,7 +5,7 @@ import com.github.i49.hibiscus.schema.TypeId;
 /**
  * JSON boolean.
  */
-public class BooleanType extends ValueType {
+public class BooleanType extends JsonType {
 	
 	private static final BooleanType DEFAULT = new BooleanType();
 	

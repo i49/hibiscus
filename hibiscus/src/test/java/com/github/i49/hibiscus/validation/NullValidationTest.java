@@ -1,13 +1,13 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
 
@@ -16,7 +16,7 @@ public class NullValidationTest {
 	@Test
 	public void testValidateNull() {
 		String json = "[null]";
-		ValueType schema = array(nullValue());
+		JsonType schema = array(nullValue());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -26,7 +26,7 @@ public class NullValidationTest {
 	@Test
 	public void testTypeMismatch() {
 		String json = "[0]";
-		ValueType schema = array(bool());
+		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

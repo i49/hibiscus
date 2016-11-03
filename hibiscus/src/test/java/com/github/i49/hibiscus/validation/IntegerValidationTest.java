@@ -1,13 +1,13 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.types.ValueType;
+import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
 
@@ -16,7 +16,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteInteger() {
 		String json = "[123]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -26,7 +26,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteMaxInt() {
 		String json = "[2147483647]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -36,7 +36,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteMinInt() {
 		String json = "[-2147483648]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -46,7 +46,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteMaxLong() {
 		String json = "[9223372036854775807]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -56,7 +56,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteMinLong() {
 		String json = "[-9223372036854775808]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -66,7 +66,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testValiadteNumber() {
 		String json = "[123.45]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
@@ -79,7 +79,7 @@ public class IntegerValidationTest {
 	@Test
 	public void testTypeMismatch() {
 		String json = "[\"123\"]";
-		ValueType schema = array(integer());
+		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 

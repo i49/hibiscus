@@ -5,7 +5,7 @@ import com.github.i49.hibiscus.schema.TypeId;
 /**
  * JSON null value.
  */
-public class NullType extends ValueType {
+public class NullType extends JsonType {
 
 	/** The only available instance of this type. */
 	public static final NullType INSTANCE = new NullType();

@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.types.ObjectType;
-import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 
 public class JsonValidatorTest {
 

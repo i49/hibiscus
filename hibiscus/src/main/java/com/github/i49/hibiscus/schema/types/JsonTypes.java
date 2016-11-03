@@ -4,14 +4,14 @@ package com.github.i49.hibiscus.schema.types;
  * Provides utility methods to create building blocks of schema.
  * All methods of this class are static and this class cannot be instantiated.
  */
-public class SchemaComponents {
+public class JsonTypes {
 
 	/**
 	 * Creates array type.
 	 * @param itemTypes types allowed for elements in array.
 	 * @return array type.
 	 */
-	public static ArrayType array(ValueType... itemTypes) {
+	public static ArrayType array(JsonType... itemTypes) {
 		return ArrayType.of(itemTypes);
 	}
 
@@ -71,7 +71,7 @@ public class SchemaComponents {
 	 * @param moreTypes other types allowed for property value.
 	 * @return property.
 	 */
-	public static Property optional(String name, ValueType type, ValueType... moreTypes) {
+	public static Property optional(String name, JsonType type, JsonType... moreTypes) {
 		return new Property(name, type, moreTypes, false);
 	}
 	
@@ -82,10 +82,10 @@ public class SchemaComponents {
 	 * @param moreTypes other types allowed for property value.
 	 * @return property.
 	 */
-	public static Property required(String name, ValueType type, ValueType... moreTypes) {
+	public static Property required(String name, JsonType type, JsonType... moreTypes) {
 		return new Property(name, type, moreTypes, true);
 	}
 	
-	private SchemaComponents() {
+	private JsonTypes() {
 	}
 }
