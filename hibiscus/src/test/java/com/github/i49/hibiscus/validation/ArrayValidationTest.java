@@ -4,6 +4,7 @@ import static com.github.i49.schema.types.SchemaComponents.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import com.github.i49.schema.problems.ArraySizeProblem;
 import com.github.i49.schema.types.ValueType;
 
 import java.io.StringReader;
@@ -94,6 +95,64 @@ public class ArrayValidationTest {
 	public void testObjects() {
 		String json = "[{}, {}, {}]";
 		ValueType schema = array(object());
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+	
+	@Test
+	public void testMinItems() {
+		String json = "[1, 2, 3]";
+		ValueType schema = array(integer()).minItems(3);
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testMinItems2() {
+		String json = "[1, 2]";
+		ValueType schema = array(integer()).minItems(3);
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
+		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
+		assertEquals(3, p.getThreshold());
+		assertEquals(2, p.getActualSize());
+	}
+
+	@Test
+	public void testMaxItems() {
+		String json = "[1, 2, 3, 4]";
+		ValueType schema = array(integer()).maxItems(4);
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testMaxItems2() {
+		String json = "[1, 2, 3, 4, 5]";
+		ValueType schema = array(integer()).maxItems(4);
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
+		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
+		assertEquals(4, p.getThreshold());
+		assertEquals(5, p.getActualSize());
+	}
+	
+	@Test
+	public void testMinAndMaxItems() {
+		String json = "[1, 2, 3, 4]";
+		ValueType schema = array(integer()).minItems(3).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
