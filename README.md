@@ -51,7 +51,7 @@ ObjectType schema = object(
 2. Add `static import` statement that will help your schema building.
 
   ```java
-  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
   ```
 
 3. Define your schema as a class variable of your validator class.
@@ -59,7 +59,7 @@ ObjectType schema = object(
   ```java
   import com.github.i49.hibiscus.validation.JsonValidator;
   import com.github.i49.hibiscus.schema.types.ObjectType;
-  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 
   public class PersonValidator extends JsonValidator {
     private static final ObjectType schema = object(
@@ -75,7 +75,7 @@ ObjectType schema = object(
   ```java
   import com.github.i49.hibiscus.validation.JsonValidator;
   import com.github.i49.hibiscus.schema.types.ObjectType;
-  import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 
   public class PersonValidator extends JsonValidator {
     private static final ObjectType schema = object(
