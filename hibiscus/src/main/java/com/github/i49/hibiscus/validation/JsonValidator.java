@@ -42,12 +42,23 @@ public class JsonValidator {
 		return rootType;
 	}
 
+	/**
+	 * Validates during reading JSON content which comes from text reader.
+	 * @param reader a reader from which JSON is to be read.
+	 * @return validation result containing value read and found problems.
+	 */
 	public ValidationResult validate(Reader reader) {
 		try (JsonParser parser = this.parserFactory.createParser(reader)) {
 			return parse(parser);
 		}
 	}
 	
+	/**
+	 * Validates during reading JSON content which compes from byte stream.
+	 * @param stream byte stream from which JSON is to be read.
+	 * @param charset character set to be used to decode bytes into text.
+	 * @return validation result containing value read and found problems.
+	 */
 	public ValidationResult validate(InputStream stream, Charset charset) {
 		try (JsonParser parser = this.parserFactory.createParser(stream, charset)) {
 			return parse(parser);
@@ -60,11 +71,19 @@ public class JsonValidator {
 		return new ValidationResult(value, reader.getProblems());
 	}
 	
+	/**
+	 * Creates JSON parser which conforms to JSON Processing API.
+	 * @return JSON parser.
+	 */
 	protected JsonParserFactory createParserFactory() {
 		Map<String, ?> config = new HashMap<>();
 		return Json.createParserFactory(config);
 	}
 	
+	/**
+	 * Creates JSON builder which conforms to JSON Processing API.
+	 * @return JSON builder.
+	 */
 	protected JsonBuilderFactory createBuilderFactory() {
 		Map<String, ?> config = new HashMap<>();
 		return Json.createBuilderFactory(config);
