@@ -49,7 +49,7 @@ public class StringValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.INTEGER, p.getActualType());
+		assertEquals(TypeId.INTEGER, p.getInstanceType());
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class StringValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals("\"Q2\"", p.getActualValue().toString());
+		assertEquals("\"Q2\"", p.getInstanceValue().toString());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(4, expected.size());
 	}
@@ -99,7 +99,7 @@ public class StringValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
 		assertEquals(3, p.getThreshold());
-		assertEquals(2, p.getActualLength());
+		assertEquals(2, p.getInstanceLength());
 	}
 
 	@Test
@@ -125,7 +125,7 @@ public class StringValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
 		assertEquals(4, p.getThreshold());
-		assertEquals(5, p.getActualLength());
+		assertEquals(5, p.getInstanceLength());
 	}
 	
 	@Test

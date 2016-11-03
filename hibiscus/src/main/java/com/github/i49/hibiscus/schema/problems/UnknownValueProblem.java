@@ -5,28 +5,39 @@ import java.util.stream.Collectors;
 
 import javax.json.JsonValue;
 
+/**
+ * Problem that instance value is not found in values allowed for the type.
+ */
 public class UnknownValueProblem extends Problem {
 
 	private final Set<JsonValue> expected;
-	private final JsonValue actual;
+	private final JsonValue instance;
 	
-	public UnknownValueProblem(Set<JsonValue> expected, JsonValue actual) {
+	public UnknownValueProblem(Set<JsonValue> expected, JsonValue instance) {
 		this.expected = expected;
-		this.actual = actual;
+		this.instance = instance;
 	}
 	
+	/**
+	 * Returns allowed values for the type.
+	 * @return set of values.
+	 */
 	public Set<JsonValue> getExpectedValues() {
 		return expected;
 	}
 	
-	public JsonValue getActualValue() {
-		return actual;
+	/**
+	 * Returns value of JSON instance. 
+	 * @return instance value.
+	 */
+	public JsonValue getInstanceValue() {
+		return instance;
 	}
 
 	@Override
 	public String getMessage() {
 		StringBuilder b = new StringBuilder();
-		b.append(getActualValue()).append(" is not allowed. ");
+		b.append(getInstanceValue()).append(" is not allowed. ");
 		b.append("Expected values are: ");
 		b.append(getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", ")));
 		b.append(".");

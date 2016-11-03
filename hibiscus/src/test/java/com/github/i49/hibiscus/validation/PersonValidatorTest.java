@@ -91,19 +91,19 @@ public class PersonValidatorTest {
 		TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
 		assertEquals(1, p0.getExpectedTypes().size());
 		assertTrue(p0.getExpectedTypes().contains(TypeId.STRING));
-		assertEquals(TypeId.INTEGER, p0.getActualType());
+		assertEquals(TypeId.INTEGER, p0.getInstanceType());
 
 		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
 		assertEquals(1, p1.getExpectedTypes().size());
 		assertTrue(p1.getExpectedTypes().contains(TypeId.INTEGER));
-		assertEquals(TypeId.STRING, p1.getActualType());
+		assertEquals(TypeId.STRING, p1.getInstanceType());
 
 		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
 		assertEquals(1, p2.getExpectedTypes().size());
 		assertTrue(p2.getExpectedTypes().contains(TypeId.ARRAY));
-		assertEquals(TypeId.OBJECT, p2.getActualType());
+		assertEquals(TypeId.OBJECT, p2.getInstanceType());
 	}
 	
 	@Test

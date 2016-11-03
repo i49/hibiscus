@@ -77,7 +77,7 @@ public class IntegerValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.NUMBER, p.getActualType());
+		assertEquals(TypeId.NUMBER, p.getInstanceType());
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class IntegerValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.STRING, p.getActualType());
+		assertEquals(TypeId.STRING, p.getInstanceType());
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class IntegerValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(29, ((JsonNumber)p.getActualValue()).intValue());
+		assertEquals(29, ((JsonNumber)p.getInstanceValue()).intValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(3, expected.size());
 	}

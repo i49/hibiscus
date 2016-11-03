@@ -46,7 +46,7 @@ public class BooleanValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.STRING, p.getActualType());
+		assertEquals(TypeId.STRING, p.getInstanceType());
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ public class BooleanValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(JsonValue.FALSE, p.getActualValue());
+		assertEquals(JsonValue.FALSE, p.getInstanceValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(1, expected.size());
 	}

@@ -122,7 +122,7 @@ public class ArrayValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
 		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
 		assertEquals(3, p.getThreshold());
-		assertEquals(2, p.getActualSize());
+		assertEquals(2, p.getInstanceSize());
 	}
 
 	@Test
@@ -146,7 +146,7 @@ public class ArrayValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
 		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
 		assertEquals(4, p.getThreshold());
-		assertEquals(5, p.getActualSize());
+		assertEquals(5, p.getInstanceSize());
 	}
 	
 	@Test
