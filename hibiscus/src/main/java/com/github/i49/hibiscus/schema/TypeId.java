@@ -1,4 +1,4 @@
-package com.github.i49.schema;
+package com.github.i49.hibiscus.schema;
 
 /**
  * Type identifiers of primitive types in JSON schema.

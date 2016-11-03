@@ -1,4 +1,4 @@
-package com.github.i49.schema.problems;
+package com.github.i49.hibiscus.schema.problems;
 
 /**
  * Problem that object does not have a property which is specified as mandatory.

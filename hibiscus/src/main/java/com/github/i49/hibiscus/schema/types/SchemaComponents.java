@@ -1,4 +1,4 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
 public class SchemaComponents {
 

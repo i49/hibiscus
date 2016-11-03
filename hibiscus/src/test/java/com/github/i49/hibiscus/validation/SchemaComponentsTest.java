@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.schema.types.SchemaComponents.*;
+import static com.github.i49.hibiscus.schema.types.SchemaComponents.*;
 
 import org.junit.Test;
 

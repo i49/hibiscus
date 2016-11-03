@@ -1,11 +1,11 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
 import java.util.List;
 
 import javax.json.JsonValue;
 
-import com.github.i49.schema.TypeId;
-import com.github.i49.schema.problems.Problem;
+import com.github.i49.hibiscus.schema.TypeId;
+import com.github.i49.hibiscus.schema.problems.Problem;
 
 /**
  * The superclass of all types in JSON schema.

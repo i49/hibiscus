@@ -1,11 +1,11 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.validation.DuplicateTypeException;
-import com.github.i49.schema.TypeId;
 
 /**
  * Immutable set of JSON types.

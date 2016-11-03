@@ -1,13 +1,13 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
 import java.util.List;
 
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
-import com.github.i49.schema.TypeId;
-import com.github.i49.schema.problems.Problem;
-import com.github.i49.schema.problems.StringLengthProblem;
+import com.github.i49.hibiscus.schema.TypeId;
+import com.github.i49.hibiscus.schema.problems.Problem;
+import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 
 /**
  * JSON type to hold string.

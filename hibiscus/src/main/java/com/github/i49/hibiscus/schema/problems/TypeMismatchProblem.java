@@ -1,8 +1,8 @@
-package com.github.i49.schema.problems;
+package com.github.i49.hibiscus.schema.problems;
 
 import java.util.Set;
 
-import com.github.i49.schema.TypeId;
+import com.github.i49.hibiscus.schema.TypeId;
 
 /**
  * Problem that type of JSON instance does not match type specified in schema. 

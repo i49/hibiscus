@@ -1,4 +1,4 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,9 +9,9 @@ import java.util.Set;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
-import com.github.i49.schema.TypeId;
-import com.github.i49.schema.problems.MissingPropertyProblem;
-import com.github.i49.schema.problems.Problem;
+import com.github.i49.hibiscus.schema.TypeId;
+import com.github.i49.hibiscus.schema.problems.MissingPropertyProblem;
+import com.github.i49.hibiscus.schema.problems.Problem;
 
 /**
  * JSON object which can hold zero or more key-value pairs as members.

@@ -8,9 +8,9 @@ import java.nio.charset.StandardCharsets;
 
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ValidationResult;
-import com.github.i49.schema.problems.Problem;
 
 public abstract class JsonLoader {
 

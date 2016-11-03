@@ -1,6 +1,6 @@
-package com.github.i49.schema.types;
+package com.github.i49.hibiscus.schema.types;
 
-import com.github.i49.schema.TypeId;
+import com.github.i49.hibiscus.schema.TypeId;
 
 /**
  * JSON number without a fraction or exponent part.

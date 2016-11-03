@@ -1,4 +1,4 @@
-package com.github.i49.schema.problems;
+package com.github.i49.hibiscus.schema.problems;
 
 /**
  * Problem that array is too short or too long.

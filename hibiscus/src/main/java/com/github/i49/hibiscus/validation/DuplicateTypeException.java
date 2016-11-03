@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import com.github.i49.schema.TypeId;
+import com.github.i49.hibiscus.schema.TypeId;
 
 public class DuplicateTypeException extends SchemaException {
 
