@@ -8,15 +8,28 @@ public class ArraySizeProblem extends Problem {
 	private final int threshold;
 	private final int actualSize;
 	
+	/**
+	 * Constructs this problem.
+	 * @param threshold minimum or maximum number of elements allowed in array. 
+	 * @param actualSize actual number of elements in array.
+	 */
 	public ArraySizeProblem(int threshold, int actualSize) {
 		this.threshold = threshold;
 		this.actualSize = actualSize;
 	}
 
+	/**
+	 * Returns minimum or maximum number of elements allowed in array.
+	 * @return minimum or maximum threshold.
+	 */
 	public int getThreshold() {
 		return threshold;
 	}
 
+	/**
+	 * Returns actual number of elements in array.
+	 * @return actual number of elements.
+	 */
 	public int getActualSize() {
 		return actualSize;
 	}

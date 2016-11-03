@@ -62,7 +62,7 @@ public class ArrayType extends ContainerType {
 
 	/**
 	 * Specifies minimum number of elements in this array. 
-	 * @param size minimum number of elements
+	 * @param size minimum number of elements.
 	 * @return this array.
 	 */
 	public ArrayType minItems(int size) {
@@ -72,7 +72,7 @@ public class ArrayType extends ContainerType {
 
 	/**
 	 * Specifies maximum number of elements in this array. 
-	 * @param size maximum number of elements
+	 * @param size maximum number of elements.
 	 * @return this array.
 	 */
 	public ArrayType maxItems(int size) {
