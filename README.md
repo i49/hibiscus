@@ -15,7 +15,7 @@ Writing JSON schema in Java has following merits:
 
 ## Schema example
 
-As first example we assume that you have following JSON contents:
+As first example we assume that you have following JSON content:
 
 ```json
 {
@@ -26,7 +26,7 @@ As first example we assume that you have following JSON contents:
 }
 ```
 
-If you want to validate this JSON against appropriate schema, we can write the schema as Java codes like following:
+If you would like to validate this JSON against appropriate schema, we can write the schema as Java code like following:
 
 ```java
 ObjectType schema = object(
