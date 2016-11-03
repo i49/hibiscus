@@ -29,7 +29,7 @@ public class ArrayType extends ContainerType {
 	
 	/**
 	 * Constructs this array type.
-	 * @param typeset set of types allowed for elements of this array.
+	 * @param typeSet set of types allowed for elements of this array.
 	 */
 	protected ArrayType(TypeSet typeSet) {
 		this.typeSet = typeSet;
