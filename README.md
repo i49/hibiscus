@@ -25,7 +25,8 @@ As first example we assume that you have following JSON contents:
   "hobbies": ["shooting", "recollection"]
 }
 ```
-If you want to validate this JSON against adequate schema, we can write the schema in Java like following:
+
+If you want to validate this JSON against appropriate schema, we can write the schema as Java codes like following:
 
 ```java
 ObjectType schema = object(
@@ -111,6 +112,10 @@ ObjectType schema = object(
     System.out.println(p);
   }
   ```
+
+ One of nice features of Hibiscus is that it reports *where* these problems occurred at
+ such as line number and column number. This can be accomplished because the library do
+ both loading and validating JSON contents at the same time, not after completely loading them.
 
 3. Use parsed JSON value.
 
