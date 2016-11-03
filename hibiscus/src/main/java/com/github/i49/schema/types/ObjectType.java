@@ -8,9 +8,7 @@ import java.util.Set;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-import javax.json.stream.JsonLocation;
 
-import com.github.i49.hibiscus.validation.Property;
 import com.github.i49.schema.TypeId;
 import com.github.i49.schema.problems.MissingPropertyProblem;
 import com.github.i49.schema.problems.Problem;
@@ -28,10 +26,13 @@ public class ObjectType extends ContainerType {
 		return new ObjectType(properties);
 	}
 	
+	/**
+	 * Constructs object which has no property.
+	 */
 	protected ObjectType() {
 	}
 
-	private ObjectType(Property[] properties) {
+	protected ObjectType(Property[] properties) {
 		for (Property p: properties) {
 			this.properties.put(p.getName(), p);
 			if (p.isRequired()) {
@@ -51,15 +52,20 @@ public class ObjectType extends ContainerType {
 	}
 
 	@Override
-	public void validateInstance(JsonValue value, JsonLocation location, List<Problem> problems) {
+	public void validateInstance(JsonValue value, List<Problem> problems) {
 		JsonObject object = (JsonObject)value;
-		for (String key: this.required) {
-			if (!object.containsKey(key)) {
-				problems.add(new MissingPropertyProblem(key, location));
+		for (String name: this.required) {
+			if (!object.containsKey(name)) {
+				problems.add(new MissingPropertyProblem(name));
 			}
 		}
 	}
 
+	/**
+	 * Returns property which this object has.
+	 * @param name name of property.
+	 * @return a property if this object has property of specified name or null. 
+	 */
 	public Property getProperty(String name) {
 		return this.properties.get(name);
 	}

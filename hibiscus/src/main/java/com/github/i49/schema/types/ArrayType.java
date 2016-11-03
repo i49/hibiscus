@@ -1,6 +1,5 @@
 package com.github.i49.schema.types;
 
-import com.github.i49.hibiscus.validation.TypeMap;
 import com.github.i49.schema.TypeId;
 
 /**
@@ -8,18 +7,14 @@ import com.github.i49.schema.TypeId;
  */
 public class ArrayType extends ContainerType {
 
-	private final TypeMap typeMap;
+	private final TypeSet typeSet;
 
 	public static ArrayType of(ValueType[] itemTypes) {
-		return new ArrayType(TypeMap.of(itemTypes));
+		return new ArrayType(TypeSet.of(itemTypes));
 	}
 	
-	protected ArrayType() {
-		this.typeMap = TypeMap.empty();
-	}
-
-	protected ArrayType(TypeMap typeMap) {
-		this.typeMap = typeMap;
+	protected ArrayType(TypeSet typeSet) {
+		this.typeSet = typeSet;
 	}
 	
 	@Override
@@ -27,7 +22,7 @@ public class ArrayType extends ContainerType {
 		return TypeId.ARRAY;
 	}
 	
-	public TypeMap getItemTypes() {
-		return typeMap;
+	public TypeSet getItemTypes() {
+		return typeSet;
 	}
 }

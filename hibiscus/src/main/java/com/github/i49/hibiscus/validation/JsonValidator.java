@@ -14,6 +14,9 @@ import javax.json.stream.JsonParserFactory;
 
 import com.github.i49.schema.types.ValueType;
 
+/**
+ * JSON validator which will be base class of your custom validator.  
+ */
 public class JsonValidator {
 
 	private final ValueType rootType;
@@ -21,12 +24,20 @@ public class JsonValidator {
 	private final JsonParserFactory parserFactory;
 	private final JsonBuilderFactory builderFactory;
 	
+	/**
+	 * Constructs this validator.
+	 * @param rootType expected JSON type at root, which must be array or object.
+	 */
 	public JsonValidator(ValueType rootType) {
 		this.rootType = rootType;
 		this.parserFactory = createParserFactory();
 		this.builderFactory = createBuilderFactory();
 	}
 	
+	/**
+	 * Returns expected JSON type at root.
+	 * @return expected JSON type at root.
+	 */
 	public ValueType getRootType() {
 		return rootType;
 	}

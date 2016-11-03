@@ -1,6 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.json.JsonArray;
@@ -10,7 +11,6 @@ import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
-import javax.json.stream.JsonLocation;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.json.JsonValues;
@@ -20,28 +20,39 @@ import com.github.i49.schema.problems.TypeMismatchProblem;
 import com.github.i49.schema.problems.UnknownPropertyProblem;
 import com.github.i49.schema.types.ArrayType;
 import com.github.i49.schema.types.ObjectType;
+import com.github.i49.schema.types.Property;
+import com.github.i49.schema.types.TypeSet;
 import com.github.i49.schema.types.ValueType;
 
 /**
- * JSON reader which validates contents against given schema at the same time.
+ * JSON reader which reads and validates contents against specified schema.
+ * This class is to be instantiated on each reading of JSON content.
  */
 class JsonValidatingReader {
 
 	private final JsonParser parser;
 	private final JsonBuilderFactory factory;
 	private final List<Problem> problems = new ArrayList<>();
-	
-	private static final ArrayType UNKNOWN_ARRAY_TYPE = new UnknownArrayType();
-	private static final ObjectType UNKNOWN_OBJECT_TYPE = new UnknownObjectType();
+	private final List<Problem> lastProblems = new ArrayList<>();
 
+	/**
+	 * Constructs this reader.
+	 * @param parser JSON parser which conforms to JSON Processing API.
+	 * @param factory JSON builder which conforms to JSON Processing API. 
+	 */
 	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory factory) {
 		this.parser = parser;
 		this.factory = factory;
 	}
 	
+	/**
+	 * Reads all JSON contents.
+	 * @param expected expected root type which must be array or object.
+	 * @return JSON value at root.
+	 */
 	public JsonValue readAll(ValueType expected) {
 		if (parser.hasNext()) {
-			TypeMap typeMap = TypeMap.of(expected);
+			TypeSet typeMap = TypeSet.of(expected);
 			return readValue(parser.next(), typeMap);
 		} else {
 			return null;
@@ -49,24 +60,24 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Returns all problems found.
-	 * @return problems found
+	 * Returns all problems found by validation against schema.
+	 * @return all problems found.
 	 */
 	public List<Problem> getProblems() {
 		return problems;
 	}
 	
-	private JsonArray readArray(TypeMap expected) {
+	private JsonArray readArray(TypeSet expected) {
 		ValueType type = validateType(TypeId.ARRAY, expected);
-		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UNKNOWN_ARRAY_TYPE;
+		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UnknownArrayType.INSTANCE;
 		JsonArray value = readArray(arrayType);
-		arrayType.validateInstance(value, null, problems);
+		validateInstance(arrayType, value);
 		return value;
 	}
 	
 	private JsonArray readArray(ArrayType type) {
 		JsonArrayBuilder builder = this.factory.createArrayBuilder();
-		TypeMap itemTypes = type.getItemTypes();
+		TypeSet itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
 			if (event == JsonParser.Event.END_ARRAY) {
@@ -81,11 +92,11 @@ class JsonValidatingReader {
 		throw internalError();
 	}
 	
-	private JsonObject readObject(TypeMap expected) {
+	private JsonObject readObject(TypeSet expected) {
 		ValueType type = validateType(TypeId.OBJECT, expected);
-		ObjectType objectType = (type != null) ? ((ObjectType)type) : UNKNOWN_OBJECT_TYPE;
+		ObjectType objectType = (type != null) ? ((ObjectType)type) : UnknownObjectType.INSTANCE;
 		JsonObject value = readObject(objectType);
-		objectType.validateInstance(value, getLocation(), problems);
+		validateInstance(objectType, value);
 		return value;
 	}
 	
@@ -104,16 +115,21 @@ class JsonValidatingReader {
 		throw internalError();
 	}
 	
+	/**
+	 * Reads a property of object. 
+	 * @param object object containing the property.
+	 * @param builder object builder.
+	 */
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
-		String name = parser.getString();
-		TypeMap candidates = findPropertyType(object, name);
-		JsonValue value = readValue(parser.next(), candidates);
-		if (value != null) {
-			builder.add(name, value);
+		String propertyName = parser.getString();
+		TypeSet typeCandidates = findPropertyType(object, propertyName);
+		JsonValue propertyValue = readValue(parser.next(), typeCandidates);
+		if (propertyValue != null) {
+			builder.add(propertyName, propertyValue);
 		}
 	}
 	
-	private JsonValue readValue(JsonParser.Event event, TypeMap candidates) {
+	private JsonValue readValue(JsonParser.Event event, TypeSet candidates) {
 		if (event == JsonParser.Event.START_ARRAY) {
 			return readArray(candidates);
 		} else if (event == JsonParser.Event.START_OBJECT) {
@@ -123,7 +139,13 @@ class JsonValidatingReader {
 		}
 	}
 	
-	private JsonValue readSimpleValue(JsonParser.Event event, TypeMap candidates) {
+	/**
+	 * Reads simple JSON value such as string, integer, number, boolean or null.
+	 * @param event event provided by Streaming API.
+	 * @param candidates candidates of type.
+	 * @return instance value read.
+	 */
+	private JsonValue readSimpleValue(JsonParser.Event event, TypeSet candidates) {
 		
 		ValueType type = null;
 		JsonValue value = null;
@@ -163,64 +185,67 @@ class JsonValidatingReader {
 			throw internalError();
 		}
 		
-		if (type != null) {
-			type.validateInstance(value, null, problems);
-		}
-
-		return value;
+		return validateInstance(type, value);
 	}
 	
-	private ValueType validateType(TypeId actual, TypeMap candidates) {
+	private ValueType validateType(TypeId actual, TypeSet candidates) {
 		if (candidates == null) {
 			return null;
 		}
 		ValueType type = candidates.getType(actual);
 		if (type == null) {
-			addProblem(new TypeMismatchProblem(candidates.getTypeIds(), actual, getLocation()));
+			addProblem(new TypeMismatchProblem(candidates.getTypeIds(), actual));
 		}
 		return type;
 	}
 	
-	private TypeMap findPropertyType(ObjectType objectType, String propertyName) {
+	private JsonValue validateInstance(ValueType type, JsonValue value) {
+		if (type == null) {
+			return value;
+		}
+		type.validateInstance(value, lastProblems);
+		if (!lastProblems.isEmpty()) {
+			addProblems(lastProblems);
+			lastProblems.clear();
+		}
+		return value;
+	}
+	
+	private TypeSet findPropertyType(ObjectType objectType, String propertyName) {
 		Property property = objectType.getProperty(propertyName);
 		if (property == null) {
 			if (!objectType.allowsMoreProperties()) {
-				addProblem(new UnknownPropertyProblem(propertyName, getLocation()));
+				addProblem(new UnknownPropertyProblem(propertyName));
 			}
 			return null;
 		}
-		return property.getTypeMap();
+		return property.getTypeSet();
 	}
 
-	private JsonLocation getLocation() {
-		return parser.getLocation();
-	}
-	
+	/**
+	 * Adds problem found to list of problems.
+	 * @param problem problem found during the validation.
+	 */
 	private void addProblem(Problem problem) {
+		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
 	}
-	
+
+	/**
+	 * Adds multiple problems found to list of problems.
+	 * @param problems problems found during the validation.
+	 */
+	private void addProblems(Collection<Problem> problems) {
+		for (Problem p: problems) {
+			addProblem(p);
+		}
+	}
+
+	/**
+	 * Returns exception to be thrown when internal error was found.
+	 * @return exception which means internal error.
+	 */
 	private static JsonException internalError() {
 		return new JsonException("Internal Error");
-	}
-	
-	/**
-	 * Unknown array type.
-	 */
-	private static class UnknownArrayType extends ArrayType {
-		@Override
-		public TypeMap getItemTypes() {
-			return null;
-		}
-	}
-	
-	/**
-	 * Unknown object type.
-	 */
-	private static class UnknownObjectType extends ObjectType {
-		@Override
-		public boolean allowsMoreProperties() {
-			return true;
-		}
 	}
 }

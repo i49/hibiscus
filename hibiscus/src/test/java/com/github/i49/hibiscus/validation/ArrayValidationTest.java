@@ -1,12 +1,12 @@
 package com.github.i49.hibiscus.validation;
 
+import static com.github.i49.schema.types.SchemaComponents.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.i49.schema.types.ValueType;
 
 import java.io.StringReader;
-import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class ArrayValidationTest {
 

@@ -2,25 +2,38 @@ package com.github.i49.schema.problems;
 
 import java.util.Set;
 
-import javax.json.stream.JsonLocation;
-
 import com.github.i49.schema.TypeId;
 
+/**
+ * Problem that type of JSON instance does not match type specified in schema. 
+ */
 public class TypeMismatchProblem extends Problem {
 	
 	private final Set<TypeId> expected;
 	private final TypeId actual;
 
-	public TypeMismatchProblem(Set<TypeId> expected, TypeId actual, JsonLocation location) {
-		super(location);
+	/**
+	 * Constructs this problem.
+	 * @param expected expected types specified in schema.
+	 * @param actual actual type found in JSON instance.
+	 */
+	public TypeMismatchProblem(Set<TypeId> expected, TypeId actual) {
 		this.expected = expected;
 		this.actual = actual;
 	}
 	
+	/**
+	 * Returns expected types specified in schema.
+	 * @return expected types. 
+	 */
 	public Set<TypeId> getExpectedTypes() {
 		return expected;
 	}
 
+	/**
+	 * Returns actual type found in JSON instance.
+	 * @return actual type.
+	 */
 	public TypeId getActualType() {
 		return actual;
 	}

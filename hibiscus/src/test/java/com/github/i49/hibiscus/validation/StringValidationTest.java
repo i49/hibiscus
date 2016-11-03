@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
+import static com.github.i49.schema.types.SchemaComponents.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -10,8 +11,6 @@ import com.github.i49.schema.TypeId;
 import com.github.i49.schema.problems.Problem;
 import com.github.i49.schema.problems.TypeMismatchProblem;
 import com.github.i49.schema.types.ValueType;
-
-import static com.github.i49.hibiscus.validation.SchemaComponents.*;
 
 public class StringValidationTest {
 

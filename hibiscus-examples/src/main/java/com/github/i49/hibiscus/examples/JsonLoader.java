@@ -26,7 +26,9 @@ public abstract class JsonLoader {
 
 		InputStream stream = JsonLoader.class.getResourceAsStream(name);
 		try (Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+			long startTime = System.currentTimeMillis();
 			ValidationResult result = validator.validate(reader);
+			long endTime = System.currentTimeMillis();
 			if (result.hasProblems()) {
 				for (Problem p: result.getProblems()) {
 					System.out.println(p);
@@ -34,6 +36,7 @@ public abstract class JsonLoader {
 			} else {
 				System.out.println("No problem found.");
 			}
+			System.out.println("time: " + (endTime - startTime) + " [ms]");
 			System.out.println();
 			return result.getValue();
 		} catch (IOException e) {

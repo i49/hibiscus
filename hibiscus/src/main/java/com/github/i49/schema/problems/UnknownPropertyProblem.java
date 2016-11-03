@@ -1,16 +1,24 @@
 package com.github.i49.schema.problems;
 
-import javax.json.stream.JsonLocation;
-
+/**
+ * Problem that object has a property not defined in schema.
+ */
 public class UnknownPropertyProblem extends Problem {
 
 	private final String propertyName;
-	
-	public UnknownPropertyProblem(String propertyName, JsonLocation location) {
-		super(location);
+
+	/**
+	 * Constructs this problem.
+	 * @param propertyName name of unknown property.
+	 */
+	public UnknownPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
+	/**
+	 * Returns name of unknown property.
+	 * @return property name.
+	 */
 	public String getPropertyName() {
 		return propertyName;
 	}

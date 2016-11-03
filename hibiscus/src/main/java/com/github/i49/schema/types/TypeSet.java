@@ -1,36 +1,39 @@
-package com.github.i49.hibiscus.validation;
+package com.github.i49.schema.types;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.i49.hibiscus.validation.DuplicateTypeException;
 import com.github.i49.schema.TypeId;
-import com.github.i49.schema.types.ValueType;
 
-public class TypeMap {
+/**
+ * Immutable set of JSON types.
+ */
+public class TypeSet {
 
-	public static final TypeMap EMPTY = new TypeMap();
+	public static final TypeSet EMPTY = new TypeSet();
 	
 	private final Map<TypeId, ValueType> map;
 	
-	public static TypeMap empty() {
+	public static TypeSet empty() {
 		return EMPTY;
 	}
 	
-	public static TypeMap of(ValueType type) {
-		return new TypeMap().addType(type);
+	public static TypeSet of(ValueType type) {
+		return new TypeSet().addType(type);
 	}
 	
-	public static TypeMap of(ValueType... types) {
-		TypeMap map = new TypeMap();
+	public static TypeSet of(ValueType... types) {
+		TypeSet map = new TypeSet();
 		for (ValueType type: types) {
 			map.addType(type);
 		}
 		return map;
 	}
 	
-	public static TypeMap of(ValueType type, ValueType... moreTypes) {
-		TypeMap map = new TypeMap();
+	public static TypeSet of(ValueType type, ValueType... moreTypes) {
+		TypeSet map = new TypeSet();
 		map.addType(type);
 		for (ValueType other: moreTypes) {
 			map.addType(other);
@@ -38,7 +41,7 @@ public class TypeMap {
 		return map;
 	}
 	
-	private TypeMap() {
+	private TypeSet() {
 		this.map = new EnumMap<>(TypeId.class);
 	}
 
@@ -60,11 +63,15 @@ public class TypeMap {
 		return null;
 	}
 	
+	/**
+	 * Returns type identifiers in this set.
+	 * @return set of type identifiers.
+	 */
 	public Set<TypeId> getTypeIds() {
 		return map.keySet();
 	}
 
-	private TypeMap addType(ValueType type) {
+	private TypeSet addType(ValueType type) {
 		if (type == null) {
 			throw new IllegalArgumentException();
 		}
