@@ -115,7 +115,7 @@ ObjectType schema = object(
 
  One of nice features of Hibiscus is that it reports *where* these problems occurred at
  such as line number and column number. This can be accomplished because the library do
- both loading and validating JSON contents at the same time, not after completely loading them.
+ both loading and validating JSON content at the same time, not after completely loading it.
 
 3. Use loaded JSON value as you like in your application.
 
@@ -123,8 +123,8 @@ ObjectType schema = object(
   JsonValue root = result.getValue();
   ```
    
-   Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/),
-   even when JSON content does not satisfy the given schema.
+   Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
+   Please note it returns value even when the JSON content does not satisfy the given schema.
 
 ## How to build
 
