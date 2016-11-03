@@ -5,7 +5,7 @@ import com.github.i49.hibiscus.schema.TypeId;
 /**
  * JSON number including integer.
  */
-public class NumberType extends JsonType {
+public class NumberType extends SimpleType {
 
 	private static final NumberType DEFAULT = new NumberType();
 	

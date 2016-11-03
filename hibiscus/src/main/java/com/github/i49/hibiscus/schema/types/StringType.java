@@ -1,10 +1,13 @@
 package com.github.i49.hibiscus.schema.types;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
@@ -12,7 +15,7 @@ import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 /**
  * JSON type to hold string.
  */
-public class StringType extends JsonType {
+public class StringType extends SimpleType {
 	
 	private static final StringType DEFAULT = new DefaultStringType();
 
@@ -34,6 +37,7 @@ public class StringType extends JsonType {
 	
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
+		super.validateInstance(value, problems);
 		JsonString string = (JsonString)value;
 		int length = string.getString().length();
 		if (length < minLength) {
@@ -47,7 +51,7 @@ public class StringType extends JsonType {
 	/**
 	 * Specifies minimum number of characters in this string. 
 	 * @param length minimum number of characters.
-	 * @return this string.
+	 * @return this type.
 	 */
 	public StringType minLength(int length) {
 		this.minLength = length;
@@ -57,10 +61,24 @@ public class StringType extends JsonType {
 	/**
 	 * Specifies maximum number of characters in this string. 
 	 * @param length maximum number of characters.
-	 * @return this string.
+	 * @return this type.
 	 */
 	public StringType maxLength(int length) {
 		this.maxLength = length;
+		return this;
+	}
+	
+	/**
+	 * Specifies values allowed for this type.
+	 * @param values values allowed.
+	 * @return this type.
+	 */
+	public StringType values(String... values) {
+		Set<JsonValue> valueSet = new HashSet<>();
+		for (String value: values) {
+			valueSet.add(JsonValues.createString(value));
+		}
+		setValueSet(valueSet);
 		return this;
 	}
 	
@@ -82,6 +100,11 @@ public class StringType extends JsonType {
 		@Override
 		public StringType maxLength(int length) {
 			return new StringType().maxLength(length);
+		}
+		
+		@Override
+		public StringType values(String... values) {
+			return new StringType().values(values);
 		}
 	}
 }

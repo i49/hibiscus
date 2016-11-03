@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.schema.problems.Problem;
 /**
  * JSON array which can have zero or more values as elements.
  */
-public class ArrayType extends ContainerType {
+public class ArrayType extends ComplexType {
 
 	private final TypeSet typeSet;
 	private int minItems = 0;
