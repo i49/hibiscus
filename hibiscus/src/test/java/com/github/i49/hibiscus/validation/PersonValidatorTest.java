@@ -1,12 +1,9 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.json.JsonObject;
@@ -14,6 +11,9 @@ import javax.json.JsonValue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.validation.Resources.*;
 
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.MissingPropertyProblem;
@@ -40,10 +40,10 @@ public class PersonValidatorTest {
 	}
 
 	@Test
-	public void testRead() throws Exception {
+	public void testRead() throws IOException {
 
 		ValidationResult result = null;
-		try (Reader reader = openReader("person.json")) {
+		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
 		}
 		
@@ -58,10 +58,10 @@ public class PersonValidatorTest {
 	}
 	
 	@Test
-	public void testMissingProperty() throws Exception {
+	public void testMissingProperty() throws IOException {
 		
 		ValidationResult result = null;
-		try (Reader reader = openReader("person-missing-property.json")) {
+		try (Reader reader = newReader("person-missing-property.json")) {
 			result = validator.validate(reader);
 		}
 		
@@ -75,10 +75,10 @@ public class PersonValidatorTest {
 	}
 	
 	@Test
-	public void testTypeMismatch() throws Exception {
+	public void testTypeMismatch() throws IOException {
 
 		ValidationResult result = null;
-		try (Reader reader = openReader("person-type-mismatch.json")) {
+		try (Reader reader = newReader("person-type-mismatch.json")) {
 			result = validator.validate(reader);
 		}
 		
@@ -107,10 +107,10 @@ public class PersonValidatorTest {
 	}
 	
 	@Test
-	public void testUnknownProperties() throws Exception {
+	public void testUnknownProperties() throws IOException {
 		
 		ValidationResult result = null;
-		try (Reader reader = openReader("person-unknown-property.json")) {
+		try (Reader reader = newReader("person-unknown-property.json")) {
 			result = validator.validate(reader);
 		}
 		
@@ -121,10 +121,5 @@ public class PersonValidatorTest {
 		Problem p = problems.get(0);
 		assertTrue(p instanceof UnknownPropertyProblem);
 		assertEquals("birthplace", ((UnknownPropertyProblem)p).getPropertyName());
-	}
-	
-	private static Reader openReader(String name) {
-		InputStream stream = PersonValidatorTest.class.getResourceAsStream(name);
-		return new InputStreamReader(stream, StandardCharsets.UTF_8);
 	}
 }

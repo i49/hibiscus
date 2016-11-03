@@ -4,7 +4,7 @@ import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 
 import org.junit.Test;
 
-public class SchemaComponentsTest {
+public class JsonTypesTest {
 
 	@Test(expected = DuplicateTypeException.class)
 	public void testDuplicateType() {

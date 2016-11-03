@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
@@ -15,6 +14,7 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.types.ObjectType;
 import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.validation.Resources.*;
 
 public class JsonValidatorTest {
 
@@ -36,7 +36,7 @@ public class JsonValidatorTest {
 	@Test
 	public void testValidateJsonFromReader() throws IOException {
 		ValidationResult result = null; 
-		try (Reader reader = openReader("person.json")) {
+		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
 		}
 
@@ -47,20 +47,11 @@ public class JsonValidatorTest {
 	@Test
 	public void testValidateJsonFromInputStream() throws IOException {
 		ValidationResult result = null; 
-		try (InputStream stream = openStream("person.json")) {
+		try (InputStream stream = newInputStream("person.json")) {
 			result = validator.validate(stream, StandardCharsets.UTF_8);
 		}
 
 		assertFalse(result.hasProblems());
 		assertTrue(result.getValue() instanceof JsonObject);
-	}
-	
-	private static InputStream openStream(String name) {
-		return JsonValidatorTest.class.getResourceAsStream(name);
-	}
-	
-	private static Reader openReader(String name) {
-		InputStream stream = openStream(name);
-		return new InputStreamReader(stream, StandardCharsets.UTF_8);
 	}
 }
