@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
+import com.github.i49.hibiscus.schema.problems.StringPatternProblem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
@@ -135,5 +136,28 @@ public class StringValidationTest {
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
+	}
+	
+	@Test
+	public void testPattern() {
+		String json = "[\"123-45-6789\"]";
+		JsonType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testPattern2() {
+		String json = "[\"9876-54-321\"]";
+		JsonType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
+		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
+		assertEquals("9876-54-321", p.getInstanceValue());
 	}
 }
