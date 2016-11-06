@@ -4,12 +4,18 @@ import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import com.github.i49.hibiscus.schema.Range;
 import com.github.i49.hibiscus.schema.TypeId;
+import com.github.i49.hibiscus.schema.problems.ExclusiveLowerNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.ExclusiveUpperNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.LowerNumberRangeProblem;
 import com.github.i49.hibiscus.schema.problems.Problem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.schema.problems.UpperNumberRangeProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
+import java.math.BigDecimal;
 
 public class NumberValidationTest {
 
@@ -54,5 +60,129 @@ public class NumberValidationTest {
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getInstanceType());
+	}
+
+	@Test
+	public void testMinimum() {
+		String json = "[12.340]";
+		JsonType schema = array(number().min(new BigDecimal("12.34")));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testLessThanMinimum() {
+		String json = "[12.33]";
+		JsonType schema = array(number().min(new BigDecimal("12.34")));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof LowerNumberRangeProblem);
+		LowerNumberRangeProblem p = (LowerNumberRangeProblem)result.getProblems().get(0);
+		assertEquals(new BigDecimal("12.33"), p.getInstanceValue());
+		Range<BigDecimal> range = p.getRangeInSchema();
+		assertTrue(range.hasMinimum());
+		assertFalse(range.hasExlusiveMinimum());
+		assertFalse(range.hasMaximum());
+		assertFalse(range.hasExclusiveMaximum());
+		assertEquals(new BigDecimal("12.34"), range.getMinimum());
+	}
+
+	@Test
+	public void testExclusiveMinimum() {
+		String json = "[12.35]";
+		JsonType schema = array(number().min(new BigDecimal("12.34")).exclusiveMin(true));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testEqualToExclusiveMinimum() {
+		String json = "[12.340]";
+		JsonType schema = array(number().min(new BigDecimal("12.34")).exclusiveMin(true));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerNumberRangeProblem);
+		ExclusiveLowerNumberRangeProblem p = (ExclusiveLowerNumberRangeProblem)result.getProblems().get(0);
+		assertEquals(new BigDecimal("12.340"), p.getInstanceValue());
+		Range<BigDecimal> range = p.getRangeInSchema();
+		assertTrue(range.hasMinimum());
+		assertTrue(range.hasExlusiveMinimum());
+		assertFalse(range.hasMaximum());
+		assertFalse(range.hasExclusiveMaximum());
+		assertEquals(new BigDecimal("12.34"), range.getMinimum());
+	}
+
+	@Test
+	public void testMaximum() {
+		String json = "[56.780]";
+		JsonType schema = array(number().max(new BigDecimal("56.78")));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testGreaterThanMaximum() {
+		String json = "[56.79]";
+		JsonType schema = array(number().max(new BigDecimal("56.78")));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof UpperNumberRangeProblem);
+		UpperNumberRangeProblem p = (UpperNumberRangeProblem)result.getProblems().get(0);
+		assertEquals(new BigDecimal("56.79"), p.getInstanceValue());
+		Range<BigDecimal> range = p.getRangeInSchema();
+		assertFalse(range.hasMinimum());
+		assertFalse(range.hasExlusiveMinimum());
+		assertTrue(range.hasMaximum());
+		assertFalse(range.hasExclusiveMaximum());
+		assertEquals(new BigDecimal("56.78"), range.getMaximum());
+	}
+
+	@Test
+	public void testExclusiveMaximum() {
+		String json = "[56.77]";
+		JsonType schema = array(number().max(new BigDecimal("56.78")).exclusiveMax(true));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertFalse(result.hasProblems());
+	}
+
+	@Test
+	public void testEqualToExclusiveMaximum() {
+		String json = "[56.780]";
+		JsonType schema = array(number().max(new BigDecimal("56.78")).exclusiveMax(true));
+		
+		JsonValidator validator = new JsonValidator(schema);
+		ValidationResult result = validator.validate(new StringReader(json));
+
+		assertEquals(1, result.getProblems().size());
+		assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperNumberRangeProblem);
+		ExclusiveUpperNumberRangeProblem p = (ExclusiveUpperNumberRangeProblem)result.getProblems().get(0);
+		assertEquals(new BigDecimal("56.780"), p.getInstanceValue());
+		Range<BigDecimal> range = p.getRangeInSchema();
+		assertFalse(range.hasMinimum());
+		assertFalse(range.hasExlusiveMinimum());
+		assertTrue(range.hasMaximum());
+		assertTrue(range.hasExclusiveMaximum());
+		assertEquals(new BigDecimal("56.78"), range.getMaximum());
 	}
 }

@@ -36,7 +36,8 @@ public abstract class JsonLoader {
 			} else {
 				System.out.println("No problem found.");
 			}
-			System.out.println("time: " + (endTime - startTime) + " [ms]");
+			double elapsed = (endTime - startTime) * 0.001;
+			System.out.println("Time elapsed: " + elapsed + " seconds");
 			System.out.println();
 			return result.getValue();
 		} catch (IOException e) {

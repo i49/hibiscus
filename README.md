@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator against schema defined by Java-based DSL. 
+Hibiscus is JSON validator which verifies that JSON content conforms to schema defined by Java-based DSL. 
 
 ## Why do we write JSON schema in Java?
 Writing JSON schema in Java has following merits:
