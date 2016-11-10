@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
 import java.util.Set;
 
 import com.github.i49.hibiscus.schema.TypeId;
@@ -39,11 +40,9 @@ public class TypeMismatchProblem extends Problem {
 	}
 
 	@Override
-	public String getMessage() {
-		StringBuilder b = new StringBuilder();
-		b.append("Type mismatch. ");
-		b.append("expected: ").append(getExpectedTypes().toString().toLowerCase());
-		b.append(", instance: ").append(getInstanceType().toString().toLowerCase());
-		return b.toString();
+	public String getMessage(Locale locale) {
+		String instanceType = getInstanceType().toString().toLowerCase();
+		String expectedType = getExpectedTypes().toString().toLowerCase();
+		return localize(locale, instanceType, expectedType);
 	}
 }

@@ -146,6 +146,9 @@ public class ObjectValiadtionTest {
 
 		MissingPropertyProblem p = (MissingPropertyProblem)problems.get(0);
 		assertEquals("d", p.getPropertyName());
+		
+		String m = p.getMessage();
+		assertNotNull(m);
 	}
 	
 	private static String jsonWithUnknownProperty() {
@@ -175,6 +178,9 @@ public class ObjectValiadtionTest {
 
 		UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
 		assertEquals("h", p.getPropertyName());
+
+		String m = p.getMessage();
+		assertNotNull(m);
 	}
 	
 	@Test

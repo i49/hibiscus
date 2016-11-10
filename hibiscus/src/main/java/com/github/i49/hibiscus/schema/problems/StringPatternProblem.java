@@ -1,7 +1,9 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
+
 /**
- * Problems that string value does not match predefined pattern.
+ * Problems that string value does not match expected pattern.
  */
 public class StringPatternProblem extends Problem {
 
@@ -16,11 +18,7 @@ public class StringPatternProblem extends Problem {
 	}
 
 	@Override
-	public String getMessage() {
-		StringBuilder b = new StringBuilder();
-		b.append("String value does not match predefined pattern. value is: ");
-		b.append(getInstanceValue());
-		return b.toString();
+	public String getMessage(Locale locale) {
+		return localize(locale, getInstanceValue());
 	}
-
 }

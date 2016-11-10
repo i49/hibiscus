@@ -63,7 +63,7 @@ public class StringValidationTest {
 	}
 	
 	@Test
-	public void testValues2() {
+	public void testValuesNotAllowed() {
 		String json = "[\"Q2\"]";
 		JsonType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
 		JsonValidator validator = new JsonValidator(schema);
@@ -75,6 +75,9 @@ public class StringValidationTest {
 		assertEquals("\"Q2\"", p.getInstanceValue().toString());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(4, expected.size());
+		
+		String m = p.getMessage();
+		assertNotNull(m);
 	}
 
 	@Test
@@ -149,7 +152,7 @@ public class StringValidationTest {
 	}
 
 	@Test
-	public void testPattern2() {
+	public void testUnmatchedPattern() {
 		String json = "[\"9876-54-321\"]";
 		JsonType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
 		JsonValidator validator = new JsonValidator(schema);
@@ -159,5 +162,7 @@ public class StringValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
 		assertEquals("9876-54-321", p.getInstanceValue());
+		String m = p.getMessage();
+		assertNotNull(m);
 	}
 }

@@ -1,5 +1,7 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
+
 /**
  * Problem that object does not have a property which is specified as mandatory.
  */
@@ -24,7 +26,7 @@ public class MissingPropertyProblem extends Problem {
 	}
 
 	@Override
-	public String getMessage() {
-		return "Property \"" + getPropertyName() + "\" is required.";
+	public String getMessage(Locale locale) {
+		return localize(locale, getPropertyName());
 	}
 }

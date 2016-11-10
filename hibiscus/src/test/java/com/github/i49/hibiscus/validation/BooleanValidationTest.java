@@ -47,6 +47,8 @@ public class BooleanValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.STRING, p.getInstanceType());
+		String m = p.getMessage();
+		assertNotNull(m);
 	}
 	
 	@Test

@@ -8,11 +8,11 @@ import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.schema.Range;
 import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.ExclusiveLowerNumberRangeProblem;
-import com.github.i49.hibiscus.schema.problems.ExclusiveUpperNumberRangeProblem;
-import com.github.i49.hibiscus.schema.problems.LowerNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.NotMoreThanMinimumProblem;
+import com.github.i49.hibiscus.schema.problems.NotLessThanMaximumProblem;
+import com.github.i49.hibiscus.schema.problems.LessThanMinimumProblem;
 import com.github.i49.hibiscus.schema.problems.Problem;
-import com.github.i49.hibiscus.schema.problems.UpperNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.MoreThanMaximumProblem;
 
 /**
  * JSON number including integer.
@@ -118,11 +118,11 @@ public class NumberType extends SimpleType {
 			int result = value.compareTo(this.minimum);
 			if (this.exclusiveMinimum) {
 				if (result <= 0) {
-					problems.add(new ExclusiveLowerNumberRangeProblem(value, createRange()));
+					problems.add(new NotMoreThanMinimumProblem(value, createRange()));
 				}
 			} else {
 				if (result < 0) {
-					problems.add(new LowerNumberRangeProblem(value, createRange()));
+					problems.add(new LessThanMinimumProblem(value, createRange()));
 				}
 			}
 		}
@@ -130,11 +130,11 @@ public class NumberType extends SimpleType {
 			int result = value.compareTo(this.maximum);
 			if (this.exclusiveMaximum) {
 				if (result >= 0) {
-					problems.add(new ExclusiveUpperNumberRangeProblem(value, createRange()));
+					problems.add(new NotLessThanMaximumProblem(value, createRange()));
 				}
 			} else {
 				if (result > 0) {
-					problems.add(new UpperNumberRangeProblem(value, createRange()));
+					problems.add(new MoreThanMaximumProblem(value, createRange()));
 				}
 			}
 		}

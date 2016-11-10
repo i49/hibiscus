@@ -1,5 +1,7 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
+
 /**
  * Problem that array is too short or too long.
  */
@@ -35,7 +37,7 @@ public class ArraySizeProblem extends Problem {
 	}
 	
 	@Override
-	public String getMessage() {
+	public String getMessage(Locale locale) {
 		StringBuilder b = new StringBuilder();
 		if (getInstanceSize() < getThreshold()) {
 			b.append("Array is too short. It must have at least ");

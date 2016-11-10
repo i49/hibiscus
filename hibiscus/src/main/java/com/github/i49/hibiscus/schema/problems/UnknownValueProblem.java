@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,12 +36,8 @@ public class UnknownValueProblem extends Problem {
 	}
 
 	@Override
-	public String getMessage() {
-		StringBuilder b = new StringBuilder();
-		b.append(getInstanceValue()).append(" is not allowed. ");
-		b.append("Expected values are: ");
-		b.append(getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", ")));
-		b.append(".");
-		return b.toString();
+	public String getMessage(Locale locale) {
+		String allowedValues = getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", "));
+		return localize(locale, getInstanceValue(), allowedValues);
 	}
 }

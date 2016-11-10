@@ -6,12 +6,12 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.Range;
 import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.ExclusiveLowerNumberRangeProblem;
-import com.github.i49.hibiscus.schema.problems.ExclusiveUpperNumberRangeProblem;
-import com.github.i49.hibiscus.schema.problems.LowerNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.NotMoreThanMinimumProblem;
+import com.github.i49.hibiscus.schema.problems.NotLessThanMaximumProblem;
+import com.github.i49.hibiscus.schema.problems.LessThanMinimumProblem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.problems.UpperNumberRangeProblem;
+import com.github.i49.hibiscus.schema.problems.MoreThanMaximumProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
@@ -144,10 +144,10 @@ public class IntegerValidationTest {
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof LowerNumberRangeProblem);
-		LowerNumberRangeProblem p = (LowerNumberRangeProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
+		LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
 		assertEquals(27, p.getInstanceValue().intValue());
-		Range<BigDecimal> range = p.getRangeInSchema();
+		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
 		assertFalse(range.hasMaximum());
@@ -175,10 +175,10 @@ public class IntegerValidationTest {
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerNumberRangeProblem);
-		ExclusiveLowerNumberRangeProblem p = (ExclusiveLowerNumberRangeProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
+		NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
 		assertEquals(28, p.getInstanceValue().intValue());
-		Range<BigDecimal> range = p.getRangeInSchema();
+		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertTrue(range.hasExlusiveMinimum());
 		assertFalse(range.hasMaximum());
@@ -206,10 +206,10 @@ public class IntegerValidationTest {
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UpperNumberRangeProblem);
-		UpperNumberRangeProblem p = (UpperNumberRangeProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
+		MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
 		assertEquals(32, p.getInstanceValue().intValue());
-		Range<BigDecimal> range = p.getRangeInSchema();
+		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
 		assertTrue(range.hasMaximum());
@@ -237,10 +237,10 @@ public class IntegerValidationTest {
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperNumberRangeProblem);
-		ExclusiveUpperNumberRangeProblem p = (ExclusiveUpperNumberRangeProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
+		NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
 		assertEquals(31, p.getInstanceValue().intValue());
-		Range<BigDecimal> range = p.getRangeInSchema();
+		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
 		assertTrue(range.hasMaximum());

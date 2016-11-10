@@ -1,5 +1,9 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.json.stream.JsonLocation;
 
 /**
@@ -8,6 +12,8 @@ import javax.json.stream.JsonLocation;
 public abstract class Problem {
 
 	private JsonLocation location;
+	
+	private static final String BUNDLE_BASE_NAME = "com.github.i49.hibiscus.schema.problems.messages";
 	
 	/**
 	 * Constructs this problem.
@@ -50,10 +56,22 @@ public abstract class Problem {
 		b.append(": ").append(getMessage());
 		return b.toString();
 	}
+	
 
 	/**
 	 * Builds and returns an error message of this problem.
 	 * @return error message.
 	 */
-	public abstract String getMessage();
+	public String getMessage() {
+		return getMessage(Locale.getDefault());
+	}
+	
+	public abstract String getMessage(Locale locale);
+
+	protected String localize(Locale locale, Object... arguments) {
+		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
+		String key = getClass().getSimpleName();
+		String pattern = bundle.getString(key);
+		return MessageFormat.format(pattern, arguments);
+	}
 }

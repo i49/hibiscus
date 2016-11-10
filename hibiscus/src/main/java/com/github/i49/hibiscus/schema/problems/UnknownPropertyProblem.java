@@ -1,5 +1,7 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import java.util.Locale;
+
 /**
  * Problem that object has a property not defined in schema.
  */
@@ -24,8 +26,7 @@ public class UnknownPropertyProblem extends Problem {
 	}
 	
 	@Override
-	public String getMessage() {
-		return "Property \"" + getPropertyName() + "\" is not allowed.";
+	public String getMessage(Locale locale) {
+		return localize(locale, getPropertyName());
 	}
-
 }
