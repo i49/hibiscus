@@ -17,5 +17,13 @@ public enum TypeId {
 	/** A JSON object. */
 	OBJECT,
 	/** A JSON string. */
-	STRING
+	STRING;
+	
+	/**
+	 * Returns string of lower cases.
+	 * @return string of lower cases. 
+	 */
+	public String toLowerCase() {
+		return name().toLowerCase();
+	}
 }

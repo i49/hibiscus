@@ -2,6 +2,7 @@ package com.github.i49.hibiscus.schema.problems;
 
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.github.i49.hibiscus.schema.TypeId;
 
@@ -24,14 +25,6 @@ public class TypeMismatchProblem extends Problem {
 	}
 	
 	/**
-	 * Returns expected types specified in schema.
-	 * @return expected types. 
-	 */
-	public Set<TypeId> getExpectedTypes() {
-		return expectedType;
-	}
-
-	/**
 	 * Returns actual type found in JSON instance.
 	 * @return actual type.
 	 */
@@ -39,10 +32,18 @@ public class TypeMismatchProblem extends Problem {
 		return actualType;
 	}
 
+	/**
+	 * Returns expected types specified in schema.
+	 * @return expected types. 
+	 */
+	public Set<TypeId> getExpectedTypes() {
+		return expectedType;
+	}
+
 	@Override
 	public String getMessage(Locale locale) {
-		String actualType = getActualType().toString().toLowerCase();
-		String expectedType = getExpectedTypes().toString().toLowerCase();
+		String actualType = getActualType().toLowerCase();
+		String expectedType = getExpectedTypes().stream().map(TypeId::toLowerCase).collect(Collectors.joining(", "));
 		return localize(locale, actualType, expectedType);
 	}
 }
