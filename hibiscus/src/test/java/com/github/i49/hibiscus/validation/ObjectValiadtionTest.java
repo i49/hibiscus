@@ -17,12 +17,14 @@ import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.schema.types.ObjectType;
 import com.github.i49.hibiscus.schema.types.JsonType;
 
-public class ObjectValiadtionTest {
+public class ObjectValiadtionTest extends BaseValidationTest {
 
 	private ObjectType schema;
 	
 	@Before
+	@Override
 	public void setUp() {
+		super.setUp();
 		schema = object(
 				required("a", string()),
 				required("b", integer()),
@@ -35,17 +37,17 @@ public class ObjectValiadtionTest {
 	}
 
 	@Test
-	public void testEmptyOject() {
+	public void emptyObject() {
 		String json = "{}";
 		JsonType schema = object();
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testObject() {
+	public void normalObject() {
 
 		String json = "{"
 				+ "\"a\": \"abc\","
@@ -58,13 +60,13 @@ public class ObjectValiadtionTest {
 				+ "}";
 
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testTypeMismatch() {
+	public void objectOfWrongTypes() {
 	
 		String json = "{"
 				+ "\"a\": \"abc\","
@@ -77,19 +79,19 @@ public class ObjectValiadtionTest {
 				+ "}";
 
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
-		assertTrue(result.hasProblems());
 		assertEquals(1, result.getProblems().size());
 		
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertTrue(((TypeMismatchProblem)p).getExpectedTypes().contains(TypeId.NUMBER));
 		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getInstanceType());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testTypeMismatch2() {
+	public void objectOfMultipleWrongTypes() {
 	
 		String json = "{"
 				+ "\"a\": 123,"
@@ -102,9 +104,8 @@ public class ObjectValiadtionTest {
 				+ "}";
 
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
-		assertTrue(result.hasProblems());
 		List<Problem> problems = result.getProblems();
 		assertEquals(7, problems.size());
 		
@@ -125,7 +126,7 @@ public class ObjectValiadtionTest {
 	}
 	
 	@Test
-	public void testMissingProperty() {
+	public void objectWithMissingProperty() {
 
 		String json = "{"
 				+ "\"a\": \"abc\","
@@ -137,18 +138,13 @@ public class ObjectValiadtionTest {
 				+ "}";
 
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
-		assertTrue(result.hasProblems());
-		
 		List<Problem> problems = result.getProblems();
 		assertEquals(1, problems.size());
-
 		MissingPropertyProblem p = (MissingPropertyProblem)problems.get(0);
 		assertEquals("d", p.getPropertyName());
-		
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 	
 	private static String jsonWithUnknownProperty() {
@@ -165,26 +161,21 @@ public class ObjectValiadtionTest {
 	}
 	
 	@Test
-	public void testUnknownProperty() {
+	public void objectWithUnknownProperty() {
 		
 		String json = jsonWithUnknownProperty();
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
-		assertTrue(result.hasProblems());
-		
 		List<Problem> problems = result.getProblems();
 		assertEquals(1, problems.size());
-
 		UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
 		assertEquals("h", p.getPropertyName());
-
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testMoreProperties() {
+	public void objectWithMoreProperties() {
 		
 		String json = jsonWithUnknownProperty();
 		JsonValidator validator = new JsonValidator(schema.moreProperties());

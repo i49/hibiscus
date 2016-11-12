@@ -34,7 +34,7 @@ public class JsonValidatorTest {
 	}
 	
 	@Test
-	public void testValidateJsonFromReader() throws IOException {
+	public void jsonFromReader() throws IOException {
 		ValidationResult result = null; 
 		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
@@ -45,7 +45,7 @@ public class JsonValidatorTest {
 	}
 
 	@Test
-	public void testValidateJsonFromInputStream() throws IOException {
+	public void jsonFromInputStream() throws IOException {
 		ValidationResult result = null; 
 		try (InputStream stream = newInputStream("person.json")) {
 			result = validator.validate(stream, StandardCharsets.UTF_8);

@@ -21,100 +21,102 @@ import java.util.Set;
 import javax.json.JsonNumber;
 import javax.json.JsonValue;
 
-public class IntegerValidationTest {
+public class IntegerValidationTest extends BaseValidationTest {
 
 	@Test
-	public void testValiadteInteger() {
+	public void normalInteger() {
 		String json = "[123]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testValiadteMaxInt() {
+	public void integerOfMaxInteger() {
 		String json = "[2147483647]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValiadteMinInt() {
+	public void integerOfMinInteger() {
 		String json = "[-2147483648]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValiadteMaxLong() {
+	public void integerOfMaxLong() {
 		String json = "[9223372036854775807]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValiadteMinLong() {
+	public void integerOfMinLong() {
 		String json = "[-9223372036854775808]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testValiadteNumber() {
+	public void notIntegerButNumber() {
 		String json = "[123.45]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.NUMBER, p.getInstanceType());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testTypeMismatch() {
+	public void notIntegerButString() {
 		String json = "[\"123\"]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.STRING, p.getInstanceType());
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testIntegerValues() {
+	public void integerOfAllowedValue() {
 		String json = "[30]";
 		JsonType schema = array(integer().values(28, 30, 31));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testIntegerValuesNotAllowed() {
+	public void integerOfNotAllowedValue() {
 		String json = "[29]";
 		JsonType schema = array(integer().values(28, 30, 31));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
@@ -122,26 +124,27 @@ public class IntegerValidationTest {
 		assertEquals(29, ((JsonNumber)p.getInstanceValue()).intValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(3, expected.size());
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testMinimum() {
+	public void integerOfMinimum() {
 		String json = "[28]";
 		JsonType schema = array(integer().min(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testLessThanMinimum() {
+	public void integerLessThanMinimum() {
 		String json = "[27]";
 		JsonType schema = array(integer().min(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
@@ -153,26 +156,27 @@ public class IntegerValidationTest {
 		assertFalse(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(28, range.getMinimum().intValue());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testExclusiveMinimum() {
+	public void integerMoreThanExclusiveMinimum() {
 		String json = "[29]";
 		JsonType schema = array(integer().min(28).exclusiveMin(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testEqualToExclusiveMinimum() {
+	public void integerEqualToExclusiveMinimum() {
 		String json = "[28]";
 		JsonType schema = array(integer().min(28).exclusiveMin(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
@@ -184,26 +188,27 @@ public class IntegerValidationTest {
 		assertFalse(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(28, range.getMinimum().intValue());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testMaximum() {
+	public void integerOfMaximum() {
 		String json = "[31]";
 		JsonType schema = array(integer().max(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testGreaterThanMaximum() {
+	public void integerGreaterThanMaximum() {
 		String json = "[32]";
 		JsonType schema = array(integer().max(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
@@ -215,26 +220,27 @@ public class IntegerValidationTest {
 		assertTrue(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(31, range.getMaximum().intValue());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testExclusiveMaximum() {
+	public void integerLessThanExclusiveMaximum() {
 		String json = "[30]";
 		JsonType schema = array(integer().max(31).exclusiveMax(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testEqualToExclusiveMaximum() {
+	public void integerEqualToExclusiveMaximum() {
 		String json = "[31]";
 		JsonType schema = array(integer().max(31).exclusiveMax(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
@@ -246,5 +252,6 @@ public class IntegerValidationTest {
 		assertTrue(range.hasMaximum());
 		assertTrue(range.hasExclusiveMaximum());
 		assertEquals(31, range.getMaximum().intValue());
+		assertNotNull(p.getMessage());
 	}
 }

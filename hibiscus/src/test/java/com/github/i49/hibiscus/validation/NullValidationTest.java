@@ -12,30 +12,29 @@ import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
 
-public class NullValidationTest {
+public class NullValidationTest extends BaseValidationTest {
 	
 	@Test
-	public void testValidateNull() {
+	public void normalNull() {
 		String json = "[null]";
 		JsonType schema = array(nullValue());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testTypeMismatch() {
+	public void notNullButInteger() {
 		String json = "[0]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getInstanceType());
-
-		ValidationResults.printProblems(result);;
+		assertNotNull(p.getMessage());
 	}
 }

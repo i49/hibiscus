@@ -22,13 +22,16 @@ import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.schema.types.ObjectType;
 
-public class PersonValidatorTest {
+public class PersonValidatorTest extends BaseValidationTest {
 	
 	private JsonValidator validator;
 	
 	@Before
+	@Override
 	public void setUp() {
 
+		super.setUp();
+		
 		ObjectType schema = object(
 				required("firstName", string()),
 				required("lastName", string()),
@@ -40,9 +43,8 @@ public class PersonValidatorTest {
 	}
 
 	@Test
-	public void testRead() throws IOException {
+	public void noProblem() throws IOException {
 
-		ValidationResult result = null;
 		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
 		}
@@ -58,9 +60,8 @@ public class PersonValidatorTest {
 	}
 	
 	@Test
-	public void testMissingProperty() throws IOException {
+	public void missingProperty() throws IOException {
 		
-		ValidationResult result = null;
 		try (Reader reader = newReader("person-missing-property.json")) {
 			result = validator.validate(reader);
 		}
@@ -72,12 +73,12 @@ public class PersonValidatorTest {
 		Problem p = problems.get(0);
 		assertTrue(p instanceof MissingPropertyProblem);
 		assertEquals("lastName", ((MissingPropertyProblem)p).getPropertyName());
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testTypeMismatch() throws IOException {
+	public void typeMismatch() throws IOException {
 
-		ValidationResult result = null;
 		try (Reader reader = newReader("person-type-mismatch.json")) {
 			result = validator.validate(reader);
 		}
@@ -92,24 +93,26 @@ public class PersonValidatorTest {
 		assertEquals(1, p0.getExpectedTypes().size());
 		assertTrue(p0.getExpectedTypes().contains(TypeId.STRING));
 		assertEquals(TypeId.INTEGER, p0.getInstanceType());
+		assertNotNull(p0.getMessage());
 
 		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
 		assertEquals(1, p1.getExpectedTypes().size());
 		assertTrue(p1.getExpectedTypes().contains(TypeId.INTEGER));
 		assertEquals(TypeId.STRING, p1.getInstanceType());
+		assertNotNull(p1.getMessage());
 
 		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
 		assertEquals(1, p2.getExpectedTypes().size());
 		assertTrue(p2.getExpectedTypes().contains(TypeId.ARRAY));
 		assertEquals(TypeId.OBJECT, p2.getInstanceType());
+		assertNotNull(p2.getMessage());
 	}
 	
 	@Test
-	public void testUnknownProperties() throws IOException {
+	public void unknownProperties() throws IOException {
 		
-		ValidationResult result = null;
 		try (Reader reader = newReader("person-unknown-property.json")) {
 			result = validator.validate(reader);
 		}
@@ -121,5 +124,6 @@ public class PersonValidatorTest {
 		Problem p = problems.get(0);
 		assertTrue(p instanceof UnknownPropertyProblem);
 		assertEquals("birthplace", ((UnknownPropertyProblem)p).getPropertyName());
+		assertNotNull(p.getMessage());
 	}
 }

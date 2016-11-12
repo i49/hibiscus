@@ -14,59 +14,58 @@ import java.util.Set;
 
 import javax.json.JsonValue;
 
-public class BooleanValidationTest {
+public class BooleanValidationTest extends BaseValidationTest {
 
 	@Test
-	public void testValidateTrue() {
+	public void booleanOfTrue() {
 		String json = "[true]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValidateFalse() {
+	public void booleanOfFalse() {
 		String json = "[false]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testTypeMismatch() {
+	public void notBooleanButString() {
 		String json = "[\"true\"]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.STRING, p.getInstanceType());
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testValues() {
+	public void booleanOfAllowedValue() {
 		String json = "[true]";
 		JsonType schema = array(bool().values(true));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValues2() {
+	public void booleanOfNotAllowedValue() {
 		String json = "[false]";
 		JsonType schema = array(bool().values(true));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
@@ -74,5 +73,6 @@ public class BooleanValidationTest {
 		assertEquals(JsonValue.FALSE, p.getInstanceValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(1, expected.size());
+		assertNotNull(p.getMessage());
 	}
 }

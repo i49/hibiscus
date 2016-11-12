@@ -17,57 +17,58 @@ import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
 
-public class StringValidationTest {
+public class StringValidationTest extends BaseValidationTest {
 
 	@Test
-	public void testValidateString() {
+	public void normalString() {
 		String json = "[\"abc\"]";
 		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValidateBlankString() {
+	public void emptyString() {
 		String json = "[\"\"]";
 		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testTypeMismatch() {
+	public void notStringButInteger() {
 		String json = "[123]";
 		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.INTEGER, p.getInstanceType());
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testValues() {
+	public void stringOfAllowedValue() {
 		String json = "[\"Spring\"]";
 		JsonType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 		
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testValuesNotAllowed() {
+	public void stringOfNotAllowedValue() {
 		String json = "[\"Q2\"]";
 		JsonType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 		
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
@@ -75,94 +76,93 @@ public class StringValidationTest {
 		assertEquals("\"Q2\"", p.getInstanceValue().toString());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(4, expected.size());
-		
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testMinLength() {
+	public void stringOfMinLength() {
 		String json = "[\"abc\"]";
 		JsonType schema = array(string().minLength(3));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testMinLength2() {
+	public void stringOfLengthLessThanMin() {
 		
 		String json = "[\"ab\"]";
 		JsonType schema = array(string().minLength(3));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
 		assertEquals(3, p.getThreshold());
 		assertEquals(2, p.getInstanceLength());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testMaxLength() {
+	public void stringOftMaxLength() {
 		
 		String json = "[\"abcd\"]";
 		JsonType schema = array(string().maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testMaxLength2() {
+	public void stringOfLengthMoreThantMax() {
 		
 		String json = "[\"abcde\"]";
 		JsonType schema = array(string().maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
 		assertEquals(4, p.getThreshold());
 		assertEquals(5, p.getInstanceLength());
+		assertNotNull(p.getMessage());
 	}
 	
 	@Test
-	public void testMinAndMaxLength() {
+	public void stringOfLengthBetweentMinAndMax() {
 		String json = "[\"abcd\"]";
 		JsonType schema = array(string().minLength(3).maxLength(4));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 	
 	@Test
-	public void testPattern() {
+	public void stringOfValidPattern() {
 		String json = "[\"123-45-6789\"]";
 		JsonType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testUnmatchedPattern() {
+	public void stringOfInvalidPattern() {
 		String json = "[\"9876-54-321\"]";
 		JsonType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
 		assertEquals("9876-54-321", p.getInstanceValue());
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 }

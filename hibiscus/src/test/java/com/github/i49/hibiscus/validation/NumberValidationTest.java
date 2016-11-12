@@ -17,69 +17,70 @@ import com.github.i49.hibiscus.schema.types.JsonType;
 import java.io.StringReader;
 import java.math.BigDecimal;
 
-public class NumberValidationTest {
+public class NumberValidationTest extends BaseValidationTest {
 
 	@Test
-	public void testValidateNumber() {
+	public void postiveNumber() {
 		String json = "[123.45]";
 		JsonType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValidateNegativeNumber() {
+	public void negativeNumber() {
 		String json = "[-123.45]";
 		JsonType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testValidateIntegralNumber() {
+	public void integralNumber() {
 		String json = "[123]";
 		JsonType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testTypeMismatch() {
+	public void notNumberButString() {
 		String json = "[\"123.45\"]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getInstanceType());
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testMinimum() {
+	public void numberOfMinimum() {
 		String json = "[12.340]";
 		JsonType schema = array(number().min(new BigDecimal("12.34")));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testLessThanMinimum() {
+	public void numberLessThanMinimum() {
 		String json = "[12.33]";
 		JsonType schema = array(number().min(new BigDecimal("12.34")));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
@@ -91,28 +92,27 @@ public class NumberValidationTest {
 		assertFalse(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(new BigDecimal("12.34"), range.getMinimum());
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testExclusiveMinimum() {
+	public void numberMoreThanExlusiveMinimum() {
 		String json = "[12.35]";
 		JsonType schema = array(number().min(new BigDecimal("12.34")).exclusiveMin(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testEqualToExclusiveMinimum() {
+	public void numberEqualToExlusiveMinimum() {
 		String json = "[12.340]";
 		JsonType schema = array(number().min(new BigDecimal("12.34")).exclusiveMin(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
@@ -124,28 +124,27 @@ public class NumberValidationTest {
 		assertFalse(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(new BigDecimal("12.34"), range.getMinimum());
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testMaximum() {
+	public void numberOfMaximum() {
 		String json = "[56.780]";
 		JsonType schema = array(number().max(new BigDecimal("56.78")));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testGreaterThanMaximum() {
+	public void numberGreaterThanMaximum() {
 		String json = "[56.79]";
 		JsonType schema = array(number().max(new BigDecimal("56.78")));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
@@ -157,28 +156,27 @@ public class NumberValidationTest {
 		assertTrue(range.hasMaximum());
 		assertFalse(range.hasExclusiveMaximum());
 		assertEquals(new BigDecimal("56.78"), range.getMaximum());
-		String m = p.getMessage();
-		assertNotNull(m);
+		assertNotNull(p.getMessage());
 	}
 
 	@Test
-	public void testExclusiveMaximum() {
+	public void numberLessThanExclusiveMaximum() {
 		String json = "[56.77]";
 		JsonType schema = array(number().max(new BigDecimal("56.78")).exclusiveMax(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
 	}
 
 	@Test
-	public void testEqualToExclusiveMaximum() {
+	public void numberEqualToExclusiveMaximum() {
 		String json = "[56.780]";
 		JsonType schema = array(number().max(new BigDecimal("56.78")).exclusiveMax(true));
 		
 		JsonValidator validator = new JsonValidator(schema);
-		ValidationResult result = validator.validate(new StringReader(json));
+		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
@@ -190,9 +188,6 @@ public class NumberValidationTest {
 		assertTrue(range.hasMaximum());
 		assertTrue(range.hasExclusiveMaximum());
 		assertEquals(new BigDecimal("56.78"), range.getMaximum());
-		String m = p.getMessage();
-		assertNotNull(m);
-
-		ValidationResults.printProblems(result);;
+		assertNotNull(p.getMessage());
 	}
 }
