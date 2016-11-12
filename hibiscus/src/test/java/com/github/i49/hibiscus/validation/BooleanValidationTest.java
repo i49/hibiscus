@@ -46,7 +46,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.STRING, p.getInstanceType());
+		assertEquals(TypeId.STRING, p.getActualType());
 		assertNotNull(p.getMessage());
 	}
 	

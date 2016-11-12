@@ -10,17 +10,17 @@ import com.github.i49.hibiscus.schema.TypeId;
  */
 public class TypeMismatchProblem extends Problem {
 	
+	private final TypeId actualType;
 	private final Set<TypeId> expectedType;
-	private final TypeId instanceType;
 
 	/**
 	 * Constructs this problem.
+	 * @param actualType actual type found in JSON instance.
 	 * @param expectedType expected types specified in schema.
-	 * @param instanceType actual type found in JSON instance.
 	 */
-	public TypeMismatchProblem(Set<TypeId> expectedType, TypeId instanceType) {
+	public TypeMismatchProblem(TypeId actualType, Set<TypeId> expectedType) {
+		this.actualType = actualType;
 		this.expectedType = expectedType;
-		this.instanceType = instanceType;
 	}
 	
 	/**
@@ -35,14 +35,14 @@ public class TypeMismatchProblem extends Problem {
 	 * Returns actual type found in JSON instance.
 	 * @return actual type.
 	 */
-	public TypeId getInstanceType() {
-		return instanceType;
+	public TypeId getActualType() {
+		return actualType;
 	}
 
 	@Override
 	public String getMessage(Locale locale) {
-		String instanceType = getInstanceType().toString().toLowerCase();
+		String actualType = getActualType().toString().toLowerCase();
 		String expectedType = getExpectedTypes().toString().toLowerCase();
-		return localize(locale, instanceType, expectedType);
+		return localize(locale, actualType, expectedType);
 	}
 }

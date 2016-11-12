@@ -10,10 +10,12 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.schema.IntRange;
 import com.github.i49.hibiscus.schema.TypeId;
 import com.github.i49.hibiscus.schema.problems.Problem;
-import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 import com.github.i49.hibiscus.schema.problems.StringPatternProblem;
+import com.github.i49.hibiscus.schema.problems.StringTooLongProblem;
+import com.github.i49.hibiscus.schema.problems.StringTooShortProblem;
 
 /**
  * JSON type to hold string.
@@ -22,8 +24,8 @@ public class StringType extends SimpleType {
 	
 	private static final StringType DEFAULT = new DefaultStringType();
 
-	private int minLength = 0;
-	private int maxLength = Integer.MAX_VALUE;
+	private int minLength = -1;
+	private int maxLength = -1;
 	private Pattern pattern;
 	
 	/**
@@ -53,8 +55,9 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType minLength(int length) {
-		this.minLength = length;
-		return this;
+		StringType self = modifiable();
+		self.minLength = length;
+		return self;
 	}
 	
 	/**
@@ -63,8 +66,9 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType maxLength(int length) {
-		this.maxLength = length;
-		return this;
+		StringType self = modifiable();
+		self.maxLength = length;
+		return self;
 	}
 	
 	/**
@@ -73,12 +77,13 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType values(String... values) {
+		StringType self = modifiable();
 		Set<JsonValue> valueSet = new HashSet<>();
 		for (String value: values) {
 			valueSet.add(JsonValues.createString(value));
 		}
-		setValueSet(valueSet);
-		return this;
+		self.setValueSet(valueSet);
+		return self;
 	}
 	
 	/**
@@ -87,7 +92,12 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType pattern(String regex) {
-		this.pattern = Pattern.compile(regex);
+		StringType self = modifiable();
+		self.pattern = Pattern.compile(regex);
+		return self;
+	}
+	
+	protected StringType modifiable() {
 		return this;
 	}
 
@@ -98,11 +108,11 @@ public class StringType extends SimpleType {
 	 */
 	private void validateLength(JsonString value, List<Problem> problems) {
 		int length = value.getString().length();
-		if (length < minLength) {
-			problems.add(new StringLengthProblem(minLength, length));
+		if (minLength != -1 && length < minLength) {
+			problems.add(new StringTooShortProblem(length, IntRange.of(minLength, maxLength)));
 		}
-		if (length > maxLength) {
-			problems.add(new StringLengthProblem(maxLength, length));
+		if (maxLength != -1 && length > maxLength) {
+			problems.add(new StringTooLongProblem(length, IntRange.of(minLength, maxLength)));
 		}
 	}
 	
@@ -133,23 +143,8 @@ public class StringType extends SimpleType {
 		}
 
 		@Override
-		public StringType minLength(int length) {
-			return new StringType().minLength(length);
-		}
-
-		@Override
-		public StringType maxLength(int length) {
-			return new StringType().maxLength(length);
-		}
-		
-		@Override
-		public StringType values(String... values) {
-			return new StringType().values(values);
-		}
-		
-		@Override
-		public StringType pattern(String regex) {
-			return new StringType().pattern(regex);
+		public StringType modifiable() {
+			return new StringType();
 		}
 	}
 }

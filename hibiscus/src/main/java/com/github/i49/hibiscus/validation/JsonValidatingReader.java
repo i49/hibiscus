@@ -68,7 +68,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonArray readArray(TypeSet expected) {
-		JsonType type = validateType(TypeId.ARRAY, expected);
+		JsonType type = matchType(TypeId.ARRAY, expected);
 		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UnknownArrayType.INSTANCE;
 		JsonArray value = readArray(arrayType);
 		validateInstance(arrayType, value);
@@ -93,7 +93,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonObject readObject(TypeSet expected) {
-		JsonType type = validateType(TypeId.OBJECT, expected);
+		JsonType type = matchType(TypeId.OBJECT, expected);
 		ObjectType objectType = (type != null) ? ((ObjectType)type) : UnknownObjectType.INSTANCE;
 		JsonObject value = readObject(objectType);
 		validateInstance(objectType, value);
@@ -153,7 +153,7 @@ class JsonValidatingReader {
 		switch (event) {
 		case VALUE_NUMBER:
 			if (parser.isIntegralNumber()) {
-				type = validateType(TypeId.INTEGER, candidates);
+				type = matchType(TypeId.INTEGER, candidates);
 				long longValue = parser.getLong();
 				if (Integer.MIN_VALUE <= longValue && longValue <= Integer.MAX_VALUE) {
 					value = JsonValues.createNumber(Math.toIntExact(longValue));
@@ -161,24 +161,24 @@ class JsonValidatingReader {
 					value = JsonValues.createNumber(longValue);
 				}
 			} else {
-				type = validateType(TypeId.NUMBER, candidates);
+				type = matchType(TypeId.NUMBER, candidates);
 				value = JsonValues.createNumber(parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
-			type = validateType(TypeId.STRING, candidates);
+			type = matchType(TypeId.STRING, candidates);
 			value = JsonValues.createString(parser.getString());
 			break;
 		case VALUE_TRUE:
-			type = validateType(TypeId.BOOLEAN, candidates);
+			type = matchType(TypeId.BOOLEAN, candidates);
 			value = JsonValue.TRUE;
 			break;
 		case VALUE_FALSE:
-			type = validateType(TypeId.BOOLEAN, candidates);
+			type = matchType(TypeId.BOOLEAN, candidates);
 			value = JsonValue.FALSE;
 			break;
 		case VALUE_NULL:
-			type = validateType(TypeId.NULL, candidates);
+			type = matchType(TypeId.NULL, candidates);
 			value = JsonValue.NULL;
 			break;
 		default:
@@ -188,13 +188,13 @@ class JsonValidatingReader {
 		return validateInstance(type, value);
 	}
 	
-	private JsonType validateType(TypeId actual, TypeSet candidates) {
+	private JsonType matchType(TypeId actual, TypeSet candidates) {
 		if (candidates == null) {
 			return null;
 		}
 		JsonType type = candidates.getType(actual);
 		if (type == null) {
-			addProblem(new TypeMismatchProblem(candidates.getTypeIds(), actual));
+			addProblem(new TypeMismatchProblem(actual, candidates.getTypeIds()));
 		}
 		return type;
 	}

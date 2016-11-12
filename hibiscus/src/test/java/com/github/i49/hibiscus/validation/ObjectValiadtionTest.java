@@ -86,7 +86,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertTrue(((TypeMismatchProblem)p).getExpectedTypes().contains(TypeId.NUMBER));
-		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getInstanceType());
+		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
 		assertNotNull(p.getMessage());
 	}
 
@@ -110,19 +110,19 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		assertEquals(7, problems.size());
 		
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(0);
-		assertEquals(TypeId.INTEGER, p1.getInstanceType());
+		assertEquals(TypeId.INTEGER, p1.getActualType());
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(1);
-		assertEquals(TypeId.BOOLEAN, p2.getInstanceType());
+		assertEquals(TypeId.BOOLEAN, p2.getActualType());
 		TypeMismatchProblem p3 = (TypeMismatchProblem)problems.get(2);
-		assertEquals(TypeId.STRING, p3.getInstanceType());
+		assertEquals(TypeId.STRING, p3.getActualType());
 		TypeMismatchProblem p4 = (TypeMismatchProblem)problems.get(3);
-		assertEquals(TypeId.NUMBER, p4.getInstanceType());
+		assertEquals(TypeId.NUMBER, p4.getActualType());
 		TypeMismatchProblem p5 = (TypeMismatchProblem)problems.get(4);
-		assertEquals(TypeId.OBJECT, p5.getInstanceType());
+		assertEquals(TypeId.OBJECT, p5.getActualType());
 		TypeMismatchProblem p6 = (TypeMismatchProblem)problems.get(5);
-		assertEquals(TypeId.ARRAY, p6.getInstanceType());
+		assertEquals(TypeId.ARRAY, p6.getActualType());
 		TypeMismatchProblem p7 = (TypeMismatchProblem)problems.get(6);
-		assertEquals(TypeId.NULL, p7.getInstanceType());
+		assertEquals(TypeId.NULL, p7.getActualType());
 	}
 	
 	@Test

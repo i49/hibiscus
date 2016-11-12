@@ -11,8 +11,9 @@ import javax.json.JsonValue;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.StringLengthProblem;
 import com.github.i49.hibiscus.schema.problems.StringPatternProblem;
+import com.github.i49.hibiscus.schema.problems.StringTooLongProblem;
+import com.github.i49.hibiscus.schema.problems.StringTooShortProblem;
 import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
@@ -49,7 +50,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.INTEGER, p.getInstanceType());
+		assertEquals(TypeId.INTEGER, p.getActualType());
 		assertNotNull(p.getMessage());
 	}
 	
@@ -98,10 +99,10 @@ public class StringValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
-		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
-		assertEquals(3, p.getThreshold());
-		assertEquals(2, p.getInstanceLength());
+		assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
+		StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
+		assertEquals(2, p.getActualLength());
+		assertEquals(3, p.getExpectedRange().getMinimum());
 		assertNotNull(p.getMessage());
 	}
 
@@ -125,10 +126,10 @@ public class StringValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
-		StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
-		assertEquals(4, p.getThreshold());
-		assertEquals(5, p.getInstanceLength());
+		assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
+		StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
+		assertEquals(5, p.getActualLength());
+		assertEquals(4, p.getExpectedRange().getMaximum());
 		assertNotNull(p.getMessage());
 	}
 	

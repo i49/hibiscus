@@ -30,7 +30,7 @@ public abstract class ArraySizeProblem extends Problem {
 	
 	/**
 	 * Returns the number of elements allowed in array. 
-	 * @return range minimum and maximum numbers of elements.
+	 * @return range representing minimum and maximum numbers of elements.
 	 */
 	public IntRange getExpectedRange() {
 		return range;

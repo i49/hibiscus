@@ -1,51 +1,38 @@
 package com.github.i49.hibiscus.schema.problems;
 
-import java.util.Locale;
+import com.github.i49.hibiscus.schema.IntRange;
 
 /**
- * Problem that string is too short or too long.
+ * Base class of StringTooShortProblem and StringTooLongProblem.
  */
-public class StringLengthProblem extends Problem {
+public abstract class StringLengthProblem extends Problem {
 
-	private final int threshold;
-	private final int instanceLength;
+	private final int actualLength;
+	private final IntRange range;
 	
 	/**
 	 * Constructs this problem.
-	 * @param threshold minimum or maximum number of characters allowed in string. 
-	 * @param instanceLength actual number of characters in string.
+	 * @param actualLength actual number of characters in string.
+	 * @param range the number of characters allowed in string. 
 	 */
-	public StringLengthProblem(int threshold, int instanceLength) {
-		this.threshold = threshold;
-		this.instanceLength = instanceLength;
+	protected StringLengthProblem(int actualLength, IntRange range) {
+		this.actualLength = actualLength;
+		this.range = range;
 	}
 	
-	/**
-	 * Returns minimum or maximum number of characters allowed in string.
-	 * @return minimum or maximum threshold.
-	 */
-	public int getThreshold() {
-		return threshold;
-	}
-
 	/**
 	 * Returns actual number of characters in string.
 	 * @return actual number of characters.
 	 */
-	public int getInstanceLength() {
-		return instanceLength;
+	public int getActualLength() {
+		return actualLength;
 	}
 
-	@Override
-	public String getMessage(Locale locale) {
-		StringBuilder b = new StringBuilder();
-		if (getInstanceLength() < getThreshold()) {
-			b.append("String is too short. It must have at least ");
-		} else {
-			b.append("String is too long. It must have at most ");
-		};
-		b.append(getThreshold()).append(" characters ");
-		b.append("but instance has ").append(getInstanceLength()).append(".");
-		return b.toString();
+	/**
+	 * Returns the number of characters allowed in array. 
+	 * @return range representing minimum and maximum numbers of characters.
+	 */
+	public IntRange getExpectedRange() {
+		return range;
 	}
 }

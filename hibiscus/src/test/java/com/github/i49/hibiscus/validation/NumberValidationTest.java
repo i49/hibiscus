@@ -59,7 +59,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
-		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getInstanceType());
+		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
 		assertNotNull(p.getMessage());
 	}
 

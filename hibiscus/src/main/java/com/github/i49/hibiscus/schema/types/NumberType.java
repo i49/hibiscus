@@ -152,6 +152,11 @@ public class NumberType extends SimpleType {
 	 * Number type without any constraints.
 	 */
 	private static class DefaultNumberType extends NumberType {
+
+		@Override
+		public void validateInstance(JsonValue value, List<Problem> problems) {
+		}
+
 		@Override
 		protected NumberType modifiable() {
 			return new NumberType();

@@ -34,7 +34,7 @@ public class NullValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
-		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getInstanceType());
+		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getActualType());
 		assertNotNull(p.getMessage());
 	}
 }
