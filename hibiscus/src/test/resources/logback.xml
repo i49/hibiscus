@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+  <property name="LOG_LEVEL" value="${log.level:-DEBUG}" />
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss} %-5level %logger{0} %msg%n</pattern>
+    </encoder>
+  </appender>
+  <root level="${LOG_LEVEL}">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
