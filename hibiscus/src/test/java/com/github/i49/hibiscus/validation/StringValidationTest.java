@@ -74,7 +74,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals("\"Q2\"", p.getInstanceValue().toString());
+		assertEquals("\"Q2\"", p.getActualValue().toString());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(4, expected.size());
 		assertNotNull(p.getMessage());
@@ -163,7 +163,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
-		assertEquals("9876-54-321", p.getInstanceValue());
+		assertEquals("9876-54-321", p.getActualValue().getString());
 		assertNotNull(p.getMessage());
 	}
 }

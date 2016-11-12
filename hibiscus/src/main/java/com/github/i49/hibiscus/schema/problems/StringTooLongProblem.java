@@ -2,6 +2,8 @@ package com.github.i49.hibiscus.schema.problems;
 
 import java.util.Locale;
 
+import javax.json.JsonString;
+
 import com.github.i49.hibiscus.schema.IntRange;
 
 /**
@@ -11,11 +13,12 @@ public class StringTooLongProblem extends StringLengthProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param actualLength actual number of characters in string.
-	 * @param range the number of characters allowed in string. 
+	 * @param value string value in JSON instance. 
+	 * @param length actual number of characters in the string.
+	 * @param range the number of characters allowed for the string. 
 	 */
-	public StringTooLongProblem(int actualLength, IntRange range) {
-		super(actualLength, range);
+	public StringTooLongProblem(JsonString value, int length, IntRange range) {
+		super(value, length, range);
 	}
 
 	@Override

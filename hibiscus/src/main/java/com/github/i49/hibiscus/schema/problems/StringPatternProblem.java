@@ -2,23 +2,23 @@ package com.github.i49.hibiscus.schema.problems;
 
 import java.util.Locale;
 
+import javax.json.JsonString;
+
 /**
  * Problems that string value does not match expected pattern.
  */
-public class StringPatternProblem extends Problem {
+public class StringPatternProblem extends ValueProblem<JsonString> {
 
-	private final String instanceValue;
-	
-	public StringPatternProblem(String instanceValue) {
-		this.instanceValue = instanceValue;
+	/**
+	 * Constructs this problem.
+	 * @param value the value in JSON instance.
+	 */
+	public StringPatternProblem(JsonString value) {
+		super(value);
 	}
 	
-	public String getInstanceValue() {
-		return instanceValue;
-	}
-
 	@Override
 	public String getMessage(Locale locale) {
-		return localize(locale, getInstanceValue());
+		return localize(locale, getActualValue().getString());
 	}
 }

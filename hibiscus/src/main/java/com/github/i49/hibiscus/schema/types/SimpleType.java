@@ -19,7 +19,7 @@ public abstract class SimpleType extends JsonType {
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
 		if (valueSet != null && !valueSet.contains(value)) {
-			problems.add(new UnknownValueProblem(valueSet, value));
+			problems.add(new UnknownValueProblem(value, valueSet));
 		}
 	}
 

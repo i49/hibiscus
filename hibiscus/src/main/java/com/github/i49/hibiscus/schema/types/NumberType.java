@@ -43,8 +43,7 @@ public class NumberType extends SimpleType {
 	public void validateInstance(JsonValue value, List<Problem> problems) {
 		super.validateInstance(value, problems);
 		JsonNumber number = (JsonNumber)value;
-		BigDecimal decimal = number.bigDecimalValue();
-		validateAgainstRange(decimal, problems);
+		validateAgainstRange(number, problems);
 	}
 
 	/**
@@ -113,9 +112,10 @@ public class NumberType extends SimpleType {
 		return this;
 	}
 	
-	private void validateAgainstRange(BigDecimal value, List<Problem> problems) {
+	private void validateAgainstRange(JsonNumber value, List<Problem> problems) {
+		BigDecimal decimal = value.bigDecimalValue();
 		if (this.minimum != null) {
-			int result = value.compareTo(this.minimum);
+			int result = decimal.compareTo(this.minimum);
 			if (this.exclusiveMinimum) {
 				if (result <= 0) {
 					problems.add(new NotMoreThanMinimumProblem(value, createRange()));
@@ -127,7 +127,7 @@ public class NumberType extends SimpleType {
 			}
 		}
 		if (this.maximum != null) {
-			int result = value.compareTo(this.maximum);
+			int result = decimal.compareTo(this.maximum);
 			if (this.exclusiveMaximum) {
 				if (result >= 0) {
 					problems.add(new NotLessThanMaximumProblem(value, createRange()));

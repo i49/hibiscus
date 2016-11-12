@@ -3,6 +3,8 @@ package com.github.i49.hibiscus.schema.problems;
 import java.math.BigDecimal;
 import java.util.Locale;
 
+import javax.json.JsonNumber;
+
 import com.github.i49.hibiscus.schema.Range;
 
 /**
@@ -10,12 +12,12 @@ import com.github.i49.hibiscus.schema.Range;
  */
 public class NotMoreThanMinimumProblem extends NumberRangeProblem {
 
-	public NotMoreThanMinimumProblem(BigDecimal value, Range<BigDecimal> range) {
+	public NotMoreThanMinimumProblem(JsonNumber value, Range<BigDecimal> range) {
 		super(value, range);
 	}
 
 	@Override
 	public String getMessage(Locale locale) {
-		return localize(locale, getInstanceValue(), getAllowedRange().getMinimum());
+		return localize(locale, getActualValue(), getAllowedRange().getMinimum());
 	}
 }

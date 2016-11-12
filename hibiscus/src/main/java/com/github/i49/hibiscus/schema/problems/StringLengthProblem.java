@@ -1,22 +1,26 @@
 package com.github.i49.hibiscus.schema.problems;
 
+import javax.json.JsonString;
+
 import com.github.i49.hibiscus.schema.IntRange;
 
 /**
  * Base class of StringTooShortProblem and StringTooLongProblem.
  */
-public abstract class StringLengthProblem extends Problem {
+public abstract class StringLengthProblem extends ValueProblem<JsonString> {
 
-	private final int actualLength;
+	private final int length;
 	private final IntRange range;
 	
 	/**
 	 * Constructs this problem.
-	 * @param actualLength actual number of characters in string.
-	 * @param range the number of characters allowed in string. 
+	 * @param value string value in JSON instance. 
+	 * @param length actual number of characters in the string.
+	 * @param range the number of characters allowed for the string. 
 	 */
-	protected StringLengthProblem(int actualLength, IntRange range) {
-		this.actualLength = actualLength;
+	protected StringLengthProblem(JsonString value, int length, IntRange range) {
+		super(value);
+		this.length = length;
 		this.range = range;
 	}
 	
@@ -25,11 +29,11 @@ public abstract class StringLengthProblem extends Problem {
 	 * @return actual number of characters.
 	 */
 	public int getActualLength() {
-		return actualLength;
+		return length;
 	}
 
 	/**
-	 * Returns the number of characters allowed in array. 
+	 * Returns the number of characters allowed for string. 
 	 * @return range representing minimum and maximum numbers of characters.
 	 */
 	public IntRange getExpectedRange() {

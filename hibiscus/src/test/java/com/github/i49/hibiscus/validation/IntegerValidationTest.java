@@ -121,7 +121,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(29, ((JsonNumber)p.getInstanceValue()).intValue());
+		assertEquals(29, ((JsonNumber)p.getActualValue()).intValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(3, expected.size());
 		assertNotNull(p.getMessage());
@@ -149,7 +149,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
 		LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(27, p.getInstanceValue().intValue());
+		assertEquals(27, p.getActualValue().intValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
@@ -181,7 +181,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
 		NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(28, p.getInstanceValue().intValue());
+		assertEquals(28, p.getActualValue().intValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertTrue(range.hasExlusiveMinimum());
@@ -213,7 +213,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
 		MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(32, p.getInstanceValue().intValue());
+		assertEquals(32, p.getActualValue().intValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
@@ -245,7 +245,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
 		NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(31, p.getInstanceValue().intValue());
+		assertEquals(31, p.getActualValue().intValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());

@@ -103,23 +103,23 @@ public class StringType extends SimpleType {
 
 	/**
 	 * Validates instance length.
-	 * @param value string value.
+	 * @param value string value in JSON instance.
 	 * @param problems list to which detected problems to be added.
 	 */
 	private void validateLength(JsonString value, List<Problem> problems) {
 		int length = value.getString().length();
 		if (minLength != -1 && length < minLength) {
-			problems.add(new StringTooShortProblem(length, IntRange.of(minLength, maxLength)));
+			problems.add(new StringTooShortProblem(value, length, IntRange.of(minLength, maxLength)));
 		}
 		if (maxLength != -1 && length > maxLength) {
-			problems.add(new StringTooLongProblem(length, IntRange.of(minLength, maxLength)));
+			problems.add(new StringTooLongProblem(value, length, IntRange.of(minLength, maxLength)));
 		}
 	}
 	
 	/**
 	 * Validates instance against specified pattern.
-	 * @param value string value.
-	 * @param problems list to which detected problems to be added.
+	 * @param value the string value.
+	 * @param problems the list to which detected problems to be added.
 	 */
 	private void validateAgainstPattern(JsonString value, List<Problem> problems) {
 		if (pattern == null) {
@@ -127,7 +127,7 @@ public class StringType extends SimpleType {
 		}
 		Matcher m = pattern.matcher(value.getString());
 		if (!m.matches()) {
-			problems.add(new StringPatternProblem(value.getString()));
+			problems.add(new StringPatternProblem(value));
 		}
 	}
 	

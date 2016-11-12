@@ -70,7 +70,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(JsonValue.FALSE, p.getInstanceValue());
+		assertEquals(JsonValue.FALSE, p.getActualValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(1, expected.size());
 		assertNotNull(p.getMessage());

@@ -85,7 +85,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
 		LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("12.33"), p.getInstanceValue());
+		assertEquals(new BigDecimal("12.33"), p.getActualValue().bigDecimalValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
@@ -117,7 +117,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
 		NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("12.340"), p.getInstanceValue());
+		assertEquals(new BigDecimal("12.340"), p.getActualValue().bigDecimalValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertTrue(range.hasMinimum());
 		assertTrue(range.hasExlusiveMinimum());
@@ -149,7 +149,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
 		MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("56.79"), p.getInstanceValue());
+		assertEquals(new BigDecimal("56.79"), p.getActualValue().bigDecimalValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());
@@ -181,7 +181,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertEquals(1, result.getProblems().size());
 		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
 		NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("56.780"), p.getInstanceValue());
+		assertEquals(new BigDecimal("56.780"), p.getActualValue().bigDecimalValue());
 		Range<BigDecimal> range = p.getAllowedRange();
 		assertFalse(range.hasMinimum());
 		assertFalse(range.hasExlusiveMinimum());

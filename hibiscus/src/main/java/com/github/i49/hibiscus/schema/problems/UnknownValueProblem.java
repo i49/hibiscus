@@ -9,14 +9,18 @@ import javax.json.JsonValue;
 /**
  * Problem that instance value is not found in values allowed for the type.
  */
-public class UnknownValueProblem extends Problem {
+public class UnknownValueProblem extends ValueProblem<JsonValue> {
 
 	private final Set<JsonValue> expected;
-	private final JsonValue instance;
 	
-	public UnknownValueProblem(Set<JsonValue> expected, JsonValue instance) {
+	/**
+	 * Constructs this problem.
+	 * @param value the value in JSON instance.
+	 * @param expected expected set of values.
+	 */
+	public UnknownValueProblem(JsonValue value, Set<JsonValue> expected) {
+		super(value);
 		this.expected = expected;
-		this.instance = instance;
 	}
 	
 	/**
@@ -27,17 +31,9 @@ public class UnknownValueProblem extends Problem {
 		return expected;
 	}
 	
-	/**
-	 * Returns value of JSON instance. 
-	 * @return instance value.
-	 */
-	public JsonValue getInstanceValue() {
-		return instance;
-	}
-
 	@Override
 	public String getMessage(Locale locale) {
 		String allowedValues = getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", "));
-		return localize(locale, getInstanceValue(), allowedValues);
+		return localize(locale, getActualValue(), allowedValues);
 	}
 }
