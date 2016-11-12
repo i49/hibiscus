@@ -5,8 +5,10 @@ import java.util.List;
 import javax.json.JsonArray;
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.schema.IntRange;
 import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.ArraySizeProblem;
+import com.github.i49.hibiscus.schema.problems.ArrayTooLongProblem;
+import com.github.i49.hibiscus.schema.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.schema.problems.Problem;
 
 /**
@@ -15,8 +17,8 @@ import com.github.i49.hibiscus.schema.problems.Problem;
 public class ArrayType extends ComplexType {
 
 	private final TypeSet typeSet;
-	private int minItems = 0;
-	private int maxItems = Integer.MAX_VALUE;
+	private int minItems = -1;
+	private int maxItems = -1;
 
 	/**
 	 * Creates new instance of array type.
@@ -44,11 +46,11 @@ public class ArrayType extends ComplexType {
 	public void validateInstance(JsonValue value, List<Problem> problems) {
 		JsonArray array = (JsonArray)value;
 		int size = array.size();
-		if (size < minItems) {
-			problems.add(new ArraySizeProblem(minItems, size));
+		if (minItems != -1 && size < minItems) {
+			problems.add(new ArrayTooShortProblem(size, IntRange.of(minItems, maxItems)));
 		}
-		if (size > maxItems) {
-			problems.add(new ArraySizeProblem(maxItems, size));
+		if (maxItems != -1 && size > maxItems) {
+			problems.add(new ArrayTooLongProblem(size, IntRange.of(minItems, maxItems)));
 		}
 	}
 

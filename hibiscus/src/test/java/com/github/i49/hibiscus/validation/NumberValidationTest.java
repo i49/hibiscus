@@ -192,5 +192,7 @@ public class NumberValidationTest {
 		assertEquals(new BigDecimal("56.78"), range.getMaximum());
 		String m = p.getMessage();
 		assertNotNull(m);
+
+		ValidationResults.printProblems(result);;
 	}
 }

@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.schema.problems.ArraySizeProblem;
+import com.github.i49.hibiscus.schema.problems.ArrayTooLongProblem;
+import com.github.i49.hibiscus.schema.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.schema.types.JsonType;
 
 import java.io.StringReader;
@@ -12,7 +14,7 @@ import java.io.StringReader;
 public class ArrayValidationTest {
 
 	@Test
-	public void testEmptyArray() {
+	public void emptyArray() {
 		String json = "[]";
 		JsonType schema = array();
 		JsonValidator validator = new JsonValidator(schema);
@@ -22,7 +24,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testBooleans() {
+	public void arrayOfBooleans() {
 		String json = "[true, false, true]";
 		JsonType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
@@ -32,7 +34,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testIntegers() {
+	public void arrayOfIntegers() {
 		String json = "[1, 2, 3, 4, 5]";
 		JsonType schema = array(integer());
 		JsonValidator validator = new JsonValidator(schema);
@@ -42,7 +44,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testNumbers() {
+	public void arrayOfNumbers() {
 		String json = "[1.2, 3.4, 5.6]";
 		JsonType schema = array(number());
 		JsonValidator validator = new JsonValidator(schema);
@@ -52,7 +54,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testNulls() {
+	public void arrayOfNulls() {
 		String json = "[null, null, null]";
 		JsonType schema = array(nullValue());
 		JsonValidator validator = new JsonValidator(schema);
@@ -62,7 +64,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testStrings() {
+	public void arrayOfStrings() {
 		String json = "[\"abc\", \"xyz\", \"123\"]";
 		JsonType schema = array(string());
 		JsonValidator validator = new JsonValidator(schema);
@@ -72,7 +74,7 @@ public class ArrayValidationTest {
 	}
 
 	@Test
-	public void testMixed() {
+	public void arrayOfMixiedItems() {
 		String json = "[123, \"abc\", 456, \"xyz\"]";
 		JsonType schema = array(integer(), string());
 		JsonValidator validator = new JsonValidator(schema);
@@ -82,7 +84,7 @@ public class ArrayValidationTest {
 	}
 	
 	@Test
-	public void testArrays() {
+	public void arrayOfArrays() {
 		String json = "[[1, 2, 3], [4, 5, 6]]";
 		JsonType schema = array(array(integer()));
 		JsonValidator validator = new JsonValidator(schema);
@@ -92,7 +94,7 @@ public class ArrayValidationTest {
 	}
 	
 	@Test
-	public void testObjects() {
+	public void arrayOfObjects() {
 		String json = "[{}, {}, {}]";
 		JsonType schema = array(object());
 		JsonValidator validator = new JsonValidator(schema);
@@ -102,7 +104,7 @@ public class ArrayValidationTest {
 	}
 	
 	@Test
-	public void testMinItems() {
+	public void passMinItems() {
 		String json = "[1, 2, 3]";
 		JsonType schema = array(integer()).minItems(3);
 		JsonValidator validator = new JsonValidator(schema);
@@ -111,22 +113,27 @@ public class ArrayValidationTest {
 		assertFalse(result.hasProblems());
 	}
 
+	/*
+	 * Problem that the array is too short than required.
+	 */
 	@Test
-	public void testMinItems2() {
+	public void failMinItems() {
 		String json = "[1, 2]";
 		JsonType schema = array(integer()).minItems(3);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
-		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
-		assertEquals(3, p.getThreshold());
-		assertEquals(2, p.getInstanceSize());
+		assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
+		ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
+		assertEquals(2, p.getActualSize());
+		assertEquals(3, p.getExpectedRange().getMinimum());
+		
+		ValidationResults.printProblems(result);
 	}
 
 	@Test
-	public void testMaxItems() {
+	public void passMaxItems() {
 		String json = "[1, 2, 3, 4]";
 		JsonType schema = array(integer()).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
@@ -135,22 +142,27 @@ public class ArrayValidationTest {
 		assertFalse(result.hasProblems());
 	}
 
+	/*
+	 * Problem that the array is too long than required.
+	 */
 	@Test
-	public void testMaxItems2() {
+	public void failMaxItems() {
 		String json = "[1, 2, 3, 4, 5]";
 		JsonType schema = array(integer()).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
-		ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
-		assertEquals(4, p.getThreshold());
-		assertEquals(5, p.getInstanceSize());
+		assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
+		ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
+		assertEquals(5, p.getActualSize());
+		assertEquals(4, p.getExpectedRange().getMaximum());
+
+		ValidationResults.printProblems(result);
 	}
 	
 	@Test
-	public void testMinAndMaxItems() {
+	public void passMinAndMaxItems() {
 		String json = "[1, 2, 3, 4]";
 		JsonType schema = array(integer()).minItems(3).maxItems(4);
 		JsonValidator validator = new JsonValidator(schema);

@@ -59,15 +59,26 @@ public abstract class Problem {
 	
 
 	/**
-	 * Builds and returns an error message of this problem.
+	 * Returns the error message of this problem.
 	 * @return error message.
 	 */
 	public String getMessage() {
 		return getMessage(Locale.getDefault());
 	}
 	
+	/**
+	 * Returns the error message of this problem.
+	 * @param locale the locale for which the message is desired.
+	 * @return error message.
+	 */
 	public abstract String getMessage(Locale locale);
 
+	/**
+	 * Localizes the message for this problem.
+	 * @param locale the locale for which a message is desired.
+	 * @param arguments the arguments composing the message.
+	 * @return localized message.
+	 */
 	protected String localize(Locale locale, Object... arguments) {
 		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
 		String key = getClass().getSimpleName();

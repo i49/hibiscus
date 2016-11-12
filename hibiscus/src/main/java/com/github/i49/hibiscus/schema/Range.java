@@ -1,11 +1,11 @@
 package com.github.i49.hibiscus.schema;
 
 /**
- * Range represents a range of numbers of the same type.
+ * Range representing a range of numbers of the same type.
  * This class is immutable.
- * @param <T> type of value.
+ * @param <T> type of number.
  */
-public class Range<T> {
+public class Range<T> implements BaseRange {
 
 	private final T minimum;
 	private final T maximum;
@@ -33,10 +33,12 @@ public class Range<T> {
 		this.exclusiveMaximum = exclusiveMaximum;
 	}
 	
+	@Override
 	public boolean hasMinimum() {
 		return minimum != null;
 	}
 	
+	@Override
 	public boolean hasExlusiveMinimum() {
 		return hasMinimum() && exclusiveMinimum;
 	}
@@ -45,10 +47,12 @@ public class Range<T> {
 		return minimum;
 	}
 	
+	@Override
 	public boolean hasMaximum() {
 		return maximum != null;
 	}
 
+	@Override
 	public boolean hasExclusiveMaximum() {
 		return hasMaximum() && exclusiveMaximum;
 	}
