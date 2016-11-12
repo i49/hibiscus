@@ -13,7 +13,7 @@ public abstract class Problem {
 
 	private JsonLocation location;
 	
-	private static final String BUNDLE_BASE_NAME = "com.github.i49.hibiscus.schema.problems.messages";
+	private static final String BUNDLE_BASE_NAME = Problem.class.getPackage().getName() + ".messages";
 	
 	/**
 	 * Constructs this problem.
@@ -74,13 +74,22 @@ public abstract class Problem {
 	public abstract String getMessage(Locale locale);
 
 	/**
+	 * Returns resource bundle that contains problem messages.
+	 * @param locale the locale for which a message is desired.
+	 * @return resource bundle.
+	 */
+	protected ResourceBundle findBundle(Locale locale) {
+		return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
+	}
+
+	/**
 	 * Localizes the message for this problem.
 	 * @param locale the locale for which a message is desired.
 	 * @param arguments the arguments composing the message.
 	 * @return localized message.
 	 */
 	protected String localize(Locale locale, Object... arguments) {
-		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
+		ResourceBundle bundle = findBundle(locale);
 		String key = getClass().getSimpleName();
 		String pattern = bundle.getString(key);
 		return MessageFormat.format(pattern, arguments);
