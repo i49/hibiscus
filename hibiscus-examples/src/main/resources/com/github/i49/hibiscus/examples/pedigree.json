@@ -1,0 +1,28 @@
+{
+	"name": "Secretariat",
+	"birthYear": 1970,
+	"sire": {
+		"name": "Bold Ruler",
+		"birthYear": 1954,
+		"sire": {
+			"name": "Nasrullah",
+			"birthYear": 1940
+		},
+		"dam": {
+			"name": "Miss Disco",
+			"birthYear": 1944
+		}
+	},
+	"dam": {
+		"name": "Somethingroyal",
+		"birthYear": 1952,
+		"sire": {
+			"name": "Princequillo",
+			"birthYear": 1940
+		},
+		"dam": {
+			"name": "Imperatrice",
+			"birthYear": 1938
+		}
+	}
+}
