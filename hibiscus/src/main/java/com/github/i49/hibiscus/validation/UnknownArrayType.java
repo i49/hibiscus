@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
-import com.github.i49.hibiscus.schema.types.ArrayType;
-import com.github.i49.hibiscus.schema.types.TypeSet;
+import com.github.i49.hibiscus.schema.ArrayType;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * Unknown array type found during validation.

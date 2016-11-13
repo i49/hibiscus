@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -10,13 +10,13 @@ import javax.json.JsonValue;
 
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.StringPatternProblem;
-import com.github.i49.hibiscus.schema.problems.StringTooLongProblem;
-import com.github.i49.hibiscus.schema.problems.StringTooShortProblem;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.StringPatternProblem;
+import com.github.i49.hibiscus.problems.StringTooLongProblem;
+import com.github.i49.hibiscus.problems.StringTooShortProblem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.schema.JsonType;
 
 public class StringValidationTest extends BaseValidationTest {
 

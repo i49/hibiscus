@@ -1,12 +1,12 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.problems.ArrayTooLongProblem;
-import com.github.i49.hibiscus.schema.problems.ArrayTooShortProblem;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
+import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
+import com.github.i49.hibiscus.schema.JsonType;
 
 import java.io.StringReader;
 

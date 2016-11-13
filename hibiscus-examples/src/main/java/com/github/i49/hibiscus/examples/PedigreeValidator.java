@@ -1,8 +1,9 @@
 package com.github.i49.hibiscus.examples;
 
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
+
+import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.validation.JsonValidator;
-import com.github.i49.hibiscus.schema.types.ObjectType;
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
 
 public class PedigreeValidator extends JsonValidator{
 

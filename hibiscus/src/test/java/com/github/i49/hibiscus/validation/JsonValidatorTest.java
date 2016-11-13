@@ -12,8 +12,9 @@ import javax.json.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.types.ObjectType;
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import com.github.i49.hibiscus.schema.ObjectType;
+
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static com.github.i49.hibiscus.validation.Resources.*;
 
 public class JsonValidatorTest {

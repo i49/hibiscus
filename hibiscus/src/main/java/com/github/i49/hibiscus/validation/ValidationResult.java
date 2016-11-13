@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.schema.problems.Problem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * Result of validation.

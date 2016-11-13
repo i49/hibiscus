@@ -3,7 +3,7 @@ package com.github.i49.hibiscus.validation;
 import org.junit.After;
 import org.junit.Before;
 
-import com.github.i49.hibiscus.schema.problems.Problem;
+import com.github.i49.hibiscus.problems.Problem;
 
 public abstract class BaseValidationTest {
 

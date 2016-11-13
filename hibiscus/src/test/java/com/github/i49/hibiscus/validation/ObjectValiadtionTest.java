@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -9,13 +9,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.MissingPropertyProblem;
-import com.github.i49.hibiscus.schema.problems.Problem;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.types.ObjectType;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.MissingPropertyProblem;
+import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.ObjectType;
 
 public class ObjectValiadtionTest extends BaseValidationTest {
 

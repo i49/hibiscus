@@ -1,18 +1,18 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.Range;
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.NotMoreThanMinimumProblem;
-import com.github.i49.hibiscus.schema.problems.NotLessThanMaximumProblem;
-import com.github.i49.hibiscus.schema.problems.LessThanMinimumProblem;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.problems.MoreThanMaximumProblem;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.common.Range;
+import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
+import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
+import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
+import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.schema.JsonType;
 
 import java.io.StringReader;
 import java.math.BigDecimal;

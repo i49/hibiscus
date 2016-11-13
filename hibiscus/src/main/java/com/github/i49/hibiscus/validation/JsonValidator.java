@@ -12,7 +12,7 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.schema.JsonType;
 
 /**
  * JSON validator which will be base class of your custom validator.  

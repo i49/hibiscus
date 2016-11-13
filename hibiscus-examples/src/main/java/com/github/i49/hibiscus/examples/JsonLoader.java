@@ -16,7 +16,7 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
-import com.github.i49.hibiscus.schema.problems.Problem;
+import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.validation.JsonValidator;
 import com.github.i49.hibiscus.validation.ValidationResult;
 

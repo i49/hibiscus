@@ -12,15 +12,15 @@ import javax.json.JsonValue;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static com.github.i49.hibiscus.validation.Resources.*;
 
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.MissingPropertyProblem;
-import com.github.i49.hibiscus.schema.problems.Problem;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.types.ObjectType;
+import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.MissingPropertyProblem;
+import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
+import com.github.i49.hibiscus.schema.ObjectType;
 
 public class PersonValidatorTest extends BaseValidationTest {
 	

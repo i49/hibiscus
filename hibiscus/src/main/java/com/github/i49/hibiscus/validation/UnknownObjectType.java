@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import com.github.i49.hibiscus.schema.types.ObjectType;
+import com.github.i49.hibiscus.schema.ObjectType;
 
 /**
  * Unknown object type found during validation.

@@ -1,13 +1,13 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.types.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.schema.JsonType;
 
 import java.io.StringReader;
 import java.util.Set;

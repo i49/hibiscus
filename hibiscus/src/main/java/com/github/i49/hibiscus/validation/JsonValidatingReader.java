@@ -13,16 +13,16 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
+import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
-import com.github.i49.hibiscus.schema.TypeId;
-import com.github.i49.hibiscus.schema.problems.Problem;
-import com.github.i49.hibiscus.schema.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.types.ArrayType;
-import com.github.i49.hibiscus.schema.types.ObjectType;
-import com.github.i49.hibiscus.schema.types.Property;
-import com.github.i49.hibiscus.schema.types.TypeSet;
-import com.github.i49.hibiscus.schema.types.JsonType;
+import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
+import com.github.i49.hibiscus.schema.ArrayType;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Property;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * JSON reader which reads and validates contents against specified schema.
