@@ -3,6 +3,8 @@ package com.github.i49.hibiscus.schema;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import com.github.i49.hibiscus.common.TypeId;
+
 class Messages {
 
 	private static final String BASE_BUNDLE_NAME = Messages.class.getPackage().getName() + ".messages";
@@ -12,10 +14,14 @@ class Messages {
 		return localize("PROPERTY_NAME_IS_NULL");
 	}
 	
-	static String PROPERTY_TYPE_IS_NULL(int index) {
-		return localize("PROPERTY_TYPE_IS_NULL", index);
+	static String ONE_OF_TYPES_IS_NULL(int index) {
+		return localize("ONE_OF_TYPES_IS_NULL", index);
 	}
 	
+	static String ONE_OF_TYPES_IS_DUPLICATED(int index, TypeId typeId) {
+		return localize("ONE_OF_TYPES_IS_DUPLICATED", index, typeId);
+	}
+
 	private static String localize(String key, Object... arguments) {
 		String pattern = bundle.getString(key);
 		return MessageFormat.format(pattern, arguments);

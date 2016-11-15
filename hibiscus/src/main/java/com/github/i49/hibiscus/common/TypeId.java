@@ -23,7 +23,8 @@ public enum TypeId {
 	 * Returns string of lower cases.
 	 * @return string of lower cases. 
 	 */
-	public String toLowerCase() {
+	@Override
+	public String toString() {
 		return name().toLowerCase();
 	}
 }

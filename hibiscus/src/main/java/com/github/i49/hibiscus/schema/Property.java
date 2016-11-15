@@ -9,6 +9,13 @@ public class Property {
 	private final TypeSet typeSet;
 	private final boolean required;
 	
+	public static Property of(String name, JsonType type, JsonType[] moreTypes, boolean required) {
+		if (name == null) {
+			throw new SchemaException(Messages.PROPERTY_NAME_IS_NULL());
+		}
+		return new Property(name, type, moreTypes, required);
+	}
+	
 	/**
 	 * Constructs property.
 	 * @param name property name.
@@ -16,7 +23,7 @@ public class Property {
 	 * @param moreTypes other types allowed for property value.
 	 * @param required whether the property is required or not in containing object.
 	 */
-	public Property(String name, JsonType type, JsonType[] moreTypes, boolean required) {
+	private Property(String name, JsonType type, JsonType[] moreTypes, boolean required) {
 		this.name = name;
 		this.typeSet = TypeSet.of(type, moreTypes);
 		this.required = required;

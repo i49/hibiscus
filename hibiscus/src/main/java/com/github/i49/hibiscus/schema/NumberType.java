@@ -19,20 +19,10 @@ import com.github.i49.hibiscus.problems.Problem;
  */
 public class NumberType extends SimpleType {
 
-	private static final NumberType DEFAULT = new DefaultNumberType();
-	
 	private BigDecimal minimum;
 	private boolean exclusiveMinimum;
 	private BigDecimal maximum;
 	private boolean exclusiveMaximum;
-	
-	/**
-	 * Returns this type with default settings.
-	 * @return immutable type with default settings.
-	 */
-	public static NumberType getDefault() {
-		return DEFAULT;
-	}
 	
 	@Override
 	public TypeId getTypeId() {
@@ -61,9 +51,8 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType min(BigDecimal value) {
-		NumberType self = modifiable();
-		self.minimum = value;
-		return self;
+		this.minimum = value;
+		return this;
 	}
 
 	/**
@@ -72,9 +61,8 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType exclusiveMin(boolean exclusive) {
-		NumberType self = modifiable();
-		self.exclusiveMinimum = exclusive;
-		return self;
+		this.exclusiveMinimum = exclusive;
+		return this;
 	}
 
 	/**
@@ -92,9 +80,8 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType max(BigDecimal value) {
-		NumberType self = modifiable();
-		self.maximum = value;
-		return self;
+		this.maximum = value;
+		return this;
 	}
 	
 	/**
@@ -103,12 +90,7 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType exclusiveMax(boolean exclusive) {
-		NumberType self = modifiable();
-		self.exclusiveMaximum = exclusive;
-		return self;
-	}
-	
-	protected NumberType modifiable() {
+		this.exclusiveMaximum = exclusive;
 		return this;
 	}
 	
@@ -146,20 +128,5 @@ public class NumberType extends SimpleType {
 	 */
 	private Range<BigDecimal> createRange() {
 		return Range.of(this.minimum, this.maximum, this.exclusiveMinimum, this.exclusiveMaximum);
-	}
-	
-	/**
-	 * Number type without any constraints.
-	 */
-	private static class DefaultNumberType extends NumberType {
-
-		@Override
-		public void validateInstance(JsonValue value, List<Problem> problems) {
-		}
-
-		@Override
-		protected NumberType modifiable() {
-			return new NumberType();
-		}
 	}
 }

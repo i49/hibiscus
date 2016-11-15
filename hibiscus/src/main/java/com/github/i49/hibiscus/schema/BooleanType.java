@@ -13,16 +13,6 @@ import com.github.i49.hibiscus.json.JsonValues;
  */
 public class BooleanType extends SimpleType {
 	
-	private static final BooleanType DEFAULT = new DefaultBooleanType();
-	
-	/**
-	 * Returns this type with default settings.
-	 * @return immutable type with default settings.
-	 */
-	public static BooleanType getDefault() {
-		return DEFAULT;
-	}
-
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.BOOLEAN;
@@ -40,16 +30,5 @@ public class BooleanType extends SimpleType {
 		}
 		setValueSet(valueSet);
 		return this;
-	}
-	
-	/**
-	 * Boolean type without any constraints.
-	 */
-	private static class DefaultBooleanType extends BooleanType {
-		
-		@Override
-		public BooleanType values(boolean... values) {
-			return new BooleanType().values(values);
-		}
 	}
 }

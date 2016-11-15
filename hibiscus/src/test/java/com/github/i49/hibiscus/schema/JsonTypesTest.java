@@ -39,7 +39,7 @@ public class JsonTypesTest {
 				optional("foo", null);
 				fail();
 			} catch (SchemaException e) {
-				assertEquals("Property type at the index of 0 is null.", e.getMessage());
+				assertEquals("Type at the index of 0 is null.", e.getMessage());
 			}
 		}
 
@@ -49,7 +49,17 @@ public class JsonTypesTest {
 				optional("foo", integer(), getNull());
 				fail();
 			} catch (SchemaException e) {
-				assertEquals("Property type at the index of 1 is null.", e.getMessage());
+				assertEquals("Type at the index of 1 is null.", e.getMessage());
+			}
+		}
+		
+		@Test
+		public void typeIsDuplicated() {
+			try {
+				optional("foo", string(), string());
+				fail();
+			} catch (SchemaException e) {
+				assertEquals("Type \"string\" at the index of 1 is duplicated.", e.getMessage());
 			}
 		}
 	}
@@ -82,7 +92,7 @@ public class JsonTypesTest {
 				required("foo", null);
 				fail();
 			} catch (SchemaException e) {
-				assertEquals("Property type at the index of 0 is null.", e.getMessage());
+				assertEquals("Type at the index of 0 is null.", e.getMessage());
 			}
 		}
 
@@ -92,7 +102,17 @@ public class JsonTypesTest {
 				required("foo", integer(), getNull());
 				fail();
 			} catch (SchemaException e) {
-				assertEquals("Property type at the index of 1 is null.", e.getMessage());
+				assertEquals("Type at the index of 1 is null.", e.getMessage());
+			}
+		}
+
+		@Test
+		public void typeIsDuplicated() {
+			try {
+				required("foo", array(), array());
+				fail();
+			} catch (SchemaException e) {
+				assertEquals("Type \"array\" at the index of 1 is duplicated.", e.getMessage());
 			}
 		}
 	}

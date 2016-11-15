@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.schema;
 
-import static com.github.i49.hibiscus.schema.Arguments.*;
-
 /**
  * Provides utility methods to create building blocks of schema.
  * All methods of this class are static and this class cannot be instantiated.
@@ -22,7 +20,7 @@ public class JsonTypes {
 	 * @return boolean type.
 	 */
 	public static BooleanType bool() {
-		return BooleanType.getDefault();
+		return new BooleanType();
 	}
 
 	/**
@@ -30,7 +28,7 @@ public class JsonTypes {
 	 * @return integer type.
 	 */
 	public static IntegerType integer() {
-		return IntegerType.getDefault();
+		return new IntegerType();
 	}
 	
 	/**
@@ -38,7 +36,7 @@ public class JsonTypes {
 	 * @return number type.
 	 */
 	public static NumberType number() {
-		return NumberType.getDefault();
+		return new NumberType();
 	}
 	
 	/**
@@ -63,7 +61,7 @@ public class JsonTypes {
 	 * @return string type.
 	 */
 	public static StringType string() {
-		return StringType.getDefault();
+		return new StringType();
 	}
 	
 	/**
@@ -74,7 +72,7 @@ public class JsonTypes {
 	 * @return property.
 	 */
 	public static Property optional(String name, JsonType type, JsonType... moreTypes) {
-		return createProperty(name, type, moreTypes, false);
+		return Property.of(name, type, moreTypes, false);
 	}
 	
 	/**
@@ -85,13 +83,7 @@ public class JsonTypes {
 	 * @return property.
 	 */
 	public static Property required(String name, JsonType type, JsonType... moreTypes) {
-		return createProperty(name, type, moreTypes, true);
-	}
-	
-	private static Property createProperty(String name, JsonType type, JsonType[] moreTypes, boolean required) {
-		checkNotNull(name, ()->Messages.PROPERTY_NAME_IS_NULL());
-		checkNotNull(type, moreTypes, i->Messages.PROPERTY_TYPE_IS_NULL(i));
-		return new Property(name, type, moreTypes, required);
+		return Property.of(name, type, moreTypes, true);
 	}
 	
 	private JsonTypes() {

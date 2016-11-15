@@ -14,16 +14,6 @@ import com.github.i49.hibiscus.json.JsonValues;
  */
 public class IntegerType extends NumberType {
 
-	private static final IntegerType DEFAULT = new DefaultIntegerType();
-	
-	/**
-	 * Returns this type with default settings.
-	 * @return immutable type with default settings.
-	 */
-	public static IntegerType getDefault() {
-		return DEFAULT;
-	}
-	
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.INTEGER;
@@ -65,27 +55,11 @@ public class IntegerType extends NumberType {
 	 * @return this type.
 	 */
 	public IntegerType values(long... values) {
-		IntegerType self = modifiable();
 		Set<JsonValue> valueSet = new HashSet<>();
 		for (long value: values) {
 			valueSet.add(JsonValues.createNumber(value));
 		}
-		self.setValueSet(valueSet);
-		return self;
-	}
-	
-	@Override
-	protected IntegerType modifiable() {
+		this.setValueSet(valueSet);
 		return this;
-	}
-	
-	/**
-	 * Integer type without any constraints.
-	 */
-	private static class DefaultIntegerType extends IntegerType {
-		@Override
-		protected IntegerType modifiable() {
-			return new IntegerType();
-		}
 	}
 }

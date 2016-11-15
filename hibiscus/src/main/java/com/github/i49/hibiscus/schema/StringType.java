@@ -22,19 +22,9 @@ import com.github.i49.hibiscus.problems.StringTooShortProblem;
  */
 public class StringType extends SimpleType {
 	
-	private static final StringType DEFAULT = new DefaultStringType();
-
 	private int minLength = -1;
 	private int maxLength = -1;
 	private Pattern pattern;
-	
-	/**
-	 * Returns this type with default settings.
-	 * @return immutable type with default settings.
-	 */
-	public static StringType getDefault() {
-		return DEFAULT;
-	}
 	
 	@Override
 	public TypeId getTypeId() {
@@ -55,9 +45,8 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType minLength(int length) {
-		StringType self = modifiable();
-		self.minLength = length;
-		return self;
+		this.minLength = length;
+		return this;
 	}
 	
 	/**
@@ -66,9 +55,8 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType maxLength(int length) {
-		StringType self = modifiable();
-		self.maxLength = length;
-		return self;
+		this.maxLength = length;
+		return this;
 	}
 	
 	/**
@@ -77,13 +65,12 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType values(String... values) {
-		StringType self = modifiable();
 		Set<JsonValue> valueSet = new HashSet<>();
 		for (String value: values) {
 			valueSet.add(JsonValues.createString(value));
 		}
-		self.setValueSet(valueSet);
-		return self;
+		this.setValueSet(valueSet);
+		return this;
 	}
 	
 	/**
@@ -92,15 +79,10 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType pattern(String regex) {
-		StringType self = modifiable();
-		self.pattern = Pattern.compile(regex);
-		return self;
-	}
-	
-	protected StringType modifiable() {
+		this.pattern = Pattern.compile(regex);
 		return this;
 	}
-
+	
 	/**
 	 * Validates instance length.
 	 * @param value string value in JSON instance.
@@ -128,23 +110,6 @@ public class StringType extends SimpleType {
 		Matcher m = pattern.matcher(value.getString());
 		if (!m.matches()) {
 			problems.add(new StringPatternProblem(value));
-		}
-	}
-	
-	/**
-	 * String type without any constraints.
-	 * When one of mutating method is called, the method creates new instance.
-	 */
-	private static class DefaultStringType extends StringType {
-
-		@Override
-		public void validateInstance(JsonValue value, List<Problem> problems) {
-			// We don't need to validate against default string.
-		}
-
-		@Override
-		public StringType modifiable() {
-			return new StringType();
 		}
 	}
 }

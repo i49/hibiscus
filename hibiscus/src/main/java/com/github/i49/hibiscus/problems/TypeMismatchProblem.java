@@ -42,8 +42,8 @@ public class TypeMismatchProblem extends Problem {
 
 	@Override
 	public String getMessage(Locale locale) {
-		String actualType = getActualType().toLowerCase();
-		String expectedType = getExpectedTypes().stream().map(TypeId::toLowerCase).collect(Collectors.joining(", "));
+		String actualType = getActualType().toString();
+		String expectedType = getExpectedTypes().stream().map(TypeId::toString).collect(Collectors.joining(", "));
 		return localize(locale, actualType, expectedType);
 	}
 }

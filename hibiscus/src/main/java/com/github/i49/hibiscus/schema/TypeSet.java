@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.validation.DuplicateTypeException;
 
 /**
  * Immutable set of JSON types.
@@ -19,11 +18,11 @@ public class TypeSet {
 	public static TypeSet empty() {
 		return EMPTY;
 	}
-	
+
 	public static TypeSet of(JsonType type) {
 		return new TypeSet().addType(type);
 	}
-	
+
 	public static TypeSet of(JsonType... types) {
 		TypeSet map = new TypeSet();
 		for (JsonType type: types) {
@@ -73,11 +72,11 @@ public class TypeSet {
 
 	private TypeSet addType(JsonType type) {
 		if (type == null) {
-			throw new IllegalArgumentException();
+			throw new SchemaException(Messages.ONE_OF_TYPES_IS_NULL(map.size()));
 		}
 		TypeId typeId = type.getTypeId();
 		if (map.containsKey(typeId)) {
-			throw new DuplicateTypeException(typeId);
+			throw new SchemaException(Messages.ONE_OF_TYPES_IS_DUPLICATED(map.size(), typeId));
 		} else {
 			map.put(typeId, type);
 		}
