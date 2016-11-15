@@ -11,7 +11,6 @@ class UnknownArrayType extends ArrayType {
 	public static final UnknownArrayType INSTANCE = new UnknownArrayType();
 	
 	private UnknownArrayType() {
-		super(TypeSet.EMPTY);
 	}
 
 	@Override

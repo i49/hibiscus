@@ -16,25 +16,15 @@ import com.github.i49.hibiscus.problems.Problem;
  */
 public class ArrayType extends ComplexType {
 
-	private final TypeSet typeSet;
+	private TypeSet typeSet;
 	private int minItems = -1;
 	private int maxItems = -1;
-
-	/**
-	 * Creates new instance of array type.
-	 * @param itemTypes types allowed for elements of the array. 
-	 * @return instance of array type.
-	 */
-	public static ArrayType of(JsonType[] itemTypes) {
-		return new ArrayType(TypeSet.of(itemTypes));
-	}
 	
 	/**
 	 * Constructs this array type.
-	 * @param typeSet set of types allowed for elements of this array.
 	 */
-	protected ArrayType(TypeSet typeSet) {
-		this.typeSet = typeSet;
+	public ArrayType() {
+		typeSet = TypeSet.empty();
 	}
 	
 	@Override
@@ -52,6 +42,16 @@ public class ArrayType extends ComplexType {
 		if (maxItems != -1 && size > maxItems) {
 			problems.add(new ArrayTooLongProblem(size, IntRange.of(minItems, maxItems)));
 		}
+	}
+	
+	/**
+	 * Specifies allowed types for elements of this array. 
+	 * @param types the types allowed.
+	 * @return this array.
+	 */
+	public ArrayType items(JsonType[] types) {
+		this.typeSet = TypeSet.of(types);
+		return this;
 	}
 
 	/**

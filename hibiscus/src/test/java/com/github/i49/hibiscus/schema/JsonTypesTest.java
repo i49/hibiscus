@@ -12,7 +12,63 @@ import static com.github.i49.hibiscus.schema.JsonTypes.*;
 public class JsonTypesTest {
 	
 	/*
-	 * Test for optional() method.
+	 * Tests for methods to create array type.
+	 */
+	public static class ArrayTest {
+
+		@Test
+		public void emptyArray() {
+			ArrayType array = array();
+			assertNotNull(array);
+		}
+
+		@Test
+		public void validTypes() {
+			ArrayType array = array(integer(), string());
+			assertNotNull(array);
+		}
+		
+		@Test
+		public void firstTypeIsNull() {
+			try { 
+				array(getNull());
+				fail();
+			} catch (SchemaException e) {
+				assertEquals("Type at the index of 0 is null.", e.getMessage());
+			}
+		}
+
+		@Test
+		public void secondTypeIsNull() {
+			try { 
+				array(string(), getNull());
+				fail();
+			} catch (SchemaException e) {
+				assertEquals("Type at the index of 1 is null.", e.getMessage());
+			}
+		}
+	}
+	
+	/*
+	 * Tests for methods to create object type.
+	 */
+	public static class ObjectTest {
+		
+		@Test
+		public void emptyObject() {
+			ObjectType object = object();
+			assertNotNull(object);
+		}
+		
+		@Test
+		public void validProperties() {
+			ObjectType object = object(required("foo", string()), optional("bar", integer()));
+			assertNotNull(object);
+		}
+	}
+	
+	/*
+	 * Tests for optional() method.
 	 */
 	public static class OptionalTest {
 
@@ -65,7 +121,7 @@ public class JsonTypesTest {
 	}
 	
 	/*
-	 * Test for required() method.
+	 * Tests for required() method.
 	 */
 	public static class RequiredTest {
 

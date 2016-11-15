@@ -22,23 +22,30 @@ public class ObjectType extends ComplexType {
 	private final Set<String> required = new HashSet<>();
 	private boolean moreProperties = false;
 	
-	public static ObjectType of(Property[] properties) {
-		return new ObjectType(properties);
-	}
-	
 	/**
-	 * Constructs object which has no property.
+	 * Constructs object.
 	 */
-	protected ObjectType() {
+	public ObjectType() {
 	}
 
-	protected ObjectType(Property[] properties) {
+	/**
+	 * Specifies all properties this object may have.
+	 * @param properties the properties this object may have.
+	 * @return this object.
+	 */
+	public ObjectType properties(Property... properties) {
+		
+		this.properties.clear();
+		this.required.clear();
+
 		for (Property p: properties) {
 			this.properties.put(p.getName(), p);
 			if (p.isRequired()) {
 				this.required.add(p.getName());
 			}
 		}
+
+		return this;
 	}
 	
 	public ObjectType moreProperties() {

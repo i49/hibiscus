@@ -7,10 +7,16 @@ import com.github.i49.hibiscus.validation.JsonValidator;
 
 public class PedigreeValidator extends JsonValidator{
 
-	private static final ObjectType horse = object(
+	private static final ObjectType horse = object(); // Creates blank type.
+	
+	static {
+		horse.properties(
 			required("name", string()),
-			required("birthYear", integer())
-		);
+			required("birthYear", integer()),
+			optional("sire", horse),
+			optional("dam", horse)
+			);
+	}
 
 	public PedigreeValidator() {
 		super(horse);

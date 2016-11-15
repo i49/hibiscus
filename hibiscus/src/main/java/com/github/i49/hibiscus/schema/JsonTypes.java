@@ -5,14 +5,22 @@ package com.github.i49.hibiscus.schema;
  * All methods of this class are static and this class cannot be instantiated.
  */
 public class JsonTypes {
-
+	
 	/**
 	 * Creates array type.
-	 * @param itemTypes types allowed for elements in array.
-	 * @return array type.
+	 * @return created array type.
 	 */
-	public static ArrayType array(JsonType... itemTypes) {
-		return ArrayType.of(itemTypes);
+	public static ArrayType array() {
+		return new ArrayType();
+	}
+
+	/**
+	 * Creates array type with element types.
+	 * @param types the types allowed for elements of the array.
+	 * @return created array type.
+	 */
+	public static ArrayType array(JsonType... types) {
+		return array().items(types);
 	}
 
 	/**
@@ -49,11 +57,19 @@ public class JsonTypes {
 
 	/**
 	 * Creates object type.
+	 * @return object type.
+	 */
+	public static ObjectType object() {
+		return new ObjectType();
+	}
+	
+	/**
+	 * Creates object type with properties.
 	 * @param properties properties that object type have.
 	 * @return object type.
 	 */
 	public static ObjectType object(Property... properties) {
-		return ObjectType.of(properties);
+		return object().properties(properties);
 	}
 	
 	/**
