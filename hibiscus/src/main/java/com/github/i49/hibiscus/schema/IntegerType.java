@@ -20,35 +20,45 @@ public class IntegerType extends NumberType {
 	}
 
 	@Override
-	public IntegerType min(long value) {
-		return (IntegerType)super.min(value);
+	public IntegerType minInclusive(long value) {
+		return (IntegerType)super.minInclusive(value);
 	}
 
 	@Override
-	public IntegerType min(BigDecimal value) {
-		return (IntegerType)super.min(value);
+	public IntegerType minExclusive(long value) {
+		return (IntegerType)super.minExclusive(value);
 	}
 
 	@Override
-	public IntegerType exclusiveMin(boolean exclusive) {
-		return (IntegerType)super.exclusiveMin(exclusive);
+	public IntegerType minInclusive(BigDecimal value) {
+		return (IntegerType)super.minInclusive(value);
 	}
 
 	@Override
-	public IntegerType max(long value) {
-		return (IntegerType)super.max(value);
+	public IntegerType minExclusive(BigDecimal value) {
+		return (IntegerType)super.minExclusive(value);
 	}
 
 	@Override
-	public IntegerType max(BigDecimal value) {
-		return (IntegerType)super.max(value);
+	public IntegerType maxInclusive(long value) {
+		return (IntegerType)super.maxInclusive(value);
+	}
+
+	@Override
+	public IntegerType maxExclusive(long value) {
+		return (IntegerType)super.maxExclusive(value);
+	}
+
+	@Override
+	public IntegerType maxInclusive(BigDecimal value) {
+		return (IntegerType)super.maxInclusive(value);
 	}
 	
 	@Override
-	public IntegerType exclusiveMax(boolean exclusive) {
-		return (IntegerType)super.exclusiveMax(exclusive);
+	public IntegerType maxExclusive(BigDecimal value) {
+		return (IntegerType)super.maxExclusive(value);
 	}
-	
+
 	/**
 	 * Specifies values allowed for this type.
 	 * @param values values allowed.

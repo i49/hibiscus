@@ -2,6 +2,7 @@ package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import javax.json.JsonNumber;
 import javax.json.JsonValue;
@@ -19,10 +20,8 @@ import com.github.i49.hibiscus.problems.Problem;
  */
 public class NumberType extends SimpleType {
 
-	private BigDecimal minimum;
-	private boolean exclusiveMinimum;
-	private BigDecimal maximum;
-	private boolean exclusiveMaximum;
+	private Optional<Bound<BigDecimal>> minimum = Optional.empty();
+	private Optional<Bound<BigDecimal>> maximum = Optional.empty();
 	
 	@Override
 	public TypeId getTypeId() {
@@ -37,88 +36,106 @@ public class NumberType extends SimpleType {
 	}
 
 	/**
-	 * Specifies minimum value of this type.
-	 * @param value minimum value of this type.
+	 * Specifies the inclusive lower bound of the value space for this type.
+	 * @param value the inclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType min(long value) {
-		return min(BigDecimal.valueOf(value));
+	public NumberType minInclusive(long value) {
+		return minInclusive(BigDecimal.valueOf(value));
 	}
 
 	/**
-	 * Specifies minimum value of this type.
-	 * @param value minimum value of this type.
+	 * Specifies the exclusive lower bound of the value space for this type.
+	 * @param value the exclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType min(BigDecimal value) {
-		this.minimum = value;
+	public NumberType minExclusive(long value) {
+		return minExclusive(BigDecimal.valueOf(value));
+	}
+
+	/**
+	 * Specifies the inclusive lower bound of the value space for this type.
+	 * @param value the inclusive lower bound value.
+	 * @return this type.
+	 */
+	public NumberType minInclusive(BigDecimal value) {
+		this.minimum = Optional.of(Bound.of(value, false));
 		return this;
 	}
 
 	/**
-	 * Specifies whether the minimum value is exclusive or not.
-	 * @param exclusive true if exclusive.
+	 * Specifies the exclusive lower bound of the value space for this type.
+	 * @param value the exclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType exclusiveMin(boolean exclusive) {
-		this.exclusiveMinimum = exclusive;
+	public NumberType minExclusive(BigDecimal value) {
+		this.minimum = Optional.of(Bound.of(value, true));
 		return this;
 	}
 
 	/**
-	 * Specifies maximum value of this type.
-	 * @param value maximum value of this type.
+	 * Specifies the inclusive upper bound of the value space for this type.
+	 * @param value the inclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType max(long value) {
-		return max(BigDecimal.valueOf(value));
+	public NumberType maxInclusive(long value) {
+		return maxInclusive(BigDecimal.valueOf(value));
 	}
 
 	/**
-	 * Specifies maximum value of this type.
-	 * @param value maximum value of this type.
+	 * Specifies the exclusive upper bound of the value space for this type.
+	 * @param value the exclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType max(BigDecimal value) {
-		this.maximum = value;
+	public NumberType maxExclusive(long value) {
+		return maxExclusive(BigDecimal.valueOf(value));
+	}
+	
+	/**
+	 * Specifies the inclusive upper bound of the value space for this type.
+	 * @param value the inclusive upper bound value.
+	 * @return this type.
+	 */
+	public NumberType maxInclusive(BigDecimal value) {
+		this.maximum = Optional.of(Bound.of(value, false));
 		return this;
 	}
 	
 	/**
-	 * Specifies whether the maximum value is exclusive or not.
-	 * @param exclusive true if exclusive.
+	 * Specifies the exclusive upper bound of the value space for this type.
+	 * @param value the exclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType exclusiveMax(boolean exclusive) {
-		this.exclusiveMaximum = exclusive;
+	public NumberType maxExclusive(BigDecimal value) {
+		this.maximum = Optional.of(Bound.of(value, true));
 		return this;
 	}
-	
+
 	private void validateAgainstRange(JsonNumber value, List<Problem> problems) {
 		BigDecimal decimal = value.bigDecimalValue();
-		if (this.minimum != null) {
-			int result = decimal.compareTo(this.minimum);
-			if (this.exclusiveMinimum) {
+		this.minimum.ifPresent(bound->{
+			int result = decimal.compareTo(bound.getValue());
+			if (bound.isExclusive()) {
 				if (result <= 0) {
-					problems.add(new NotMoreThanMinimumProblem(value, Bound.of(this.minimum, true)));
+					problems.add(new NotMoreThanMinimumProblem(value, bound));
 				}
 			} else {
 				if (result < 0) {
-					problems.add(new LessThanMinimumProblem(value, Bound.of(this.minimum, false)));
+					problems.add(new LessThanMinimumProblem(value, bound));
 				}
 			}
-		}
-		if (this.maximum != null) {
-			int result = decimal.compareTo(this.maximum);
-			if (this.exclusiveMaximum) {
+		});
+		this.maximum.ifPresent(bound->{
+			int result = decimal.compareTo(bound.getValue());
+			if (bound.isExclusive()) {
 				if (result >= 0) {
-					problems.add(new NotLessThanMaximumProblem(value, Bound.of(this.maximum, true)));
+					problems.add(new NotLessThanMaximumProblem(value, bound));
 				}
 			} else {
 				if (result > 0) {
-					problems.add(new MoreThanMaximumProblem(value, Bound.of(this.maximum, false)));
+					problems.add(new MoreThanMaximumProblem(value, bound));
 				}
 			}
-		}
+		});
 	}
 }

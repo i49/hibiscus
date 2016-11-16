@@ -130,7 +130,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerOfMinimum() {
 		String json = "[28]";
-		JsonType schema = array(integer().min(28));
+		JsonType schema = array(integer().minInclusive(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -141,7 +141,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerLessThanMinimum() {
 		String json = "[27]";
-		JsonType schema = array(integer().min(28));
+		JsonType schema = array(integer().minInclusive(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -159,7 +159,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerMoreThanExclusiveMinimum() {
 		String json = "[29]";
-		JsonType schema = array(integer().min(28).exclusiveMin(true));
+		JsonType schema = array(integer().minExclusive(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -170,7 +170,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerEqualToExclusiveMinimum() {
 		String json = "[28]";
-		JsonType schema = array(integer().min(28).exclusiveMin(true));
+		JsonType schema = array(integer().minExclusive(28));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -188,7 +188,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerOfMaximum() {
 		String json = "[31]";
-		JsonType schema = array(integer().max(31));
+		JsonType schema = array(integer().maxInclusive(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -199,7 +199,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerGreaterThanMaximum() {
 		String json = "[32]";
-		JsonType schema = array(integer().max(31));
+		JsonType schema = array(integer().maxInclusive(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -217,7 +217,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerLessThanExclusiveMaximum() {
 		String json = "[30]";
-		JsonType schema = array(integer().max(31).exclusiveMax(true));
+		JsonType schema = array(integer().maxExclusive(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -228,7 +228,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerEqualToExclusiveMaximum() {
 		String json = "[31]";
-		JsonType schema = array(integer().max(31).exclusiveMax(true));
+		JsonType schema = array(integer().maxExclusive(31));
 		
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
