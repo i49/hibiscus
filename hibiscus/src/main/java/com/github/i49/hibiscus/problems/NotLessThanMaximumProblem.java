@@ -5,19 +5,24 @@ import java.util.Locale;
 
 import javax.json.JsonNumber;
 
-import com.github.i49.hibiscus.common.Range;
+import com.github.i49.hibiscus.common.Bound;
 
 /**
  * Problem that instance number is greater or equal to maximum value of given range.
  */
 public class NotLessThanMaximumProblem extends NumberRangeProblem {
 
-	public NotLessThanMaximumProblem(JsonNumber value, Range<BigDecimal> range) {
-		super(value, range);
+	/**
+	 * Constructs this problem.
+	 * @param value actual value in JSON instance.
+	 * @param bound the lower or upper bound of the range allowed for the number type.
+	 */
+	public NotLessThanMaximumProblem(JsonNumber value, Bound<BigDecimal> bound) {
+		super(value, bound);
 	}
 
 	@Override
 	public String getMessage(Locale locale) {
-		return localize(locale, getActualValue(), getAllowedRange().getMaximum());
+		return localize(locale, getActualValue(), getBound().getValue());
 	}
 }

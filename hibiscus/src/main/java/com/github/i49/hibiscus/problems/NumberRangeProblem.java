@@ -4,30 +4,30 @@ import java.math.BigDecimal;
 
 import javax.json.JsonNumber;
 
-import com.github.i49.hibiscus.common.Range;
+import com.github.i49.hibiscus.common.Bound;
 
 /**
  * Problem that instance number is out of range.
  */
 public abstract class NumberRangeProblem extends ValueProblem<JsonNumber> {
 	
-	private final Range<BigDecimal> range;
+	private final Bound<BigDecimal> bound;
 
 	/**
 	 * Constructs this problem.
 	 * @param value actual value in JSON instance.
-	 * @param range expected range of number.
+	 * @param bound the lower or upper bound of the range allowed for the number type.
 	 */
-	public NumberRangeProblem(JsonNumber value, Range<BigDecimal> range) {
+	public NumberRangeProblem(JsonNumber value, Bound<BigDecimal> bound) {
 		super(value);
-		this.range = range;
+		this.bound = bound;
 	}
 	
 	/**
-	 * Returns range of value specified in schema.
-	 * @return range of value.
+	 * Returns the bound of the range allowed for the type.
+	 * @return the bound of the range.
 	 */
-	public Range<BigDecimal> getAllowedRange() {
-		return range;
+	public Bound<BigDecimal> getBound() {
+		return bound;
 	}
 }

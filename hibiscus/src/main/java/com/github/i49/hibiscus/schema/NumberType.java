@@ -6,7 +6,7 @@ import java.util.List;
 import javax.json.JsonNumber;
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.common.Range;
+import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
 import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
@@ -100,11 +100,11 @@ public class NumberType extends SimpleType {
 			int result = decimal.compareTo(this.minimum);
 			if (this.exclusiveMinimum) {
 				if (result <= 0) {
-					problems.add(new NotMoreThanMinimumProblem(value, createRange()));
+					problems.add(new NotMoreThanMinimumProblem(value, Bound.of(this.minimum, true)));
 				}
 			} else {
 				if (result < 0) {
-					problems.add(new LessThanMinimumProblem(value, createRange()));
+					problems.add(new LessThanMinimumProblem(value, Bound.of(this.minimum, false)));
 				}
 			}
 		}
@@ -112,21 +112,13 @@ public class NumberType extends SimpleType {
 			int result = decimal.compareTo(this.maximum);
 			if (this.exclusiveMaximum) {
 				if (result >= 0) {
-					problems.add(new NotLessThanMaximumProblem(value, createRange()));
+					problems.add(new NotLessThanMaximumProblem(value, Bound.of(this.maximum, true)));
 				}
 			} else {
 				if (result > 0) {
-					problems.add(new MoreThanMaximumProblem(value, createRange()));
+					problems.add(new MoreThanMaximumProblem(value, Bound.of(this.maximum, false)));
 				}
 			}
 		}
-	}
-
-	/**
-	 * Creates range of number allowed for this type.
-	 * @return range of number.
-	 */
-	private Range<BigDecimal> createRange() {
-		return Range.of(this.minimum, this.maximum, this.exclusiveMinimum, this.exclusiveMaximum);
 	}
 }
