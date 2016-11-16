@@ -1,23 +1,21 @@
 package com.github.i49.hibiscus.problems;
 
-import com.github.i49.hibiscus.common.IntRange;
-
 /**
  * Base class of ArrayTooShortProblem and ArrayTooLongProblem.
  */
 public abstract class ArraySizeProblem extends Problem {
 
 	private final int actualSize;
-	private final IntRange range;
+	private final int limitSize;
 	
 	/**
 	 * Constructs this problem.
 	 * @param actualSize actual number of elements in array instance.
-	 * @param range the number of elements allowed in array. 
+	 * @param limitSize the minimum or maximum number of elements allowed in the array type. 
 	 */
-	protected ArraySizeProblem(int actualSize, IntRange range) {
+	protected ArraySizeProblem(int actualSize, int limitSize) {
 		this.actualSize = actualSize;
-		this.range = range;
+		this.limitSize = limitSize;
 	}
 
 	/**
@@ -30,9 +28,9 @@ public abstract class ArraySizeProblem extends Problem {
 	
 	/**
 	 * Returns the number of elements allowed in array. 
-	 * @return range representing minimum and maximum numbers of elements.
+	 * @return the minimum or maximum number of elements.
 	 */
-	public IntRange getExpectedRange() {
-		return range;
+	public int getLimitSize() {
+		return limitSize;
 	}
 }

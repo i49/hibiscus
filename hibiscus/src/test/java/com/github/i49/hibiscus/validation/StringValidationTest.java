@@ -102,7 +102,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
 		StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
 		assertEquals(2, p.getActualLength());
-		assertEquals(3, p.getExpectedRange().getMinimum());
+		assertEquals(3, p.getLimitLength());
 		assertNotNull(p.getMessage());
 	}
 
@@ -129,7 +129,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
 		StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
 		assertEquals(5, p.getActualLength());
-		assertEquals(4, p.getExpectedRange().getMaximum());
+		assertEquals(4, p.getLimitLength());
 		assertNotNull(p.getMessage());
 	}
 	

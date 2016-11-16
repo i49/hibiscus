@@ -2,8 +2,6 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 
-import com.github.i49.hibiscus.common.IntRange;
-
 /**
  * Problem that array is too short.
  */
@@ -12,14 +10,14 @@ public class ArrayTooShortProblem extends ArraySizeProblem {
 	/**
 	 * Constructs this problem.
 	 * @param actualSize actual number of elements in array instance.
-	 * @param range the number of elements allowed in array. 
+	 * @param limitSize the minimum or maximum number of elements allowed in the array type. 
 	 */
-	public ArrayTooShortProblem(int actualSize, IntRange range) {
-		super(actualSize, range);
+	public ArrayTooShortProblem(int actualSize, int limitSize) {
+		super(actualSize, limitSize);
 	}
 
 	@Override
 	public String getMessage(Locale locale) {
-		return localize(locale, getActualSize(), getExpectedRange().getMinimum());
+		return localize(locale, getActualSize(), getLimitSize());
 	}
 }

@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.common.IntRange;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.Problem;
@@ -91,10 +90,10 @@ public class StringType extends SimpleType {
 	private void validateLength(JsonString value, List<Problem> problems) {
 		int length = value.getString().length();
 		if (minLength != -1 && length < minLength) {
-			problems.add(new StringTooShortProblem(value, length, IntRange.of(minLength, maxLength)));
+			problems.add(new StringTooShortProblem(value, length, minLength));
 		}
 		if (maxLength != -1 && length > maxLength) {
-			problems.add(new StringTooLongProblem(value, length, IntRange.of(minLength, maxLength)));
+			problems.add(new StringTooLongProblem(value, length, maxLength));
 		}
 	}
 	

@@ -4,8 +4,6 @@ import java.util.Locale;
 
 import javax.json.JsonString;
 
-import com.github.i49.hibiscus.common.IntRange;
-
 /**
  * Problem that string is longer than allowed.
  */
@@ -14,15 +12,15 @@ public class StringTooLongProblem extends StringLengthProblem {
 	/**
 	 * Constructs this problem.
 	 * @param value string value in JSON instance. 
-	 * @param length actual number of characters in the string.
-	 * @param range the number of characters allowed for the string. 
+	 * @param actualLength actual number of characters in the string.
+	 * @param limitLength the minimum or maximum number of characters allowed for the type. 
 	 */
-	public StringTooLongProblem(JsonString value, int length, IntRange range) {
-		super(value, length, range);
+	public StringTooLongProblem(JsonString value, int actualLength, int limitLength) {
+		super(value, actualLength, limitLength);
 	}
 
 	@Override
 	public String getMessage(Locale locale) {
-		return localize(locale, getActualLength(), getExpectedRange().getMaximum());
+		return localize(locale, getActualLength(), getLimitLength());
 	}
 }

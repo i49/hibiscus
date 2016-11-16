@@ -133,7 +133,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
 		ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
 		assertEquals(2, p.getActualSize());
-		assertEquals(3, p.getExpectedRange().getMinimum());
+		assertEquals(3, p.getLimitSize());
 		assertNotNull(p.getMessage());
 	}
 
@@ -171,7 +171,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
 		ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
 		assertEquals(5, p.getActualSize());
-		assertEquals(4, p.getExpectedRange().getMaximum());
+		assertEquals(4, p.getLimitSize());
 		assertNotNull(p.getMessage());
 	}
 	
