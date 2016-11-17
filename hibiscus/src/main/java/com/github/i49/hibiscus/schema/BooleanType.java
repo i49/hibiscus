@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.json.JsonValues;
 /**
  * JSON boolean.
  */
-public class BooleanType extends SimpleType {
+public class BooleanType extends AbstractSimpleType<JsonValue> {
 	
 	@Override
 	public TypeId getTypeId() {
@@ -28,7 +28,7 @@ public class BooleanType extends SimpleType {
 		for (boolean value: values) {
 			valueSet.add(JsonValues.createBoolean(value));
 		}
-		setValueSet(valueSet);
+		addFacet(new ValueSetFacet<JsonValue>(valueSet));
 		return this;
 	}
 }

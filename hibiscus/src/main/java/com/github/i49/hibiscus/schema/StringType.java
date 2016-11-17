@@ -19,32 +19,20 @@ import com.github.i49.hibiscus.problems.StringTooShortProblem;
 /**
  * JSON type to hold string.
  */
-public class StringType extends SimpleType {
-	
-	private int minLength = -1;
-	private int maxLength = -1;
-	private Pattern pattern;
+public class StringType extends AbstractSimpleType<JsonString> {
 	
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.STRING;
 	}
 	
-	@Override
-	public void validateInstance(JsonValue value, List<Problem> problems) {
-		super.validateInstance(value, problems);
-		JsonString string = (JsonString)value;
-		validateLength(string, problems);
-		validateAgainstPattern(string, problems);
-	}
-
 	/**
 	 * Specifies minimum number of characters in this string. 
 	 * @param length minimum number of characters.
 	 * @return this type.
 	 */
 	public StringType minLength(int length) {
-		this.minLength = length;
+		addFacet(new MinLengthFacet(length));
 		return this;
 	}
 	
@@ -54,7 +42,7 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType maxLength(int length) {
-		this.maxLength = length;
+		addFacet(new MaxLengthFacet(length));
 		return this;
 	}
 	
@@ -68,7 +56,7 @@ public class StringType extends SimpleType {
 		for (String value: values) {
 			valueSet.add(JsonValues.createString(value));
 		}
-		this.setValueSet(valueSet);
+		addFacet(new ValueSetFacet<JsonString>(valueSet));
 		return this;
 	}
 	
@@ -78,37 +66,76 @@ public class StringType extends SimpleType {
 	 * @return this type.
 	 */
 	public StringType pattern(String regex) {
-		this.pattern = Pattern.compile(regex);
+		addFacet(new PatternFacet(regex));
 		return this;
 	}
 	
 	/**
-	 * Validates instance length.
-	 * @param value string value in JSON instance.
-	 * @param problems list to which detected problems to be added.
+	 * Facet constraining value space to values with at least the specific number of characters. 
 	 */
-	private void validateLength(JsonString value, List<Problem> problems) {
-		int length = value.getString().length();
-		if (minLength != -1 && length < minLength) {
-			problems.add(new StringTooShortProblem(value, length, minLength));
+	private static class MinLengthFacet implements Facet<JsonString> {
+
+		private final int minLength;
+		
+		public MinLengthFacet(int minLength) {
+			this.minLength = minLength;
 		}
-		if (maxLength != -1 && length > maxLength) {
-			problems.add(new StringTooLongProblem(value, length, maxLength));
+		
+		@Override
+		public void apply(JsonString value, List<Problem> problems) {
+			int length = value.getString().length();
+			if (length < minLength) {
+				problems.add(new StringTooShortProblem(value, length, minLength));
+			}
+		}
+	}
+
+	/**
+	 * Facet constraining value space to values with at most the specific number of characters. 
+	 */
+	private static class MaxLengthFacet implements Facet<JsonString> {
+
+		private final int maxLength;
+		
+		public MaxLengthFacet(int maxLength) {
+			this.maxLength = maxLength;
+		}
+		
+		@Override
+		public void apply(JsonString value, List<Problem> problems) {
+			int length = value.getString().length();
+			if (length > maxLength) {
+				problems.add(new StringTooLongProblem(value, length, maxLength));
+			}
 		}
 	}
 	
 	/**
-	 * Validates instance against specified pattern.
-	 * @param value the string value.
-	 * @param problems the list to which detected problems to be added.
+	 * Facet constraining a value space to values that matches a regular expression.  
 	 */
-	private void validateAgainstPattern(JsonString value, List<Problem> problems) {
-		if (pattern == null) {
-			return;
+	private static class PatternFacet implements Facet<JsonString> {
+
+		private final Pattern pattern;
+
+		/**
+		 * Constructs this facet.
+		 * @param regex the string compatible with Java regular expression.
+		 */
+		public PatternFacet(String regex) {
+			this.pattern = Pattern.compile(regex);
 		}
-		Matcher m = pattern.matcher(value.getString());
-		if (!m.matches()) {
-			problems.add(new StringPatternProblem(value));
+		
+		/**
+		 * Applies facet to the instance.
+		 * @param value the string value.
+		 * @param problems the list to which detected problems to be added.
+		 */
+		@Override
+		public void apply(JsonString value, List<Problem> problems) {
+			Matcher m = pattern.matcher(value.getString());
+			if (!m.matches()) {
+				problems.add(new StringPatternProblem(value));
+			}
 		}
 	}
 }

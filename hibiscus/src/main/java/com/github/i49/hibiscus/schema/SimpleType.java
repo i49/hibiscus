@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.problems.UnknownValueProblem;
 /**
  * Base class of boolean, integer, number, null and string type.
  */
-public abstract class SimpleType extends JsonType {
+public abstract class SimpleType extends AbstractJsonType {
 
 	private Set<JsonValue> valueSet;
 	
