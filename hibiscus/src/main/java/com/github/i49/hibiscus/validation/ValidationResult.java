@@ -16,8 +16,8 @@ public class ValidationResult {
 
 	/**
 	 * Constructs this result.
-	 * @param value JSON value which is represented in JSON.
-	 * @param problems list of problems found by validation.
+	 * @param value the JSON value which is found at root of JSON instance.
+	 * @param problems the list of problems found by validation.
 	 */
 	public ValidationResult(JsonValue value, List<Problem> problems) {
 		this.value = value;
@@ -25,7 +25,7 @@ public class ValidationResult {
 	}
 	
 	/**
-	 * Returns JSON value which is represented in JSON.
+	 * Returns the JSON value which is found at root of JSON instance.
 	 * @return JSON value.
 	 * @see javax.json.JsonValue
 	 */
@@ -35,7 +35,7 @@ public class ValidationResult {
 	
 	/**
 	 * Returns whether validation found any problem or not.
-	 * @return true if no problem found by validation.
+	 * @return {@code true} if no problem found by validation, or {@code false} if any problems are found.
 	 */
 	public boolean hasProblems() {
 		return !problems.isEmpty();
@@ -43,6 +43,7 @@ public class ValidationResult {
 
 	/**
 	 * Returns list of problems found by validation.
+	 * If the validation found no problems, empty list will be returned.
 	 * @return list of problems.
 	 */
 	public List<Problem> getProblems() {
