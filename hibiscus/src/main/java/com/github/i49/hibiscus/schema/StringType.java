@@ -31,7 +31,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	
 	/**
 	 * Specifies minimum number of characters in this string. 
-	 * @param length the minimum number of characters.
+	 * @param length the minimum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
 	 */
@@ -43,7 +43,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	
 	/**
 	 * Specifies maximum number of characters in this string. 
-	 * @param length the maximum number of characters.
+	 * @param length the maximum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
 	 */
@@ -55,7 +55,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	
 	/**
 	 * Specifies values allowed for this type.
-	 * @param values the values allowed.
+	 * @param values the values allowed. Each value cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is null.
 	 */
@@ -76,7 +76,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	/**
 	 * Specifies string pattern.
 	 * Note that the pattern string must be compatible with Java regular expression. 
-	 * @param regex the regular expression to which this string is to be matched.
+	 * @param regex the regular expression to which this string is to be matched. Cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if expression specified is null.
 	 * @exception PatternSyntaxException if the expression's syntax is invalid.

@@ -28,23 +28,23 @@ public class JsonTypesTest {
 			assertNotNull(array);
 		}
 		
-		@Test
+		@Test(expected = SchemaException.class)
 		public void firstTypeIsNull() {
 			try { 
 				array(getNull());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 0 is null.", e.getMessage());
+				throw e;
 			}
 		}
 
-		@Test
+		@Test(expected = SchemaException.class)
 		public void secondTypeIsNull() {
 			try { 
 				array(string(), getNull());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 1 is null.", e.getMessage());
+				throw e;
 			}
 		}
 	}
@@ -65,6 +65,26 @@ public class JsonTypesTest {
 			ObjectType object = object(required("foo", string()), optional("bar", integer()));
 			assertNotNull(object);
 		}
+		
+		@Test(expected = SchemaException.class)
+		public void firstPropertyIsNull() {
+			try {
+				object(null, optional("bar", integer()));
+			} catch (SchemaException e) {
+				assertEquals("Object property specified at the index of 0 is null.", e.getMessage());
+				throw e;
+			}
+		}
+
+		@Test(expected = SchemaException.class)
+		public void secondPropertyIsNull() {
+			try {
+				object(required("foo", string()), null);
+			} catch (SchemaException e) {
+				assertEquals("Object property specified at the index of 1 is null.", e.getMessage());
+				throw e;
+			}
+		}
 	}
 	
 	/*
@@ -79,43 +99,43 @@ public class JsonTypesTest {
 			assertEquals("foo", p.getName());
 		}
 		
-		@Test
+		@Test(expected = SchemaException.class)
 		public void nameIsNull() {
 			try {
 				optional(null, string());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Property name is null.", e.getMessage());
+				throw e;
 			}
 		}
 		
-		@Test
+		@Test(expected = SchemaException.class)
 		public void typeIsNull() {
 			try {
 				optional("foo", null);
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 0 is null.", e.getMessage());
+				throw e;
 			}
 		}
 
-		@Test
+		@Test(expected = SchemaException.class)
 		public void secondTypeIsNull() {
 			try {
 				optional("foo", integer(), getNull());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 1 is null.", e.getMessage());
+				throw e;
 			}
 		}
 		
-		@Test
+		@Test(expected = SchemaException.class)
 		public void typeIsDuplicated() {
 			try {
 				optional("foo", string(), string());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type \"string\" at the index of 1 is duplicated.", e.getMessage());
+				throw e;
 			}
 		}
 	}
@@ -132,43 +152,43 @@ public class JsonTypesTest {
 			assertEquals("foo", p.getName());
 		}
 		
-		@Test
+		@Test(expected = SchemaException.class)
 		public void nameIsNull() {
 			try {
 				required(null, string());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Property name is null.", e.getMessage());
+				throw e;
 			}
 		}
 
-		@Test
+		@Test(expected = SchemaException.class)
 		public void typeIsNull() {
 			try {
 				required("foo", null);
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 0 is null.", e.getMessage());
+				throw e;
 			}
 		}
 
-		@Test
+		@Test(expected = SchemaException.class)
 		public void secondTypeIsNull() {
 			try {
 				required("foo", integer(), getNull());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type at the index of 1 is null.", e.getMessage());
+				throw e;
 			}
 		}
 
-		@Test
+		@Test(expected = SchemaException.class)
 		public void typeIsDuplicated() {
 			try {
 				required("foo", array(), array());
-				fail();
 			} catch (SchemaException e) {
 				assertEquals("Type \"array\" at the index of 1 is duplicated.", e.getMessage());
+				throw e;
 			}
 		}
 	}

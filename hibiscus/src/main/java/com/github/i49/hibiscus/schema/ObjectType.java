@@ -29,25 +29,40 @@ public class ObjectType extends AbstractJsonType implements ComplexType {
 	}
 
 	/**
-	 * Specifies all properties this object may have.
+	 * Declares all properties this object may have.
+	 * 
+	 * If this method is called multiple times for the same object,
+	 * all previously declared properties are removed from this object.
+	 * 
 	 * @param properties the properties this object may have.
 	 * @return this object.
+	 * @exception SchemaException if one of properties specified is {@code null}.
 	 */
 	public ObjectType properties(Property... properties) {
 		
 		this.properties.clear();
 		this.required.clear();
 
+		int index = 0;
 		for (Property p: properties) {
+			if (p == null) {
+				throw new SchemaException(Messages.PROPERTY_IS_NULL(index));
+			}
 			this.properties.put(p.getName(), p);
 			if (p.isRequired()) {
 				this.required.add(p.getName());
 			}
+			index++;
 		}
 
 		return this;
 	}
 	
+	/**
+	 * Permits this object to have more properties than explicitly declared.
+	 * By default it will be reported as problem by validation when an object has properties not declared. 
+	 * @return this object.
+	 */
 	public ObjectType moreProperties() {
 		this.moreProperties = true;
 		return this;
@@ -70,13 +85,20 @@ public class ObjectType extends AbstractJsonType implements ComplexType {
 
 	/**
 	 * Returns property which this object has.
-	 * @param name name of property.
-	 * @return a property if this object has property of specified name or null. 
+	 * @param name the name of property.
+	 * @return a property if this object has property of specified name, or {@code null} if this object does not have. 
 	 */
 	public Property getProperty(String name) {
+		if (name == null) {
+			return null;
+		}
 		return this.properties.get(name);
 	}
 	
+	/**
+	 * Returns true if this object can have properties not explicitly declared.
+	 * @return true if this object can have properties not explicitly declared, or false if it cannot have. 
+	 */
 	public boolean allowsMoreProperties() {
 		return moreProperties;
 	}

@@ -1,14 +1,8 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.json.JsonValues;
-import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
  * JSON type for numeric value without a fraction or exponent part.
@@ -65,18 +59,14 @@ public class IntegerType extends NumberType {
 	public IntegerType maxExclusive(BigDecimal value) {
 		return (IntegerType)super.maxExclusive(value);
 	}
-
-	/**
-	 * Specifies values allowed for this type.
-	 * @param values values allowed.
-	 * @return this type.
-	 */
+	
+	@Override
 	public IntegerType values(long... values) {
-		Set<JsonNumber> valueSet = new HashSet<>();
-		for (long value: values) {
-			valueSet.add(JsonValues.createNumber(value));
-		}
-		addFacet(ValueSetFacet.of(valueSet));
-		return this;
+		return (IntegerType)super.values(values);
+	}
+
+	@Override
+	public IntegerType values(BigDecimal... values) {
+		return (IntegerType)super.values(values);
 	}
 }

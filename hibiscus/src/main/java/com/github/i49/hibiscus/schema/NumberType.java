@@ -1,15 +1,19 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
+import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
- * JSON type for numeric value including integer.
+ * JSON type for numeric value, including integer.
  */
 public class NumberType extends AbstractSimpleType<JsonNumber> implements SimpleType {
 
@@ -97,6 +101,40 @@ public class NumberType extends AbstractSimpleType<JsonNumber> implements Simple
 	 */
 	public NumberType maxExclusive(BigDecimal value) {
 		addFacet(new MaxNumberFacet(value, true));
+		return this;
+	}
+
+	/**
+	 * Specifies values allowed for this type.
+	 * @param values the values allowed.
+	 * @return this type.
+	 */
+	public NumberType values(long... values) {
+		Set<JsonNumber> valueSet = new HashSet<>();
+		for (long value: values) {
+			valueSet.add(JsonValues.createNumber(value));
+		}
+		addFacet(ValueSetFacet.of(valueSet));
+		return this;
+	}
+	
+	/**
+	 * Specifies values allowed for this type.
+	 * @param values the values allowed.
+	 * @return this type.
+	 * @exception SchemaException if one of values specified is null.
+	 */
+	public NumberType values(BigDecimal... values) {
+		Set<JsonNumber> valueSet = new HashSet<>();
+		int index = 0;
+		for (BigDecimal value: values) {
+			if (value == null) {
+				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(index));
+			}
+			valueSet.add(JsonValues.createNumber(value));
+			index++;
+		}
+		addFacet(ValueSetFacet.of(valueSet));
 		return this;
 	}
 }

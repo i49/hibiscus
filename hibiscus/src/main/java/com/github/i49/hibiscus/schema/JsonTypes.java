@@ -1,10 +1,10 @@
 package com.github.i49.hibiscus.schema;
 
 /**
- * Provides utility methods to create building blocks of schema.
+ * Provides utility methods to create building blocks of the schema.
  * All methods of this class are static and this class cannot be instantiated.
  */
-public class JsonTypes {
+public final class JsonTypes {
 	
 	/**
 	 * Creates array type.
@@ -16,8 +16,11 @@ public class JsonTypes {
 
 	/**
 	 * Creates array type with element types.
-	 * @param types the types allowed for elements of the array.
+	 * Calling this methods is equivalent to {@code array().items(...)}. 
+	 * 
+	 * @param types the types allowed for elements of the array. Each type cannot be {@code null}.
 	 * @return created array type.
+	 * @exception SchemaException if one of types specified is {@code null} or duplicated.
 	 */
 	public static ArrayType array(JsonType... types) {
 		return array().items(types);
@@ -65,8 +68,11 @@ public class JsonTypes {
 	
 	/**
 	 * Creates object type with properties.
-	 * @param properties properties that object type have.
+	 * Calling this methods is equivalent to {@code object().properties(...)}. 
+	 * 
+	 * @param properties the properties that object type have. Each property cannot be {@code null}. 
 	 * @return object type.
+	 * @exception SchemaException if one of properties specified is {@code null}.
 	 */
 	public static ObjectType object(Property... properties) {
 		return object().properties(properties);
@@ -82,10 +88,11 @@ public class JsonTypes {
 	
 	/**
 	 * Creates property which is optional for containing object.
-	 * @param name name of property.
-	 * @param type type of property value.
-	 * @param moreTypes other types allowed for property value.
+	 * @param name the name of property. Cannot be {@code null}.
+	 * @param type the type of property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for property value. Each type cannot be {@code null}.
 	 * @return property.
+	 * @exception SchemaException if name is {@code null} or one of types is {@code null} or duplicated.
 	 */
 	public static Property optional(String name, JsonType type, JsonType... moreTypes) {
 		return Property.of(name, type, moreTypes, false);
@@ -93,10 +100,11 @@ public class JsonTypes {
 	
 	/**
 	 * Creates property which is required for containing object.
-	 * @param name name of property.
-	 * @param type type of property value.
-	 * @param moreTypes other types allowed for property value.
+	 * @param name the name of property. Cannot be {@code null}.
+	 * @param type the type of property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for property value. Each type cannot be {@code null}.
 	 * @return property.
+	 * @exception SchemaException if name is {@code null} or one of types is {@code null} or duplicated.
 	 */
 	public static Property required(String name, JsonType type, JsonType... moreTypes) {
 		return Property.of(name, type, moreTypes, true);

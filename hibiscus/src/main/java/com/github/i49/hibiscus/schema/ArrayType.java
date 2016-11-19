@@ -51,8 +51,9 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	 * Specifies allowed types for elements of this array. 
 	 * @param types the types allowed.
 	 * @return this array.
+	 * @exception SchemaException if one of types specified is {@code null}.
 	 */
-	public ArrayType items(JsonType[] types) {
+	public ArrayType items(JsonType... types) {
 		this.typeSet = TypeSet.of(types);
 		return this;
 	}
@@ -66,22 +67,36 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	}
 
 	/**
-	 * Specifies minimum number of elements in this array. 
-	 * @param size minimum number of elements.
+	 * Specifies the minimum number of elements in this array. 
+	 * @param size the minimum number of elements.
 	 * @return this array.
+	 * @exception SchemaException if size specified is negative.
 	 */
 	public ArrayType minItems(int size) {
+		checkSize(size);
 		this.minItems = OptionalInt.of(size);
 		return this;
 	}
 
 	/**
-	 * Specifies maximum number of elements in this array. 
-	 * @param size maximum number of elements.
+	 * Specifies the maximum number of elements in this array. 
+	 * @param size the maximum number of elements.
 	 * @return this array.
+	 * @exception SchemaException if size specified is negative.
 	 */
 	public ArrayType maxItems(int size) {
+		checkSize(size);
 		this.maxItems = OptionalInt.of(size);
 		return this;
+	}
+	
+	/**
+	 * Checks array size.
+	 * @param size the size of array.
+	 */
+	private static void checkSize(int size) {
+		if (size < 0) {
+			throw new SchemaException(Messages.ARRAY_SIZE_IS_NEGATIVE(size));
+		}
 	}
 }

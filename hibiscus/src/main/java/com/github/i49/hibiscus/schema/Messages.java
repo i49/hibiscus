@@ -17,6 +17,14 @@ class Messages {
 		return localize("METHOD_PARAMETER_IS_NULL", method, parameter);
 	}
 	
+	static String ARRAY_SIZE_IS_NEGATIVE(int size) {
+		return localize("ARRAY_SIZE_IS_NEGATIVE", size);
+	}
+	
+	static String PROPERTY_IS_NULL(int index) {
+		return localize("PROPERTY_IS_NULL", index);
+	}
+	
 	static String PROPERTY_NAME_IS_NULL() {
 		return localize("PROPERTY_NAME_IS_NULL");
 	}

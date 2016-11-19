@@ -52,8 +52,8 @@ class JsonValidatingReader {
 	 */
 	public JsonValue readAll(JsonType expected) {
 		if (parser.hasNext()) {
-			TypeSet typeMap = TypeSet.of(expected);
-			return readValue(parser.next(), typeMap);
+			TypeSet typeSet = TypeSet.of(expected);
+			return readValue(parser.next(), typeSet);
 		} else {
 			return null;
 		}

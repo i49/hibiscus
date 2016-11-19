@@ -18,9 +18,6 @@ abstract class AbstractSimpleType<T extends JsonValue> extends AbstractJsonType 
 
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
-		if (value == null || problems == null) {
-			throw new IllegalStateException("internal error.");
-		}
 		if (this.facets == null) {
 			// Nothing to do.
 			return;
@@ -34,7 +31,7 @@ abstract class AbstractSimpleType<T extends JsonValue> extends AbstractJsonType 
 
 	/**
 	 * Adds facet to this type.
-	 * @param facet the facet to be added.
+	 * @param facet the facet to be added. Cannot be {@code null}.
 	 */
 	void addFacet(Facet<T> facet) {
 		if (facet == null) {
