@@ -12,12 +12,15 @@ import com.github.i49.hibiscus.schema.facets.Facet;
 /**
  * Skeletal class to implement {@code SimleType}.
  */
-abstract class AbstractSimpleType<T extends JsonValue> extends SimpleType {
+abstract class AbstractSimpleType<T extends JsonValue> extends AbstractJsonType {
 
 	private Map<Class<?>, Facet<T>> facets;
 
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
+		if (value == null || problems == null) {
+			throw new IllegalStateException("internal error.");
+		}
 		if (this.facets == null) {
 			// Nothing to do.
 			return;

@@ -14,7 +14,7 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * JSON array which can have zero or more values as elements.
  */
-public class ArrayType extends ComplexType {
+public class ArrayType extends AbstractJsonType implements ComplexType {
 
 	private TypeSet typeSet = TypeSet.empty();
 	private OptionalInt minItems = OptionalInt.empty();

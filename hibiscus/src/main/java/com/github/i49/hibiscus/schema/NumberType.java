@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
 /**
  * JSON type for numeric value including integer.
  */
-public class NumberType extends AbstractSimpleType<JsonNumber> {
+public class NumberType extends AbstractSimpleType<JsonNumber> implements SimpleType {
 
 	/**
 	 * Constructs this type.

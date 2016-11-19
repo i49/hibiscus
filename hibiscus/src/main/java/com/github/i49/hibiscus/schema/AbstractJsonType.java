@@ -7,7 +7,7 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Skeletal implementation of interface {@code JsonType}.
+ * Skeletal class to implement {@code JsonType}.
  */
 abstract class AbstractJsonType implements JsonType {
 

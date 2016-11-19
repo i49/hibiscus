@@ -16,7 +16,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for string value.
  */
-public class StringType extends AbstractSimpleType<JsonString> {
+public class StringType extends AbstractSimpleType<JsonString> implements SimpleType {
 	
 	/**
 	 * Constructs this type.

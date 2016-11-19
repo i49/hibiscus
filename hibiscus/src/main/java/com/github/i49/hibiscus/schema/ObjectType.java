@@ -16,7 +16,7 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * JSON object which can hold zero or more key-value pairs as members.
  */
-public class ObjectType extends ComplexType {
+public class ObjectType extends AbstractJsonType implements ComplexType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();

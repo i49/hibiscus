@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for boolean value.
  */
-public class BooleanType extends AbstractSimpleType<JsonValue> {
+public class BooleanType extends AbstractSimpleType<JsonValue> implements SimpleType {
 	
 	/**
 	 * Constructs this type.
