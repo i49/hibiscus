@@ -7,6 +7,7 @@ import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
  * JSON boolean.
@@ -20,7 +21,7 @@ public class BooleanType extends AbstractSimpleType<JsonValue> {
 
 	/**
 	 * Specifies values allowed for this type.
-	 * @param values values allowed.
+	 * @param values the values allowed.
 	 * @return this type.
 	 */
 	public BooleanType values(boolean... values) {
@@ -28,7 +29,7 @@ public class BooleanType extends AbstractSimpleType<JsonValue> {
 		for (boolean value: values) {
 			valueSet.add(JsonValues.createBoolean(value));
 		}
-		addFacet(new ValueSetFacet<JsonValue>(valueSet));
+		addFacet(ValueSetFacet.of(valueSet));
 		return this;
 	}
 }

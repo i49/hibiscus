@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.facets;
 
 import java.util.List;
 

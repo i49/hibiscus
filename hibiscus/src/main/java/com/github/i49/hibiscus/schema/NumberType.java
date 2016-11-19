@@ -1,40 +1,23 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
 
 import javax.json.JsonNumber;
-import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
-import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
-import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
-import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
-import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
+import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
 
 /**
  * JSON number including integer.
  */
-public class NumberType extends SimpleType {
+public class NumberType extends AbstractSimpleType<JsonNumber> {
 
-	private Optional<Bound<BigDecimal>> minimum = Optional.empty();
-	private Optional<Bound<BigDecimal>> maximum = Optional.empty();
-	
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.NUMBER;
 	}
 	
-	@Override
-	public void validateInstance(JsonValue value, List<Problem> problems) {
-		super.validateInstance(value, problems);
-		JsonNumber number = (JsonNumber)value;
-		validateAgainstRange(number, problems);
-	}
-
 	/**
 	 * Specifies the inclusive lower bound of the value space for this type.
 	 * @param value the inclusive lower bound value.
@@ -59,7 +42,7 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType minInclusive(BigDecimal value) {
-		this.minimum = Optional.of(Bound.of(value, false));
+		addFacet(new MinNumberFacet(value, false));
 		return this;
 	}
 
@@ -69,7 +52,7 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType minExclusive(BigDecimal value) {
-		this.minimum = Optional.of(Bound.of(value, true));
+		addFacet(new MinNumberFacet(value, true));
 		return this;
 	}
 
@@ -97,7 +80,7 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType maxInclusive(BigDecimal value) {
-		this.maximum = Optional.of(Bound.of(value, false));
+		addFacet(new MaxNumberFacet(value, false));
 		return this;
 	}
 	
@@ -107,35 +90,7 @@ public class NumberType extends SimpleType {
 	 * @return this type.
 	 */
 	public NumberType maxExclusive(BigDecimal value) {
-		this.maximum = Optional.of(Bound.of(value, true));
+		addFacet(new MaxNumberFacet(value, true));
 		return this;
-	}
-
-	private void validateAgainstRange(JsonNumber value, List<Problem> problems) {
-		BigDecimal decimal = value.bigDecimalValue();
-		this.minimum.ifPresent(bound->{
-			int result = decimal.compareTo(bound.getValue());
-			if (bound.isExclusive()) {
-				if (result <= 0) {
-					problems.add(new NotMoreThanMinimumProblem(value, bound));
-				}
-			} else {
-				if (result < 0) {
-					problems.add(new LessThanMinimumProblem(value, bound));
-				}
-			}
-		});
-		this.maximum.ifPresent(bound->{
-			int result = decimal.compareTo(bound.getValue());
-			if (bound.isExclusive()) {
-				if (result >= 0) {
-					problems.add(new NotLessThanMaximumProblem(value, bound));
-				}
-			} else {
-				if (result > 0) {
-					problems.add(new MoreThanMaximumProblem(value, bound));
-				}
-			}
-		});
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.schema.facets.Facet;
 
 abstract class AbstractSimpleType<T extends JsonValue> extends SimpleType {
 

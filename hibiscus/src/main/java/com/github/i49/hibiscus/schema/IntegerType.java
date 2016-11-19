@@ -4,10 +4,11 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.json.JsonValue;
+import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
  * JSON number without a fraction or exponent part.
@@ -65,11 +66,11 @@ public class IntegerType extends NumberType {
 	 * @return this type.
 	 */
 	public IntegerType values(long... values) {
-		Set<JsonValue> valueSet = new HashSet<>();
+		Set<JsonNumber> valueSet = new HashSet<>();
 		for (long value: values) {
 			valueSet.add(JsonValues.createNumber(value));
 		}
-		this.setValueSet(valueSet);
+		addFacet(ValueSetFacet.of(valueSet));
 		return this;
 	}
 }
