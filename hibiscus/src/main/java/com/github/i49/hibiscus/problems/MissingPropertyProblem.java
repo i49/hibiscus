@@ -5,7 +5,7 @@ import java.util.Locale;
 /**
  * Problem that object does not have a property which is specified as mandatory.
  */
-public class MissingPropertyProblem extends Problem {
+public class MissingPropertyProblem extends AbstractProblem {
 
 	private final String propertyName;
 	

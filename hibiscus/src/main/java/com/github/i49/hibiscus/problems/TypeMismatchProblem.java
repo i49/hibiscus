@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Problem that type of JSON instance does not match type specified in schema. 
+ * Problem that type of value in JSON instance does not match type specified in schema. 
  */
-public class TypeMismatchProblem extends Problem {
+public class TypeMismatchProblem extends AbstractProblem {
 	
 	private final TypeId actualType;
 	private final Set<TypeId> expectedType;

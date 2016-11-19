@@ -3,7 +3,7 @@ package com.github.i49.hibiscus.problems;
 import javax.json.JsonString;
 
 /**
- * Base class of StringTooShortProblem and StringTooLongProblem.
+ * Base class of {@code StringTooShortProblem} and {@code StringTooLongProblem}.
  */
 public abstract class StringLengthProblem extends ValueProblem<JsonString> {
 

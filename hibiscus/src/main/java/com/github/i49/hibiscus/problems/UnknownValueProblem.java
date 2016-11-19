@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import javax.json.JsonValue;
 
 /**
- * Problem that instance value is not found in values allowed for the type.
+ * Problem that value in JSON instance does not match any value allowed for the type.
  */
 public class UnknownValueProblem extends ValueProblem<JsonValue> {
 
@@ -16,7 +16,7 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	/**
 	 * Constructs this problem.
 	 * @param value the value in JSON instance.
-	 * @param expected expected set of values.
+	 * @param expected the set of values allowed for the type.
 	 */
 	public UnknownValueProblem(JsonValue value, Set<JsonValue> expected) {
 		super(value);
@@ -24,7 +24,7 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	}
 	
 	/**
-	 * Returns allowed values for the type.
+	 * Returns set of values allowed for the type.
 	 * @return set of values.
 	 */
 	public Set<JsonValue> getExpectedValues() {

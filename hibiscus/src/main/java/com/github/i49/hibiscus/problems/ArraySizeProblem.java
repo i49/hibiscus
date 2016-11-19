@@ -1,9 +1,9 @@
 package com.github.i49.hibiscus.problems;
 
 /**
- * Base class of ArrayTooShortProblem and ArrayTooLongProblem.
+ * Base class of {@code ArrayTooShortProblem} and {@code ArrayTooLongProblem}.
  */
-public abstract class ArraySizeProblem extends Problem {
+public abstract class ArraySizeProblem extends AbstractProblem {
 
 	private final int actualSize;
 	private final int limitSize;

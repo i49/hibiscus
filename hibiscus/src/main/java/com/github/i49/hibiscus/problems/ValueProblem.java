@@ -5,9 +5,9 @@ import javax.json.JsonValue;
 /**
  * Base class of problems caused by value assigned in JSON instance.
  *
- * @param <T> type of value.
+ * @param <T> type of {@code JsonValue}.
  */
-public abstract class ValueProblem<T extends JsonValue> extends Problem {
+public abstract class ValueProblem<T extends JsonValue> extends AbstractProblem {
 
 	private final T value;
 	

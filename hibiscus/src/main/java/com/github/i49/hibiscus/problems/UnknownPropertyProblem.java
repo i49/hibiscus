@@ -3,9 +3,9 @@ package com.github.i49.hibiscus.problems;
 import java.util.Locale;
 
 /**
- * Problem that object has a property not defined in schema.
+ * Problem that object has a property which is not explicitly defined in schema.
  */
-public class UnknownPropertyProblem extends Problem {
+public class UnknownPropertyProblem extends AbstractProblem {
 
 	private final String propertyName;
 

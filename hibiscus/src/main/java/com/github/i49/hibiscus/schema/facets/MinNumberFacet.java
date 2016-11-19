@@ -17,6 +17,11 @@ public class MinNumberFacet implements Facet<JsonNumber> {
 
 	private final Bound<BigDecimal> bound;
 	
+	/**
+	 * Constructs this facet.
+	 * @param limit the lower bound of value space.
+	 * @param exclusive {@code true} if the bound is exclusive, otherwise {@code false}.
+	 */
 	public MinNumberFacet(BigDecimal limit, boolean exclusive) {
 		this.bound = Bound.of(limit, exclusive);
 	}

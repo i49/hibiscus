@@ -7,7 +7,7 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.common.Bound;
 
 /**
- * Problem that instance number is out of range.
+ * Problem that numeric value is out of range.
  */
 public abstract class NumberRangeProblem extends ValueProblem<JsonNumber> {
 	

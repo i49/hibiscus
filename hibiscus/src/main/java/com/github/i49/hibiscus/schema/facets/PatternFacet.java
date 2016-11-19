@@ -10,7 +10,9 @@ import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.StringPatternProblem;
 
 /**
- * Facet constraining a value space to those that matches a regular expression.  
+ * Facet constraining a value space to those that matches a specified regular expression.  
+ *
+ * Note that the pattern string must be compatible with Java regular expression. 
  */
 public class PatternFacet implements Facet<JsonString> {
 
@@ -18,7 +20,7 @@ public class PatternFacet implements Facet<JsonString> {
 
 	/**
 	 * Constructs this facet.
-	 * @param regex the string which is compatible with Java regular expression.
+	 * @param regex the string representing regular expression.
 	 */
 	public PatternFacet(String regex) {
 		this.pattern = Pattern.compile(regex);

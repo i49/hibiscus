@@ -1,97 +1,41 @@
 package com.github.i49.hibiscus.problems;
 
-import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.json.stream.JsonLocation;
 
 /**
- * The superclass of all problems to be detected during JSON validation.
+ * Problem to be detected during validation of JSON content.
  */
-public abstract class Problem {
-
-	private JsonLocation location;
-	
-	private static final String BUNDLE_BASE_NAME = Problem.class.getPackage().getName() + ".messages";
-	
-	/**
-	 * Constructs this problem.
-	 */
-	protected Problem() {
-	}
-	
-	/**
-	 * Returns location where this problem was found.
-	 * @return location location object defined in JSON Processing API.
-	 */
-	public JsonLocation getLocation() {
-		return location;
-	}
+public interface Problem {
 
 	/**
-	 * Assigns location where this problem was found.
-	 * @param location location object defined in JSON Processing API.
+	 * Returns the location where this problem was found.
+	 * @return location the location object defined in JSON Processing API.
+	 */
+	JsonLocation getLocation();
+
+	/**
+	 * Assigns the location where this problem was found.
+	 * @param location the location object defined in JSON Processing API.
 	 * @return this problem.
+	 * @exception IllegalArgumentException if location is null.
 	 */
-	public Problem setLocation(JsonLocation location) {
-		this.location = location;
-		return this;
-	}
+	Problem setLocation(JsonLocation location);
 	
-	/**
-	 * Returns a string representation of this type, including location and error message.
-	 * @return a string representation of the object. 
-	 */
-	@Override
-	public String toString() {
-		StringBuilder b = new StringBuilder();
-		JsonLocation location = getLocation();
-		if (location != null) {
-			b.append("Line ").append(location.getLineNumber());
-			b.append(", column ").append(location.getColumnNumber());
-		} else {
-			b.append("(unknown)");
-		}
-		b.append(": ").append(getMessage());
-		return b.toString();
-	}
-	
-
 	/**
 	 * Returns the error message of this problem.
 	 * @return error message.
 	 */
-	public String getMessage() {
+	default String getMessage() {
 		return getMessage(Locale.getDefault());
 	}
 	
 	/**
-	 * Returns the error message of this problem.
+	 * Returns the error message of this problem for specified locale.
 	 * @param locale the locale for which the message is desired.
 	 * @return error message.
+	 * @exception IllegalArgumentException if locale is null.
 	 */
-	public abstract String getMessage(Locale locale);
-
-	/**
-	 * Returns resource bundle that contains problem messages.
-	 * @param locale the locale for which a message is desired.
-	 * @return resource bundle.
-	 */
-	protected ResourceBundle findBundle(Locale locale) {
-		return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
-	}
-
-	/**
-	 * Localizes the message for this problem.
-	 * @param locale the locale for which a message is desired.
-	 * @param arguments the arguments composing the message.
-	 * @return localized message.
-	 */
-	protected String localize(Locale locale, Object... arguments) {
-		ResourceBundle bundle = findBundle(locale);
-		String key = getClass().getSimpleName();
-		String pattern = bundle.getString(key);
-		return MessageFormat.format(pattern, arguments);
-	}
+	String getMessage(Locale locale);
 }

@@ -17,6 +17,11 @@ public class MaxNumberFacet implements Facet<JsonNumber> {
 
 	private final Bound<BigDecimal> bound;
 	
+	/**
+	 * Constructs this facet.
+	 * @param limit the upper bound of value space.
+	 * @param exclusive {@code true} if the bound is exclusive, otherwise {@code false}.
+	 */
 	public MaxNumberFacet(BigDecimal limit, boolean exclusive) {
 		this.bound = Bound.of(limit, exclusive);
 	}
