@@ -10,10 +10,16 @@ import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
- * JSON boolean.
+ * JSON type for boolean value.
  */
 public class BooleanType extends AbstractSimpleType<JsonValue> {
 	
+	/**
+	 * Constructs this type.
+	 */
+	public BooleanType() {
+	}
+
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.BOOLEAN;

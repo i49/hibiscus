@@ -11,10 +11,16 @@ import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
- * JSON number without a fraction or exponent part.
+ * JSON type for numeric value without a fraction or exponent part.
  */
 public class IntegerType extends NumberType {
 
+	/**
+	 * Constructs this type.
+	 */
+	public IntegerType() {
+	}
+	
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.INTEGER;

@@ -21,7 +21,7 @@ public class ArrayType extends ComplexType {
 	private OptionalInt maxItems = OptionalInt.empty();
 	
 	/**
-	 * Constructs this array type.
+	 * Constructs this type.
 	 */
 	public ArrayType() {
 	}

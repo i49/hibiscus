@@ -23,7 +23,7 @@ public class ObjectType extends ComplexType {
 	private boolean moreProperties = false;
 	
 	/**
-	 * Constructs object.
+	 * Constructs this type.
 	 */
 	public ObjectType() {
 	}

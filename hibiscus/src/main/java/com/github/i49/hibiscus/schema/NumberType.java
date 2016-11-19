@@ -9,9 +9,15 @@ import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
 
 /**
- * JSON number including integer.
+ * JSON type for numeric value including integer.
  */
 public class NumberType extends AbstractSimpleType<JsonNumber> {
+
+	/**
+	 * Constructs this type.
+	 */
+	public NumberType() {
+	}
 
 	@Override
 	public TypeId getTypeId() {

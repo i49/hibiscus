@@ -8,7 +8,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * This interface represents all types in JSON schema.
+ * The interface representing all types in JSON schema.
  */
 public interface JsonType {
 
@@ -19,9 +19,9 @@ public interface JsonType {
 	TypeId getTypeId();
 	
 	/**
-	 * Validates instance of this type.
-	 * @param value instance value.
-	 * @param problems list to which detected problems to be added.
+	 * Validates value of this type in JSON instance.
+	 * @param value the value in JSON instance.
+	 * @param problems the list to which detected problems to be added.
 	 */
 	void validateInstance(JsonValue value, List<Problem> problems);
  }
