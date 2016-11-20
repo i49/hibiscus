@@ -20,7 +20,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	public void booleanOfTrue() {
 		String json = "[true]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -30,7 +30,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	public void booleanOfFalse() {
 		String json = "[false]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -40,7 +40,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	public void notBooleanButString() {
 		String json = "[\"true\"]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -54,7 +54,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	public void booleanOfAllowedValue() {
 		String json = "[true]";
 		ComplexType schema = array(bool().values(true));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -64,7 +64,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	public void booleanOfNotAllowedValue() {
 		String json = "[false]";
 		ComplexType schema = array(bool().values(true));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());

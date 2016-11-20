@@ -39,7 +39,7 @@ public class PersonValidatorTest extends BaseValidationTest {
 				optional("hobbies", array(string()))
 			);
 
-		validator = new JsonValidator(schema);
+		validator = new BasicJsonValidator(schema);
 	}
 
 	@Test

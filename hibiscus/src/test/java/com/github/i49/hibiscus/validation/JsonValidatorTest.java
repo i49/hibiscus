@@ -35,7 +35,7 @@ public class JsonValidatorTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void schemaIsNull() {
 		try {
-			new JsonValidator(null);
+			new BasicJsonValidator(null);
 		} catch (IllegalArgumentException e) {
 			throw e;
 		}
@@ -43,7 +43,7 @@ public class JsonValidatorTest {
 	
 	@Test
 	public void readerIsValid() throws IOException {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		ValidationResult result = null; 
 		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
@@ -55,7 +55,7 @@ public class JsonValidatorTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void readerIsNull() {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		try {
 			validator.validate(null);
 		} catch (IllegalArgumentException e) {
@@ -65,7 +65,7 @@ public class JsonValidatorTest {
 
 	@Test
 	public void inputStreamIsValid() throws IOException {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		ValidationResult result = null; 
 		try (InputStream stream = newInputStream("person.json")) {
 			result = validator.validate(stream, StandardCharsets.UTF_8);
@@ -77,7 +77,7 @@ public class JsonValidatorTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void inputStreamIsNull() {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		try {
 			validator.validate(null, StandardCharsets.UTF_8);
 		} catch (IllegalArgumentException e) {
@@ -87,7 +87,7 @@ public class JsonValidatorTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void charsetIsNull() throws IOException {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		try {
 			try (InputStream stream = newInputStream("person.json")) {
 				validator.validate(stream, null);
@@ -99,7 +99,7 @@ public class JsonValidatorTest {
 
 	@Test(expected = JsonParsingException.class)
 	public void notWellFormed() throws IOException {
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		try (InputStream stream = newInputStream("person-not-well-formed.json")) {
 			validator.validate(stream, StandardCharsets.UTF_8);
 		} catch (JsonParsingException e) {

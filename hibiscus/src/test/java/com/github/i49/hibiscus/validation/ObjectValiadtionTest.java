@@ -40,7 +40,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	public void emptyObject() {
 		String json = "{}";
 		ComplexType schema = object();
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -59,7 +59,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -78,7 +78,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -103,7 +103,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": null"
 				+ "}";
 
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		List<Problem> problems = result.getProblems();
@@ -137,7 +137,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		List<Problem> problems = result.getProblems();
@@ -164,7 +164,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	public void objectWithUnknownProperty() {
 		
 		String json = jsonWithUnknownProperty();
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		List<Problem> problems = result.getProblems();
@@ -178,7 +178,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	public void objectWithMoreProperties() {
 		
 		String json = jsonWithUnknownProperty();
-		JsonValidator validator = new JsonValidator(schema.moreProperties());
+		JsonValidator validator = new BasicJsonValidator(schema.moreProperties());
 		ValidationResult result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());

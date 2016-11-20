@@ -16,7 +16,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void emptyArray() {
 		String json = "[]";
 		ComplexType schema = array();
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -26,7 +26,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfBooleans() {
 		String json = "[true, false, true]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -36,7 +36,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfIntegers() {
 		String json = "[1, 2, 3, 4, 5]";
 		ComplexType schema = array(integer());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -46,7 +46,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfNumbers() {
 		String json = "[1.2, 3.4, 5.6]";
 		ComplexType schema = array(number());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -56,7 +56,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfNulls() {
 		String json = "[null, null, null]";
 		ComplexType schema = array(nullValue());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -66,7 +66,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfStrings() {
 		String json = "[\"abc\", \"xyz\", \"123\"]";
 		ComplexType schema = array(string());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -76,7 +76,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfMixiedItems() {
 		String json = "[123, \"abc\", 456, \"xyz\"]";
 		ComplexType schema = array(integer(), string());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -86,7 +86,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfArrays() {
 		String json = "[[1, 2, 3], [4, 5, 6]]";
 		ComplexType schema = array(array(integer()));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -96,7 +96,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfObjects() {
 		String json = "[{}, {}, {}]";
 		ComplexType schema = array(object());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -106,7 +106,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfMinItems() {
 		String json = "[1, 2, 3]";
 		ComplexType schema = array(integer()).minItems(3);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -116,7 +116,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfItemsMoreThanMin() {
 		String json = "[1, 2, 3, 4]";
 		ComplexType schema = array(integer()).minItems(3);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -126,7 +126,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfItemsLessThanMin() {
 		String json = "[1, 2]";
 		ComplexType schema = array(integer()).minItems(3);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -141,7 +141,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfMaxItems() {
 		String json = "[1, 2, 3, 4]";
 		ComplexType schema = array(integer()).maxItems(4);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -151,7 +151,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfItemsLessThanMax() {
 		String json = "[1, 2, 3]";
 		ComplexType schema = array(integer()).maxItems(4);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -164,7 +164,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfItemsMoreThanMax() {
 		String json = "[1, 2, 3, 4, 5]";
 		ComplexType schema = array(integer()).maxItems(4);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -179,7 +179,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public void arrayOfItemsBetweenMinAndMax() {
 		String json = "[1, 2, 3, 4]";
 		ComplexType schema = array(integer()).minItems(3).maxItems(4);
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());

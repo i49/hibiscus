@@ -19,7 +19,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	public void allowedValuesOfInteger() {
 		String json = "[123]";
 		ComplexType schema = array(number().values(123, 456));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -29,7 +29,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	public void notAllowedValuesOfInteger() {
 		String json = "[789]";
 		ComplexType schema = array(number().values(123, 456));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -43,7 +43,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	public void allowedValuesOfNumber() {
 		String json = "[56.78]";
 		ComplexType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("56.78")));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -53,7 +53,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	public void notAllowedValuesOfNumber() {
 		String json = "[56.78]";
 		ComplexType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("67.89")));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());

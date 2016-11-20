@@ -3,9 +3,10 @@ package com.github.i49.hibiscus.examples;
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
 import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.validation.BasicJsonValidator;
 import com.github.i49.hibiscus.validation.JsonValidator;
 
-public class PedigreeValidator extends JsonValidator{
+public class PedigreeValidator extends BasicJsonValidator {
 
 	private static final ObjectType horse = object(); // Creates blank type.
 	

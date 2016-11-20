@@ -24,7 +24,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void normalString() {
 		String json = "[\"abc\"]";
 		ComplexType schema = array(string());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -34,7 +34,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void emptyString() {
 		String json = "[\"\"]";
 		ComplexType schema = array(string());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -44,7 +44,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void notStringButInteger() {
 		String json = "[123]";
 		ComplexType schema = array(string());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -58,7 +58,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfAllowedValue() {
 		String json = "[\"Spring\"]";
 		ComplexType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 		
 		assertFalse(result.hasProblems());
@@ -68,7 +68,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfNotAllowedValue() {
 		String json = "[\"Q2\"]";
 		ComplexType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 		
 		assertEquals(1, result.getProblems().size());
@@ -84,7 +84,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfMinLength() {
 		String json = "[\"abc\"]";
 		ComplexType schema = array(string().minLength(3));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -95,7 +95,7 @@ public class StringValidationTest extends BaseValidationTest {
 		
 		String json = "[\"ab\"]";
 		ComplexType schema = array(string().minLength(3));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -111,7 +111,7 @@ public class StringValidationTest extends BaseValidationTest {
 		
 		String json = "[\"abcd\"]";
 		ComplexType schema = array(string().maxLength(4));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -122,7 +122,7 @@ public class StringValidationTest extends BaseValidationTest {
 		
 		String json = "[\"abcde\"]";
 		ComplexType schema = array(string().maxLength(4));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -137,7 +137,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfLengthBetweentMinAndMax() {
 		String json = "[\"abcd\"]";
 		ComplexType schema = array(string().minLength(3).maxLength(4));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -147,7 +147,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfValidPattern() {
 		String json = "[\"123-45-6789\"]";
 		ComplexType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -157,7 +157,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfInvalidPattern() {
 		String json = "[\"9876-54-321\"]";
 		ComplexType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());

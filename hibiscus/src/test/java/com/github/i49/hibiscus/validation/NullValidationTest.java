@@ -18,7 +18,7 @@ public class NullValidationTest extends BaseValidationTest {
 	public void normalNull() {
 		String json = "[null]";
 		ComplexType schema = array(nullValue());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -28,7 +28,7 @@ public class NullValidationTest extends BaseValidationTest {
 	public void notNullButInteger() {
 		String json = "[0]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());

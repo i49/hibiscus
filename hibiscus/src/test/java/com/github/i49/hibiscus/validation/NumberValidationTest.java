@@ -23,7 +23,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	public void postiveNumber() {
 		String json = "[123.45]";
 		ComplexType schema = array(number());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -33,7 +33,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	public void negativeNumber() {
 		String json = "[-123.45]";
 		ComplexType schema = array(number());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -43,7 +43,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	public void integralNumber() {
 		String json = "[123]";
 		ComplexType schema = array(number());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -53,7 +53,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	public void notNumberButString() {
 		String json = "[\"123.45\"]";
 		ComplexType schema = array(bool());
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -68,7 +68,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[12.340]";
 		ComplexType schema = array(number().minInclusive(new BigDecimal("12.34")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -79,7 +79,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[12.33]";
 		ComplexType schema = array(number().minInclusive(new BigDecimal("12.34")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -97,7 +97,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[12.35]";
 		ComplexType schema = array(number().minExclusive(new BigDecimal("12.34")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -108,7 +108,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[12.340]";
 		ComplexType schema = array(number().minExclusive(new BigDecimal("12.34")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -126,7 +126,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[56.780]";
 		ComplexType schema = array(number().maxInclusive(new BigDecimal("56.78")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -137,7 +137,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[56.79]";
 		ComplexType schema = array(number().maxInclusive(new BigDecimal("56.78")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -155,7 +155,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[56.77]";
 		ComplexType schema = array(number().maxExclusive(new BigDecimal("56.78")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -166,7 +166,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		String json = "[56.780]";
 		ComplexType schema = array(number().maxExclusive(new BigDecimal("56.78")));
 		
-		JsonValidator validator = new JsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
