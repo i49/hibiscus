@@ -8,9 +8,11 @@ import com.github.i49.hibiscus.validation.JsonValidator;
 
 public class PedigreeValidator extends BasicJsonValidator {
 
-	private static final ObjectType horse = object(); // Creates blank type.
+	// Creates blank object first.
+	private static final ObjectType horse = object(); 
 	
 	static {
+		// Added properties to the object above, referencing the object itself.
 		horse.properties(
 			required("name", string()),
 			required("birthYear", integer()),

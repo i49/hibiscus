@@ -7,6 +7,7 @@ public class AllExamples {
 
 	public static void main(String[] args) {
 		PersonValidator.main(args);
+		ProductsValidator.main(args);
 		PedigreeValidator.main(args);
 	}
 }
