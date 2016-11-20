@@ -32,8 +32,8 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	}
 	
 	@Override
-	public String getMessage(Locale locale) {
+	public String buildMessage(Locale locale) {
 		String allowedValues = getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", "));
-		return localize(locale, getActualValue(), allowedValues);
+		return Messages.UNKNOWN_VALUE(locale, getActualValue(), allowedValues);
 	}
 }

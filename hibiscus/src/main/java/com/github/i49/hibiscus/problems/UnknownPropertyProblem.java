@@ -11,14 +11,14 @@ public class UnknownPropertyProblem extends AbstractProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param propertyName name of unknown property.
+	 * @param propertyName the name of unknown property.
 	 */
 	public UnknownPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
 	/**
-	 * Returns name of unknown property.
+	 * Returns the name of the unknown property.
 	 * @return property name.
 	 */
 	public String getPropertyName() {
@@ -26,7 +26,7 @@ public class UnknownPropertyProblem extends AbstractProblem {
 	}
 	
 	@Override
-	public String getMessage(Locale locale) {
-		return localize(locale, getPropertyName());
+	public String buildMessage(Locale locale) {
+		return Messages.UNKNOWN_PROPERTY(locale, getPropertyName());
 	}
 }

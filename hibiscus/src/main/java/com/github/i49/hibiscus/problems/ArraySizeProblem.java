@@ -10,7 +10,7 @@ public abstract class ArraySizeProblem extends AbstractProblem {
 	
 	/**
 	 * Constructs this problem.
-	 * @param actualSize actual number of elements in array instance.
+	 * @param actualSize the actual number of elements in array instance.
 	 * @param limitSize the minimum or maximum number of elements allowed in the array type. 
 	 */
 	protected ArraySizeProblem(int actualSize, int limitSize) {

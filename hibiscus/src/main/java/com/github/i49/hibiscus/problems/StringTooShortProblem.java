@@ -20,7 +20,7 @@ public class StringTooShortProblem extends StringLengthProblem {
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		return localize(locale, getActualLength(), getLimitLength());
+	public String buildMessage(Locale locale) {
+		return Messages.STRING_TOO_SHORT(locale, getActualLength(), getLimitLength());
 	}
 }

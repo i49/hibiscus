@@ -11,22 +11,22 @@ public class MissingPropertyProblem extends AbstractProblem {
 	
 	/**
 	 * Constructs this problem.
-	 * @param propertyName name of missing property.
+	 * @param propertyName the name of missing property.
 	 */
 	public MissingPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
 	/**
-	 * Returns name of missing property.
-	 * @return property name.
+	 * Returns the name of the missing property.
+	 * @return name of property.
 	 */
 	public String getPropertyName() {
 		return propertyName;
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		return localize(locale, getPropertyName());
+	public String buildMessage(Locale locale) {
+		return Messages.MISSING_PROPERTY(locale, getPropertyName());
 	}
 }

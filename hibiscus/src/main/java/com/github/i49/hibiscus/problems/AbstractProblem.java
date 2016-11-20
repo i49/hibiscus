@@ -1,8 +1,6 @@
 package com.github.i49.hibiscus.problems;
 
-import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.json.stream.JsonLocation;
 
@@ -13,12 +11,12 @@ abstract class AbstractProblem implements Problem {
 
 	private JsonLocation location;
 
-	private static final String BUNDLE_BASE_NAME = Problem.class.getPackage().getName() + ".messages";
-	
+	@Override
 	public JsonLocation getLocation() {
 		return location;
 	}
 
+	@Override
 	public Problem setLocation(JsonLocation location) {
 		if (location == null) {
 			throw new IllegalArgumentException("location is null.");
@@ -27,6 +25,14 @@ abstract class AbstractProblem implements Problem {
 		return this;
 	}
 
+	@Override
+	public String getMessage(Locale locale) {
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		return buildMessage(locale);
+	}
+	
 	/**
 	 * Returns a string representation of this type, including location and error message.
 	 * @return a string representation of the object. 
@@ -44,26 +50,11 @@ abstract class AbstractProblem implements Problem {
 		b.append(": ").append(getMessage());
 		return b.toString();
 	}
-
+	
 	/**
-	 * Returns resource bundle that contains problem messages.
-	 * @param locale the locale for which a message is desired.
-	 * @return resource bundle.
+	 * Builds message for this problem.
+	 * @param locale the locale for the message. Cannot be null.
+	 * @return built message.
 	 */
-	protected ResourceBundle findBundle(Locale locale) {
-		return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
-	}
-
-	/**
-	 * Localizes the message for this problem.
-	 * @param locale the locale for which a message is desired.
-	 * @param arguments the arguments composing the message.
-	 * @return localized message.
-	 */
-	protected String localize(Locale locale, Object... arguments) {
-		ResourceBundle bundle = findBundle(locale);
-		String key = getClass().getSimpleName();
-		String pattern = bundle.getString(key);
-		return MessageFormat.format(pattern, arguments);
-	}
+	protected abstract String buildMessage(Locale locale); 
 }

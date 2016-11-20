@@ -12,8 +12,8 @@ public abstract class StringLengthProblem extends ValueProblem<JsonString> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value string value in JSON instance. 
-	 * @param actualLength actual number of characters in the string.
+	 * @param value the string value in JSON instance. 
+	 * @param actualLength the actual number of characters in the string.
 	 * @param limitLength the minimum or maximum number of characters allowed for the type. 
 	 */
 	protected StringLengthProblem(JsonString value, int actualLength, int limitLength) {

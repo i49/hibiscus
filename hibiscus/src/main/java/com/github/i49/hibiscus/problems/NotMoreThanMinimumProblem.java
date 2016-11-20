@@ -14,15 +14,15 @@ public class NotMoreThanMinimumProblem extends NumberRangeProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param value actual value in JSON instance.
-	 * @param bound the lower or upper bound of the range allowed for the number type.
+	 * @param value the actual value in JSON instance.
+	 * @param bound the lower bound of the range allowed for the number type.
 	 */
 	public NotMoreThanMinimumProblem(JsonNumber value, Bound<BigDecimal> bound) {
 		super(value, bound);
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		return localize(locale, getActualValue(), getBound().getValue());
+	public String buildMessage(Locale locale) {
+		return Messages.NOT_MORE_THAN_MINIMUM(locale, getActualValue(), getBound().getValue());
 	}
 }

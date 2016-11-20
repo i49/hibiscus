@@ -14,15 +14,15 @@ public class MoreThanMaximumProblem extends NumberRangeProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param value actual value in JSON instance.
-	 * @param bound the lower or upper bound of the range allowed for the number type.
+	 * @param value the actual value in JSON instance.
+	 * @param bound the upper bound of the range allowed for the number type.
 	 */
 	public MoreThanMaximumProblem(JsonNumber value, Bound<BigDecimal> bound) {
 		super(value, bound);
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		return localize(locale, getActualValue(), getBound().getValue());
+	public String buildMessage(Locale locale) {
+		return Messages.MORE_THAN_MAXIMUM(locale, getActualValue(), getBound().getValue());
 	}
 }

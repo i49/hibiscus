@@ -2,7 +2,6 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.github.i49.hibiscus.common.TypeId;
 
@@ -16,8 +15,8 @@ public class TypeMismatchProblem extends AbstractProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param actualType actual type found in JSON instance.
-	 * @param expectedType expected types specified in schema.
+	 * @param actualType the actual type found in JSON instance.
+	 * @param expectedType the expected types specified in schema.
 	 */
 	public TypeMismatchProblem(TypeId actualType, Set<TypeId> expectedType) {
 		this.actualType = actualType;
@@ -41,9 +40,7 @@ public class TypeMismatchProblem extends AbstractProblem {
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
-		String actualType = getActualType().toString();
-		String expectedType = getExpectedTypes().stream().map(TypeId::toString).collect(Collectors.joining(", "));
-		return localize(locale, actualType, expectedType);
+	public String buildMessage(Locale locale) {
+		return Messages.TYPE_MISMATCH(locale, getActualType(), getExpectedTypes());
 	}
 }
