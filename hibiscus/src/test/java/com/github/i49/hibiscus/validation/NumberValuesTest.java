@@ -11,14 +11,14 @@ import javax.json.JsonNumber;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.ComplexType;
 
 public class NumberValuesTest extends BaseValidationTest {
 
 	@Test
 	public void allowedValuesOfInteger() {
 		String json = "[123]";
-		JsonType schema = array(number().values(123, 456));
+		ComplexType schema = array(number().values(123, 456));
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -28,7 +28,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void notAllowedValuesOfInteger() {
 		String json = "[789]";
-		JsonType schema = array(number().values(123, 456));
+		ComplexType schema = array(number().values(123, 456));
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -42,7 +42,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void allowedValuesOfNumber() {
 		String json = "[56.78]";
-		JsonType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("56.78")));
+		ComplexType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("56.78")));
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -52,7 +52,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void notAllowedValuesOfNumber() {
 		String json = "[56.78]";
-		JsonType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("67.89")));
+		ComplexType schema = array(number().values(new BigDecimal("12.34"), new BigDecimal("67.89")));
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

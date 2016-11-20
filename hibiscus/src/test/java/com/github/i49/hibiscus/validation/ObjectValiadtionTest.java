@@ -14,7 +14,7 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.ComplexType;
 import com.github.i49.hibiscus.schema.ObjectType;
 
 public class ObjectValiadtionTest extends BaseValidationTest {
@@ -39,7 +39,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	@Test
 	public void emptyObject() {
 		String json = "{}";
-		JsonType schema = object();
+		ComplexType schema = object();
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

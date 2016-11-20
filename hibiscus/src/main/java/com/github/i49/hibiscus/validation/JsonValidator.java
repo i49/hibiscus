@@ -14,6 +14,7 @@ import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 import javax.json.stream.JsonParsingException;
 
+import com.github.i49.hibiscus.schema.ComplexType;
 import com.github.i49.hibiscus.schema.JsonType;
 
 /**
@@ -32,7 +33,7 @@ public class JsonValidator {
 	 * @exception IllegalArgumentException if rootType is null.
 	 * @exception IllegalStateException if one of internal objects was not created successfully.
 	 */
-	public JsonValidator(JsonType rootType) {
+	public JsonValidator(ComplexType rootType) {
 		if (rootType == null) {
 			throw new IllegalArgumentException("rootType is null.");
 		}

@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.ComplexType;
 
 import java.io.StringReader;
 
@@ -17,7 +17,7 @@ public class NullValidationTest extends BaseValidationTest {
 	@Test
 	public void normalNull() {
 		String json = "[null]";
-		JsonType schema = array(nullValue());
+		ComplexType schema = array(nullValue());
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -27,7 +27,7 @@ public class NullValidationTest extends BaseValidationTest {
 	@Test
 	public void notNullButInteger() {
 		String json = "[0]";
-		JsonType schema = array(bool());
+		ComplexType schema = array(bool());
 		JsonValidator validator = new JsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
