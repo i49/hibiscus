@@ -48,9 +48,9 @@ class JsonLoader {
 			long startTime = System.currentTimeMillis();
 			ValidationResult result = validator.validate(reader);
 			long endTime = System.currentTimeMillis();
-			double elapsed = (endTime - startTime) * 0.001;
+			long elapsed = endTime - startTime;
 			printProblems(result);
-			System.out.println("Time elapsed: " + elapsed + " seconds");
+			System.out.println("Time elapsed: " + elapsed + " ms");
 			printValue(result);
 			return result.getValue();
 		} catch (IOException e) {

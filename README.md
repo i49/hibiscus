@@ -2,20 +2,22 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator which verifies that JSON content conforms to schema defined by Java-based DSL. 
+Hibiscus is JSON validator to verify JSON document against the schema defined by Java-based DSL
 
 ## Why do we write JSON schema in Java?
-Writing JSON schema in Java has following merits:
+Writing JSON schema in Java has following advantages:
 
-* Your favorite IDE compiles it and detects errors automatically.
-* Code completion available.
-* Omits parsing external schema resource at every startup.
+* Your favorite IDE compiles it and detects syntactical errors automatically.
+* Code completion will be available.
+* Omits parsing schema file at every startup.
 * Avoids troubles in missing "$ref" links.
-* Can extend validation logic with Java code.
+* Can extend validation logic with Java code as much as needed.
+
+If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
 
 ## Schema example
 
-As first example we assume that you have following JSON content:
+As first example we assume that you have following JSON document which you would like to validate in your application:
 
 ```json
 {
@@ -26,7 +28,8 @@ As first example we assume that you have following JSON content:
 }
 ```
 
-If you would like to validate this JSON against appropriate schema, we can write the schema as Java code like following:
+Supposing that the first two properties of the object are mandatory and others are optional.
+We can write the schema for this document as Java code like following:
 
 ```java
 ObjectType schema = object(
@@ -117,17 +120,18 @@ ObjectType schema = object(
   ```
 
  One of the nice features of Hibiscus is that it reports *where* these problems occurred,
- such as line number and column number. This can be accomplished because the library do
- both loading and validating JSON document at the same time, not after completely loading it.
+ such as line and column numbers. This can be accomplished because the library do
+ both loading and validating JSON document at the same time, not after completely loading it
+ and building a tree of JSON values.
 
 3. Make use of retrieved JSON value as you like in your application.
 
   ```java
   JsonValue root = result.getValue();
   ```
-   
+
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
-   Please note it returns value even when the JSON document does not satisfy the given schema.
+   Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is "well-formed" and not broken as JSON.
 
 ## How to build
 
@@ -152,4 +156,3 @@ Hibiscus depends on [Java API for JSON Processing](http://json-processing-spec.j
 ## Validator examples
 
 Examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
-

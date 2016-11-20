@@ -17,18 +17,22 @@ Running all examples is easy to just start off runnable jar located in target di
 $ java -jar target/hibiscus-examples-<version>.jar
 ```
 
-## Descriptions of examples
+## Summary of examples
 
-### 1. Person validator
+### 1. HelloValidator
+
+The starting example should be the one to deliver famous greeting.
+
+### 2. PersonValidator
 
 Basic example to validate JSON document that contains only one JSON object which represents personal profile.
 
-### 2. Products validator
+### 3. ProductsValidator
 
 Example to validate JSON document that has JSON array at its root.
 
 Notice: the original JSON document of this example is available at http://json-schema.org/ and licensed under the AFL or BSD license.  
 
-### 3. Pedigree validator
+### 4. PedigreeValidator
 
 Demonstration of recursive schema definition.

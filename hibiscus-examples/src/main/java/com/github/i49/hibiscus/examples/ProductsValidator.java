@@ -9,7 +9,7 @@ import com.github.i49.hibiscus.validation.JsonValidator;
 
 public class ProductsValidator extends BasicJsonValidator {
 
-	// Type for geographical coordinate.
+	// Type to store geographical coordinates.
 	private static final ObjectType geoType = object(
 			optional("latitude", number()),
 			optional("longitude", number())
