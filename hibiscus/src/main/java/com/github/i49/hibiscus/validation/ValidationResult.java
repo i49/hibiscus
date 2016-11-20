@@ -7,46 +7,34 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Result of validation.
+ * Result of JSON validation.
  */
-public class ValidationResult {
+public interface ValidationResult {
 	
-	private final JsonValue value;
-	private final List<Problem> problems;
+	/**
+	 * Returns the JSON value found at root of JSON document.
+	 * 
+	 * The type of value returned by this method is defined in JSR 353: Java API for JSON Processing. 
+	 * All the values below the root of document can be retrieved easily via the API.
+	 * 
+	 * @return JSON value. 
+	 * @see <a href="https://jsonp.java.net/">JSR 353: Java API for JSON Processing</a>
+	 */
+	JsonValue getValue();
+	
+	/**
+	 * Returns whether the validation detected any problems of JSON document or not.
+	 * 
+	 * @return {@code true} if the validation detected any problems, or {@code false} it detected no problems.
+	 */
+	boolean hasProblems();
 
 	/**
-	 * Constructs this result.
-	 * @param value the JSON value which is found at root of JSON instance.
-	 * @param problems the list of problems found by validation.
+	 * Returns all problems detected by the validation.
+	 * 
+	 * If there are no problems found, empty list will be returned.
+	 * 
+	 * @return list of problems, never be {@code null}.
 	 */
-	public ValidationResult(JsonValue value, List<Problem> problems) {
-		this.value = value;
-		this.problems = problems;
-	}
-	
-	/**
-	 * Returns the JSON value which is found at root of JSON instance.
-	 * @return JSON value.
-	 * @see javax.json.JsonValue
-	 */
-	public JsonValue getValue() {
-		return value;
-	}
-	
-	/**
-	 * Returns whether validation found any problem or not.
-	 * @return {@code true} if no problem found by validation, or {@code false} if any problems are found.
-	 */
-	public boolean hasProblems() {
-		return !problems.isEmpty();
-	}
-
-	/**
-	 * Returns list of problems found by validation.
-	 * If the validation found no problems, empty list will be returned.
-	 * @return list of problems.
-	 */
-	public List<Problem> getProblems() {
-		return problems;
-	}
+	List<Problem> getProblems();
 }

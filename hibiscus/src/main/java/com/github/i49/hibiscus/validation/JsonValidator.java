@@ -102,7 +102,7 @@ public class JsonValidator {
 	private ValidationResult parse(JsonParser parser) {
 		JsonValidatingReader reader = new JsonValidatingReader(parser, this.builderFactory);
 		JsonValue value = reader.readAll(getRootType());
-		return new ValidationResult(value, reader.getProblems());
+		return new ValidationResultImpl(value, reader.getProblems());
 	}
 	
 	/**
