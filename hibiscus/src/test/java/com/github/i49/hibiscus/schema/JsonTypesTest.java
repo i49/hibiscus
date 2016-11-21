@@ -3,12 +3,9 @@ package com.github.i49.hibiscus.schema;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.experimental.runners.Enclosed;
 
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
-@RunWith(Enclosed.class)
 public class JsonTypesTest {
 	
 	/*

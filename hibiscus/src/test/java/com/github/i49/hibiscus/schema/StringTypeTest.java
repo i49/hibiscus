@@ -3,12 +3,9 @@ package com.github.i49.hibiscus.schema;
 import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
 
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
-@RunWith(Enclosed.class)
 public class StringTypeTest {
 	
 	public static class MinLengthTest {
