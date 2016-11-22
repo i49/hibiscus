@@ -4,7 +4,7 @@
 
 Hibiscus is JSON validator to verify JSON document against the schema defined by Java-based DSL
 
-## Why do we write JSON schema in Java?
+## Why Do We Write JSON Schema in Java?
 Writing JSON schema in Java has following advantages:
 
 * Your favorite IDE compiles it and detects syntactical errors automatically.
@@ -13,9 +13,7 @@ Writing JSON schema in Java has following advantages:
 * Avoids troubles in missing "$ref" links.
 * Can extend validation logic with Java code as much as needed.
 
-If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
-
-## Schema example
+## Schema Example
 
 As first example we assume that you have following JSON document which you would like to validate in your application:
 
@@ -40,7 +38,7 @@ ObjectType schema = object(
 );
 ```
 
-## How to write your own JSON validator
+## How to Write Your Own JSON Validator
 
 1. Create a new class that extends `BasicJsonValidator` class.
 
@@ -94,7 +92,7 @@ ObjectType schema = object(
   }
   ```
 
-## How to validate JSON document with your validator
+## How to Validate JSON Document with Your Validator
 
 1. Validate JSON document with your validator.
 
@@ -133,7 +131,7 @@ ObjectType schema = object(
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
    Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is "well-formed" and not broken as JSON.
 
-## How to build
+## How to Build
 
 ```bash
 $ git clone https://github.com/i49/Hibiscus.git
@@ -141,9 +139,9 @@ $ cd hibiscus
 $ mvn install
 ```
 
-## Library dependencies
+## Library Dependencies
 
-Hibiscus depends on [Java API for JSON Processing](http://json-processing-spec.java.net/) at runtime. It is necessary to include dependency to one of implementation into your application besides Hibiscus itself. Reference implementation is available as follows:
+Hibiscus requires at runtime one of the API implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/). In addition to Hibiscus itself, you need to add the dependency to your application explicitly. If your choice is the reference implementation offered by jsonp project hosted on [java.net](http://java.net), you can specify it in your pom.xml as follows.   
 
 ```xml
 <dependency>
@@ -153,6 +151,10 @@ Hibiscus depends on [Java API for JSON Processing](http://json-processing-spec.j
 </dependency>
 ```
 
-## Validator examples
+## Validator Examples
 
 Examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
+
+## Other Solutions
+
+If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
