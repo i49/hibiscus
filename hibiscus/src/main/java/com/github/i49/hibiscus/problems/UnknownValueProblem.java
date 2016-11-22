@@ -2,7 +2,6 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.json.JsonValue;
 
@@ -33,7 +32,6 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	
 	@Override
 	public String buildMessage(Locale locale) {
-		String allowedValues = getExpectedValues().stream().map(JsonValue::toString).collect(Collectors.joining(", "));
-		return Messages.UNKNOWN_VALUE(locale, getActualValue(), allowedValues);
+		return Messages.UNKNOWN_VALUE(locale, getActualValue(), getExpectedValues());
 	}
 }
