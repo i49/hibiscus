@@ -30,7 +30,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				required("b", integer()),
 				required("c", number()),
 				required("d", bool()),
-				required("e", nullValue()),
+				required("e", nil()),
 				required("f", object()),
 				required("g", array(integer()))
 			);

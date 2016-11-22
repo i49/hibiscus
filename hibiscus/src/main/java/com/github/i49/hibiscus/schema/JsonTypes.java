@@ -54,7 +54,7 @@ public final class JsonTypes {
 	 * Creates null type which is immutable.
 	 * @return null type.
 	 */
-	public static NullType nullValue() {
+	public static NullType nil() {
 		return NullType.INSTANCE;
 	}
 

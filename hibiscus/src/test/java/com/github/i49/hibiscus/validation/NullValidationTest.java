@@ -15,9 +15,9 @@ import java.io.StringReader;
 public class NullValidationTest extends BaseValidationTest {
 	
 	@Test
-	public void normalNull() {
+	public void matchNull() {
 		String json = "[null]";
-		ComplexType schema = array(nullValue());
+		ComplexType schema = array(nil());
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

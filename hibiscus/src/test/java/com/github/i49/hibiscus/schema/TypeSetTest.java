@@ -122,7 +122,7 @@ public class TypeSetTest {
 			ArrayType arrayType = array();
 			BooleanType boolType = bool();
 			IntegerType intType = integer();
-			NullType nullType = nullValue();
+			NullType nullType = nil();
 			NumberType numberType = number();
 			ObjectType objectType = object();
 			StringType stringType = string();

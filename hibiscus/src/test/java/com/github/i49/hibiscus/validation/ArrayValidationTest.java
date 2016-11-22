@@ -4,8 +4,10 @@ import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
+import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.ComplexType;
 
 import java.io.StringReader;
@@ -55,7 +57,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 	@Test
 	public void arrayOfNulls() {
 		String json = "[null, null, null]";
-		ComplexType schema = array(nullValue());
+		ComplexType schema = array(nil());
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -183,5 +185,62 @@ public class ArrayValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
+	}
+	
+	public static class ArrayItemTypeTest extends BaseValidationTest {
+		
+		@Test
+		public void typeMatchSingleType() {
+			String json = "[\"a\", \"b\", \"c\"]";
+			ComplexType schema = array(string());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void typeUnmatchSingleType() {
+			String json = "[\"a\", \"b\", \"c\"]";
+			ComplexType schema = array(number());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertEquals(3, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.STRING, p.getActualType());
+			assertEquals(1, p.getExpectedTypes().size());
+			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
+			assertNotNull(p.getMessage());
+		}
+		
+		@Test
+		public void typeMatchOneOfTypes() {
+			String json = "[\"a\", \"b\", \"c\"]";
+			ComplexType schema = array(number(), string(), bool());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void typeUnmatchAllTypes() {
+			String json = "[\"a\", \"b\", \"c\"]";
+			ComplexType schema = array(number(), bool(), nil());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertEquals(3, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.STRING, p.getActualType());
+			assertEquals(3, p.getExpectedTypes().size());
+			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
+			assertTrue(p.getExpectedTypes().contains(TypeId.BOOLEAN));
+			assertTrue(p.getExpectedTypes().contains(TypeId.NULL));
+			assertNotNull(p.getMessage());
+		}
 	}
 }
