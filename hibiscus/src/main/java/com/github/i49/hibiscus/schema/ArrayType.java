@@ -7,18 +7,28 @@ import javax.json.JsonArray;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.ArraySizeProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * JSON array which can have zero or more values as elements.
+ * 
+ * <h3>Overview of Array Type</h3>
+ * <p>Array type can impose following constraints on values in JSON document.</p>
+ * <ul>
+ * <li>minSize</li>
+ * <li>maxSize</li>
+ * <li>size</li>
+ * </ul>
  */
 public class ArrayType extends AbstractJsonType implements ComplexType {
 
 	private TypeSet typeSet = TypeSet.empty();
-	private OptionalInt minItems = OptionalInt.empty();
-	private OptionalInt maxItems = OptionalInt.empty();
+	private OptionalInt minSize = OptionalInt.empty();
+	private OptionalInt maxSize = OptionalInt.empty();
+	private OptionalInt size = OptionalInt.empty();
 	
 	/**
 	 * Constructs this type.
@@ -35,12 +45,17 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	public void validateInstance(JsonValue value, List<Problem> problems) {
 		JsonArray array = (JsonArray)value;
 		int size = array.size();
-		this.minItems.ifPresent(limit->{
+		this.size.ifPresent(expected->{
+			if (size != expected) {
+				problems.add(new ArraySizeProblem(size, expected));
+			}
+		});
+		this.minSize.ifPresent(limit->{
 			if (size < limit) {
 				problems.add(new ArrayTooShortProblem(size, limit));
 			}
 		});
-		this.maxItems.ifPresent(limit->{
+		this.maxSize.ifPresent(limit->{
 			if (size > limit) {
 				problems.add(new ArrayTooLongProblem(size, limit));
 			}
@@ -59,8 +74,8 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	}
 
 	/**
-	 * Returns types allowed for elements of this array.
-	 * @return set of types.
+	 * Returns the types allowed for elements of this array.
+	 * @return the set of types.
 	 */
 	public TypeSet getItemTypes() {
 		return typeSet;
@@ -72,9 +87,9 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	 * @return this array.
 	 * @exception SchemaException if size specified is negative.
 	 */
-	public ArrayType minItems(int size) {
+	public ArrayType minSize(int size) {
 		checkSize(size);
-		this.minItems = OptionalInt.of(size);
+		this.minSize = OptionalInt.of(size);
 		return this;
 	}
 
@@ -84,9 +99,21 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	 * @return this array.
 	 * @exception SchemaException if size specified is negative.
 	 */
-	public ArrayType maxItems(int size) {
+	public ArrayType maxSize(int size) {
 		checkSize(size);
-		this.maxItems = OptionalInt.of(size);
+		this.maxSize = OptionalInt.of(size);
+		return this;
+	}
+	
+	/**
+	 * Specifies the number of elements in this array. 
+	 * @param size the number of elements.
+	 * @return this array.
+	 * @exception SchemaException if size specified is negative.
+	 */
+	public ArrayType size(int size) {
+		checkSize(size);
+		this.size = OptionalInt.of(size);
 		return this;
 	}
 	

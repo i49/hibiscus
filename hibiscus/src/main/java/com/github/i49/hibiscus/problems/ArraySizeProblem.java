@@ -1,36 +1,43 @@
 package com.github.i49.hibiscus.problems;
 
+import java.util.Locale;
+
 /**
- * Base class of {@code ArrayTooShortProblem} and {@code ArrayTooLongProblem}.
+ * Problem that the number of elements in the array does not equal to the expected.
  */
-public abstract class ArraySizeProblem extends AbstractProblem {
+public class ArraySizeProblem extends AbstractProblem {
 
 	private final int actualSize;
-	private final int limitSize;
+	private final int expectedSize;
 	
 	/**
 	 * Constructs this problem.
 	 * @param actualSize the actual number of elements in array instance.
-	 * @param limitSize the minimum or maximum number of elements allowed in the array type. 
+	 * @param expectedSize the number of elements expected in the array type. 
 	 */
-	protected ArraySizeProblem(int actualSize, int limitSize) {
+	public ArraySizeProblem(int actualSize, int expectedSize) {
 		this.actualSize = actualSize;
-		this.limitSize = limitSize;
+		this.expectedSize = expectedSize;
 	}
 
 	/**
-	 * Returns actual number of elements in array instance.
-	 * @return actual number of elements.
+	 * Returns the actual number of elements in array instance.
+	 * @return the actual number of elements.
 	 */
 	public int getActualSize() {
 		return actualSize;
 	}
 	
 	/**
-	 * Returns the number of elements allowed in array. 
-	 * @return the minimum or maximum number of elements.
+	 * Returns the number of elements expected in array. 
+	 * @return the number of elements expected.
 	 */
-	public int getLimitSize() {
-		return limitSize;
+	public int getExpectedSize() {
+		return expectedSize;
+	}
+
+	@Override
+	protected String buildDescription(Locale locale) {
+		return Messages.ARRAY_SIZE(locale, getActualSize(), getExpectedSize());
 	}
 }

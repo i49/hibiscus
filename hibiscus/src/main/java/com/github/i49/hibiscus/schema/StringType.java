@@ -17,6 +17,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for string value.
  * 
+ * <h3>Overview of String Type</h3>
  * <p>String type can have following facets constraining its value space.</p>
  * <ul>
  * <li>minLength</li>

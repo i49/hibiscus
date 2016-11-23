@@ -21,15 +21,15 @@ import com.github.i49.hibiscus.common.TypeId;
  */
 final class Messages {
 
-	// Name of resource bundle to be loaded.
+	// Name of the resource bundle to be loaded.
 	private static final String BUNDLE_BASE_NAME = Problem.class.getPackage().getName() + ".messages";
 
 	/**
-	 * Returns message that represents the problem as a whole.
+	 * Returns the message that represents the problem as a whole.
 	 * @param locale the locale for the message.
 	 * @param location the location where the problem was found. This can be {@code null}.
 	 * @param description the description of the problem.
-	 * @return message for the problem.
+	 * @return the message for the problem.
 	 */
 	static String PROBLEM_MESSAGE(Locale locale, JsonLocation location, String description) {
 		ResourceBundle bundle = getBundle(locale);
@@ -50,6 +50,10 @@ final class Messages {
 		return localize(locale, "UNKNOWN_VALUE", value, allowedValues);
 	}
 	
+	static String ARRAY_SIZE(Locale locale, int actualSize, int expectedSize) {
+		return localize(locale, "ARRAY_SIZE", actualSize, expectedSize);
+	}
+
 	static String ARRAY_TOO_LONG(Locale locale, int actualSize, int limitSize) {
 		return localize(locale, "ARRAY_TOO_LONG", actualSize, limitSize);
 	}
