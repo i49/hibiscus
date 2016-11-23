@@ -136,7 +136,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
 		assertEquals(2, p.getActualSize());
 		assertEquals(3, p.getLimitSize());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
 		assertEquals(5, p.getActualSize());
 		assertEquals(4, p.getLimitSize());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -212,7 +212,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertEquals(TypeId.STRING, p.getActualType());
 			assertEquals(1, p.getExpectedTypes().size());
 			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
-			assertNotNull(p.getMessage());
+			assertNotNull(p.getDescription());
 		}
 		
 		@Test
@@ -240,7 +240,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
 			assertTrue(p.getExpectedTypes().contains(TypeId.BOOLEAN));
 			assertTrue(p.getExpectedTypes().contains(TypeId.NULL));
-			assertNotNull(p.getMessage());
+			assertNotNull(p.getDescription());
 		}
 	}
 }

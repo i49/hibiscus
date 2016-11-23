@@ -47,7 +47,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.STRING, p.getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -73,6 +73,6 @@ public class BooleanValidationTest extends BaseValidationTest {
 		assertEquals(JsonValue.FALSE, p.getActualValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(1, expected.size());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

@@ -87,7 +87,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertTrue(((TypeMismatchProblem)p).getExpectedTypes().contains(TypeId.NUMBER));
 		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -144,7 +144,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		assertEquals(1, problems.size());
 		MissingPropertyProblem p = (MissingPropertyProblem)problems.get(0);
 		assertEquals("d", p.getPropertyName());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	private static String jsonWithUnknownProperty() {
@@ -171,7 +171,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		assertEquals(1, problems.size());
 		UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
 		assertEquals("h", p.getPropertyName());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test

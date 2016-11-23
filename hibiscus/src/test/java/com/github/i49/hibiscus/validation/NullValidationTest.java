@@ -35,6 +35,6 @@ public class NullValidationTest extends BaseValidationTest {
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

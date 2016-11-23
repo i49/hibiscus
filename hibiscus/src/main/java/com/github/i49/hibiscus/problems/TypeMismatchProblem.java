@@ -40,7 +40,7 @@ public class TypeMismatchProblem extends AbstractProblem {
 	}
 
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.TYPE_MISMATCH(locale, getActualType(), getExpectedTypes());
 	}
 }

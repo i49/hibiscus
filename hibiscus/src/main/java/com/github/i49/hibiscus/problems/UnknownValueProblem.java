@@ -31,7 +31,7 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	}
 	
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.UNKNOWN_VALUE(locale, getActualValue(), getExpectedValues());
 	}
 }

@@ -26,7 +26,7 @@ public class MissingPropertyProblem extends AbstractProblem {
 	}
 
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.MISSING_PROPERTY(locale, getPropertyName());
 	}
 }

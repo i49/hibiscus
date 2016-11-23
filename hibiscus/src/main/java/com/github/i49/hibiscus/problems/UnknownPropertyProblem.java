@@ -26,7 +26,7 @@ public class UnknownPropertyProblem extends AbstractProblem {
 	}
 	
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.UNKNOWN_PROPERTY(locale, getPropertyName());
 	}
 }

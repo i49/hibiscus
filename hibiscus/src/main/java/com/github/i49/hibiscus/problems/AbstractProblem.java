@@ -18,19 +18,16 @@ abstract class AbstractProblem implements Problem {
 
 	@Override
 	public Problem setLocation(JsonLocation location) {
-		if (location == null) {
-			throw new IllegalArgumentException("location is null.");
-		}
 		this.location = location;
 		return this;
 	}
 
 	@Override
-	public String getMessage(Locale locale) {
+	public String getDescription(Locale locale) {
 		if (locale == null) {
 			locale = Locale.getDefault();
 		}
-		return buildMessage(locale);
+		return buildDescription(locale);
 	}
 	
 	/**
@@ -47,14 +44,14 @@ abstract class AbstractProblem implements Problem {
 		} else {
 			b.append("(unknown)");
 		}
-		b.append(": ").append(getMessage());
+		b.append(": ").append(getDescription());
 		return b.toString();
 	}
 	
 	/**
-	 * Builds message for this problem.
+	 * Builds description of this problem.
 	 * @param locale the locale for the message. Cannot be null.
-	 * @return built message.
+	 * @return built description.
 	 */
-	protected abstract String buildMessage(Locale locale); 
+	protected abstract String buildDescription(Locale locale); 
 }

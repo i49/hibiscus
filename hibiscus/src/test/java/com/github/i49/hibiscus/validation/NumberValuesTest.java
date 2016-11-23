@@ -36,7 +36,7 @@ public class NumberValuesTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("789"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -60,6 +60,6 @@ public class NumberValuesTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
 		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("56.78"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

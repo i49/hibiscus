@@ -51,7 +51,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.INTEGER, p.getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class StringValidationTest extends BaseValidationTest {
 		assertEquals("\"Q2\"", p.getActualValue().toString());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(4, expected.size());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class StringValidationTest extends BaseValidationTest {
 		StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
 		assertEquals(2, p.getActualLength());
 		assertEquals(3, p.getLimitLength());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class StringValidationTest extends BaseValidationTest {
 		StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
 		assertEquals(5, p.getActualLength());
 		assertEquals(4, p.getLimitLength());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -164,6 +164,6 @@ public class StringValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
 		assertEquals("9876-54-321", p.getActualValue().getString());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

@@ -60,7 +60,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		Problem p = result.getProblems().get(0);
 		assertTrue(p instanceof TypeMismatchProblem);
 		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
 		assertEquals(new BigDecimal("12.34"), bound.getValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());
 		assertEquals(new BigDecimal("12.34"), bound.getValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
 		assertEquals(new BigDecimal("56.78"), bound.getValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -176,6 +176,6 @@ public class NumberValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());
 		assertEquals(new BigDecimal("56.78"), bound.getValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

@@ -17,7 +17,7 @@ public class ArrayTooLongProblem extends ArraySizeProblem {
 	}
 
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.ARRAY_TOO_LONG(locale, getActualSize(), getLimitSize());
 	}
 }

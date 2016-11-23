@@ -73,7 +73,7 @@ public class PersonValidatorTest extends BaseValidationTest {
 		Problem p = problems.get(0);
 		assertTrue(p instanceof MissingPropertyProblem);
 		assertEquals("lastName", ((MissingPropertyProblem)p).getPropertyName());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -93,21 +93,21 @@ public class PersonValidatorTest extends BaseValidationTest {
 		assertEquals(1, p0.getExpectedTypes().size());
 		assertTrue(p0.getExpectedTypes().contains(TypeId.STRING));
 		assertEquals(TypeId.INTEGER, p0.getActualType());
-		assertNotNull(p0.getMessage());
+		assertNotNull(p0.getDescription());
 
 		assertTrue(problems.get(1) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
 		assertEquals(1, p1.getExpectedTypes().size());
 		assertTrue(p1.getExpectedTypes().contains(TypeId.INTEGER));
 		assertEquals(TypeId.STRING, p1.getActualType());
-		assertNotNull(p1.getMessage());
+		assertNotNull(p1.getDescription());
 
 		assertTrue(problems.get(2) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
 		assertEquals(1, p2.getExpectedTypes().size());
 		assertTrue(p2.getExpectedTypes().contains(TypeId.ARRAY));
 		assertEquals(TypeId.OBJECT, p2.getActualType());
-		assertNotNull(p2.getMessage());
+		assertNotNull(p2.getDescription());
 	}
 	
 	@Test
@@ -124,6 +124,6 @@ public class PersonValidatorTest extends BaseValidationTest {
 		Problem p = problems.get(0);
 		assertTrue(p instanceof UnknownPropertyProblem);
 		assertEquals("birthplace", ((UnknownPropertyProblem)p).getPropertyName());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }

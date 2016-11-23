@@ -22,7 +22,7 @@ public class NotLessThanMaximumProblem extends NumberRangeProblem {
 	}
 
 	@Override
-	public String buildMessage(Locale locale) {
+	public String buildDescription(Locale locale) {
 		return Messages.NOT_LESS_THAN_MAXIMUM(locale, getActualValue(), getBound().getValue());
 	}
 }

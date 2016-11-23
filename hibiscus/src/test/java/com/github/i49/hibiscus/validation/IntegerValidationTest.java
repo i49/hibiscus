@@ -84,7 +84,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.NUMBER, p.getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
 		assertEquals(TypeId.STRING, p.getActualType());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -124,7 +124,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertEquals(29, ((JsonNumber)p.getActualValue()).intValue());
 		Set<JsonValue> expected = p.getExpectedValues();
 		assertEquals(3, expected.size());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 	
 	@Test
@@ -153,7 +153,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
 		assertEquals(28, bound.getValue().intValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -182,7 +182,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());
 		assertEquals(28, bound.getValue().intValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -211,7 +211,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
 		assertEquals(31, bound.getValue().intValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 
 	@Test
@@ -240,6 +240,6 @@ public class IntegerValidationTest extends BaseValidationTest {
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());
 		assertEquals(31, bound.getValue().intValue());
-		assertNotNull(p.getMessage());
+		assertNotNull(p.getDescription());
 	}
 }
