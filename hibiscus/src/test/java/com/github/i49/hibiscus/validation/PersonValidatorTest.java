@@ -20,7 +20,7 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Schema;
 
 public class PersonValidatorTest extends BaseValidationTest {
 	
@@ -32,12 +32,14 @@ public class PersonValidatorTest extends BaseValidationTest {
 
 		super.setUp();
 		
-		ObjectType schema = object(
+		Schema schema = schema(
+			object(
 				required("firstName", string()),
 				required("lastName", string()),
 				optional("age", integer()),
 				optional("hobbies", array(string()))
-			);
+			)
+		);
 
 		validator = new BasicJsonValidator(schema);
 	}

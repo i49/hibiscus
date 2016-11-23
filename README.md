@@ -30,11 +30,13 @@ Supposing that the first two properties of the object are mandatory and others a
 We can write the schema for this document as Java code like following:
 
 ```java
-ObjectType schema = object(
-  required("firstName", string()),
-  required("lastName", string()),
-  optional("age", integer()),
-  optional("hobbies", array(string()))
+Schema schema = schema(
+  object(
+    required("firstName", string()),
+    required("lastName", string()),
+    optional("age", integer()),
+    optional("hobbies", array(string()))
+  )  
 );
 ```
 
@@ -59,32 +61,38 @@ ObjectType schema = object(
 
   ```java
   import com.github.i49.hibiscus.validation.BasicJsonValidator;
-  import com.github.i49.hibiscus.schema.ObjectType;
+  import com.github.i49.hibiscus.schema.Schema;
   import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
   public class PersonValidator extends BasicJsonValidator {
-    private static final ObjectType schema = object(
-      required("firstName", string()),
-      required("lastName", string()),
-      optional("age", integer()),
-      optional("hobbies", array(string()))
-    );
+    // Schema definition.
+    private static final Schema schema = schema(
+      object(
+        required("firstName", string()),
+        required("lastName", string()),
+        optional("age", integer()),
+        optional("hobbies", array(string()))
+      )
+    );  
   }
   ```  
 4. Pass the schema object to the constructor of superclass, and then your work is done.
 
   ```java
   import com.github.i49.hibiscus.validation.BasicJsonValidator;
-  import com.github.i49.hibiscus.schema.ObjectType;
+  import com.github.i49.hibiscus.schema.Schema;
   import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
   public class PersonValidator extends BasicJsonValidator {
-    private static final ObjectType schema = object(
-      required("firstName", string()),
-      required("lastName", string()),
-      optional("age", integer()),
-      optional("hobbies", array(string()))
-    );
+    // Schema definition.
+    private static final Schema schema = schema(
+      object(
+        required("firstName", string()),
+        required("lastName", string()),
+        optional("age", integer()),
+        optional("hobbies", array(string()))
+      )
+    );  
 
     public PersonValidator() {
       super(schema)
@@ -94,11 +102,15 @@ ObjectType schema = object(
 
 ## How to Validate JSON Document with Your Validator
 
-1. Validate JSON document with your validator.
+1. Create an instance of your validator.
 
   ```java
-  // Instantiates your validator.
   PersonValidator validator = new PersonValidator();
+  ```
+
+2. Validate JSON document with the validator.
+
+  ```java
   // An object to retrieve validation result.
   ValidationResult result = null;
   try (Reader reader = new FileReader("person.json")) {
@@ -107,7 +119,7 @@ ObjectType schema = object(
   }
   ```
 
-2. Process detected problems properly.
+3. Process detected problems properly.
 
   ```java
   for (Problem problem: result.getProblems()) {
@@ -122,7 +134,7 @@ ObjectType schema = object(
  both loading and validating JSON document at the same time, not after completely loading it
  and building a tree of JSON values.
 
-3. Make use of retrieved JSON value as you like in your application.
+4. Make use of retrieved JSON value as you like in your application.
 
   ```java
   JsonValue root = result.getValue();

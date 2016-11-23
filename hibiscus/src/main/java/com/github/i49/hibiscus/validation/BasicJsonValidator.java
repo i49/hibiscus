@@ -12,15 +12,14 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 
-import com.github.i49.hibiscus.schema.ComplexType;
-import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.Schema;
 
 /**
  * Implementation class of {@link JsonValidator} and base class of all custom JSON validators.  
  */
 public class BasicJsonValidator implements JsonValidator {
 
-	private final JsonType rootType;
+	private final Schema schema;
 	
 	private final JsonParserFactory parserFactory;
 	private final JsonBuilderFactory builderFactory;
@@ -28,16 +27,16 @@ public class BasicJsonValidator implements JsonValidator {
 	/**
 	 * Constructs this validator.
 	 * 
-	 * @param rootType the expected JSON type to be found at root of JSON document, which must be array or object.
+	 * @param schema the schema to be used by this validator to validate JSON documents.
 	 * 
-	 * @exception IllegalArgumentException if rootType is {@code null}.
+	 * @exception IllegalArgumentException if schema is {@code null}.
 	 * @exception IllegalStateException if one of internal objects was not configured properly.
 	 */
-	public BasicJsonValidator(ComplexType rootType) {
-		if (rootType == null) {
-			throw new IllegalArgumentException("rootType is null.");
+	public BasicJsonValidator(Schema schema) {
+		if (schema == null) {
+			throw new IllegalArgumentException("schema is null.");
 		}
-		this.rootType = rootType;
+		this.schema = schema;
 		this.parserFactory = createParserFactory();
 		if (this.parserFactory == null) {
 			throw new IllegalStateException("Failed to create a JsonParserFactory object.");
@@ -49,8 +48,8 @@ public class BasicJsonValidator implements JsonValidator {
 	}
 
 	@Override
-	public JsonType getRootType() {
-		return rootType;
+	public Schema getSchema() {
+		return schema;
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class BasicJsonValidator implements JsonValidator {
 	 */
 	private ValidationResult parse(JsonParser parser) {
 		JsonValidatingReader reader = new JsonValidatingReader(parser, this.builderFactory);
-		JsonValue value = reader.readAll(getRootType());
+		JsonValue value = reader.readAll(getSchema());
 		return new ValidationResultImpl(value, reader.getProblems());
 	}
 	

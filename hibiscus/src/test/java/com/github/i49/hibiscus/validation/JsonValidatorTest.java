@@ -13,23 +13,25 @@ import javax.json.stream.JsonParsingException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Schema;
 
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static com.github.i49.hibiscus.validation.Resources.*;
 
 public class JsonValidatorTest {
 
-	private ObjectType schema;
+	private Schema schema;
 	
 	@Before
 	public void setUp() {
-		this.schema = object(
+		this.schema = schema(
+			object(
 				required("firstName", string()),
 				required("lastName", string()),
 				optional("age", integer()),
 				optional("hobbies", array(string()))
-			);
+			)
+		);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

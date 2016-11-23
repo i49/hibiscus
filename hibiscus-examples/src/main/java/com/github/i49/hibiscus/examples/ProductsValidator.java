@@ -2,8 +2,8 @@ package com.github.i49.hibiscus.examples;
 
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 
-import com.github.i49.hibiscus.schema.ArrayType;
 import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Schema;
 import com.github.i49.hibiscus.validation.BasicJsonValidator;
 import com.github.i49.hibiscus.validation.JsonValidator;
 
@@ -15,7 +15,8 @@ public class ProductsValidator extends BasicJsonValidator {
 			optional("longitude", number())
 		);
 	
-	private static final ArrayType schema = array(
+	private static final Schema schema = schema(
+		array(
 			object(
 				required("id", number()),
 				required("name", string()),
@@ -28,7 +29,8 @@ public class ProductsValidator extends BasicJsonValidator {
 				)),
 				optional("warehouseLocation", geoType)
 			)
-		);			
+		)
+	);			
 	
 	public ProductsValidator() {
 		super(schema);

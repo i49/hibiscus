@@ -2,12 +2,29 @@ package com.github.i49.hibiscus.schema;
 
 /**
  * Provides utility methods to create building blocks of the schema.
- * All methods of this class are static and this class cannot be instantiated.
+ * <p>All methods of this class are static and this class cannot be instantiated.</p>
  */
 public final class JsonTypes {
+
+	/**
+	 * Creates a schema.
+	 * @return created schema object.
+	 */
+	public static Schema schema() {
+		return new SchemaImpl();
+	}
 	
 	/**
-	 * Creates array type.
+	 * Creates a schema with root types.
+	 * @param types the JSON types allowed to be at root of JSON document.
+	 * @return created schema object.
+	 */
+	public static Schema schema(JsonType... types) {
+		return schema().types(types);
+	}
+	
+	/**
+	 * Creates an array type.
 	 * @return created array type.
 	 */
 	public static ArrayType array() {

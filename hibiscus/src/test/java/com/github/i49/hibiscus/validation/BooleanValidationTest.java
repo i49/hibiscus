@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.ComplexType;
+import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 import java.util.Set;
@@ -19,7 +19,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfTrue() {
 		String json = "[true]";
-		ComplexType schema = array(bool());
+		Schema schema = schema(array(bool()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -29,7 +29,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfFalse() {
 		String json = "[false]";
-		ComplexType schema = array(bool());
+		Schema schema = schema(array(bool()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -39,7 +39,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void notBooleanButString() {
 		String json = "[\"true\"]";
-		ComplexType schema = array(bool());
+		Schema schema = schema(array(bool()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -53,7 +53,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfAllowedValue() {
 		String json = "[true]";
-		ComplexType schema = array(bool().values(true));
+		Schema schema = schema(array(bool().values(true)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -63,7 +63,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfNotAllowedValue() {
 		String json = "[false]";
-		ComplexType schema = array(bool().values(true));
+		Schema schema = schema(array(bool().values(true)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

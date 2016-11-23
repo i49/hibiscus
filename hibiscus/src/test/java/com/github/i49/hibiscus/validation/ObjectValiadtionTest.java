@@ -13,24 +13,46 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
-import com.github.i49.hibiscus.schema.ComplexType;
 import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Schema;
 
 public class ObjectValiadtionTest extends BaseValidationTest {
 
-	private static ObjectType createSchema() {
+	private static ObjectType createObjectType() {
 		return object(
-				required("a", string()),
-				required("b", integer()),
-				required("c", number()),
-				required("d", bool()),
-				required("e", nil()),
-				required("f", object()),
-				required("g", array(integer()))
-			);
+			required("a", string()),
+			required("b", integer()),
+			required("c", number()),
+			required("d", bool()),
+			required("e", nil()),
+			required("f", object()),
+			required("g", array(integer()))
+		);
+	}
+	private static Schema createSchema() {
+		return schema(createObjectType());
 	}
 	
 	public static class ObjectTypeTest extends BaseValidationTest {
+
+		@Test
+		public void arrayOrObject() {
+			
+			Schema schema = schema(
+					array(string()),
+					object(
+							required("foo", string()),
+							optional("bar", integer())
+					)
+				);
+			
+			String json = "{ \"foo\": \"abc\", \"bar\": 123 }";
+
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertFalse(result.hasProblems());
+		}
 		
 		@Test
 		public void notObjectButArray() {
@@ -50,7 +72,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	@Test
 	public void emptyObject() {
 		String json = "{}";
-		ComplexType schema = object();
+		Schema schema = schema(object());
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -187,7 +209,9 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		@Test
 		public void objectWithMoreProperties() {
 			
-			JsonValidator validator = new BasicJsonValidator(createSchema().moreProperties());
+			Schema schema = schema(createObjectType().moreProperties());
+
+			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertFalse(result.hasProblems());

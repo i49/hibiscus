@@ -8,7 +8,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.ComplexType;
+import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 
@@ -17,9 +17,28 @@ public class ArrayValidationTest extends BaseValidationTest {
 	public static class ArrayTypeTest  extends BaseValidationTest {
 
 		@Test
+		public void objectOrArray() {
+
+			Schema schema = schema(
+				object(
+					required("foo", string()),
+					optional("bar", integer())
+				),
+				array(string())
+			);
+			
+			String json = "[\"abc\", \"xyz\"]";
+
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
 		public void notArrayButObject() {
 			String json = "{}";
-			ComplexType schema = array();
+			Schema schema = schema(array());
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 
@@ -37,7 +56,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void empty() {
 			String json = "[]";
-			ComplexType schema = array();
+			Schema schema = schema(array());
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 
@@ -47,7 +66,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void booleans() {
 			String json = "[true, false, true]";
-			ComplexType schema = array(bool());
+			Schema schema = schema(array(bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -57,7 +76,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void integers() {
 			String json = "[1, 2, 3, 4, 5]";
-			ComplexType schema = array(integer());
+			Schema schema = schema(array(integer()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -67,7 +86,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void numbers() {
 			String json = "[1.2, 3.4, 5.6]";
-			ComplexType schema = array(number());
+			Schema schema = schema(array(number()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -77,7 +96,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void nulls() {
 			String json = "[null, null, null]";
-			ComplexType schema = array(nil());
+			Schema schema = schema(array(nil()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -87,7 +106,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void strings() {
 			String json = "[\"abc\", \"xyz\", \"123\"]";
-			ComplexType schema = array(string());
+			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -97,7 +116,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrays() {
 			String json = "[[1, 2, 3], [4, 5, 6]]";
-			ComplexType schema = array(array(integer()));
+			Schema schema = schema(array(array(integer())));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -107,7 +126,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void objects() {
 			String json = "[{}, {}, {}]";
-			ComplexType schema = array(object());
+			Schema schema = schema(array(object()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -117,7 +136,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void mixed() {
 			String json = "[123, \"abc\", 456, \"xyz\"]";
-			ComplexType schema = array(integer(), string());
+			Schema schema = schema(array(integer(), string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -130,7 +149,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfMinItems() {
 			String json = "[1, 2, 3]";
-			ComplexType schema = array(integer()).minItems(3);
+			Schema schema = schema(array(integer()).minItems(3));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -140,7 +159,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfItemsMoreThanMin() {
 			String json = "[1, 2, 3, 4]";
-			ComplexType schema = array(integer()).minItems(3);
+			Schema schema = schema(array(integer()).minItems(3));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -150,7 +169,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfItemsLessThanMin() {
 			String json = "[1, 2]";
-			ComplexType schema = array(integer()).minItems(3);
+			Schema schema = schema(array(integer()).minItems(3));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -165,7 +184,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfMaxItems() {
 			String json = "[1, 2, 3, 4]";
-			ComplexType schema = array(integer()).maxItems(4);
+			Schema schema = schema(array(integer()).maxItems(4));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -175,7 +194,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfItemsLessThanMax() {
 			String json = "[1, 2, 3]";
-			ComplexType schema = array(integer()).maxItems(4);
+			Schema schema = schema(array(integer()).maxItems(4));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -188,7 +207,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfItemsMoreThanMax() {
 			String json = "[1, 2, 3, 4, 5]";
-			ComplexType schema = array(integer()).maxItems(4);
+			Schema schema = schema(array(integer()).maxItems(4));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -203,7 +222,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void arrayOfItemsBetweenMinAndMax() {
 			String json = "[1, 2, 3, 4]";
-			ComplexType schema = array(integer()).minItems(3).maxItems(4);
+			Schema schema = schema(array(integer()).minItems(3).maxItems(4));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 	
@@ -216,7 +235,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void typeMatchSingleType() {
 			String json = "[\"a\", \"b\", \"c\"]";
-			ComplexType schema = array(string());
+			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 
@@ -226,7 +245,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void typeUnmatchSingleType() {
 			String json = "[\"a\", \"b\", \"c\"]";
-			ComplexType schema = array(number());
+			Schema schema = schema(array(number()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 
@@ -242,7 +261,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void typeMatchOneOfTypes() {
 			String json = "[\"a\", \"b\", \"c\"]";
-			ComplexType schema = array(number(), string(), bool());
+			Schema schema = schema(array(number(), string(), bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 
@@ -252,7 +271,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Test
 		public void typeUnmatchAllTypes() {
 			String json = "[\"a\", \"b\", \"c\"]";
-			ComplexType schema = array(number(), bool(), nil());
+			Schema schema = schema(array(number(), bool(), nil()));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 

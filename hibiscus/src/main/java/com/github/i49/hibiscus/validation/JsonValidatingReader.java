@@ -22,6 +22,7 @@ import com.github.i49.hibiscus.schema.ArrayType;
 import com.github.i49.hibiscus.schema.JsonType;
 import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.schema.Property;
+import com.github.i49.hibiscus.schema.Schema;
 import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
@@ -46,14 +47,13 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Reads all JSON contents.
-	 * @param expected expected root type which must be array or object.
-	 * @return JSON value at root.
+	 * Reads all contents of JSON document.
+	 * @param schema the schema against which this reader validates the JSON document.
+	 * @return JSON value found at root of JSON document.
 	 */
-	public JsonValue readAll(JsonType expected) {
+	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
-			TypeSet typeSet = TypeSet.of(expected);
-			return readValue(parser.next(), typeSet);
+			return readValue(parser.next(), schema.getTypeSet());
 		} else {
 			return null;
 		}

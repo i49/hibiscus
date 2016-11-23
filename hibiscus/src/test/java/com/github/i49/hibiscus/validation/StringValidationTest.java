@@ -16,14 +16,14 @@ import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
-import com.github.i49.hibiscus.schema.ComplexType;
+import com.github.i49.hibiscus.schema.Schema;
 
 public class StringValidationTest extends BaseValidationTest {
 
 	@Test
 	public void normalString() {
 		String json = "[\"abc\"]";
-		ComplexType schema = array(string());
+		Schema schema = schema(array(string()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -33,7 +33,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void emptyString() {
 		String json = "[\"\"]";
-		ComplexType schema = array(string());
+		Schema schema = schema(array(string()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -43,7 +43,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void notStringButInteger() {
 		String json = "[123]";
-		ComplexType schema = array(string());
+		Schema schema = schema(array(string()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -57,7 +57,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfAllowedValue() {
 		String json = "[\"Spring\"]";
-		ComplexType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
+		Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 		
@@ -67,7 +67,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfNotAllowedValue() {
 		String json = "[\"Q2\"]";
-		ComplexType schema = array(string().values("Spring", "Summer", "Autumn", "Winter"));
+		Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 		
@@ -83,7 +83,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfMinLength() {
 		String json = "[\"abc\"]";
-		ComplexType schema = array(string().minLength(3));
+		Schema schema = schema(array(string().minLength(3)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -94,7 +94,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfLengthLessThanMin() {
 		
 		String json = "[\"ab\"]";
-		ComplexType schema = array(string().minLength(3));
+		Schema schema = schema(array(string().minLength(3)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -110,7 +110,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOftMaxLength() {
 		
 		String json = "[\"abcd\"]";
-		ComplexType schema = array(string().maxLength(4));
+		Schema schema = schema(array(string().maxLength(4)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -121,7 +121,7 @@ public class StringValidationTest extends BaseValidationTest {
 	public void stringOfLengthMoreThantMax() {
 		
 		String json = "[\"abcde\"]";
-		ComplexType schema = array(string().maxLength(4));
+		Schema schema = schema(array(string().maxLength(4)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -136,7 +136,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfLengthBetweentMinAndMax() {
 		String json = "[\"abcd\"]";
-		ComplexType schema = array(string().minLength(3).maxLength(4));
+		Schema schema = schema(array(string().minLength(3).maxLength(4)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -146,7 +146,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfValidPattern() {
 		String json = "[\"123-45-6789\"]";
-		ComplexType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
+		Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -156,7 +156,7 @@ public class StringValidationTest extends BaseValidationTest {
 	@Test
 	public void stringOfInvalidPattern() {
 		String json = "[\"9876-54-321\"]";
-		ComplexType schema = array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}"));
+		Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

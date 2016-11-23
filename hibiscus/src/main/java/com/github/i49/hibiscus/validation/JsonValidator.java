@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import javax.json.JsonException;
 import javax.json.stream.JsonParsingException;
 
-import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.Schema;
 
 /**
  * JSON validator.
@@ -15,10 +15,10 @@ import com.github.i49.hibiscus.schema.JsonType;
 public interface JsonValidator {
 
 	/**
-	 * Returns expected JSON type to be found at root of JSON document.
-	 * @return expected JSON type at root of JSON document.
+	 * Returns the schema for this validator to validate JSON documents.
+	 * @return the schema.
 	 */
-	JsonType getRootType();
+	Schema getSchema();
 
 	/**
 	 * Validates JSON document which is to be read from {@link java.io.Reader}.

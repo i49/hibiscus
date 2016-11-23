@@ -70,7 +70,7 @@ class JsonLoader {
 	}
 	
 	private static void printValue(ValidationResult result) {
-		System.out.println("JSON constructed:");
+		System.out.println("JSON values loaded:");
 		try (JsonWriter writer = writerFactory.createWriter(new StandardOutputStream())) {
 			writer.write((JsonStructure)result.getValue());
 		}

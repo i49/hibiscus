@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
 import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.schema.ComplexType;
+import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void postiveNumber() {
 		String json = "[123.45]";
-		ComplexType schema = array(number());
+		Schema schema = schema(array(number()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -32,7 +32,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void negativeNumber() {
 		String json = "[-123.45]";
-		ComplexType schema = array(number());
+		Schema schema = schema(array(number()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -42,7 +42,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void integralNumber() {
 		String json = "[123]";
-		ComplexType schema = array(number());
+		Schema schema = schema(array(number()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -52,7 +52,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void notNumberButString() {
 		String json = "[\"123.45\"]";
-		ComplexType schema = array(bool());
+		Schema schema = schema(array(bool()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -66,7 +66,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberOfMinimum() {
 		String json = "[12.340]";
-		ComplexType schema = array(number().minInclusive(new BigDecimal("12.34")));
+		Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -77,7 +77,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberLessThanMinimum() {
 		String json = "[12.33]";
-		ComplexType schema = array(number().minInclusive(new BigDecimal("12.34")));
+		Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -95,7 +95,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberMoreThanExlusiveMinimum() {
 		String json = "[12.35]";
-		ComplexType schema = array(number().minExclusive(new BigDecimal("12.34")));
+		Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -106,7 +106,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberEqualToExlusiveMinimum() {
 		String json = "[12.340]";
-		ComplexType schema = array(number().minExclusive(new BigDecimal("12.34")));
+		Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -124,7 +124,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberOfMaximum() {
 		String json = "[56.780]";
-		ComplexType schema = array(number().maxInclusive(new BigDecimal("56.78")));
+		Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -135,7 +135,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberGreaterThanMaximum() {
 		String json = "[56.79]";
-		ComplexType schema = array(number().maxInclusive(new BigDecimal("56.78")));
+		Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -153,7 +153,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberLessThanExclusiveMaximum() {
 		String json = "[56.77]";
-		ComplexType schema = array(number().maxExclusive(new BigDecimal("56.78")));
+		Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -164,7 +164,7 @@ public class NumberValidationTest extends BaseValidationTest {
 	@Test
 	public void numberEqualToExclusiveMaximum() {
 		String json = "[56.780]";
-		ComplexType schema = array(number().maxExclusive(new BigDecimal("56.78")));
+		Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
 		
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
