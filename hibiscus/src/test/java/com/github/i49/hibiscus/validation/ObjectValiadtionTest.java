@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 import java.io.StringReader;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
@@ -19,13 +18,8 @@ import com.github.i49.hibiscus.schema.ObjectType;
 
 public class ObjectValiadtionTest extends BaseValidationTest {
 
-	private ObjectType schema;
-	
-	@Before
-	@Override
-	public void setUp() {
-		super.setUp();
-		schema = object(
+	private static ObjectType createSchema() {
+		return object(
 				required("a", string()),
 				required("b", integer()),
 				required("c", number()),
@@ -35,7 +29,24 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				required("g", array(integer()))
 			);
 	}
+	
+	public static class ObjectTypeTest extends BaseValidationTest {
+		
+		@Test
+		public void notObjectButArray() {
+			String json = "[1, 2, 3]";
+			JsonValidator validator = new BasicJsonValidator(createSchema());
+			result = validator.validate(new StringReader(json));
 
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.ARRAY, p.getActualType());
+			assertEquals(TypeId.OBJECT, p.getExpectedTypes().iterator().next());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
 	@Test
 	public void emptyObject() {
 		String json = "{}";
@@ -59,7 +70,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new BasicJsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(createSchema());
 		result = validator.validate(new StringReader(json));
 
 		assertFalse(result.hasProblems());
@@ -78,7 +89,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new BasicJsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(createSchema());
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
@@ -103,7 +114,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": null"
 				+ "}";
 
-		JsonValidator validator = new BasicJsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(createSchema());
 		result = validator.validate(new StringReader(json));
 
 		List<Problem> problems = result.getProblems();
@@ -137,7 +148,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 				+ "\"g\": [1, 2, 3]"
 				+ "}";
 
-		JsonValidator validator = new BasicJsonValidator(schema);
+		JsonValidator validator = new BasicJsonValidator(createSchema());
 		result = validator.validate(new StringReader(json));
 
 		List<Problem> problems = result.getProblems();
@@ -147,40 +158,39 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		assertNotNull(p.getDescription());
 	}
 	
-	private static String jsonWithUnknownProperty() {
-		return "{"
-				+ "\"a\": \"abc\","
-				+ "\"b\": 123,"
-				+ "\"c\": 123.45,"
-				+ "\"d\": true,"
-				+ "\"e\": null,"
-				+ "\"f\": {},"
-				+ "\"g\": [1, 2, 3],"
-				+ "\"h\": 123"
-				+ "}";
-	}
+	public static class UnknownPropertyTest extends BaseValidationTest {
 	
-	@Test
-	public void objectWithUnknownProperty() {
+		private static final String json ="{"
+					+ "\"a\": \"abc\","
+					+ "\"b\": 123,"
+					+ "\"c\": 123.45,"
+					+ "\"d\": true,"
+					+ "\"e\": null,"
+					+ "\"f\": {},"
+					+ "\"g\": [1, 2, 3],"
+					+ "\"h\": 123"
+					+ "}";
 		
-		String json = jsonWithUnknownProperty();
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		List<Problem> problems = result.getProblems();
-		assertEquals(1, problems.size());
-		UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
-		assertEquals("h", p.getPropertyName());
-		assertNotNull(p.getDescription());
-	}
+		@Test
+		public void objectWithUnknownProperty() {
+			
+			JsonValidator validator = new BasicJsonValidator(createSchema());
+			result = validator.validate(new StringReader(json));
 	
-	@Test
-	public void objectWithMoreProperties() {
+			List<Problem> problems = result.getProblems();
+			assertEquals(1, problems.size());
+			UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
+			assertEquals("h", p.getPropertyName());
+			assertNotNull(p.getDescription());
+		}
 		
-		String json = jsonWithUnknownProperty();
-		JsonValidator validator = new BasicJsonValidator(schema.moreProperties());
-		ValidationResult result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
+		@Test
+		public void objectWithMoreProperties() {
+			
+			JsonValidator validator = new BasicJsonValidator(createSchema().moreProperties());
+			ValidationResult result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
 }

@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator to verify JSON document against the schema defined by Java-based DSL
+Hibiscus is JSON validator to verify JSON documents against the schema defined by Java-based DSL
 
 ## Why Do We Write JSON Schema in Java?
 Writing JSON schema in Java has following advantages:
@@ -131,7 +131,7 @@ ObjectType schema = object(
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
    Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is "well-formed" and not broken as JSON.
 
-## How to Build
+## Installation
 
 ```bash
 $ git clone https://github.com/i49/Hibiscus.git
@@ -153,8 +153,9 @@ Hibiscus requires at runtime one of the API implementations of [Java API for JSO
 
 ## Validator Examples
 
-Examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
+Some examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
 
 ## Other Solutions
 
 If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
+But I have a belief that it is preferable to write schema by internal DSL using host language, especially for the validation purpose.
