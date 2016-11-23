@@ -8,9 +8,11 @@ import java.util.Set;
 
 import javax.json.JsonValue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringPatternProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
@@ -21,8 +23,8 @@ import com.github.i49.hibiscus.schema.Schema;
 public class StringValidationTest extends BaseValidationTest {
 
 	@Test
-	public void normalString() {
-		String json = "[\"abc\"]";
+	public void emptyString() {
+		String json = "[\"\"]";
 		Schema schema = schema(array(string()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -31,8 +33,8 @@ public class StringValidationTest extends BaseValidationTest {
 	}
 
 	@Test
-	public void emptyString() {
-		String json = "[\"\"]";
+	public void normalString() {
+		String json = "[\"abc\"]";
 		Schema schema = schema(array(string()));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
@@ -53,117 +55,264 @@ public class StringValidationTest extends BaseValidationTest {
 		assertEquals(TypeId.INTEGER, p.getActualType());
 		assertNotNull(p.getDescription());
 	}
+
+	public static class ValueSetTest extends BaseValidationTest {
 	
-	@Test
-	public void stringOfAllowedValue() {
-		String json = "[\"Spring\"]";
-		Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+		@Test
+		public void allowed() {
+			String json = "[\"Spring\"]";
+			Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertFalse(result.hasProblems());
+		}
 		
-		assertFalse(result.hasProblems());
-	}
-	
-	@Test
-	public void stringOfNotAllowedValue() {
-		String json = "[\"Q2\"]";
-		Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-		
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals("\"Q2\"", p.getActualValue().toString());
-		Set<JsonValue> expected = p.getExpectedValues();
-		assertEquals(4, expected.size());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void stringOfMinLength() {
-		String json = "[\"abc\"]";
-		Schema schema = schema(array(string().minLength(3)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void stringOfLengthLessThanMin() {
-		
-		String json = "[\"ab\"]";
-		Schema schema = schema(array(string().minLength(3)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
-		StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
-		assertEquals(2, p.getActualLength());
-		assertEquals(3, p.getLimitLength());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void stringOftMaxLength() {
-		
-		String json = "[\"abcd\"]";
-		Schema schema = schema(array(string().maxLength(4)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void stringOfLengthMoreThantMax() {
-		
-		String json = "[\"abcde\"]";
-		Schema schema = schema(array(string().maxLength(4)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
-		StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
-		assertEquals(5, p.getActualLength());
-		assertEquals(4, p.getLimitLength());
-		assertNotNull(p.getDescription());
+		@Test
+		public void notAllowed() {
+			String json = "[\"Q2\"]";
+			Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals("\"Q2\"", p.getActualValue().toString());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(4, expected.size());
+			assertNotNull(p.getDescription());
+		}
 	}
 	
-	@Test
-	public void stringOfLengthBetweentMinAndMax() {
-		String json = "[\"abcd\"]";
-		Schema schema = schema(array(string().minLength(3).maxLength(4)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class MinLengthTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().minLength(3)));
+		}
+
+		@Test
+		public void moreThanMinLength() {
+			String json = "[\"abcd\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void minLength() {
+			String json = "[\"abc\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void lessThanMinLength() {
+			
+			String json = "[\"ab\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
+			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getLimitLength());
+			assertNotNull(p.getDescription());
+		}
 	}
 	
-	@Test
-	public void stringOfValidPattern() {
-		String json = "[\"123-45-6789\"]";
-		Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class MaxLengthTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().maxLength(3)));
+		}
+
+		@Test
+		public void lessThanMaxLength() {
+			
+			String json = "[\"ab\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void maxLength() {
+			
+			String json = "[\"abc\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void moreThantMaxLength() {
+			
+			String json = "[\"abcd\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
+			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
+			assertEquals(4, p.getActualLength());
+			assertEquals(3, p.getLimitLength());
+			assertNotNull(p.getDescription());
+		}
 	}
 
-	@Test
-	public void stringOfInvalidPattern() {
-		String json = "[\"9876-54-321\"]";
-		Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class MinAndMaxLengthTest extends BaseValidationTest {
+	
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().minLength(3).maxLength(5)));
+		}
 
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
-		StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
-		assertEquals("9876-54-321", p.getActualValue().getString());
-		assertNotNull(p.getDescription());
+		@Test
+		public void lessThanMinLength() {
+			String json = "[\"ab\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
+			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getLimitLength());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void minLength() {
+			String json = "[\"abc\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void betweenMinAndMaxLength() {
+			String json = "[\"abcd\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void maxLength() {
+			String json = "[\"abcde\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void moreThanMaxLength() {
+			String json = "[\"abcdef\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
+			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
+			assertEquals(6, p.getActualLength());
+			assertEquals(5, p.getLimitLength());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class StringLengthTest extends BaseValidationTest {
+		
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().length(3)));
+		}
+
+		@Test
+		public void same() {
+			String json = "[\"abc\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void lessThanExpected() {
+			String json = "[\"ab\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
+			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getExpectedLength());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void moreThanExpected() {
+			String json = "[\"abcd\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
+			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
+			assertEquals(4, p.getActualLength());
+			assertEquals(3, p.getExpectedLength());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class StringPatternTest extends BaseValidationTest {
+		
+		@Test
+		public void valid() {
+			String json = "[\"123-45-6789\"]";
+			Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void invalid() {
+			String json = "[\"9876-54-321\"]";
+			Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
+			StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
+			assertEquals("9876-54-321", p.getActualValue().getString());
+			assertNotNull(p.getDescription());
+		}
 	}
 }

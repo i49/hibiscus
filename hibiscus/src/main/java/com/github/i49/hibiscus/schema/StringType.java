@@ -8,6 +8,7 @@ import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.schema.facets.StringLengthFacet;
 import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
 import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 import com.github.i49.hibiscus.schema.facets.PatternFacet;
@@ -15,6 +16,15 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 
 /**
  * JSON type for string value.
+ * 
+ * <p>String type can have following facets constraining its value space.</p>
+ * <ul>
+ * <li>minLength</li>
+ * <li>maxLength</li>
+ * <li>length</li>
+ * <li>values</li>
+ * <li>pattern</li>
+ * </ul>
  */
 public class StringType extends AbstractSimpleType<JsonString> implements SimpleType {
 	
@@ -30,7 +40,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	}
 	
 	/**
-	 * Specifies minimum number of characters in this string. 
+	 * Specifies the minimum number of characters in this string. 
 	 * @param length the minimum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
@@ -42,7 +52,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	}
 	
 	/**
-	 * Specifies maximum number of characters in this string. 
+	 * Specifies the maximum number of characters in this string. 
 	 * @param length the maximum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
@@ -54,7 +64,19 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	}
 	
 	/**
-	 * Specifies values allowed for this type.
+	 * Specifies the number of characters expected in this string. 
+	 * @param length the number of characters. Must be non-negative value.
+	 * @return this type.
+	 * @exception SchemaException if length specified is negative.
+	 */
+	public StringType length(int length) {
+		checkLength(length);
+		addFacet(new StringLengthFacet(length));
+		return this;
+	}
+	
+	/**
+	 * Specifies set of values allowed for this type.
 	 * @param values the values allowed. Each value cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is null.
@@ -74,7 +96,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	}
 	
 	/**
-	 * Specifies string pattern.
+	 * Specifies the pattern of this string with regular expression.
 	 * Note that the pattern string must be compatible with Java regular expression. 
 	 * @param regex the regular expression to which this string is to be matched. Cannot be {@code null}.
 	 * @return this type.

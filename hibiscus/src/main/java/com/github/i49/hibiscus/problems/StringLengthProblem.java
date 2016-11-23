@@ -1,25 +1,27 @@
 package com.github.i49.hibiscus.problems;
 
+import java.util.Locale;
+
 import javax.json.JsonString;
 
 /**
- * Base class of {@code StringTooShortProblem} and {@code StringTooLongProblem}.
+ * Problem that string does not have exactly the same as expected characters.
  */
-public abstract class StringLengthProblem extends ValueProblem<JsonString> {
+public class StringLengthProblem extends ValueProblem<JsonString> {
 
 	private final int actualLength;
-	private final int limitLength;
+	private final int expectedLength;
 	
 	/**
 	 * Constructs this problem.
 	 * @param value the string value in JSON instance. 
 	 * @param actualLength the actual number of characters in the string.
-	 * @param limitLength the minimum or maximum number of characters allowed for the type. 
+	 * @param expectedLength the expected number of characters in the string.
 	 */
-	protected StringLengthProblem(JsonString value, int actualLength, int limitLength) {
+	public StringLengthProblem(JsonString value, int actualLength, int expectedLength) {
 		super(value);
 		this.actualLength = actualLength;
-		this.limitLength = limitLength;
+		this.expectedLength = expectedLength;
 	}
 	
 	/**
@@ -31,10 +33,15 @@ public abstract class StringLengthProblem extends ValueProblem<JsonString> {
 	}
 
 	/**
-	 * Returns the number of characters allowed for string. 
-	 * @return the minimum or maximum number of characters.
+	 * Returns the number of characters expected for the string. 
+	 * @return the number of characters expected.
 	 */
-	public int getLimitLength() {
-		return limitLength;
+	public int getExpectedLength() {
+		return expectedLength;
+	}
+
+	@Override
+	protected String buildDescription(Locale locale) {
+		return Messages.STRING_LENGTH(locale, getActualLength(), getExpectedLength());
 	}
 }

@@ -66,6 +66,10 @@ final class Messages {
 		return localize(locale, "UNKNOWN_PROPERTY", propertyName);
 	}
 	
+	static String STRING_LENGTH(Locale locale, int actualLength, int expectedLength) {
+		return localize(locale, "STRING_LENGTH", actualLength, expectedLength);
+	}
+
 	static String STRING_TOO_LONG(Locale locale, int actualLength, int limitLength) {
 		return localize(locale, "STRING_TOO_LONG", actualLength, limitLength);
 	}
