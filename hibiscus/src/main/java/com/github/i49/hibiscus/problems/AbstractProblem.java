@@ -5,7 +5,7 @@ import java.util.Locale;
 import javax.json.stream.JsonLocation;
 
 /**
- * Skeletal implementation of Problem.
+ * Skeletal class to implement {@link Problem}.
  */
 abstract class AbstractProblem implements Problem {
 
@@ -30,22 +30,21 @@ abstract class AbstractProblem implements Problem {
 		return buildDescription(locale);
 	}
 	
+	@Override
+	public String getMessage(Locale locale) {
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
+		return Messages.PROBLEM_MESSAGE(locale, getLocation(), getDescription(locale));
+	}
+	
 	/**
-	 * Returns a string representation of this type, including location and error message.
-	 * @return a string representation of the object. 
+	 * Returns a string representation of this problem, including location and description.
+	 * @return a string representation of this problem. 
 	 */
 	@Override
 	public String toString() {
-		StringBuilder b = new StringBuilder();
-		JsonLocation location = getLocation();
-		if (location != null) {
-			b.append("Line ").append(location.getLineNumber());
-			b.append(", column ").append(location.getColumnNumber());
-		} else {
-			b.append("(unknown)");
-		}
-		b.append(": ").append(getDescription());
-		return b.toString();
+		return getMessage();
 	}
 	
 	/**

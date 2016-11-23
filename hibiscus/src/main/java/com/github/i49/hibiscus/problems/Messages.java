@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.problems;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
+import static java.text.MessageFormat.format;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -11,16 +11,37 @@ import java.util.stream.Collectors;
 import javax.json.JsonNumber;
 import javax.json.JsonString;
 import javax.json.JsonValue;
+import javax.json.stream.JsonLocation;
 
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
  * Messages for validation problems.
+ * Used internally by each {@link Problem} derived class.
  */
 final class Messages {
 
+	// Name of resource bundle to be loaded.
 	private static final String BUNDLE_BASE_NAME = Problem.class.getPackage().getName() + ".messages";
 
+	/**
+	 * Returns message that represents the problem as a whole.
+	 * @param locale the locale for the message.
+	 * @param location the location where the problem was found. This can be {@code null}.
+	 * @param description the description of the problem.
+	 * @return message for the problem.
+	 */
+	static String PROBLEM_MESSAGE(Locale locale, JsonLocation location, String description) {
+		ResourceBundle bundle = getBundle(locale);
+		String locationPart = null;
+		if (location == null) {
+			locationPart = bundle.getString("problem.location.unknown");
+		} else {
+			locationPart = format(bundle.getString("problem.location"), location.getLineNumber(), location.getColumnNumber());
+		}
+		return format(bundle.getString("problem.message"), locationPart, description);
+	}
+	
 	static String TYPE_MISMATCH(Locale locale, TypeId actualType, Set<TypeId> expectedTypes) {
 		return localize(locale, "TYPE_MISMATCH", actualType, expectedTypes);
 	}
@@ -72,12 +93,16 @@ final class Messages {
 	static String NOT_LESS_THAN_MAXIMUM(Locale locale, JsonNumber value, BigDecimal upperBound) {
 		return localize(locale, "NOT_LESS_THAN_MAXIMUM", value, upperBound);
 	}
+
+	private static ResourceBundle getBundle(Locale locale) {
+		return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
+	}
 	
 	private static String localize(Locale locale, String key, Object... arguments) {
-		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
+		ResourceBundle bundle = getBundle(locale);
 		String pattern = bundle.getString(key);
 		Object[] decorated = decorate(bundle, arguments);
-		return MessageFormat.format(pattern, decorated);
+		return format(pattern, decorated);
 	}
 	
 	private static Object[] decorate(ResourceBundle bundle, Object[] arguments) {
@@ -109,26 +134,26 @@ final class Messages {
 
 	private static String decorate(ResourceBundle bundle, TypeId type) {
 		String pattern = bundle.getString("type");
-		return MessageFormat.format(pattern, type);
+		return format(pattern, type);
 	}
 	
 	private static String decorateTypeSet(ResourceBundle bundle, Set<TypeId> types) {
 		String separator = bundle.getString("type.separator");
 		String joined = types.stream().map(type->decorate(bundle, type)).collect(Collectors.joining(separator));
 		String pattern = bundle.getString("type.set");
-		return MessageFormat.format(pattern, joined);
+		return format(pattern, joined);
 	}
 	
 	private static String decorate(ResourceBundle bundle, JsonValue value) {
 		String pattern = bundle.getString("value");
-		return MessageFormat.format(pattern, value);
+		return format(pattern, value);
 	}
 
 	private static String decorateValueSet(ResourceBundle bundle, Set<JsonValue> values) {
 		String separator = bundle.getString("value.separator");
 		String joined = values.stream().map(value->decorate(bundle, value)).collect(Collectors.joining(separator));
 		String pattern = bundle.getString("value.set");
-		return MessageFormat.format(pattern, joined);
+		return format(pattern, joined);
 	}
 
 	private Messages() {
