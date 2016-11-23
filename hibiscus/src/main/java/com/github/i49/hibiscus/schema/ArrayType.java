@@ -15,13 +15,28 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * JSON array which can have zero or more values as elements.
  * 
- * <h3>Overview of Array Type</h3>
+ * <h3>Overview of array type</h3>
  * <p>Array type can impose following constraints on values in JSON document.</p>
  * <ul>
  * <li>minSize</li>
  * <li>maxSize</li>
  * <li>size</li>
  * </ul>
+ * 
+ * <h3>Array type constraints</h3>
+ * 
+ * <h4>minSize</h4>
+ * <p>{@link #minSize} constrains the minimum number of elements in the array.</p>
+ * <blockquote><pre>array(number()).minSize(3);</pre></blockquote>
+ *
+ * <h4>maxSize</h4>
+ * <p>{@link #maxSize} constrains the maximum number of elements in the array.</p>
+ * <blockquote><pre>array(number()).maxSize(10);</pre></blockquote>
+ *
+ * <h4>size</h4>
+ * <p>{@link #size} constrains the number of elements in the array.
+ * For instance, three-dimensional vector can be defined as follows.</p>
+ * <blockquote><pre>array(number()).size(3);</pre></blockquote>
  */
 public class ArrayType extends AbstractJsonType implements ComplexType {
 

@@ -4,7 +4,7 @@
 
 Hibiscus is JSON validator to verify JSON documents against the schema defined by Java-based DSL
 
-## Why Do We Write JSON Schema in Java?
+## Why do we write JSON schema in Java?
 Writing JSON schema in Java has following advantages:
 
 * Your favorite IDE compiles it and detects syntactical errors automatically.
@@ -13,7 +13,7 @@ Writing JSON schema in Java has following advantages:
 * Avoids troubles in missing "$ref" links.
 * Can extend validation logic with Java code as much as needed.
 
-## Schema Example
+## Schema example
 
 As first example we assume that you have following JSON document which you would like to validate in your application:
 
@@ -40,7 +40,7 @@ Schema schema = schema(
 );
 ```
 
-## How to Write Your Own JSON Validator
+## How to write your own JSON validator
 
 1. Create a new class that extends `BasicJsonValidator` class.
 
@@ -100,7 +100,7 @@ Schema schema = schema(
   }
   ```
 
-## How to Validate JSON Document with Your Validator
+## How to validate JSON document with your validator
 
 1. Create an instance of your validator.
 
@@ -151,7 +151,7 @@ $ cd hibiscus
 $ mvn install
 ```
 
-## Library Dependencies
+## Library dependencies
 
 Hibiscus requires at runtime one of the API implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/). In addition to Hibiscus itself, you need to add the dependency to your application explicitly. If your choice is the reference implementation offered by jsonp project hosted on [java.net](http://java.net), you can specify it in your pom.xml as follows.   
 
@@ -163,11 +163,11 @@ Hibiscus requires at runtime one of the API implementations of [Java API for JSO
 </dependency>
 ```
 
-## Validator Examples
+## Validator examples
 
 Some examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
 
-## Other Solutions
+## And other solutions
 
 If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
 But I have a belief that it is preferable to write schema by internal DSL using host language, especially for the validation purpose.

@@ -17,7 +17,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for string value.
  * 
- * <h3>Overview of String Type</h3>
+ * <h3>Overview of string type</h3>
  * <p>String type can have following facets constraining its value space.</p>
  * <ul>
  * <li>minLength</li>
@@ -26,6 +26,29 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <li>values</li>
  * <li>pattern</li>
  * </ul>
+ *
+ * <h3>String type facets</h3>
+ * 
+ * <h4>minLength</h4>
+ * <p>{@link #minLength} constrains the minimum number of characters in the string.</p>
+ * <blockquote><pre>string().minLength(3);</pre></blockquote>
+ *
+ * <h4>maxLength</h4>
+ * <p>{@link #maxLength} constrains the maximum number of characters in the string.</p>
+ * <blockquote><pre>string().maxLength(10);</pre></blockquote>
+ *
+ * <h4>length</h4>
+ * <p>{@link #length} constrains the number of characters in the string.
+ * For instance, password string which consists of exactly eight characters are defined as follows.</p>
+ * <blockquote><pre>string().length(8);</pre></blockquote>
+ *
+ * <h4>values</h4>
+ * <p>{@link #values} constrains the set of values allowed in the string.</p>
+ * <blockquote><pre>string().values("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
+ *
+ * <h4>pattern</h4>
+ * <p>{@link #pattern} constrains the pattern of the string with a regular expression.</p>
+ * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
 public class StringType extends AbstractSimpleType<JsonString> implements SimpleType {
 	
