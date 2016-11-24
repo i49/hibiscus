@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator to verify JSON documents against the schema defined by Java-based DSL
+Hibiscus is JSON validator that verifies JSON documents against your schema written in Java.
 
 ## Why do we write JSON schema in Java?
 Writing JSON schema in Java has following advantages:
@@ -15,7 +15,7 @@ Writing JSON schema in Java has following advantages:
 
 ## Schema example
 
-As first example we assume that you have following JSON document which you would like to validate in your application:
+As first example we assume that you have JSON document below that you would like to validate in your application.
 
 ```json
 {
@@ -57,7 +57,7 @@ Schema schema = schema(
   import static com.github.i49.hibiscus.schema.JsonTypes.*;
   ```
 
-3. Define your schema as a class variable of your validator.
+3. Define your schema as a class constant of your validator.
 
   ```java
   import com.github.i49.hibiscus.validation.BasicJsonValidator;
@@ -76,7 +76,7 @@ Schema schema = schema(
     );  
   }
   ```  
-4. Pass the schema object to the constructor of superclass, and then your work is done.
+4. Pass the schema to the constructor of superclass, and then your work is done.
 
   ```java
   import com.github.i49.hibiscus.validation.BasicJsonValidator;
@@ -100,7 +100,7 @@ Schema schema = schema(
   }
   ```
 
-## How to validate JSON document with your validator
+## How to validate JSON documents with your validator
 
 1. Create an instance of your validator.
 
@@ -141,7 +141,7 @@ Schema schema = schema(
   ```
 
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
-   Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is "well-formed" and not broken as JSON.
+   Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is *well-formed* and not broken as JSON.
 
 ## Installation
 
