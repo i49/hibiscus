@@ -12,7 +12,7 @@ public class NumberTypeTest {
 		
 		@Test(expected = SchemaException.class)
 		public void valueIsNull() {
-			number().values(new BigDecimal("123.45"), new BigDecimal("678.90"), null);
+			number().enumeration(new BigDecimal("123.45"), new BigDecimal("678.90"), null);
 		}
 	}
 }

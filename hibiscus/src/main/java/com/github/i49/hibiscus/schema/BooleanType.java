@@ -30,7 +30,7 @@ public class BooleanType extends AbstractJsonType<JsonValue> implements SimpleTy
 	 * @param values the values allowed.
 	 * @return this type.
 	 */
-	public BooleanType values(boolean... values) {
+	public BooleanType enumeration(boolean... values) {
 		Set<JsonValue> valueSet = new HashSet<>();
 		for (boolean value: values) {
 			valueSet.add(JsonValues.createBoolean(value));

@@ -61,12 +61,12 @@ public class IntegerType extends NumberType {
 	}
 	
 	@Override
-	public IntegerType values(long... values) {
-		return (IntegerType)super.values(values);
+	public IntegerType enumeration(long... values) {
+		return (IntegerType)super.enumeration(values);
 	}
 
 	@Override
-	public IntegerType values(BigDecimal... values) {
-		return (IntegerType)super.values(values);
+	public IntegerType enumeration(BigDecimal... values) {
+		return (IntegerType)super.enumeration(values);
 	}
 }

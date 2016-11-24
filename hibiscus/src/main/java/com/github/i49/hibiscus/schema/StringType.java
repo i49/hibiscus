@@ -26,7 +26,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <li>length</li>
  * <li>minLength</li>
  * <li>maxLength</li>
- * <li>values</li>
+ * <li>enumeration</li>
  * <li>pattern</li>
  * </ul>
  * 
@@ -43,7 +43,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <p>{@link #maxLength maxLength} limits the length of string to the range with specific upper bound.</p>
  * <blockquote><pre>string().maxLength(10);</pre></blockquote>
  *
- * <h4>values</h4>
+ * <h4>enumeration</h4>
  * <p>{@link #values values} specifies a distinct set of valid values for the type.
  * <blockquote><pre>string().values("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
  *
@@ -106,7 +106,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is null.
 	 */
-	public StringType values(String... values) {
+	public StringType enumeration(String... values) {
 		Set<JsonString> valueSet = new HashSet<>();
 		int index = 0;
 		for (String value: values) {

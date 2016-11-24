@@ -18,7 +18,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void allowedValuesOfInteger() {
 		String json = "[123]";
-		Schema schema = schema(array(number().values(123, 456)));
+		Schema schema = schema(array(number().enumeration(123, 456)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -28,7 +28,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void notAllowedValuesOfInteger() {
 		String json = "[789]";
-		Schema schema = schema(array(number().values(123, 456)));
+		Schema schema = schema(array(number().enumeration(123, 456)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -42,7 +42,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void allowedValuesOfNumber() {
 		String json = "[56.78]";
-		Schema schema = schema(array(number().values(new BigDecimal("12.34"), new BigDecimal("56.78"))));
+		Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"), new BigDecimal("56.78"))));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -52,7 +52,7 @@ public class NumberValuesTest extends BaseValidationTest {
 	@Test
 	public void notAllowedValuesOfNumber() {
 		String json = "[56.78]";
-		Schema schema = schema(array(number().values(new BigDecimal("12.34"), new BigDecimal("67.89"))));
+		Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"), new BigDecimal("67.89"))));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

@@ -61,7 +61,7 @@ public class StringValidationTest extends BaseValidationTest {
 		@Test
 		public void allowed() {
 			String json = "[\"Spring\"]";
-			Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
+			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 			
@@ -71,7 +71,7 @@ public class StringValidationTest extends BaseValidationTest {
 		@Test
 		public void notAllowed() {
 			String json = "[\"Q2\"]";
-			Schema schema = schema(array(string().values("Spring", "Summer", "Autumn", "Winter")));
+			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
 			

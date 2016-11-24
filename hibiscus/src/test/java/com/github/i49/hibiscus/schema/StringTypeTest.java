@@ -48,7 +48,7 @@ public class StringTypeTest {
 	
 		@Test(expected = SchemaException.class)
 		public void valueIsNull() {
-			string().values("January", null, "March");
+			string().enumeration("January", null, "March");
 		}
 	}
 

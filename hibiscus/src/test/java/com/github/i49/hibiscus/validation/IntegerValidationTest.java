@@ -104,7 +104,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerOfAllowedValue() {
 		String json = "[30]";
-		Schema schema = schema(array(integer().values(28, 30, 31)));
+		Schema schema = schema(array(integer().enumeration(28, 30, 31)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -114,7 +114,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	@Test
 	public void integerOfNotAllowedValue() {
 		String json = "[29]";
-		Schema schema = schema(array(integer().values(28, 30, 31)));
+		Schema schema = schema(array(integer().enumeration(28, 30, 31)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

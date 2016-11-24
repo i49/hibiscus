@@ -53,7 +53,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfAllowedValue() {
 		String json = "[true]";
-		Schema schema = schema(array(bool().values(true)));
+		Schema schema = schema(array(bool().enumeration(true)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 
@@ -63,7 +63,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 	@Test
 	public void booleanOfNotAllowedValue() {
 		String json = "[false]";
-		Schema schema = schema(array(bool().values(true)));
+		Schema schema = schema(array(bool().enumeration(true)));
 		JsonValidator validator = new BasicJsonValidator(schema);
 		result = validator.validate(new StringReader(json));
 

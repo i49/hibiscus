@@ -109,7 +109,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @param values the values allowed.
 	 * @return this type.
 	 */
-	public NumberType values(long... values) {
+	public NumberType enumeration(long... values) {
 		Set<JsonNumber> valueSet = new HashSet<>();
 		for (long value: values) {
 			valueSet.add(JsonValues.createNumber(value));
@@ -124,7 +124,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is null.
 	 */
-	public NumberType values(BigDecimal... values) {
+	public NumberType enumeration(BigDecimal... values) {
 		Set<JsonNumber> valueSet = new HashSet<>();
 		int index = 0;
 		for (BigDecimal value: values) {
