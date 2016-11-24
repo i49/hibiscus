@@ -8,7 +8,10 @@ import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
-import com.github.i49.hibiscus.schema.facets.StringLengthFacet;
+import com.github.i49.hibiscus.problems.StringLengthProblem;
+import com.github.i49.hibiscus.problems.StringTooLongProblem;
+import com.github.i49.hibiscus.problems.StringTooShortProblem;
+import com.github.i49.hibiscus.schema.facets.LengthFacet;
 import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
 import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 import com.github.i49.hibiscus.schema.facets.PatternFacet;
@@ -30,24 +33,24 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <h3>String type facets</h3>
  * 
  * <h4>minLength</h4>
- * <p>{@link #minLength} constrains the minimum number of characters in the string.</p>
+ * <p>{@link #minLength minLength} limits the length of string to the range with specific lower bound.</p>
  * <blockquote><pre>string().minLength(3);</pre></blockquote>
  *
  * <h4>maxLength</h4>
- * <p>{@link #maxLength} constrains the maximum number of characters in the string.</p>
+ * <p>{@link #maxLength maxLength} limits the length of string to the range with specific upper bound.</p>
  * <blockquote><pre>string().maxLength(10);</pre></blockquote>
  *
  * <h4>length</h4>
- * <p>{@link #length} constrains the number of characters in the string.
+ * <p>{@link #length length} restricts the string to have a specific length.
  * For instance, password string which consists of exactly eight characters are defined as follows.</p>
  * <blockquote><pre>string().length(8);</pre></blockquote>
  *
  * <h4>values</h4>
- * <p>{@link #values} constrains the set of values allowed in the string.</p>
+ * <p>{@link #values values} specifies a distinct set of valid values for the type.
  * <blockquote><pre>string().values("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
  *
  * <h4>pattern</h4>
- * <p>{@link #pattern} constrains the pattern of the string with a regular expression.</p>
+ * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
 public class StringType extends AbstractSimpleType<JsonString> implements SimpleType {
@@ -71,7 +74,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	 */
 	public StringType minLength(int length) {
 		checkLength(length);
-		addFacet(new MinLengthFacet(length));
+		addFacet(new MinLengthFacet<JsonString>(length, StringType::getLength, StringTooShortProblem::new));
 		return this;
 	}
 	
@@ -83,7 +86,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	 */
 	public StringType maxLength(int length) {
 		checkLength(length);
-		addFacet(new MaxLengthFacet(length));
+		addFacet(new MaxLengthFacet<JsonString>(length, StringType::getLength, StringTooLongProblem::new));
 		return this;
 	}
 	
@@ -95,7 +98,7 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 	 */
 	public StringType length(int length) {
 		checkLength(length);
-		addFacet(new StringLengthFacet(length));
+		addFacet(new LengthFacet<JsonString>(length, StringType::getLength, StringLengthProblem::new));
 		return this;
 	}
 	
@@ -133,6 +136,10 @@ public class StringType extends AbstractSimpleType<JsonString> implements Simple
 		}
 		addFacet(new PatternFacet(regex));
 		return this;
+	}
+	
+	private static int getLength(JsonString value) {
+		return value.getString().length();
 	}
 	
 	private static void checkLength(int length) {
