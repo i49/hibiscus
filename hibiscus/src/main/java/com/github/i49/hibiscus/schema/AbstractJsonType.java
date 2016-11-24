@@ -1,19 +1,34 @@
 package com.github.i49.hibiscus.schema;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.schema.facets.Facet;
 
 /**
  * Skeletal class to implement {@code JsonType}.
+ * 
+ * @param <T> the type of JSON value.
  */
-abstract class AbstractJsonType implements JsonType {
+abstract class AbstractJsonType<T extends JsonValue> implements JsonType {
 
+	private Map<Class<?>, Facet<T>> facets;
+	
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
-		// By default we do nothing.
+		if (this.facets == null) {
+			// Nothing to do.
+			return;
+		}
+		@SuppressWarnings("unchecked")
+		T actualValue = (T)value;
+		for (Facet<T> facet: this.facets.values()) {
+			facet.apply(actualValue, problems);
+		}
 	}
 
 	/**
@@ -23,5 +38,19 @@ abstract class AbstractJsonType implements JsonType {
 	@Override
 	public String toString() {
 		return getTypeId().toString();
+	}
+
+	/**
+	 * Adds a facet to this type.
+	 * @param facet the facet to be added. Cannot be {@code null}.
+	 */
+	void addFacet(Facet<T> facet) {
+		if (facet == null) {
+			throw new IllegalStateException("facet is null.");
+		}
+		if (this.facets == null) {
+			this.facets = new HashMap<>();
+		}
+		this.facets.put(facet.getClass(), facet);
 	}
 }

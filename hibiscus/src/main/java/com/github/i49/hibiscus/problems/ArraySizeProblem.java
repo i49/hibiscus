@@ -2,20 +2,24 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 
+import javax.json.JsonArray;
+
 /**
  * Problem that the number of elements in the array does not equal to the expected.
  */
-public class ArraySizeProblem extends AbstractProblem {
+public class ArraySizeProblem extends ValueProblem<JsonArray> {
 
 	private final int actualSize;
 	private final int expectedSize;
 	
 	/**
 	 * Constructs this problem.
+	 * @param value the actual value in JSON document.
 	 * @param actualSize the actual number of elements in array instance.
 	 * @param expectedSize the number of elements expected in the array type. 
 	 */
-	public ArraySizeProblem(int actualSize, int expectedSize) {
+	public ArraySizeProblem(JsonArray value, int actualSize, int expectedSize) {
+		super(value);
 		this.actualSize = actualSize;
 		this.expectedSize = expectedSize;
 	}

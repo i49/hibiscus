@@ -3,7 +3,7 @@ package com.github.i49.hibiscus.problems;
 import javax.json.JsonValue;
 
 /**
- * Base class of problems caused by value assigned in JSON instance.
+ * Base class of problems caused by values assigned in JSON document.
  *
  * @param <T> type of {@code JsonValue}.
  */
@@ -13,15 +13,15 @@ public abstract class ValueProblem<T extends JsonValue> extends AbstractProblem 
 	
 	/**
 	 * Constructs this problem.
-	 * @param value actual value assigned in JSON instance.
+	 * @param value the actual value assigned in JSON document.
 	 */
 	public ValueProblem(T value) {
 		this.value = value;
 	}
 	
 	/**
-	 * Returns actual value in JSON instance.
-	 * @return actual value.
+	 * Returns the actual value in JSON document.
+	 * @return the actual value.
 	 */
 	public T getActualValue() {
 		return value;

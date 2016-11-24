@@ -157,7 +157,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Before
 		public void setUp() {
 			super.setUp();
-			schema = schema(array(integer()).minSize(3));
+			schema = schema(array(integer()).minLength(3));
 		}
 		
 		@Test
@@ -203,7 +203,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Before
 		public void setUp() {
 			super.setUp();
-			schema = schema(array(integer()).maxSize(4));
+			schema = schema(array(integer()).maxLength(4));
 		}
 
 		@Test
@@ -249,7 +249,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Before
 		public void setUp() {
 			super.setUp();
-			schema = schema(array(integer()).minSize(3).maxSize(5));
+			schema = schema(array(integer()).minLength(3).maxLength(5));
 		}
 
 		@Test
@@ -315,7 +315,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		@Before
 		public void setUp() {
 			super.setUp();
-			schema = schema(array(integer()).size(3));
+			schema = schema(array(integer()).length(3));
 		}
 		
 		@Test

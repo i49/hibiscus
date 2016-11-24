@@ -3,14 +3,14 @@ package com.github.i49.hibiscus.schema.facets;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
-import javax.json.JsonString;
+import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * Facet constraining a value space to values that are less than or equal to the specific length. 
  */
-public class MaxLengthFacet<T extends JsonString> implements Facet<T> {
+public class MaxLengthFacet<T extends JsonValue> implements Facet<T> {
 
 	private final int maxLength;
 	private final ToIntFunction<T> lengthMapper;

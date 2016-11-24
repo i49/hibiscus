@@ -21,7 +21,7 @@ public class ProductsValidator extends BasicJsonValidator {
 				required("id", number()),
 				required("name", string()),
 				required("price", number().minExclusive(0)),
-				optional("tags", array(string()).minSize(1)),
+				optional("tags", array(string()).minLength(1)),
 				optional("dimensions", object(
 					required("length", number()),
 					required("width", number()),

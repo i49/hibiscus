@@ -16,7 +16,7 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * JSON object which can hold zero or more key-value pairs as members.
  */
-public class ObjectType extends AbstractJsonType implements ComplexType {
+public class ObjectType extends AbstractJsonType<JsonObject> implements ComplexType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
@@ -75,6 +75,7 @@ public class ObjectType extends AbstractJsonType implements ComplexType {
 
 	@Override
 	public void validateInstance(JsonValue value, List<Problem> problems) {
+		super.validateInstance(value, problems);
 		JsonObject object = (JsonObject)value;
 		for (String name: this.required) {
 			if (!object.containsKey(name)) {

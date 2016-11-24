@@ -14,7 +14,7 @@ public class StringLengthProblem extends ValueProblem<JsonString> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the string value in JSON instance. 
+	 * @param value the string value in JSON document. 
 	 * @param actualLength the actual number of characters in the string.
 	 * @param expectedLength the expected number of characters in the string.
 	 */

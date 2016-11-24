@@ -18,7 +18,7 @@ public class ArrayTypeTest {
 	
 		@Test(expected = SchemaException.class)
 		public void sizeIsNegative() {
-			array().minSize(-1);
+			array().minLength(-1);
 		}
 	}
 	
@@ -26,7 +26,7 @@ public class ArrayTypeTest {
 		
 		@Test(expected = SchemaException.class)
 		public void sizeIsNegative() {
-			array().maxSize(-1);
+			array().maxLength(-1);
 		}
 	}
 

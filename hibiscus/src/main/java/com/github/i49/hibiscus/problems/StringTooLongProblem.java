@@ -14,7 +14,7 @@ public class StringTooLongProblem extends ValueProblem<JsonString> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value string value in JSON instance. 
+	 * @param value string value in JSON document. 
 	 * @param actualLength actual number of characters in the string.
 	 * @param limitLength the maximum number of characters allowed for the type. 
 	 */

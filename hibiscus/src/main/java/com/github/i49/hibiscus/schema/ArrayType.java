@@ -1,49 +1,43 @@
 package com.github.i49.hibiscus.schema;
 
-import java.util.List;
-import java.util.OptionalInt;
 
 import javax.json.JsonArray;
-import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.ArraySizeProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
-import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.schema.facets.LengthFacet;
+import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
+import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 
 /**
  * JSON array which can have zero or more values as elements.
  * 
- * <h3>Overview of array type</h3>
+ * <h3>Array type constraints</h3>
  * <p>Array type can impose following constraints on values in JSON document.</p>
  * <ul>
- * <li>minSize</li>
- * <li>maxSize</li>
- * <li>size</li>
+ * <li>length</li>
+ * <li>minLength</li>
+ * <li>maxLength</li>
  * </ul>
  * 
- * <h3>Array type constraints</h3>
- * 
- * <h4>minSize</h4>
- * <p>{@link #minSize} constrains the minimum number of elements in the array.</p>
- * <blockquote><pre>array(number()).minSize(3);</pre></blockquote>
- *
- * <h4>maxSize</h4>
- * <p>{@link #maxSize} constrains the maximum number of elements in the array.</p>
- * <blockquote><pre>array(number()).maxSize(10);</pre></blockquote>
- *
- * <h4>size</h4>
- * <p>{@link #size} constrains the number of elements in the array.
+ * <h4>length</h4>
+ * <p>{@link #length length} constrains the number of elements in the array.
  * For instance, three-dimensional vector can be defined as follows.</p>
- * <blockquote><pre>array(number()).size(3);</pre></blockquote>
+ * <blockquote><pre>array(number()).length(3);</pre></blockquote>
+ *
+ * <h4>minLength</h4>
+ * <p>{@link #minLength minLength} constrains the minimum number of elements in the array.</p>
+ * <blockquote><pre>array(number()).minLength(3);</pre></blockquote>
+ *
+ * <h4>maxLength</h4>
+ * <p>{@link #maxLength maxLength} constrains the maximum number of elements in the array.</p>
+ * <blockquote><pre>array(number()).maxLength(10);</pre></blockquote>
  */
-public class ArrayType extends AbstractJsonType implements ComplexType {
+public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexType {
 
 	private TypeSet typeSet = TypeSet.empty();
-	private OptionalInt minSize = OptionalInt.empty();
-	private OptionalInt maxSize = OptionalInt.empty();
-	private OptionalInt size = OptionalInt.empty();
 	
 	/**
 	 * Constructs this type.
@@ -54,27 +48,6 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.ARRAY;
-	}
-	
-	@Override
-	public void validateInstance(JsonValue value, List<Problem> problems) {
-		JsonArray array = (JsonArray)value;
-		int size = array.size();
-		this.size.ifPresent(expected->{
-			if (size != expected) {
-				problems.add(new ArraySizeProblem(size, expected));
-			}
-		});
-		this.minSize.ifPresent(limit->{
-			if (size < limit) {
-				problems.add(new ArrayTooShortProblem(size, limit));
-			}
-		});
-		this.maxSize.ifPresent(limit->{
-			if (size > limit) {
-				problems.add(new ArrayTooLongProblem(size, limit));
-			}
-		});
 	}
 	
 	/**
@@ -98,47 +71,51 @@ public class ArrayType extends AbstractJsonType implements ComplexType {
 
 	/**
 	 * Specifies the minimum number of elements in this array. 
-	 * @param size the minimum number of elements.
+	 * @param length the minimum number of elements.
 	 * @return this array.
-	 * @exception SchemaException if size specified is negative.
+	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType minSize(int size) {
-		checkSize(size);
-		this.minSize = OptionalInt.of(size);
+	public ArrayType minLength(int length) {
+		checkLength(length);
+		addFacet(new MinLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooShortProblem::new));
 		return this;
 	}
 
 	/**
 	 * Specifies the maximum number of elements in this array. 
-	 * @param size the maximum number of elements.
+	 * @param length the maximum number of elements.
 	 * @return this array.
-	 * @exception SchemaException if size specified is negative.
+	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType maxSize(int size) {
-		checkSize(size);
-		this.maxSize = OptionalInt.of(size);
+	public ArrayType maxLength(int length) {
+		checkLength(length);
+		addFacet(new MaxLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooLongProblem::new));
 		return this;
 	}
 	
 	/**
 	 * Specifies the number of elements in this array. 
-	 * @param size the number of elements.
+	 * @param length the number of elements.
 	 * @return this array.
-	 * @exception SchemaException if size specified is negative.
+	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType size(int size) {
-		checkSize(size);
-		this.size = OptionalInt.of(size);
+	public ArrayType length(int length) {
+		checkLength(length);
+		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArraySizeProblem::new));
 		return this;
 	}
 	
+	private static int getLength(JsonArray value) {
+		return value.size();
+	}
+	
 	/**
-	 * Checks array size.
-	 * @param size the size of array.
+	 * Checks array length.
+	 * @param length the length specified for this array.
 	 */
-	private static void checkSize(int size) {
-		if (size < 0) {
-			throw new SchemaException(Messages.ARRAY_SIZE_IS_NEGATIVE(size));
+	private static void checkLength(int length) {
+		if (length < 0) {
+			throw new SchemaException(Messages.ARRAY_SIZE_IS_NEGATIVE(length));
 		}
 	}
 }

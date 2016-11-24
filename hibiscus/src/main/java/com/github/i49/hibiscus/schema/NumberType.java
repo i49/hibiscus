@@ -15,7 +15,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for numeric value, including integer.
  */
-public class NumberType extends AbstractSimpleType<JsonNumber> implements SimpleType {
+public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleType {
 
 	/**
 	 * Constructs this type.

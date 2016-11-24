@@ -20,18 +20,21 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
 /**
  * JSON type for string value.
  * 
- * <h3>Overview of string type</h3>
+ * <h3>String type constraints</h3>
  * <p>String type can have following facets constraining its value space.</p>
  * <ul>
+ * <li>length</li>
  * <li>minLength</li>
  * <li>maxLength</li>
- * <li>length</li>
  * <li>values</li>
  * <li>pattern</li>
  * </ul>
- *
- * <h3>String type facets</h3>
  * 
+ * <h4>length</h4>
+ * <p>{@link #length length} restricts the string to have a specific length.
+ * For instance, password string which consists of exactly eight characters are defined as follows.</p>
+ * <blockquote><pre>string().length(8);</pre></blockquote>
+ *
  * <h4>minLength</h4>
  * <p>{@link #minLength minLength} limits the length of string to the range with specific lower bound.</p>
  * <blockquote><pre>string().minLength(3);</pre></blockquote>
@@ -39,11 +42,6 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <h4>maxLength</h4>
  * <p>{@link #maxLength maxLength} limits the length of string to the range with specific upper bound.</p>
  * <blockquote><pre>string().maxLength(10);</pre></blockquote>
- *
- * <h4>length</h4>
- * <p>{@link #length length} restricts the string to have a specific length.
- * For instance, password string which consists of exactly eight characters are defined as follows.</p>
- * <blockquote><pre>string().length(8);</pre></blockquote>
  *
  * <h4>values</h4>
  * <p>{@link #values values} specifies a distinct set of valid values for the type.
@@ -53,7 +51,7 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
-public class StringType extends AbstractSimpleType<JsonString> implements SimpleType {
+public class StringType extends AbstractJsonType<JsonString> implements SimpleType {
 	
 	/**
 	 * Constructs this type.

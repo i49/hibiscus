@@ -11,7 +11,7 @@ public class StringPatternProblem extends ValueProblem<JsonString> {
 
 	/**
 	 * Constructs this problem.
-	 * @param value the value in JSON instance.
+	 * @param value the value in JSON document.
 	 */
 	public StringPatternProblem(JsonString value) {
 		super(value);
