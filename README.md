@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator that verifies JSON documents against your schema written in Java.
+Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.
 
 ## Why do we write JSON schema in Java?
 Writing JSON schema in Java has following advantages:
@@ -142,6 +142,42 @@ Schema schema = schema(
 
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
    Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is *well-formed* and not broken as JSON.
+
+## Schema basics
+
+### Primitive types
+
+Hibiscus offers following JSON types that compose the schema.
+
+JSON type | method to create
+----------|-----------------
+array     | `array()`
+boolean   | `bool()`
+integer   | `integer()`
+number    | `number()`
+null      | `nil()`
+object    | `object()`
+string    | `string()`
+
+All methods to create these types are static methods provided by `JsonTypes` utility class.   
+
+#### Array type
+
+A sample JSON array is presented below:
+
+```javascript
+  ["Club", "Diamond", "Heart", "Spade"]
+```
+
+Array type can contain zero or more elements between opening and closing brackets. For example, if your array contains only strings as its elements like above, you can define the type as follows:
+
+```java
+  array(string())
+```
+
+#### Object type
+
+To be written later.
 
 ## Installation
 
