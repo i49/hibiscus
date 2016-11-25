@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.ArrayDuplicateItemProblem;
 import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
@@ -14,6 +15,9 @@ import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
+
+import javax.json.JsonNumber;
+import javax.json.JsonString;
 
 public class ArrayValidationTest extends BaseValidationTest {
 
@@ -148,9 +152,9 @@ public class ArrayValidationTest extends BaseValidationTest {
 	}
 	
 	/**
-	 * Tests of minSize() method.
+	 * Tests of minLength() method.
 	 */
-	public static class MinSizeTest extends BaseValidationTest {
+	public static class MinLengthTest extends BaseValidationTest {
 		
 		private Schema schema;
 		
@@ -161,7 +165,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 		
 		@Test
-		public void minSize() {
+		public void minLength() {
 			String json = "[1, 2, 3]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -170,7 +174,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void moreThanMinSize() {
+		public void moreThanMinLength() {
 			String json = "[1, 2, 3, 4]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -179,7 +183,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void lessThanMinSize() {
+		public void lessThanMinLength() {
 			String json = "[1, 2]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -194,9 +198,9 @@ public class ArrayValidationTest extends BaseValidationTest {
 	}
 	
 	/**
-	 * Tests of maxSize() method.
+	 * Tests of maxLength() method.
 	 */
-	public static class MaxSizeTest extends BaseValidationTest {
+	public static class MaxLengthTest extends BaseValidationTest {
 	
 		private Schema schema;
 		
@@ -207,7 +211,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void maxSize() {
+		public void maxLength() {
 			String json = "[1, 2, 3, 4]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -216,7 +220,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void lessThanMaxSize() {
+		public void lessThanMaxLength() {
 			String json = "[1, 2, 3]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -225,7 +229,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 		
 		@Test
-		public void moreThanMaxSize() {
+		public void moreThanMaxLength() {
 			String json = "[1, 2, 3, 4, 5]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -240,9 +244,9 @@ public class ArrayValidationTest extends BaseValidationTest {
 	}
 
 	/**
-	 * Tests applying both minSize() and maxSize() methods.
+	 * Tests applying both minLength() and maxLength() methods.
 	 */
-	public static class MinAndMaxSizeTest extends BaseValidationTest {
+	public static class MinAndMaxLengthTest extends BaseValidationTest {
 
 		private Schema schema;
 		
@@ -253,7 +257,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void lessThanMinSize() {
+		public void lessThanMinLength() {
 			String json = "[1, 2]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -267,7 +271,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void minSize() {
+		public void minLength() {
 			String json = "[1, 2, 3]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -285,7 +289,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void maxSize() {
+		public void maxLength() {
 			String json = "[1, 2, 3, 4, 5]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -294,7 +298,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void moreThanMaxSize() {
+		public void moreThanMaxLength() {
 			String json = "[1, 2, 3, 4, 5, 6]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -308,7 +312,7 @@ public class ArrayValidationTest extends BaseValidationTest {
 		}
 	}
 	
-	public static class ArraySizeTest extends BaseValidationTest {
+	public static class ArrayLengthTest extends BaseValidationTest {
 		
 		private Schema schema;
 		
@@ -411,6 +415,56 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertTrue(p.getExpectedTypes().contains(TypeId.BOOLEAN));
 			assertTrue(p.getExpectedTypes().contains(TypeId.NULL));
 			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class ArrayUniqueItemTest extends BaseValidationTest {
+	
+		@Test
+		public void unique() {
+			String json = "[\"club\", \"diamond\", \"heart\", \"spade\"]";
+			Schema schema = schema(array(string()).unique());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void duplication() {
+			String json = "[\"club\", \"diamond\", \"club\", \"spade\"]";
+			Schema schema = schema(array(string()).unique());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof ArrayDuplicateItemProblem);
+			ArrayDuplicateItemProblem p = (ArrayDuplicateItemProblem)result.getProblems().get(0);
+			assertEquals(2, p.getDuplicateIndex());
+			assertEquals("club", ((JsonString)p.getDuplicateItem()).getString());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void manyDuplications() {
+			String json = "[123, 456, 456, 123]";
+			Schema schema = schema(array(integer()).unique());
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+
+			assertEquals(2, result.getProblems().size());
+
+			assertTrue(result.getProblems().get(0) instanceof ArrayDuplicateItemProblem);
+			ArrayDuplicateItemProblem p0 = (ArrayDuplicateItemProblem)result.getProblems().get(0);
+			assertEquals(2, p0.getDuplicateIndex());
+			assertEquals(456, ((JsonNumber)p0.getDuplicateItem()).intValue());
+			assertNotNull(p0.getDescription());
+
+			assertTrue(result.getProblems().get(1) instanceof ArrayDuplicateItemProblem);
+			ArrayDuplicateItemProblem p1 = (ArrayDuplicateItemProblem)result.getProblems().get(1);
+			assertEquals(3, p1.getDuplicateIndex());
+			assertEquals(123, ((JsonNumber)p1.getDuplicateItem()).intValue());
+			assertNotNull(p1.getDescription());
 		}
 	}
 }

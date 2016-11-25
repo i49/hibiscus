@@ -62,6 +62,10 @@ final class Messages {
 		return localize(locale, "ARRAY_TOO_SHORT", actualLength, limitLength);
 	}
 	
+	static String DUPLICATE_ITEM(Locale locale, int itemIndex, JsonValue itemValue) {
+		return localize(locale, "DUPLICATE_ITEM", itemIndex, itemValue);
+	}
+	
 	static String MISSING_PROPERTY(Locale locale, String propertyName) {
 		return localize(locale, "MISSING_PROPERTY", propertyName);
 	}

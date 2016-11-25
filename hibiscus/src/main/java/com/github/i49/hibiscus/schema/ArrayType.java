@@ -7,6 +7,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
+import com.github.i49.hibiscus.schema.facets.UniqueItemFacet;
 import com.github.i49.hibiscus.schema.facets.LengthFacet;
 import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
 import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
@@ -20,6 +21,7 @@ import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
  * <li>length</li>
  * <li>minLength</li>
  * <li>maxLength</li>
+ * <li>unique</li>
  * </ul>
  * 
  * <h4>length</h4>
@@ -34,6 +36,10 @@ import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
  * <h4>maxLength</h4>
  * <p>{@link #maxLength maxLength} constrains the maximum number of elements in the array.</p>
  * <blockquote><pre>array(number()).maxLength(10);</pre></blockquote>
+ *
+ * <h4>unique</h4>
+ * <p>{@link #unique unique} specifies that each element in the array must be unique.</p>
+ * <blockquote><pre>array(number()).unique();</pre></blockquote>
  */
 public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexType {
 
@@ -70,13 +76,25 @@ public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexTyp
 	}
 
 	/**
+	 * Specifies the number of elements in this array. 
+	 * @param length the number of elements.
+	 * @return this array.
+	 * @exception SchemaException if length specified is negative.
+	 */
+	public ArrayType length(int length) {
+		verifyLength(length);
+		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArrayLengthProblem::new));
+		return this;
+	}
+	
+	/**
 	 * Specifies the minimum number of elements in this array. 
 	 * @param length the minimum number of elements.
 	 * @return this array.
 	 * @exception SchemaException if length specified is negative.
 	 */
 	public ArrayType minLength(int length) {
-		checkLength(length);
+		verifyLength(length);
 		addFacet(new MinLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooShortProblem::new));
 		return this;
 	}
@@ -88,32 +106,34 @@ public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexTyp
 	 * @exception SchemaException if length specified is negative.
 	 */
 	public ArrayType maxLength(int length) {
-		checkLength(length);
+		verifyLength(length);
 		addFacet(new MaxLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooLongProblem::new));
 		return this;
 	}
 	
 	/**
-	 * Specifies the number of elements in this array. 
-	 * @param length the number of elements.
+	 * Specifies that each element of this array must be unique.
 	 * @return this array.
-	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType length(int length) {
-		checkLength(length);
-		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArrayLengthProblem::new));
+	public ArrayType unique() {
+		addFacet(UniqueItemFacet.INSTANCE);
 		return this;
 	}
 	
+	/**
+	 * Returns the number of elements in array.
+	 * @param value the array value.
+	 * @return length of array.
+	 */
 	private static int getLength(JsonArray value) {
 		return value.size();
 	}
 	
 	/**
-	 * Checks array length.
-	 * @param length the length specified for this array.
+	 * Verifies value specified as length of array.
+	 * @param length the length specified for arrays.
 	 */
-	private static void checkLength(int length) {
+	private static void verifyLength(int length) {
 		if (length < 0) {
 			throw new SchemaException(Messages.ARRAY_SIZE_IS_NEGATIVE(length));
 		}

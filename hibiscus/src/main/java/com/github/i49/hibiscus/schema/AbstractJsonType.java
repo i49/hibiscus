@@ -55,11 +55,11 @@ abstract class AbstractJsonType<T extends JsonValue> implements JsonType {
 	}
 
 	/**
-	 * Checks enumerated values.
+	 * Verifies enumerated values.
 	 * @param values the values specified in enumeration.
 	 * @exception SchemaException if one of values is {@code null}.
 	 */
-	static void checkValues(Object[] values) {
+	static void verifyValues(Object[] values) {
 		int index = 0;
 		for (Object value: values) {
 			if (value == null) {

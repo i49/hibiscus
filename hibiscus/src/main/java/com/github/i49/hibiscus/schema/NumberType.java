@@ -128,7 +128,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @exception SchemaException if one of values specified is null.
 	 */
 	public NumberType enumeration(BigDecimal... values) {
-		checkValues(values);
+		verifyValues(values);
 		addFacet(EnumerationFacet.of(JsonValues::createNumber, values));
 		return this;
 	}

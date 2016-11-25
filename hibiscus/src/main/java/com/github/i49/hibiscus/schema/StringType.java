@@ -69,7 +69,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @exception SchemaException if length specified is negative.
 	 */
 	public StringType length(int length) {
-		checkLength(length);
+		verifyLength(length);
 		addFacet(new LengthFacet<JsonString>(length, StringType::getLength, StringLengthProblem::new));
 		return this;
 	}
@@ -81,7 +81,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @exception SchemaException if length specified is negative.
 	 */
 	public StringType minLength(int length) {
-		checkLength(length);
+		verifyLength(length);
 		addFacet(new MinLengthFacet<JsonString>(length, StringType::getLength, StringTooShortProblem::new));
 		return this;
 	}
@@ -93,7 +93,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @exception SchemaException if length specified is negative.
 	 */
 	public StringType maxLength(int length) {
-		checkLength(length);
+		verifyLength(length);
 		addFacet(new MaxLengthFacet<JsonString>(length, StringType::getLength, StringTooLongProblem::new));
 		return this;
 	}
@@ -105,7 +105,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
 	public StringType enumeration(String... values) {
-		checkValues(values);
+		verifyValues(values);
 		addFacet(EnumerationFacet.of(JsonValues::createString, values));
 		return this;
 	}
@@ -126,11 +126,20 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 		return this;
 	}
 	
+	/**
+	 * Returns the number of characters in string.
+	 * @param value the string value.
+	 * @return length of string.
+	 */
 	private static int getLength(JsonString value) {
 		return value.getString().length();
 	}
-	
-	private static void checkLength(int length) {
+
+	/**
+	 * Verifies value specified as length of string.
+	 * @param length the length specified for strings.
+	 */
+	private static void verifyLength(int length) {
 		if (length < 0) {
 			throw new SchemaException(Messages.STRING_LENGTH_IS_NEGATIVE(length));
 		}
