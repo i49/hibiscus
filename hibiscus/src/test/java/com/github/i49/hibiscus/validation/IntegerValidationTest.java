@@ -101,30 +101,75 @@ public class IntegerValidationTest extends BaseValidationTest {
 		assertNotNull(p.getDescription());
 	}
 	
-	@Test
-	public void integerOfAllowedValue() {
-		String json = "[30]";
-		Schema schema = schema(array(integer().enumeration(28, 30, 31)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class EnumerationTest extends BaseValidationTest {
+	
+		@Test
+		public void noneOfNone() {
+			String json = "[1]";
+			Schema schema = schema(array(integer().enumeration()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(1, ((JsonNumber)p.getActualValue()).intValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(0, expected.size());
+			assertNotNull(p.getDescription());
+		}
 
-		assertFalse(result.hasProblems());
-	}
+		@Test
+		public void oneOfOne() {
+			String json = "[123]";
+			Schema schema = schema(array(integer().enumeration(123)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 
-	@Test
-	public void integerOfNotAllowedValue() {
-		String json = "[29]";
-		Schema schema = schema(array(integer().enumeration(28, 30, 31)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+		@Test
+		public void noneOfOne() {
+			String json = "[12]";
+			Schema schema = schema(array(integer().enumeration(123)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(12, ((JsonNumber)p.getActualValue()).intValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(1, expected.size());
+			assertNotNull(p.getDescription());
+		}
 
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(29, ((JsonNumber)p.getActualValue()).intValue());
-		Set<JsonValue> expected = p.getExpectedValues();
-		assertEquals(3, expected.size());
-		assertNotNull(p.getDescription());
+		@Test
+		public void oneOfMany() {
+			String json = "[12]";
+			Schema schema = schema(array(integer().enumeration(1, 12, 123)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void noneOfMany() {
+			String json = "[42]";
+			Schema schema = schema(array(integer().enumeration(1, 12, 123)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(42, ((JsonNumber)p.getActualValue()).intValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(3, expected.size());
+			assertNotNull(p.getDescription());
+		}
 	}
 	
 	@Test

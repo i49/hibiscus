@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.schema;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
@@ -15,7 +13,7 @@ import com.github.i49.hibiscus.schema.facets.LengthFacet;
 import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
 import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 import com.github.i49.hibiscus.schema.facets.PatternFacet;
-import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
+import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 /**
  * JSON type for string value.
@@ -44,8 +42,8 @@ import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
  * <blockquote><pre>string().maxLength(10);</pre></blockquote>
  *
  * <h4>enumeration</h4>
- * <p>{@link #values values} specifies a distinct set of valid values for the type.
- * <blockquote><pre>string().values("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
+ * <p>{@link #enumeration enumeration} specifies a distinct set of valid values for the type.
+ * <blockquote><pre>string().enumeration("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
  *
  * <h4>pattern</h4>
  * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
@@ -62,6 +60,18 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.STRING;
+	}
+	
+	/**
+	 * Specifies the number of characters expected in this string. 
+	 * @param length the number of characters. Must be non-negative value.
+	 * @return this type.
+	 * @exception SchemaException if length specified is negative.
+	 */
+	public StringType length(int length) {
+		checkLength(length);
+		addFacet(new LengthFacet<JsonString>(length, StringType::getLength, StringLengthProblem::new));
+		return this;
 	}
 	
 	/**
@@ -89,34 +99,14 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	}
 	
 	/**
-	 * Specifies the number of characters expected in this string. 
-	 * @param length the number of characters. Must be non-negative value.
-	 * @return this type.
-	 * @exception SchemaException if length specified is negative.
-	 */
-	public StringType length(int length) {
-		checkLength(length);
-		addFacet(new LengthFacet<JsonString>(length, StringType::getLength, StringLengthProblem::new));
-		return this;
-	}
-	
-	/**
 	 * Specifies set of values allowed for this type.
 	 * @param values the values allowed. Each value cannot be {@code null}.
 	 * @return this type.
-	 * @exception SchemaException if one of values specified is null.
+	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
 	public StringType enumeration(String... values) {
-		Set<JsonString> valueSet = new HashSet<>();
-		int index = 0;
-		for (String value: values) {
-			if (value == null) {
-				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(index));
-			}
-			valueSet.add(JsonValues.createString(value));
-			index++;
-		}
-		addFacet(ValueSetFacet.of(valueSet));
+		checkValues(values);
+		addFacet(EnumerationFacet.of(JsonValues::createString, values));
 		return this;
 	}
 	
@@ -145,4 +135,5 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 			throw new SchemaException(Messages.STRING_LENGTH_IS_NEGATIVE(length));
 		}
 	}
+	
 }

@@ -1,13 +1,9 @@
 package com.github.i49.hibiscus.schema;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.json.JsonValues;
-import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
+import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 /**
  * JSON type for boolean value.
@@ -31,11 +27,7 @@ public class BooleanType extends AbstractJsonType<JsonValue> implements SimpleTy
 	 * @return this type.
 	 */
 	public BooleanType enumeration(boolean... values) {
-		Set<JsonValue> valueSet = new HashSet<>();
-		for (boolean value: values) {
-			valueSet.add(JsonValues.createBoolean(value));
-		}
-		addFacet(ValueSetFacet.of(valueSet));
+		addFacet(EnumerationFacet.of(values));
 		return this;
 	}
 }

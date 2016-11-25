@@ -50,29 +50,112 @@ public class BooleanValidationTest extends BaseValidationTest {
 		assertNotNull(p.getDescription());
 	}
 	
-	@Test
-	public void booleanOfAllowedValue() {
-		String json = "[true]";
-		Schema schema = schema(array(bool().enumeration(true)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class EnumerationTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
-	}
+		@Test
+		public void trueOfNone() {
+			String json = "[true]";
+			Schema schema = schema(array(bool().enumeration()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(JsonValue.TRUE, p.getActualValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(0, expected.size());
+			assertNotNull(p.getDescription());
+		}
 
-	@Test
-	public void booleanOfNotAllowedValue() {
-		String json = "[false]";
-		Schema schema = schema(array(bool().enumeration(true)));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+		@Test
+		public void trueOfTrue() {
+			String json = "[true]";
+			Schema schema = schema(array(bool().enumeration(true)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void trueOfFalse() {
+			String json = "[true]";
+			Schema schema = schema(array(bool().enumeration(false)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(JsonValue.TRUE, p.getActualValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(1, expected.size());
+			assertTrue(expected.contains(JsonValue.FALSE));
+			assertNotNull(p.getDescription());
+		}
 
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
-		assertEquals(JsonValue.FALSE, p.getActualValue());
-		Set<JsonValue> expected = p.getExpectedValues();
-		assertEquals(1, expected.size());
-		assertNotNull(p.getDescription());
+		@Test
+		public void trueOfBoth() {
+			String json = "[true]";
+			Schema schema = schema(array(bool().enumeration(true, false)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void falseOfNone() {
+			String json = "[false]";
+			Schema schema = schema(array(bool().enumeration()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(JsonValue.FALSE, p.getActualValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(0, expected.size());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void falseOfTrue() {
+			String json = "[false]";
+			Schema schema = schema(array(bool().enumeration(true)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(JsonValue.FALSE, p.getActualValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(1, expected.size());
+			assertTrue(expected.contains(JsonValue.TRUE));
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void falseOfFalse() {
+			String json = "[false]";
+			Schema schema = schema(array(bool().enumeration(false)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void falseOfBoth() {
+			String json = "[false]";
+			Schema schema = schema(array(bool().enumeration(true, false)));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
 }

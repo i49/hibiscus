@@ -61,6 +61,11 @@ public class IntegerType extends NumberType {
 	}
 	
 	@Override
+	public IntegerType enumeration() {
+		return (IntegerType)super.enumeration();
+	}
+	
+	@Override
 	public IntegerType enumeration(long... values) {
 		return (IntegerType)super.enumeration(values);
 	}

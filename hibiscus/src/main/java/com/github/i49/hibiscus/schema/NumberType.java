@@ -1,8 +1,6 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.json.JsonNumber;
 
@@ -10,7 +8,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
-import com.github.i49.hibiscus.schema.facets.ValueSetFacet;
+import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 /**
  * JSON type for numeric value, including integer.
@@ -103,6 +101,15 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 		addFacet(new MaxNumberFacet(value, true));
 		return this;
 	}
+	
+	/**
+	 * Specifies values allowed for this type.
+	 * @return this type.
+	 */
+	public NumberType enumeration() {
+		addFacet(EnumerationFacet.empty());
+		return this;
+	}
 
 	/**
 	 * Specifies values allowed for this type.
@@ -110,11 +117,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @return this type.
 	 */
 	public NumberType enumeration(long... values) {
-		Set<JsonNumber> valueSet = new HashSet<>();
-		for (long value: values) {
-			valueSet.add(JsonValues.createNumber(value));
-		}
-		addFacet(ValueSetFacet.of(valueSet));
+		addFacet(EnumerationFacet.of(values));
 		return this;
 	}
 	
@@ -125,16 +128,8 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @exception SchemaException if one of values specified is null.
 	 */
 	public NumberType enumeration(BigDecimal... values) {
-		Set<JsonNumber> valueSet = new HashSet<>();
-		int index = 0;
-		for (BigDecimal value: values) {
-			if (value == null) {
-				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(index));
-			}
-			valueSet.add(JsonValues.createNumber(value));
-			index++;
-		}
-		addFacet(ValueSetFacet.of(valueSet));
+		checkValues(values);
+		addFacet(EnumerationFacet.of(JsonValues::createNumber, values));
 		return this;
 	}
 }

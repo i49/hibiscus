@@ -53,4 +53,19 @@ abstract class AbstractJsonType<T extends JsonValue> implements JsonType {
 		}
 		this.facets.put(facet.getClass(), facet);
 	}
+
+	/**
+	 * Checks enumerated values.
+	 * @param values the values specified in enumeration.
+	 * @exception SchemaException if one of values is {@code null}.
+	 */
+	static void checkValues(Object[] values) {
+		int index = 0;
+		for (Object value: values) {
+			if (value == null) {
+				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(index));
+			}
+			index++;
+		}
+	}
 }

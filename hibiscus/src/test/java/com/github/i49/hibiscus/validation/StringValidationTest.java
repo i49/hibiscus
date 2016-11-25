@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.io.StringReader;
 import java.util.Set;
 
+import javax.json.JsonString;
 import javax.json.JsonValue;
 
 import org.junit.Before;
@@ -56,10 +57,53 @@ public class StringValidationTest extends BaseValidationTest {
 		assertNotNull(p.getDescription());
 	}
 
-	public static class ValueSetTest extends BaseValidationTest {
+	public static class EnumerationTest extends BaseValidationTest {
 	
 		@Test
-		public void allowed() {
+		public void noneOfNone() {
+			String json = "[\"Spring\"]";
+			Schema schema = schema(array(string().enumeration()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals("\"Spring\"", p.getActualValue().toString());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(0, expected.size());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void oneOfOne() {
+			String json = "[\"Spring\"]";
+			Schema schema = schema(array(string().enumeration("Spring")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void noneOfOne() {
+			String json = "[\"Spring\"]";
+			Schema schema = schema(array(string().enumeration("Summer")));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals("\"Spring\"", p.getActualValue().toString());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(1, expected.size());
+			assertTrue(((JsonString)expected.iterator().next()).getString().equals("Summer"));
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void oneOfMany() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -69,7 +113,7 @@ public class StringValidationTest extends BaseValidationTest {
 		}
 		
 		@Test
-		public void notAllowed() {
+		public void noneOfMany() {
 			String json = "[\"Q2\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);

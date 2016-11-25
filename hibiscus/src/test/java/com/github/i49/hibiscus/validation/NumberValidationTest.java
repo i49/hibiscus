@@ -12,10 +12,15 @@ import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
 import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
+import com.github.i49.hibiscus.problems.UnknownValueProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.util.Set;
+
+import javax.json.JsonNumber;
+import javax.json.JsonValue;
 
 public class NumberValidationTest extends BaseValidationTest {
 
@@ -177,5 +182,76 @@ public class NumberValidationTest extends BaseValidationTest {
 		assertTrue(bound.isExclusive());
 		assertEquals(new BigDecimal("56.78"), bound.getValue());
 		assertNotNull(p.getDescription());
+	}
+	
+	public static class EnumerationTest extends BaseValidationTest {
+
+		@Test
+		public void noneOfNone() {
+			String json = "[12.34]";
+			Schema schema = schema(array(number().enumeration()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(0, expected.size());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void oneOfOne() {
+			String json = "[12.34]";
+			Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"))));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void noneOfOne() {
+			String json = "[12.34]";
+			Schema schema = schema(array(number().enumeration(new BigDecimal("56.78"))));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(1, expected.size());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void oneOfMany() {
+			String json = "[12.34]";
+			Schema schema = schema(array(number().enumeration(new BigDecimal("56.78"), new BigDecimal("12.34"))));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void noneOfMany() {
+			String json = "[3.14]";
+			Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"), new BigDecimal("56.78"))));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
+			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("3.14"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			Set<JsonValue> expected = p.getExpectedValues();
+			assertEquals(2, expected.size());
+			assertNotNull(p.getDescription());
+		}
 	}
 }
