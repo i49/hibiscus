@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.ArraySizeProblem;
+import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
@@ -187,8 +187,8 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
 			ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualSize());
-			assertEquals(3, p.getLimitSize());
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getLimitLength());
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -233,8 +233,8 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
 			ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
-			assertEquals(5, p.getActualSize());
-			assertEquals(4, p.getLimitSize());
+			assertEquals(5, p.getActualLength());
+			assertEquals(4, p.getLimitLength());
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -261,8 +261,8 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
 			ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualSize());
-			assertEquals(3, p.getLimitSize());
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getLimitLength());
 			assertNotNull(p.getDescription());
 		}
 
@@ -302,8 +302,8 @@ public class ArrayValidationTest extends BaseValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
 			ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
-			assertEquals(6, p.getActualSize());
-			assertEquals(5, p.getLimitSize());
+			assertEquals(6, p.getActualLength());
+			assertEquals(5, p.getLimitLength());
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -325,10 +325,10 @@ public class ArrayValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
-			ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualSize());
-			assertEquals(3, p.getExpectedSize());
+			assertTrue(result.getProblems().get(0) instanceof ArrayLengthProblem);
+			ArrayLengthProblem p = (ArrayLengthProblem)result.getProblems().get(0);
+			assertEquals(2, p.getActualLength());
+			assertEquals(3, p.getExpectedLength());
 			assertNotNull(p.getDescription());
 		}
 
@@ -348,10 +348,10 @@ public class ArrayValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArraySizeProblem);
-			ArraySizeProblem p = (ArraySizeProblem)result.getProblems().get(0);
-			assertEquals(4, p.getActualSize());
-			assertEquals(3, p.getExpectedSize());
+			assertTrue(result.getProblems().get(0) instanceof ArrayLengthProblem);
+			ArrayLengthProblem p = (ArrayLengthProblem)result.getProblems().get(0);
+			assertEquals(4, p.getActualLength());
+			assertEquals(3, p.getExpectedLength());
 			assertNotNull(p.getDescription());
 		}
 	}

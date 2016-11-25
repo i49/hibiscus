@@ -9,39 +9,39 @@ import javax.json.JsonArray;
  */
 public class ArrayTooLongProblem extends ValueProblem<JsonArray> {
 
-	private final int actualSize;
-	private final int limitSize;
+	private final int actualLength;
+	private final int limitLength;
 	
 	/**
 	 * Constructs this problem.
 	 * @param value the actual value in JSON document.
-	 * @param actualSize the actual number of elements in array value.
-	 * @param limitSize the maximum number of elements allowed in the array type. 
+	 * @param actualLength the actual number of elements in array value.
+	 * @param limitLength the maximum number of elements allowed in the array type. 
 	 */
-	public ArrayTooLongProblem(JsonArray value, int actualSize, int limitSize) {
+	public ArrayTooLongProblem(JsonArray value, int actualLength, int limitLength) {
 		super(value);
-		this.actualSize = actualSize;
-		this.limitSize = limitSize;
+		this.actualLength = actualLength;
+		this.limitLength = limitLength;
 	}
 
 	/**
 	 * Returns the actual number of elements in array instance.
 	 * @return actual number of elements.
 	 */
-	public int getActualSize() {
-		return actualSize;
+	public int getActualLength() {
+		return actualLength;
 	}
 	
 	/**
 	 * Returns the number of elements allowed in array. 
 	 * @return the maximum number of elements.
 	 */
-	public int getLimitSize() {
-		return limitSize;
+	public int getLimitLength() {
+		return limitLength;
 	}
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.ARRAY_TOO_LONG(locale, getActualSize(), getLimitSize());
+		return Messages.ARRAY_TOO_LONG(locale, getActualLength(), getLimitLength());
 	}
 }

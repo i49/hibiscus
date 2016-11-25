@@ -50,16 +50,16 @@ final class Messages {
 		return localize(locale, "UNKNOWN_VALUE", value, allowedValues);
 	}
 	
-	static String ARRAY_SIZE(Locale locale, int actualSize, int expectedSize) {
-		return localize(locale, "ARRAY_SIZE", actualSize, expectedSize);
+	static String ARRAY_LENGTH(Locale locale, int actualLength, int expectedLength) {
+		return localize(locale, "ARRAY_LENGTH", actualLength, expectedLength);
 	}
 
-	static String ARRAY_TOO_LONG(Locale locale, int actualSize, int limitSize) {
-		return localize(locale, "ARRAY_TOO_LONG", actualSize, limitSize);
+	static String ARRAY_TOO_LONG(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "ARRAY_TOO_LONG", actualLength, limitLength);
 	}
 
-	static String ARRAY_TOO_SHORT(Locale locale, int actualSize, int limitSize) {
-		return localize(locale, "ARRAY_TOO_SHORT", actualSize, limitSize);
+	static String ARRAY_TOO_SHORT(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "ARRAY_TOO_SHORT", actualLength, limitLength);
 	}
 	
 	static String MISSING_PROPERTY(Locale locale, String propertyName) {

@@ -4,7 +4,7 @@ package com.github.i49.hibiscus.schema;
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.ArraySizeProblem;
+import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.schema.facets.LengthFacet;
@@ -101,7 +101,7 @@ public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexTyp
 	 */
 	public ArrayType length(int length) {
 		checkLength(length);
-		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArraySizeProblem::new));
+		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArrayLengthProblem::new));
 		return this;
 	}
 	

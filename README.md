@@ -27,7 +27,7 @@ As first example we assume that you have JSON document below that you would like
 ```
 
 Supposing that the first two properties of the object are mandatory and others are optional.
-We can write the schema for this document as Java code like following:
+We can write the schema for this kind of document as Java code like following:
 
 ```java
 Schema schema = schema(
