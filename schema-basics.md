@@ -1,6 +1,6 @@
 # Schema Basics
 
-## 1. Primitive types
+## 1. Basic types
 
 Hibiscus offers following JSON types that can compose the schema.
 
@@ -11,17 +11,17 @@ boolean   | `BooleanType` | `bool()`        | true
 integer   | `IntegerType` | `integer()`     | 42
 number    | `NumberType`  | `number()`      | 3.14
 null      | `NullType`    | `nil()`         | null
-object    | `ObjectType`  | `object()`      | { "name": "Smith", "age": 33 }
+object    | `ObjectType`  | `object()`      | { "name": "John", "age": 33 }
 string    | `StringType`  | `string()`      | "hello"
 
 All methods that will create these types are defined in `JsonTypes` class as static methods.
 
 ```java
   import static com.github.i49.hibiscus.schena.JsonTypes.*;
-  array();
+  string(); // this creates an instance of string type.
 ```
 
-### Array type
+### 1.1. Array type
 
 Array type can contain zero or more elements between opening and closing square brackets. An example value of this type is shown below:
 
@@ -31,8 +31,8 @@ Array type can contain zero or more elements between opening and closing square 
 
 Array types can be created as follows:
 ```java
-  /* static import statement omitted here */
-  array(/* types of elements will come here */);
+  /* static import statement omitted */
+  array(/* types of elements will come later */);
 ```
 
 The example array shown contains only strings as its elements, so you can define the type like below:
@@ -40,7 +40,7 @@ The example array shown contains only strings as its elements, so you can define
   array(string());
 ```
 
-### Object type
+### 1.2. Object type
 
 Object type can contain zero or more key/value pairs, which are called *properties*, between opening and closing curly brackets. An example value of this type is shown below:
 
@@ -52,8 +52,8 @@ Object type can contain zero or more key/value pairs, which are called *properti
 ```
 Object types can be created as follows:
 ```java
-  /* static import statement omitted here */
-  object(/* property definitions come here */);
+  /* static import statement omitted */
+  object(/* property definitions will come later */);
 ```
 
 Each property contained in object type can be created by methods `required()` or `optional()`, those are provided by `JsonTypes` class also. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
@@ -76,5 +76,8 @@ Putting these together, the complete object type is defined as below:
     optional("age", integer())
   );
 ```
+
+## 2. Restrictions on types
+All types except null type can be restricted by various kind of *facets*. Each facets will constrain the value space of the type to which it is applied.
 
 continued...
