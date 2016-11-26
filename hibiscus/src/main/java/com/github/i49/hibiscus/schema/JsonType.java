@@ -19,8 +19,9 @@ public interface JsonType {
 	TypeId getTypeId();
 	
 	/**
-	 * Validates value of this type in JSON instance.
-	 * @param value the value in JSON instance. Cannot be {@code null}.
+	 * Validates a value of this type in JSON document.
+	 * Only JSON validators are allowed to use this method directly. 
+	 * @param value the value in JSON document. Cannot be {@code null}.
 	 * @param problems the list to which detected problems to be added. Cannot be {@code null}.
 	 */
 	void validateInstance(JsonValue value, List<Problem> problems);

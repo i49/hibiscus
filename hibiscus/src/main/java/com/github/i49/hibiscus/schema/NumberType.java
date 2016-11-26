@@ -1,6 +1,7 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
+import java.util.function.Predicate;
 
 import javax.json.JsonNumber;
 
@@ -15,7 +16,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
 /**
  * JSON type for numeric value, including integer.
  */
-public class NumberType extends AbstractRestrictableType<JsonNumber> implements AtomicType {
+public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType> implements AtomicType {
 
 	/**
 	 * Constructs this type.
@@ -132,5 +133,10 @@ public class NumberType extends AbstractRestrictableType<JsonNumber> implements 
 	public NumberType enumeration(BigDecimal... values) {
 		addFacet(EnumerationFacet.of(valueSet(JsonValues::createNumber, values)));
 		return this;
+	}
+
+	@Override
+	public NumberType assertion(Predicate<JsonNumber> predicate, String message) {
+		return super.assertion(predicate, message);
 	}
 }

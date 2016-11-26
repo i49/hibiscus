@@ -13,7 +13,7 @@ import com.github.i49.hibiscus.problems.UnknownValueProblem;
 /**
  * Facet constraining a value space to a specific set of values. 
  *
- * @param <T> type of {@code JsonValue}
+ * @param <T> type of {@code JsonValue}.
  */
 public class EnumerationFacet<T extends JsonValue> implements Facet<T> {
 

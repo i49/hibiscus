@@ -2,10 +2,13 @@ package com.github.i49.hibiscus.validation;
 
 import static com.github.i49.hibiscus.schema.JsonTypes.*;
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.AssertionFailureProblem;
 import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
 import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
 import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
@@ -172,119 +175,178 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 	}
 	
-	@Test
-	public void integerOfMinimum() {
-		String json = "[28]";
-		Schema schema = schema(array(integer().minInclusive(28)));
+	public static class MinInclusiveTest extends BaseValidationTest {
 		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+		@Test
+		public void lessThanMinimum() {
+			String json = "[27]";
+			Schema schema = schema(array(integer().minInclusive(28)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
+			LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
+			assertEquals(27, p.getActualValue().intValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertFalse(bound.isExclusive());
+			assertEquals(28, bound.getValue().intValue());
+			assertNotNull(p.getDescription());
+		}
 
-		assertFalse(result.hasProblems());
+		@Test
+		public void equalToMinimum() {
+			String json = "[28]";
+			Schema schema = schema(array(integer().minInclusive(28)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void moreThanMinimum() {
+			String json = "[29]";
+			Schema schema = schema(array(integer().minInclusive(28)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	}
+	
+	public static class MinExclusiveTest extends BaseValidationTest {
+		
+		@Test
+		public void equalToMinimum() {
+			String json = "[28]";
+			Schema schema = schema(array(integer().minExclusive(28)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
+			NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
+			assertEquals(28, p.getActualValue().intValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertTrue(bound.isExclusive());
+			assertEquals(28, bound.getValue().intValue());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void moreThanMinimum() {
+			String json = "[29]";
+			Schema schema = schema(array(integer().minExclusive(28)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
 
-	@Test
-	public void integerLessThanMinimum() {
-		String json = "[27]";
-		Schema schema = schema(array(integer().minInclusive(28)));
+	public static class MaxInclusiveTest extends BaseValidationTest {
 		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
-		LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(27, p.getActualValue().intValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertFalse(bound.isExclusive());
-		assertEquals(28, bound.getValue().intValue());
-		assertNotNull(p.getDescription());
+		@Test
+		public void equalToMaximum() {
+			String json = "[31]";
+			Schema schema = schema(array(integer().maxInclusive(31)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void moreThanMaximum() {
+			String json = "[32]";
+			Schema schema = schema(array(integer().maxInclusive(31)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
+			MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
+			assertEquals(32, p.getActualValue().intValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertFalse(bound.isExclusive());
+			assertEquals(31, bound.getValue().intValue());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class MaxExclusiveTest extends BaseValidationTest {
+		
+		@Test
+		public void lessThanMaximum() {
+			String json = "[30]";
+			Schema schema = schema(array(integer().maxExclusive(31)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void equalToMaximum() {
+			String json = "[31]";
+			Schema schema = schema(array(integer().maxExclusive(31)));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
+			NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
+			assertEquals(31, p.getActualValue().intValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertTrue(bound.isExclusive());
+			assertEquals(31, bound.getValue().intValue());
+			assertNotNull(p.getDescription());
+		}
 	}
 
-	@Test
-	public void integerMoreThanExclusiveMinimum() {
-		String json = "[29]";
-		Schema schema = schema(array(integer().minExclusive(28)));
+	public static class AssertionTest extends BaseValidationTest {
+
+		private Schema schema;
 		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerEqualToExclusiveMinimum() {
-		String json = "[28]";
-		Schema schema = schema(array(integer().minExclusive(28)));
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(integer().assertion(
+					v->((v.intValue() % 2) == 0), 
+					"Value must be a even number."
+					)));
+		}
 		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+		@Test
+		public void assertionSuccess() {
+			String json = "[30]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
-		NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
-		assertEquals(28, p.getActualValue().intValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertTrue(bound.isExclusive());
-		assertEquals(28, bound.getValue().intValue());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void integerOfMaximum() {
-		String json = "[31]";
-		Schema schema = schema(array(integer().maxInclusive(31)));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerGreaterThanMaximum() {
-		String json = "[32]";
-		Schema schema = schema(array(integer().maxInclusive(31)));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
-		MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(32, p.getActualValue().intValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertFalse(bound.isExclusive());
-		assertEquals(31, bound.getValue().intValue());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void integerLessThanExclusiveMaximum() {
-		String json = "[30]";
-		Schema schema = schema(array(integer().maxExclusive(31)));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerEqualToExclusiveMaximum() {
-		String json = "[31]";
-		Schema schema = schema(array(integer().maxExclusive(31)));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
-		NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
-		assertEquals(31, p.getActualValue().intValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertTrue(bound.isExclusive());
-		assertEquals(31, bound.getValue().intValue());
-		assertNotNull(p.getDescription());
+		@Test
+		public void assertionFailure() {
+			String json = "[31]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
+			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			assertEquals(31, ((JsonNumber)p.getActualValue()).intValue());
+			assertNotNull(p.getDescription());
+		}
 	}
 }

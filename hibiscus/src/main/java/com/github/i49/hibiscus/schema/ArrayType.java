@@ -1,6 +1,8 @@
 package com.github.i49.hibiscus.schema;
 
 
+import java.util.function.Predicate;
+
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
@@ -41,7 +43,7 @@ import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
  * <p>{@link #unique unique} specifies that each element in the array must be unique.</p>
  * <blockquote><pre>array(number()).unique();</pre></blockquote>
  */
-public class ArrayType extends AbstractRestrictableType<JsonArray> implements CompositeType {
+public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> implements CompositeType {
 
 	private TypeSet typeSet = TypeSet.empty();
 	
@@ -120,6 +122,11 @@ public class ArrayType extends AbstractRestrictableType<JsonArray> implements Co
 		return this;
 	}
 	
+	@Override
+	public ArrayType assertion(Predicate<JsonArray> predicate, String message) {
+		return super.assertion(predicate, message);
+	}
+
 	/**
 	 * Returns the number of elements in array.
 	 * @param value the array value.

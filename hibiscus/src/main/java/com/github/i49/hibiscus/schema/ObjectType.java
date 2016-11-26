@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
@@ -16,7 +17,7 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * JSON object which can hold zero or more key-value pairs as members.
  */
-public class ObjectType extends AbstractJsonType<JsonObject> implements CompositeType {
+public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType> implements CompositeType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
@@ -58,16 +59,6 @@ public class ObjectType extends AbstractJsonType<JsonObject> implements Composit
 		return this;
 	}
 	
-	/**
-	 * Permits this object to have more properties than explicitly declared.
-	 * By default it will be reported as problem by validation when an object has properties not declared. 
-	 * @return this object.
-	 */
-	public ObjectType moreProperties() {
-		this.moreProperties = true;
-		return this;
-	}
-	
 	@Override
 	public TypeId getTypeId() {
 		return TypeId.OBJECT;
@@ -82,6 +73,21 @@ public class ObjectType extends AbstractJsonType<JsonObject> implements Composit
 				problems.add(new MissingPropertyProblem(name));
 			}
 		}
+	}
+
+	/**
+	 * Permits this object to have more properties than explicitly declared.
+	 * By default it will be reported as problem by validation when an object has properties not declared. 
+	 * @return this object.
+	 */
+	public ObjectType moreProperties() {
+		this.moreProperties = true;
+		return this;
+	}
+	
+	@Override
+	public ObjectType assertion(Predicate<JsonObject> predicate, String message) {
+		return super.assertion(predicate, message);
 	}
 
 	/**

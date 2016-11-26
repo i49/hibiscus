@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.schema;
 
+import java.util.function.Predicate;
 import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
@@ -51,7 +52,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
  * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
-public class StringType extends AbstractRestrictableType<JsonString> implements AtomicType {
+public class StringType extends AbstractRestrictableType<JsonString, StringType> implements AtomicType {
 	
 	/**
 	 * Constructs this type.
@@ -127,6 +128,11 @@ public class StringType extends AbstractRestrictableType<JsonString> implements 
 		return this;
 	}
 	
+	@Override
+	public StringType assertion(Predicate<JsonString> predicate, String message) {
+		return super.assertion(predicate, message);
+	}
+
 	/**
 	 * Returns the number of characters in string.
 	 * @param value the string value.

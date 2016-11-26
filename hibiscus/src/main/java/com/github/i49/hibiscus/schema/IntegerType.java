@@ -1,6 +1,9 @@
 package com.github.i49.hibiscus.schema;
 
 import java.math.BigDecimal;
+import java.util.function.Predicate;
+
+import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
 
@@ -73,5 +76,10 @@ public class IntegerType extends NumberType {
 	@Override
 	public IntegerType enumeration(BigDecimal... values) {
 		return (IntegerType)super.enumeration(values);
+	}
+
+	@Override
+	public IntegerType assertion(Predicate<JsonNumber> predicate, String message) {
+		return (IntegerType)super.assertion(predicate, message);
 	}
 }
