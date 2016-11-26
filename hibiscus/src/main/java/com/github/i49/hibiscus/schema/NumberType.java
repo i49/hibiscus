@@ -10,6 +10,8 @@ import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
 import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
+import static com.github.i49.hibiscus.schema.Enumerations.*;
+
 /**
  * JSON type for numeric value, including integer.
  */
@@ -107,7 +109,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @return this type.
 	 */
 	public NumberType enumeration() {
-		addFacet(EnumerationFacet.empty());
+		addFacet(EnumerationFacet.ofEmpty());
 		return this;
 	}
 
@@ -117,7 +119,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @return this type.
 	 */
 	public NumberType enumeration(long... values) {
-		addFacet(EnumerationFacet.of(values));
+		addFacet(EnumerationFacet.of(valueSet(values)));
 		return this;
 	}
 	
@@ -129,7 +131,7 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 */
 	public NumberType enumeration(BigDecimal... values) {
 		verifyValues(values);
-		addFacet(EnumerationFacet.of(JsonValues::createNumber, values));
+		addFacet(EnumerationFacet.of(valueSet(JsonValues::createNumber, values)));
 		return this;
 	}
 }

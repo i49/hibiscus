@@ -15,6 +15,8 @@ import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 import com.github.i49.hibiscus.schema.facets.PatternFacet;
 import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
+import static com.github.i49.hibiscus.schema.Enumerations.*;
+
 /**
  * JSON type for string value.
  * 
@@ -105,8 +107,7 @@ public class StringType extends AbstractJsonType<JsonString> implements SimpleTy
 	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
 	public StringType enumeration(String... values) {
-		verifyValues(values);
-		addFacet(EnumerationFacet.of(JsonValues::createString, values));
+		addFacet(EnumerationFacet.of(valueSet(JsonValues::createString, values)));
 		return this;
 	}
 	

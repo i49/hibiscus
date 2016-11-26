@@ -5,6 +5,8 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
+import static com.github.i49.hibiscus.schema.Enumerations.*;
+
 /**
  * JSON type for boolean value.
  */
@@ -27,7 +29,7 @@ public class BooleanType extends AbstractJsonType<JsonValue> implements SimpleTy
 	 * @return this type.
 	 */
 	public BooleanType enumeration(boolean... values) {
-		addFacet(EnumerationFacet.of(values));
+		addFacet(EnumerationFacet.of(valueSet(values)));
 		return this;
 	}
 }
