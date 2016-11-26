@@ -51,7 +51,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
  * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
-public class StringType extends AbstractJsonType<JsonString> implements SimpleType {
+public class StringType extends AbstractRestrictableType<JsonString> implements AtomicType {
 	
 	/**
 	 * Constructs this type.

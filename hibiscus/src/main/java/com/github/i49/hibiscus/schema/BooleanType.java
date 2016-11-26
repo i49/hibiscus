@@ -10,7 +10,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
 /**
  * JSON type for boolean value.
  */
-public class BooleanType extends AbstractJsonType<JsonValue> implements SimpleType {
+public class BooleanType extends AbstractRestrictableType<JsonValue> implements AtomicType {
 	
 	/**
 	 * Constructs this type.

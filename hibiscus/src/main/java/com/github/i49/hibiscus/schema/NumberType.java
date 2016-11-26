@@ -15,7 +15,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
 /**
  * JSON type for numeric value, including integer.
  */
-public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleType {
+public class NumberType extends AbstractRestrictableType<JsonNumber> implements AtomicType {
 
 	/**
 	 * Constructs this type.
@@ -130,7 +130,6 @@ public class NumberType extends AbstractJsonType<JsonNumber> implements SimpleTy
 	 * @exception SchemaException if one of values specified is null.
 	 */
 	public NumberType enumeration(BigDecimal... values) {
-		verifyValues(values);
 		addFacet(EnumerationFacet.of(valueSet(JsonValues::createNumber, values)));
 		return this;
 	}

@@ -41,7 +41,7 @@ import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
  * <p>{@link #unique unique} specifies that each element in the array must be unique.</p>
  * <blockquote><pre>array(number()).unique();</pre></blockquote>
  */
-public class ArrayType extends AbstractJsonType<JsonArray> implements ComplexType {
+public class ArrayType extends AbstractRestrictableType<JsonArray> implements CompositeType {
 
 	private TypeSet typeSet = TypeSet.empty();
 	

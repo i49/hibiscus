@@ -9,7 +9,7 @@ The top level object of your schema is `SchemaType` class that can be obtained b
   import static com.github.i49.hibiscus.schena.JsonTypes.*;
   SchemaType s = schema(/* types definitions here. */);  
 ```
-The parameters of this method are types that allowed to be at root of JSON documents. All types that are useful to define schema will be explained in the next section.
+The parameters of this method are types that allowed to be at root of JSON documents. All types useful to define schema will be introduced in the next section.
 
 ## 2. Basic types
 
@@ -71,13 +71,13 @@ Each property contained in object type can be created by methods `required()` or
 
 The statement below shows how to create required property:
 ```java
-  required("name", string()),
+  required("name", string());
 ```
 The first parameter specifies the name of the property and the second parameter specifies the type of the property, in this case the type is string.  
 
 Optional propety can be created in the same way.
 ```java
-  optional("age", integer()),
+  optional("age", integer());
 ```
 
 Putting these together, the complete object type is defined as below:
@@ -89,10 +89,10 @@ Putting these together, the complete object type is defined as below:
 ```
 
 ## 3. Restrictions on types
-All types except null type can be restricted by various kind of *facets*. Each facet will limit the value space of the type to which it is applied.
+All types except `null` type can be restricted by various kinds of *facets*. Each facet will limit the value space of the type to which it is applied in its own way.
 
 ### 3.1. length
-`length` facet allows you to restrict values to have specific length. It can be applied to `string` and `array` types.
+The facet `length` allows you to restrict values to have a specific length. It can be applied to `string` and `array` types.
 
 For instance, `string` type below must have exactly 8 characters in the value.
 ```java
