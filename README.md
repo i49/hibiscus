@@ -145,39 +145,7 @@ Schema schema = schema(
 
 ## Schema basics
 
-### Primitive types
-
-Hibiscus offers following JSON types that compose the schema.
-
-JSON type | method to create
-----------|-----------------
-array     | `array()`
-boolean   | `bool()`
-integer   | `integer()`
-number    | `number()`
-null      | `nil()`
-object    | `object()`
-string    | `string()`
-
-All methods to create these types are static methods provided by `JsonTypes` utility class.   
-
-#### Array type
-
-A sample JSON array is presented below:
-
-```javascript
-  ["Club", "Diamond", "Heart", "Spade"]
-```
-
-Array type can contain zero or more elements between opening and closing brackets. For example, if your array contains only strings as its elements like above, you can define the type as follows:
-
-```java
-  array(string())
-```
-
-#### Object type
-
-To be written later.
+Please see the document for [Schema Basics](https://github.com/i49/Hibiscus/tree/master/schema-basics.md). 
 
 ## Installation
 
