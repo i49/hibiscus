@@ -1,6 +1,17 @@
 # Schema Basics
 
-## 1. Basic types
+## 1. Schema object
+
+The top level object of your schema is `SchemaType` class that can be obtained by calling
+`JsonTypes.schema()` static method.
+
+```java
+  import static com.github.i49.hibiscus.schena.JsonTypes.*;
+  SchemaType s = schema(/* types definitions here. */);  
+```
+The parameters of this method are types that allowed to be at root of JSON documents. All types that are useful to define schema will be explained in the next section.
+
+## 2. Basic types
 
 Hibiscus offers following JSON types that can compose the schema.
 
@@ -21,7 +32,7 @@ All methods that will create these types are defined in `JsonTypes` class as sta
   string(); // this creates an instance of string type.
 ```
 
-### 1.1. Array type
+### 2.1. Array type
 
 Array type can contain zero or more elements between opening and closing square brackets. An example value of this type is shown below:
 
@@ -35,12 +46,12 @@ Array types can be created as follows:
   array(/* types of elements will come later */);
 ```
 
-The example array shown contains only strings as its elements, so you can define the type like below:
+The example array shown contains only `string`s as its elements, so you can define the type like below:
 ```java
   array(string());
 ```
 
-### 1.2. Object type
+### 2.2. Object type
 
 Object type can contain zero or more key/value pairs, which are called *properties*, between opening and closing curly brackets. An example value of this type is shown below:
 
@@ -56,7 +67,7 @@ Object types can be created as follows:
   object(/* property definitions will come later */);
 ```
 
-Each property contained in object type can be created by methods `required()` or `optional()`, those are provided by `JsonTypes` class also. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
+Each property contained in object type can be created by methods `required()` or `optional()`, those are provided also by `JsonTypes` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
 
 The statement below shows how to create required property:
 ```java
@@ -77,7 +88,19 @@ Putting these together, the complete object type is defined as below:
   );
 ```
 
-## 2. Restrictions on types
-All types except null type can be restricted by various kind of *facets*. Each facets will constrain the value space of the type to which it is applied.
+## 3. Restrictions on types
+All types except null type can be restricted by various kind of *facets*. Each facet will limit the value space of the type to which it is applied.
 
-continued...
+### 3.1. length
+`length` facet allows you to restrict values to have specific length. It can be applied to `string` and `array` types.
+
+For instance, `string` type below must have exactly 8 characters in the value.
+```java
+  string().length(8);
+```
+`array` type that must exactly 3 elements of `number` type.
+```java
+  array(number()).length(3);
+```
+
+To be continued...
