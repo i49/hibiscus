@@ -2,20 +2,20 @@
 
 ## 1. Schema object
 
-The top level object of your schema is `SchemaType` class that can be obtained by calling
-`JsonTypes.schema()` static method.
+The top level element of your schema is `Schema` object that can be obtained by calling
+`JsonTypes.schema()` class method.
 
 ```java
   import static com.github.i49.hibiscus.schena.JsonTypes.*;
-  SchemaType s = schema(/* types definitions here. */);  
+  Schema s = schema(/* types definitions here. */);  
 ```
-The parameters of this method are types that allowed to be at root of JSON documents. All types useful to define schema will be introduced in the next section.
+The parameters of this method are types that allowed to be at root of JSON documents. All types that are useful to write schema will be introduced in the next section.
 
 ## 2. Basic types
 
 Hibiscus offers following JSON types that can compose the schema.
 
-name      | class         | creation method | values accepted
+name      | class         | creation method | example values
 ----------|---------------|-----------------|----------------------------------------
 array     | `ArrayType`   | `array()`       | [1, 2, 3]
 boolean   | `BooleanType` | `bool()`        | true
@@ -43,7 +43,7 @@ Array type can contain zero or more elements between opening and closing square 
 Array types can be created as follows:
 ```java
   /* static import statement omitted */
-  array(/* types of elements will come later */);
+  array(/* types of array elements here */);
 ```
 
 The example array shown contains only `string`s as its elements, so you can define the type like below:
@@ -64,10 +64,10 @@ Object type can contain zero or more key/value pairs, which are called *properti
 Object types can be created as follows:
 ```java
   /* static import statement omitted */
-  object(/* property definitions will come later */);
+  object(/* property definitions here*/);
 ```
 
-Each property contained in object type can be created by methods `required()` or `optional()`, those are provided also by `JsonTypes` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
+Each property contained in object type can be created by methods `required()` or `optional()`, those are also provided  by `JsonTypes` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
 
 The statement below shows how to create required property:
 ```java
@@ -90,6 +90,21 @@ Putting these together, the complete object type is defined as below:
 
 ## 3. Restrictions on types
 All types except `null` type can be restricted by various kinds of *facets*. Each facet will limit the value space of the type to which it is applied in its own way.
+
+All currently supported facets are shown in the next table.
+
+facet         |applicable types                        |description
+--------------|----------------------------------------|---------------------------------------------
+`length`      |`string`, `array`                       |restricts values to a specific length
+`minLength`   |`string`, `array`                       |limits the lower bound of length  
+`maxLength`   |`string`, `array`                       |limits the upper bound of length
+`minInclusive`|`number`, `integer`                     |lower bound of values
+`minExclusive`|`number`, `integer`                     |lower bound of values, excluding the bound
+`maxInclusive`|`number`, `integer`                     |upper bound of values
+`maxExclusive`|`number`, `integer`                     |upper bound of values, excluding the bound
+`unique`      |`array`                                 |each element of array must be unique   
+`enumeration` |`boolean`, `string`, `number`, `integer`|restricts values to enumerated values
+`assertion`   |all but `null`                          |adds arbitrary assertions on the type
 
 ### 3.1. length
 The facet `length` allows you to restrict values to have a specific length. It can be applied to `string` and `array` types.

@@ -145,7 +145,7 @@ Schema schema = schema(
 
 ## Schema basics
 
-Please see the document for [Schema Basics](https://github.com/i49/Hibiscus/tree/master/schema-basics.md). 
+Please see the document for [Schema Basics](schema-basics.md). 
 
 ## Installation
 
