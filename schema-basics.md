@@ -29,7 +29,9 @@ All methods that will create these types are defined in `JsonTypes` class as sta
 
 ```java
   import static com.github.i49.hibiscus.schena.JsonTypes.*;
-  string(); // this creates an instance of string type.
+  string(); // creates an instance of string type.
+  array();  // creates an instance of array type.
+  object(); // creates an instance of object type.
 ```
 
 ### 2.1. Array type
@@ -94,7 +96,7 @@ All types except `null` type can be restricted by various kinds of *facets*. Eac
 All currently supported facets are shown in the next table.
 
 facet         |applicable types                        |description
---------------|----------------------------------------|---------------------------------------------
+--------------|----------------------------------------|-----------------------------------------------------
 `length`      |`string`, `array`                       |restricts values to a specific length
 `minLength`   |`string`, `array`                       |limits the lower bound of length  
 `maxLength`   |`string`, `array`                       |limits the upper bound of length
@@ -103,7 +105,7 @@ facet         |applicable types                        |description
 `maxInclusive`|`number`, `integer`                     |upper bound of values
 `maxExclusive`|`number`, `integer`                     |upper bound of values, excluding the bound
 `unique`      |`array`                                 |each element of array must be unique   
-`enumeration` |`boolean`, `string`, `number`, `integer`|restricts values to enumerated values
+`enumeration` |`boolean`, `string`, `number`, `integer`|restricts the value space to a set of distinct values
 `assertion`   |all but `null`                          |adds arbitrary assertions on the type
 
 ### 3.1. length
@@ -116,6 +118,38 @@ For instance, `string` type below must have exactly 8 characters in the value.
 `array` type that must exactly 3 elements of `number` type.
 ```java
   array(number()).length(3);
+```
+
+## 3.2. minLength and maxLength
+`minLength` and `maxLength` facets allow you to restrict the range of the length of value. They can be applied to `string` and `array` types, as same as `length` facet.
+
+`string` type that must have at least 8 characters.
+```java
+  string().minLength(8);
+```
+`array` type that must have 3 or 4 elements of `number` type.
+```java
+  array(number()).minLength(3).maxLength(4);
+```
+
+## 3.3. minInclusive, minExclusive, maxInclusive and maxExclusive
+`minInclusive` and `minExclusive` facets restrict the lower bound of numeric value.
+Similarly, `maxInclusive` and `maxExclusive` facets restrict the upper bound of numeric value.
+These facets can be applied to `number` and `integer` types.
+Both `minExlusive` and `maxExclusive` are used to exclude the boundaries from the valid range of value.
+
+`integer` type that only accepts values from 1 to 12.
+```java
+  integer().minInclusive(1).maxInclusive(12);
+```
+
+## 3.4 unique
+`unique` facet can be applied to `array` type.
+When this facet is applied to an `array`, each element in the array must have a unique value.
+
+The property "tags" must have unique values of `string`.
+```java
+  object(optional("tags", array(string()).unique()));
 ```
 
 To be continued...
