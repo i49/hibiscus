@@ -13,20 +13,20 @@ import com.github.i49.hibiscus.problems.UnknownValueProblem;
 /**
  * Facet constraining a value space to a specific set of values. 
  *
- * @param <T> type of {@code JsonValue}.
+ * @param <V> type of {@code JsonValue}.
  */
-public class EnumerationFacet<T extends JsonValue> implements Facet<T> {
+public class EnumerationFacet<V extends JsonValue> implements Facet<V> {
 
-	private final Set<T> valueSet;
+	private final Set<V> valueSet;
 	
 	/**
 	 * Creates a facet.
 	 * @param valueSet the values in the enumeration.
 	 * @return created facet.
-	 * @param <T> type of {@code JsonValue}.
+	 * @param <V> type of {@code JsonValue}.
 	 */
-	public static <T extends JsonValue> EnumerationFacet<T> of(Set<T> valueSet) {
-		return new EnumerationFacet<T>(valueSet);
+	public static <V extends JsonValue> EnumerationFacet<V> of(Set<V> valueSet) {
+		return new EnumerationFacet<V>(valueSet);
 	}
 
 	/**
@@ -34,20 +34,20 @@ public class EnumerationFacet<T extends JsonValue> implements Facet<T> {
 	 * @return empty facet.
 	 * @param <T> type of {@code JsonValue}.
 	 */
-	public static <T extends JsonValue> EnumerationFacet<T> ofEmpty() {
-		return new EnumerationFacet<T>(Collections.emptySet());
+	public static <V extends JsonValue> EnumerationFacet<V> ofEmpty() {
+		return new EnumerationFacet<V>(Collections.emptySet());
 	}
 
 	/**
 	 * Constructs this facet.
 	 * @param valueSet the value space.
 	 */
-	private EnumerationFacet(Set<T> valueSet) {
+	private EnumerationFacet(Set<V> valueSet) {
 		this.valueSet = valueSet;
 	}
 
 	@Override
-	public void apply(T value, List<Problem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		if (!valueSet.contains(value)) {
 			problems.add(new UnknownValueProblem(value, new HashSet<JsonValue>(valueSet)));
 		}

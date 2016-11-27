@@ -329,7 +329,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 			super.setUp();
 			schema = schema(array(integer().assertion(
 					v->((v.intValue() % 2) == 0), 
-					loc->"Value must be a even number."
+					(v, l)->"Value must be a even number."
 					)));
 		}
 		
@@ -350,9 +350,9 @@ public class IntegerValidationTest extends BaseValidationTest {
 	
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
-			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
 			assertEquals(31, ((JsonNumber)p.getActualValue()).intValue());
-			assertNotNull(p.getDescription());
+			assertEquals("Value must be a even number.", p.getDescription());
 		}
 	}
 }

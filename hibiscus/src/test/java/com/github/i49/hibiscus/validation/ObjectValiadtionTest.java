@@ -241,7 +241,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 							return true;
 						}
 					},
-					loc->"Any comments please."
+					(v, l)->"Any comments please."
 				)
 			);
 		}
@@ -271,9 +271,9 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 	
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
-			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
 			assertEquals(1, ((JsonObject)p.getActualValue()).size());
-			assertNotNull(p.getDescription());
+			assertEquals("Any comments please.", p.getDescription());
 		}
 	}
 }

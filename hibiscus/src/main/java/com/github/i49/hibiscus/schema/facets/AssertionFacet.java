@@ -12,22 +12,22 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * Facet that specifies additional restriction on the values of the type. 
  *
- * @param <T> type of {@code JsonValue}.
+ * @param <V> the type of {@code JsonValue}.
  */
-public class AssertionFacet<T extends JsonValue> implements Facet<T> {
+public class AssertionFacet<V extends JsonValue> implements Facet<V> {
 
-	private final Predicate<T> predicate;
-	private final DescriptionSupplier description;
+	private final Predicate<V> predicate;
+	private final DescriptionSupplier<V> description;
 	
-	public AssertionFacet(Predicate<T> predicate, DescriptionSupplier description) {
+	public AssertionFacet(Predicate<V> predicate, DescriptionSupplier<V> description) {
 		this.predicate = predicate;
 		this.description = description;
 	}
 
 	@Override
-	public void apply(T value, List<Problem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		if (!predicate.test(value)) {
-			problems.add(new AssertionFailureProblem(value, description));
+			problems.add(new AssertionFailureProblem<V>(value, description));
 		}
 	}
 }

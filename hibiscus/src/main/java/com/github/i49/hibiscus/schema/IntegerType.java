@@ -80,7 +80,7 @@ public class IntegerType extends NumberType {
 	}
 
 	@Override
-	public IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier description) {
+	public IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description) {
 		return (IntegerType)super.assertion(predicate, description);
 	}
 }

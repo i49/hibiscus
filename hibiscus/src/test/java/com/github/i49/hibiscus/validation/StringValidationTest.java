@@ -404,7 +404,7 @@ public class StringValidationTest extends BaseValidationTest {
 			super.setUp();
 			schema = schema(array(string().assertion(
 					v->((v.getString().length() % 2) == 0), 
-					loc->"Length must be a even number."
+					(v, l)->"Length must be a even number."
 					)));
 		}
 		
@@ -425,9 +425,9 @@ public class StringValidationTest extends BaseValidationTest {
 	
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
-			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
 			assertEquals("abc", ((JsonString)p.getActualValue()).getString());
-			assertNotNull(p.getDescription());
+			assertEquals("Length must be a even number.", p.getDescription());
 		}
 	}
 }

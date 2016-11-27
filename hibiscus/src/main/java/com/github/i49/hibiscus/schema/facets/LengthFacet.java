@@ -9,12 +9,13 @@ import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * Facet constraining a value space to values of the specific length. 
+ * @param <V> the type of values in JSON document. 
  */
-public class LengthFacet<T extends JsonValue> implements Facet<T> {
+public class LengthFacet<V extends JsonValue> implements Facet<V> {
 
 	private final int expectedLength;
-	private final ToIntFunction<T> lengthMapper;
-	private final LengthProblemFactory<T> problemFactory;
+	private final ToIntFunction<V> lengthMapper;
+	private final LengthProblemFactory<V> problemFactory;
 	
 	/**
 	 * Constructs this facet.
@@ -22,14 +23,14 @@ public class LengthFacet<T extends JsonValue> implements Facet<T> {
 	 * @param lengthMapper the mapper object to retrieve the length of the value.
 	 * @param problemFactory the factory object to create a new problem.
 	 */
-	public LengthFacet(int expectedLength, ToIntFunction<T> lengthMapper, LengthProblemFactory<T> problemFactory) {
+	public LengthFacet(int expectedLength, ToIntFunction<V> lengthMapper, LengthProblemFactory<V> problemFactory) {
 		this.expectedLength = expectedLength;
 		this.lengthMapper = lengthMapper;
 		this.problemFactory = problemFactory;
 	}
 
 	@Override
-	public void apply(T value, List<Problem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		int length = lengthMapper.applyAsInt(value);
 		if (length != expectedLength) {
 			problems.add(problemFactory.newProblem(value, length, expectedLength));

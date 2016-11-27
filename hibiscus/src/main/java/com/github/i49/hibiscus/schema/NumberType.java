@@ -137,7 +137,7 @@ public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType>
 	}
 
 	@Override
-	public NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier description) {
+	public NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description) {
 		return super.assertion(predicate, description);
 	}
 }

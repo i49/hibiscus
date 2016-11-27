@@ -41,7 +41,7 @@ abstract class AbstractRestrictableType<V extends JsonValue, T extends JsonType>
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	public T assertion(Predicate<V> predicate, DescriptionSupplier description) {
+	public T assertion(Predicate<V> predicate, DescriptionSupplier<V> description) {
 		if (predicate == null) {
 			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "predicate"));
 		}

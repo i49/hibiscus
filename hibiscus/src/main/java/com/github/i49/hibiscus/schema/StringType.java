@@ -130,7 +130,7 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	}
 	
 	@Override
-	public StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier description) {
+	public StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier<JsonString> description) {
 		return super.assertion(predicate, description);
 	}
 

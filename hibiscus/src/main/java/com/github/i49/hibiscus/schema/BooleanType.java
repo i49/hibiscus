@@ -37,7 +37,7 @@ public class BooleanType extends AbstractRestrictableType<JsonValue, BooleanType
 	}
 
 	@Override
-	public BooleanType assertion(Predicate<JsonValue> predicate, DescriptionSupplier description) {
+	public BooleanType assertion(Predicate<JsonValue> predicate, DescriptionSupplier<JsonValue> description) {
 		return super.assertion(predicate, description);
 	}
 }

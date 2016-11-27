@@ -124,7 +124,7 @@ public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> im
 	}
 	
 	@Override
-	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier description) {
+	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description) {
 		return super.assertion(predicate, description);
 	}
 

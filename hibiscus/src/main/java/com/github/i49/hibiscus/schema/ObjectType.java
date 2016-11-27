@@ -87,7 +87,7 @@ public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType>
 	}
 	
 	@Override
-	public ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier description) {
+	public ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier<JsonObject> description) {
 		return super.assertion(predicate, description);
 	}
 
