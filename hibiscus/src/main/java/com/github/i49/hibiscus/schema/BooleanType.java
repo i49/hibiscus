@@ -3,6 +3,7 @@ package com.github.i49.hibiscus.schema;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 import static com.github.i49.hibiscus.schema.Enumerations.*;
@@ -36,7 +37,7 @@ public class BooleanType extends AbstractRestrictableType<JsonValue, BooleanType
 	}
 
 	@Override
-	public BooleanType assertion(Predicate<JsonValue> predicate, String message) {
-		return super.assertion(predicate, message);
+	public BooleanType assertion(Predicate<JsonValue> predicate, DescriptionSupplier description) {
+		return super.assertion(predicate, description);
 	}
 }

@@ -241,7 +241,7 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 							return true;
 						}
 					},
-					"Any comments please."
+					loc->"Any comments please."
 				)
 			);
 		}

@@ -7,6 +7,7 @@ import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
 import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
@@ -136,7 +137,7 @@ public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType>
 	}
 
 	@Override
-	public NumberType assertion(Predicate<JsonNumber> predicate, String message) {
-		return super.assertion(predicate, message);
+	public NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier description) {
+		return super.assertion(predicate, description);
 	}
 }

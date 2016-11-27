@@ -9,6 +9,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.schema.facets.UniqueItemFacet;
 import com.github.i49.hibiscus.schema.facets.LengthFacet;
 import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
@@ -123,8 +124,8 @@ public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> im
 	}
 	
 	@Override
-	public ArrayType assertion(Predicate<JsonArray> predicate, String message) {
-		return super.assertion(predicate, message);
+	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier description) {
+		return super.assertion(predicate, description);
 	}
 
 	/**

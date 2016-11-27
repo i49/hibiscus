@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.schema.facets.AssertionFacet;
 import com.github.i49.hibiscus.schema.facets.Facet;
@@ -37,17 +38,17 @@ abstract class AbstractRestrictableType<V extends JsonValue, T extends JsonType>
 	/**
 	 * Specifies assertion on this type.
 	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
-	 * @param message the message of the problem to be reported if the assertion failed.
+	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	public T assertion(Predicate<V> predicate, String message) {
+	public T assertion(Predicate<V> predicate, DescriptionSupplier description) {
 		if (predicate == null) {
 			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "predicate"));
 		}
-		if (message == null) {
-			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "message"));
+		if (description == null) {
+			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "description"));
 		}
-		addFacet(new AssertionFacet<V>(predicate, message));
+		addFacet(new AssertionFacet<V>(predicate, description));
 		@SuppressWarnings("unchecked")
 		T self = (T)this;
 		return self;

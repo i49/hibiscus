@@ -404,7 +404,7 @@ public class StringValidationTest extends BaseValidationTest {
 			super.setUp();
 			schema = schema(array(string().assertion(
 					v->((v.getString().length() % 2) == 0), 
-					"Length must be a even number."
+					loc->"Length must be a even number."
 					)));
 		}
 		

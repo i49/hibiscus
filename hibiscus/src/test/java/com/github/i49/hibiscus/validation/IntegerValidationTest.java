@@ -329,7 +329,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 			super.setUp();
 			schema = schema(array(integer().assertion(
 					v->((v.intValue() % 2) == 0), 
-					"Value must be a even number."
+					loc->"Value must be a even number."
 					)));
 		}
 		

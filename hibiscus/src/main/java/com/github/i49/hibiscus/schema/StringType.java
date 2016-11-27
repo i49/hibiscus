@@ -7,6 +7,7 @@ import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
@@ -129,8 +130,8 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	}
 	
 	@Override
-	public StringType assertion(Predicate<JsonString> predicate, String message) {
-		return super.assertion(predicate, message);
+	public StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier description) {
+		return super.assertion(predicate, description);
 	}
 
 	/**

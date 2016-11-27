@@ -9,15 +9,20 @@ import javax.json.JsonValue;
  */
 public class AssertionFailureProblem extends ValueProblem<JsonValue> {
 
-	private final String message;
+	private final DescriptionSupplier descriptionSupplier;
 	
-	public AssertionFailureProblem(JsonValue value, String message) {
+	/**
+	 * Constructs this problem.
+	 * @param value the actual value that is the cause of this problem.
+	 * @param descriptionSupplier supplying the description of this problem. 
+	 */
+	public AssertionFailureProblem(JsonValue value, DescriptionSupplier descriptionSupplier) {
 		super(value);
-		this.message = message;
+		this.descriptionSupplier = descriptionSupplier;
 	}
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return message;
+		return descriptionSupplier.getDescription(locale);
 	}
 }

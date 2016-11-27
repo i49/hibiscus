@@ -11,6 +11,7 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
@@ -86,8 +87,8 @@ public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType>
 	}
 	
 	@Override
-	public ObjectType assertion(Predicate<JsonObject> predicate, String message) {
-		return super.assertion(predicate, message);
+	public ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier description) {
+		return super.assertion(predicate, description);
 	}
 
 	/**

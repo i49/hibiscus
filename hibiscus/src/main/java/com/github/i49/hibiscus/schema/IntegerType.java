@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
  * JSON type for numeric value without a fraction or exponent part.
@@ -79,7 +80,7 @@ public class IntegerType extends NumberType {
 	}
 
 	@Override
-	public IntegerType assertion(Predicate<JsonNumber> predicate, String message) {
-		return (IntegerType)super.assertion(predicate, message);
+	public IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier description) {
+		return (IntegerType)super.assertion(predicate, description);
 	}
 }
