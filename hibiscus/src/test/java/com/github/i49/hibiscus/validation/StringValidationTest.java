@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.AssertionFailureProblem;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringPatternProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
@@ -285,7 +286,7 @@ public class StringValidationTest extends BaseValidationTest {
 		}
 	}
 	
-	public static class StringLengthTest extends BaseValidationTest {
+	public static class LenghTest extends BaseValidationTest {
 		
 		private Schema schema;
 		
@@ -332,8 +333,42 @@ public class StringValidationTest extends BaseValidationTest {
 			assertNotNull(p.getDescription());
 		}
 	}
+
+	public static class ZeroLenghTest extends BaseValidationTest {
+		
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().length(0)));
+		}
+
+		@Test
+		public void same() {
+			String json = "[\"\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
 	
-	public static class StringPatternTest extends BaseValidationTest {
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void notSame() {
+			String json = "[\"a\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
+			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
+			assertEquals(1, p.getActualLength());
+			assertEquals(0, p.getExpectedLength());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class PatternTest extends BaseValidationTest {
 		
 		@Test
 		public void valid() {
@@ -356,6 +391,42 @@ public class StringValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 			StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
 			assertEquals("9876-54-321", p.getActualValue().getString());
+			assertNotNull(p.getDescription());
+		}
+	}
+
+	public static class AssertionTest extends BaseValidationTest {
+	
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().assertion(
+					v->((v.getString().length() % 2) == 0), 
+					"Length must be a even number."
+					)));
+		}
+		
+		@Test
+		public void success() {
+			String json = "[\"abcd\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void failure() {
+			String json = "[\"abc\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
+			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			assertEquals("abc", ((JsonString)p.getActualValue()).getString());
 			assertNotNull(p.getDescription());
 		}
 	}

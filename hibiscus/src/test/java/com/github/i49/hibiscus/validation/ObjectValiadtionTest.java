@@ -6,9 +6,13 @@ import static org.junit.Assert.*;
 import java.io.StringReader;
 import java.util.List;
 
+import javax.json.JsonObject;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.AssertionFailureProblem;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
@@ -215,6 +219,61 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertFalse(result.hasProblems());
+		}
+	}
+
+	public static class AssertionTest extends BaseValidationTest {
+		
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(
+				object(
+					required("rate", integer().minInclusive(1).maxInclusive(5)),
+					optional("comment", string())
+				).assertion(
+					(JsonObject o)->{
+						if (o.getInt("rate") < 5) {
+							return o.containsKey("comment");
+						} else {
+							return true;
+						}
+					},
+					"Any comments please."
+				)
+			);
+		}
+		
+		@Test
+		public void success() {
+
+			String json = "{"
+					+ "\"rate\": 3,"
+					+ "\"comment\": \"so-so\""
+					+ "}";
+
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void failure() {
+			String json = "{"
+					+ "\"rate\": 3"
+					+ "}";
+
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
+			AssertionFailureProblem p = (AssertionFailureProblem)result.getProblems().get(0);
+			assertEquals(1, ((JsonObject)p.getActualValue()).size());
+			assertNotNull(p.getDescription());
 		}
 	}
 }

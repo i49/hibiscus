@@ -26,82 +26,88 @@ import javax.json.JsonValue;
 
 public class IntegerValidationTest extends BaseValidationTest {
 
-	@Test
-	public void normalInteger() {
-		String json = "[123]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class VariousKindsOfIntegerTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
+		@Test
+		public void normalInteger() {
+			String json = "[123]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void integerOfMaxInteger() {
+			String json = "[2147483647]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void integerOfMinInteger() {
+			String json = "[-2147483648]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void integerOfMaxLong() {
+			String json = "[9223372036854775807]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void integerOfMinLong() {
+			String json = "[-9223372036854775808]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
 	
-	@Test
-	public void integerOfMaxInteger() {
-		String json = "[2147483647]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class TypeMismatchTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerOfMinInteger() {
-		String json = "[-2147483648]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerOfMaxLong() {
-		String json = "[9223372036854775807]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integerOfMinLong() {
-		String json = "[-9223372036854775808]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
+		@Test
+		public void notIntegerButNumber() {
+			String json = "[123.45]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
 	
-	@Test
-	public void notIntegerButNumber() {
-		String json = "[123.45]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
-		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.NUMBER, p.getActualType());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void notIntegerButString() {
-		String json = "[\"123\"]";
-		Schema schema = schema(array(integer()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
-		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.STRING, p.getActualType());
-		assertNotNull(p.getDescription());
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.NUMBER, p.getActualType());
+			assertNotNull(p.getDescription());
+		}
+	
+		@Test
+		public void notIntegerButString() {
+			String json = "[\"123\"]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.STRING, p.getActualType());
+			assertNotNull(p.getDescription());
+		}
 	}
 	
 	public static class EnumerationTest extends BaseValidationTest {
@@ -328,7 +334,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 		
 		@Test
-		public void assertionSuccess() {
+		public void success() {
 			String json = "[30]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
@@ -337,7 +343,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void assertionFailure() {
+		public void failure() {
 			String json = "[31]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
