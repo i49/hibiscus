@@ -104,27 +104,39 @@ public final class JsonTypes {
 	}
 	
 	/**
-	 * Creates property which is optional for containing object.
+	 * Creates a property which is optional for the containing object.
 	 * @param name the name of property. Cannot be {@code null}.
 	 * @param type the type of property value. Cannot be {@code null}.
 	 * @param moreTypes the other types allowed for property value. Each type cannot be {@code null}.
-	 * @return property.
+	 * @return created property.
 	 * @exception SchemaException if name is {@code null} or one of types is {@code null} or duplicated.
 	 */
 	public static Property optional(String name, JsonType type, JsonType... moreTypes) {
-		return Property.of(name, type, moreTypes, false);
+		return new NamedProperty(name, type, moreTypes, false);
 	}
 	
 	/**
-	 * Creates property which is required for containing object.
+	 * Creates a property which is required for the containing object.
 	 * @param name the name of property. Cannot be {@code null}.
 	 * @param type the type of property value. Cannot be {@code null}.
 	 * @param moreTypes the other types allowed for property value. Each type cannot be {@code null}.
-	 * @return property.
+	 * @return created property.
 	 * @exception SchemaException if name is {@code null} or one of types is {@code null} or duplicated.
 	 */
 	public static Property required(String name, JsonType type, JsonType... moreTypes) {
-		return Property.of(name, type, moreTypes, true);
+		return new NamedProperty(name, type, moreTypes, true);
+	}
+	
+	/**
+	 * Creates property which name is specified as a regular expression.
+	 * @param pattern the pattern of the name specified as a Java regular expression. Cannot be {@code null}.
+	 * @param type the type of property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for property value. Each type cannot be {@code null}.
+	 * @return created property.
+	 * @exception SchemaException if pattern is {@code null} or one of types is {@code null} or duplicated.
+	 */
+	public static Property pattern(String pattern, JsonType type, JsonType... moreTypes) {
+		return new PatternProperty(pattern, type, moreTypes);
 	}
 	
 	private JsonTypes() {

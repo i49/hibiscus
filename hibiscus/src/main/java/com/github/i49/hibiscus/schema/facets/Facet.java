@@ -9,7 +9,7 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * Facet is a single defining aspect of a value space. 
  *
- * @param <V> type of {@code JsonValue} in JSON instance.
+ * @param <V> type of values in JSON instance.
  */
 public interface Facet<V extends JsonValue> {
 

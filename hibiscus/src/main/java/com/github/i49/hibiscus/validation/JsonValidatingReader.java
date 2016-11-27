@@ -135,7 +135,7 @@ class JsonValidatingReader {
 		} else if (event == JsonParser.Event.START_OBJECT) {
 			return  readObject(candidates);
 		} else {
-			return readSimpleValue(event, candidates);
+			return readAtomicValue(event, candidates);
 		}
 	}
 	
@@ -145,7 +145,7 @@ class JsonValidatingReader {
 	 * @param candidates candidates of type.
 	 * @return instance value read.
 	 */
-	private JsonValue readSimpleValue(JsonParser.Event event, TypeSet candidates) {
+	private JsonValue readAtomicValue(JsonParser.Event event, TypeSet candidates) {
 		
 		JsonType type = null;
 		JsonValue value = null;

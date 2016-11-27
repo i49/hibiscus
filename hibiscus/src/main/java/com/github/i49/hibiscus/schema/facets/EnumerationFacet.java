@@ -11,9 +11,9 @@ import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
 
 /**
- * Facet constraining a value space to a specific set of values. 
+ * Facet to restrict a value space of type to a set of distinct values. 
  *
- * @param <V> type of {@code JsonValue}.
+ * @param <V> the type of values in JSON document.
  */
 public class EnumerationFacet<V extends JsonValue> implements Facet<V> {
 
@@ -23,7 +23,7 @@ public class EnumerationFacet<V extends JsonValue> implements Facet<V> {
 	 * Creates a facet.
 	 * @param valueSet the values in the enumeration.
 	 * @return created facet.
-	 * @param <V> type of {@code JsonValue}.
+	 * @param <V> the type of values in JSON document.
 	 */
 	public static <V extends JsonValue> EnumerationFacet<V> of(Set<V> valueSet) {
 		return new EnumerationFacet<V>(valueSet);
@@ -32,7 +32,7 @@ public class EnumerationFacet<V extends JsonValue> implements Facet<V> {
 	/**
 	 * Creates a empty facet.
 	 * @return empty facet.
-	 * @param <T> type of {@code JsonValue}.
+	 * @param <V> the type of values in JSON document.
 	 */
 	public static <V extends JsonValue> EnumerationFacet<V> ofEmpty() {
 		return new EnumerationFacet<V>(Collections.emptySet());

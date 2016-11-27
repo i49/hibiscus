@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.schema;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,13 +17,14 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * JSON object which can hold zero or more key-value pairs as members.
+ * JSON object which can hold zero or more key-value pairs as its members.
  */
 public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType> implements CompositeType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
 	private boolean moreProperties = false;
+	private List<PatternProperty> patternProperties;
 	
 	/**
 	 * Constructs this type.
@@ -41,22 +43,9 @@ public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType>
 	 * @exception SchemaException if one of properties specified is {@code null}.
 	 */
 	public ObjectType properties(Property... properties) {
-		
 		this.properties.clear();
 		this.required.clear();
-
-		int index = 0;
-		for (Property p: properties) {
-			if (p == null) {
-				throw new SchemaException(Messages.PROPERTY_IS_NULL(index));
-			}
-			this.properties.put(p.getName(), p);
-			if (p.isRequired()) {
-				this.required.add(p.getName());
-			}
-			index++;
-		}
-
+		addProperties(properties);
 		return this;
 	}
 	
@@ -100,7 +89,11 @@ public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType>
 		if (name == null) {
 			return null;
 		}
-		return this.properties.get(name);
+		Property found = this.properties.get(name);
+		if (found == null) {
+			found = findPatternProperty(name);
+		}
+		return found;
 	}
 	
 	/**
@@ -109,5 +102,46 @@ public class ObjectType extends AbstractRestrictableType<JsonObject, ObjectType>
 	 */
 	public boolean allowsMoreProperties() {
 		return moreProperties;
+	}
+	
+	private void addProperties(Property[] properties) {
+		int index = 0;
+		for (Property p: properties) {
+			if (p == null) {
+				throw new SchemaException(Messages.PROPERTY_IS_NULL(index));
+			}
+			if (p instanceof PatternProperty) {
+				addProperty((PatternProperty)p);
+			} else {
+				addProperty((NamedProperty)p);
+			}
+			index++;
+		}
+	}
+	
+	private void addProperty(PatternProperty property) {
+		if (patternProperties == null) {
+			patternProperties = new ArrayList<>();
+		}
+		patternProperties.add(property);
+	}
+
+	private void addProperty(NamedProperty property) {
+		this.properties.put(property.getName(), property);
+		if (property.isRequired()) {
+			this.required.add(property.getName());
+		}
+	}
+	
+	private PatternProperty findPatternProperty(String name) {
+		if (patternProperties == null) {
+			return null;
+		}
+		for (PatternProperty p: patternProperties) {
+			if (p.matches(name)) {
+				return p;
+			}
+		}
+		return null;
 	}
 }
