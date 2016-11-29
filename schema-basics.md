@@ -2,11 +2,11 @@
 
 ## 1. Schema object
 
-The top level element of your schema is `Schema` object that can be obtained by calling
-`JsonTypes.schema()` class method.
+The top level component of your schema is `Schema` that can be instantiated by calling
+`SchemaComponents.schema()` class method.
 
 ```java
-  import static com.github.i49.hibiscus.schena.JsonTypes.*;
+  import static com.github.i49.hibiscus.schena.SchemaComponents.*;
   Schema s = schema(/* types definitions here. */);  
 ```
 The parameters of this method are types that allowed to be at root of JSON documents. All types that are useful to write schema will be introduced in the next section.
@@ -25,10 +25,10 @@ null      | `NullType`    | `nil()`         | null
 object    | `ObjectType`  | `object()`      | { "name": "John", "age": 33 }
 string    | `StringType`  | `string()`      | "hello"
 
-All methods that will create these types are defined in `JsonTypes` class as static methods.
+All methods that will create these types are defined in `SchemaComponents` class as static methods.
 
 ```java
-  import static com.github.i49.hibiscus.schena.JsonTypes.*;
+  import static com.github.i49.hibiscus.schena.SchemaComponents.*;
   string(); // creates an instance of string type.
   array();  // creates an instance of array type.
   object(); // creates an instance of object type.
@@ -69,7 +69,7 @@ Object types can be created as follows:
   object(/* property definitions here*/);
 ```
 
-Each property contained in object type can be created by methods `required()` or `optional()`, those are also provided  by `JsonTypes` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
+Each property contained in object type can be created by methods `required()` or `optional()`, those are also provided by `SchemaComponents` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
 
 The statement below shows how to create required property:
 ```java
@@ -109,13 +109,13 @@ facet         |applicable types                        |description
 `assertion`   |all but `null`                          |adds arbitrary assertions on the type
 
 ### 3.1. length
-The facet `length` allows you to restrict values to have a specific length. It can be applied to `string` and `array` types.
+The `length` facet allows you to restrict values to have a specific length. It can be applied to `string` and `array` types.
 
 For instance, `string` type below must have exactly 8 characters in the value.
 ```java
   string().length(8);
 ```
-`array` type that must exactly 3 elements of `number` type.
+The following `array` type must exactly 3 elements of `number` type.
 ```java
   array(number()).length(3);
 ```
@@ -123,11 +123,11 @@ For instance, `string` type below must have exactly 8 characters in the value.
 ## 3.2. minLength and maxLength
 `minLength` and `maxLength` facets allow you to restrict the range of the length of value. They can be applied to `string` and `array` types, as same as `length` facet.
 
-`string` type that must have at least 8 characters.
+The following `string` type must have at least 8 characters.
 ```java
   string().minLength(8);
 ```
-`array` type that must have 3 or 4 elements of `number` type.
+The following `array` type must have 3 or 4 elements of `number` type.
 ```java
   array(number()).minLength(3).maxLength(4);
 ```
@@ -138,7 +138,7 @@ Similarly, `maxInclusive` and `maxExclusive` facets restrict the upper bound of 
 These facets can be applied to `number` and `integer` types.
 Both `minExlusive` and `maxExclusive` are used to exclude the boundaries from the valid range of value.
 
-`integer` type that only accepts values from 1 to 12.
+The following `integer` type accepts only values from 1 to 12.
 ```java
   integer().minInclusive(1).maxInclusive(12);
 ```
@@ -147,7 +147,7 @@ Both `minExlusive` and `maxExclusive` are used to exclude the boundaries from th
 `unique` facet can be applied to `array` type.
 When this facet is applied to an `array`, each element in the array must have a unique value.
 
-The property "tags" must have unique values of `string`.
+The following property "tags" must have unique values of `string`.
 ```java
   object(optional("tags", array(string()).unique()));
 ```
