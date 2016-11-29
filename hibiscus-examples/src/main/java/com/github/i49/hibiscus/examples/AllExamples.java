@@ -10,5 +10,6 @@ public class AllExamples {
 		PersonValidator.main(args);
 		ProductsValidator.main(args);
 		PedigreeValidator.main(args);
+		DiskFreeValidator.main(args);
 	}
 }
