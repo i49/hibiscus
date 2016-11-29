@@ -4,7 +4,7 @@ package com.github.i49.hibiscus.schema;
  * Provides utility methods to create building blocks of the schema.
  * <p>All methods of this class are static and this class cannot be instantiated.</p>
  */
-public final class JsonTypes {
+public final class SchemaComponents {
 
 	/**
 	 * Creates a schema.
@@ -139,6 +139,6 @@ public final class JsonTypes {
 		return new PatternProperty(pattern, type, moreTypes);
 	}
 	
-	private JsonTypes() {
+	private SchemaComponents() {
 	}
 }

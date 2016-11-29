@@ -12,7 +12,7 @@ import javax.json.JsonValue;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 import static com.github.i49.hibiscus.validation.Resources.*;
 
 import com.github.i49.hibiscus.common.TypeId;

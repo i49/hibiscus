@@ -4,7 +4,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 
 public class StringTypeTest {
 	

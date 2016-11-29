@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;

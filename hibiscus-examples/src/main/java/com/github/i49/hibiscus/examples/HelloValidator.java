@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.examples;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 
 import com.github.i49.hibiscus.schema.Schema;
 import com.github.i49.hibiscus.validation.BasicJsonValidator;

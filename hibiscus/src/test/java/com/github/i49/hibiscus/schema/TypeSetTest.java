@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 
 public class TypeSetTest {
 

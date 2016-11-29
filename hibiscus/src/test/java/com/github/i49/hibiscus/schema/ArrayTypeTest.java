@@ -2,7 +2,7 @@ package com.github.i49.hibiscus.schema;
 
 import org.junit.Test;
 
-import static com.github.i49.hibiscus.schema.JsonTypes.*;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 
 public class ArrayTypeTest {
 
