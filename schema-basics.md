@@ -104,6 +104,7 @@ facet         |applicable types                        |description
 `minExclusive`|`number`, `integer`                     |lower bound of values, excluding the bound
 `maxInclusive`|`number`, `integer`                     |upper bound of values
 `maxExclusive`|`number`, `integer`                     |upper bound of values, excluding the bound
+`pattern`     |`string`                                |restricts string values by a regular expression
 `unique`      |`array`                                 |each element of array must be unique   
 `enumeration` |`boolean`, `string`, `number`, `integer`|restricts the value space to a set of distinct values
 `assertion`   |all but `null`                          |adds arbitrary assertions on the type
@@ -120,7 +121,7 @@ The following `array` type must exactly 3 elements of `number` type.
   array(number()).length(3);
 ```
 
-## 3.2. minLength and maxLength
+### 3.2. minLength and maxLength
 `minLength` and `maxLength` facets allow you to restrict the range of the length of value. They can be applied to `string` and `array` types, as same as `length` facet.
 
 The following `string` type must have at least 8 characters.
@@ -132,7 +133,7 @@ The following `array` type must have 3 or 4 elements of `number` type.
   array(number()).minLength(3).maxLength(4);
 ```
 
-## 3.3. minInclusive, minExclusive, maxInclusive and maxExclusive
+### 3.3. minInclusive, minExclusive, maxInclusive and maxExclusive
 `minInclusive` and `minExclusive` facets restrict the lower bound of numeric value.
 Similarly, `maxInclusive` and `maxExclusive` facets restrict the upper bound of numeric value.
 These facets can be applied to `number` and `integer` types.
@@ -143,7 +144,7 @@ The following `integer` type accepts only values from 1 to 12.
   integer().minInclusive(1).maxInclusive(12);
 ```
 
-## 3.4 unique
+### 3.4 unique
 `unique` facet can be applied to `array` type.
 When this facet is applied to an `array`, each element in the array must have a unique value.
 
