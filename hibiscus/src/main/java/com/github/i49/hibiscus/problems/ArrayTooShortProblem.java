@@ -42,6 +42,6 @@ public class ArrayTooShortProblem extends ValueProblem<JsonArray> {
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.ARRAY_TOO_SHORT(locale, getActualLength(), getLimitLength());
+		return Messages.ARRAY_TOO_SHORT_PROBLEM(locale, getActualLength(), getLimitLength());
 	}
 }

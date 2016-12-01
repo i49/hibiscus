@@ -5,19 +5,7 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
 
-import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.facets.EnumerationFacet;
-import com.github.i49.hibiscus.facets.LengthFacet;
-import com.github.i49.hibiscus.facets.MaxLengthFacet;
-import com.github.i49.hibiscus.facets.MinLengthFacet;
-import com.github.i49.hibiscus.facets.PatternFacet;
-import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
-import com.github.i49.hibiscus.problems.StringLengthProblem;
-import com.github.i49.hibiscus.problems.StringTooLongProblem;
-import com.github.i49.hibiscus.problems.StringTooShortProblem;
-
-import static com.github.i49.hibiscus.schema.Enumerations.*;
 
 /**
  * JSON type for string value.
@@ -53,18 +41,7 @@ import static com.github.i49.hibiscus.schema.Enumerations.*;
  * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
-public class StringType extends AbstractRestrictableType<JsonString, StringType> implements AtomicType {
-	
-	/**
-	 * Constructs this type.
-	 */
-	public StringType() {
-	}
-	
-	@Override
-	public TypeId getTypeId() {
-		return TypeId.STRING;
-	}
+public interface StringType extends AtomicType {
 	
 	/**
 	 * Specifies the number of characters expected in this string. 
@@ -72,11 +49,7 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public StringType length(int length) {
-		verifyLength(length);
-		addFacet(new LengthFacet<JsonString>(length, StringType::getLength, StringLengthProblem::new));
-		return this;
-	}
+	StringType length(int length);
 	
 	/**
 	 * Specifies the minimum number of characters in this string. 
@@ -84,11 +57,7 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public StringType minLength(int length) {
-		verifyLength(length);
-		addFacet(new MinLengthFacet<JsonString>(length, StringType::getLength, StringTooShortProblem::new));
-		return this;
-	}
+	StringType minLength(int length);
 	
 	/**
 	 * Specifies the maximum number of characters in this string. 
@@ -96,11 +65,7 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public StringType maxLength(int length) {
-		verifyLength(length);
-		addFacet(new MaxLengthFacet<JsonString>(length, StringType::getLength, StringTooLongProblem::new));
-		return this;
-	}
+	StringType maxLength(int length);
 	
 	/**
 	 * Specifies set of values allowed for this type.
@@ -108,10 +73,7 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
-	public StringType enumeration(String... values) {
-		addFacet(EnumerationFacet.of(valueSet(JsonValues::createString, values)));
-		return this;
-	}
+	StringType enumeration(String... values);
 	
 	/**
 	 * Specifies the pattern of this string with regular expression.
@@ -121,36 +83,13 @@ public class StringType extends AbstractRestrictableType<JsonString, StringType>
 	 * @exception SchemaException if expression specified is null.
 	 * @exception PatternSyntaxException if the expression's syntax is invalid.
 	 */
-	public StringType pattern(String regex) {
-		if (regex == null) {
-			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("pattern", "regex"));
-		}
-		addFacet(new PatternFacet(regex));
-		return this;
-	}
+	StringType pattern(String regex);
 	
-	@Override
-	public StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier<JsonString> description) {
-		return super.assertion(predicate, description);
-	}
-
 	/**
-	 * Returns the number of characters in string.
-	 * @param value the string value.
-	 * @return length of string.
+	 * Specifies assertion on this type.
+	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
+	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * @return this type.
 	 */
-	private static int getLength(JsonString value) {
-		return value.getString().length();
-	}
-
-	/**
-	 * Verifies value specified as length of string.
-	 * @param length the length specified for strings.
-	 */
-	private static void verifyLength(int length) {
-		if (length < 0) {
-			throw new SchemaException(Messages.STRING_LENGTH_IS_NEGATIVE(length));
-		}
-	}
-	
+	StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier<JsonString> description);
 }

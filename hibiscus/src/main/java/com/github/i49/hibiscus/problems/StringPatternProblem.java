@@ -19,6 +19,6 @@ public class StringPatternProblem extends ValueProblem<JsonString> {
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.STRING_PATTERN(locale, getActualValue());
+		return Messages.STRING_PATTERN_PROBLEM(locale, getActualValue());
 	}
 }

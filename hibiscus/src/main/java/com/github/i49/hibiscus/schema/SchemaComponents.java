@@ -48,7 +48,7 @@ public final class SchemaComponents {
 	 * @return boolean type.
 	 */
 	public static BooleanType bool() {
-		return new BooleanType();
+		return new BooleanTypeImpl();
 	}
 
 	/**
@@ -72,7 +72,7 @@ public final class SchemaComponents {
 	 * @return null type.
 	 */
 	public static NullType nil() {
-		return NullType.INSTANCE;
+		return NullTypeImpl.INSTANCE;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public final class SchemaComponents {
 	 * @return string type.
 	 */
 	public static StringType string() {
-		return new StringType();
+		return new StringTypeImpl();
 	}
 	
 	/**

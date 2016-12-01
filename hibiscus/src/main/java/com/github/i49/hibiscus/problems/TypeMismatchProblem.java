@@ -41,6 +41,6 @@ public class TypeMismatchProblem extends AbstractProblem {
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.TYPE_MISMATCH(locale, getActualType(), getExpectedTypes());
+		return Messages.TYPE_MISMATCH_PROBLEM(locale, getActualType(), getExpectedTypes());
 	}
 }

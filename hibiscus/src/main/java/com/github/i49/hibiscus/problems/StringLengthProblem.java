@@ -42,6 +42,6 @@ public class StringLengthProblem extends ValueProblem<JsonString> {
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return Messages.STRING_LENGTH(locale, getActualLength(), getExpectedLength());
+		return Messages.STRING_LENGTH_PROBLEM(locale, getActualLength(), getExpectedLength());
 	}
 }

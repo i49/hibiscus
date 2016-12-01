@@ -42,6 +42,6 @@ public class ArrayLengthProblem extends ValueProblem<JsonArray> {
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return Messages.ARRAY_LENGTH(locale, getActualLength(), getExpectedLength());
+		return Messages.ARRAY_LENGTH_PROBLEM(locale, getActualLength(), getExpectedLength());
 	}
 }

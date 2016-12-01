@@ -42,68 +42,68 @@ final class Messages {
 		return format(bundle.getString("problem.message"), locationPart, description);
 	}
 	
-	static String TYPE_MISMATCH(Locale locale, TypeId actualType, Set<TypeId> expectedTypes) {
-		return localize(locale, "TYPE_MISMATCH", actualType, expectedTypes);
+	static String TYPE_MISMATCH_PROBLEM(Locale locale, TypeId actualType, Set<TypeId> expectedTypes) {
+		return localize(locale, "TYPE_MISMATCH_PROBLEM", actualType, expectedTypes);
 	}
 	
-	static String UNKNOWN_VALUE(Locale locale, JsonValue value, Set<JsonValue> allowedValues) {
-		return localize(locale, "UNKNOWN_VALUE", value, allowedValues);
+	static String UNKNOWN_VALUE_PROBLEM(Locale locale, JsonValue value, Set<JsonValue> allowedValues) {
+		return localize(locale, "UNKNOWN_VALUE_PROBLEM", value, allowedValues);
 	}
 	
-	static String ARRAY_LENGTH(Locale locale, int actualLength, int expectedLength) {
-		return localize(locale, "ARRAY_LENGTH", actualLength, expectedLength);
+	static String ARRAY_LENGTH_PROBLEM(Locale locale, int actualLength, int expectedLength) {
+		return localize(locale, "ARRAY_LENGTH_PROBLEM", actualLength, expectedLength);
 	}
 
-	static String ARRAY_TOO_LONG(Locale locale, int actualLength, int limitLength) {
-		return localize(locale, "ARRAY_TOO_LONG", actualLength, limitLength);
+	static String ARRAY_TOO_LONG_PROBLEM(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "ARRAY_TOO_LONG_PROBLEM", actualLength, limitLength);
 	}
 
-	static String ARRAY_TOO_SHORT(Locale locale, int actualLength, int limitLength) {
-		return localize(locale, "ARRAY_TOO_SHORT", actualLength, limitLength);
+	static String ARRAY_TOO_SHORT_PROBLEM(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "ARRAY_TOO_SHORT_PROBLEM", actualLength, limitLength);
 	}
 	
-	static String DUPLICATE_ITEM(Locale locale, int itemIndex, JsonValue itemValue) {
-		return localize(locale, "DUPLICATE_ITEM", itemIndex, itemValue);
+	static String DUPLICATE_ITEM_PROBLEM(Locale locale, int itemIndex, JsonValue itemValue) {
+		return localize(locale, "DUPLICATE_ITEM_PROBLEM", itemIndex, itemValue);
 	}
 	
-	static String MISSING_PROPERTY(Locale locale, String propertyName) {
-		return localize(locale, "MISSING_PROPERTY", propertyName);
+	static String MISSING_PROPERTY_PROBLEM(Locale locale, String propertyName) {
+		return localize(locale, "MISSING_PROPERTY_PROBLEM", propertyName);
 	}
 	
-	static String UNKNOWN_PROPERTY(Locale locale, String propertyName) {
-		return localize(locale, "UNKNOWN_PROPERTY", propertyName);
+	static String UNKNOWN_PROPERTY_PROBLEM(Locale locale, String propertyName) {
+		return localize(locale, "UNKNOWN_PROPERTY_PROBLEM", propertyName);
 	}
 	
-	static String STRING_LENGTH(Locale locale, int actualLength, int expectedLength) {
-		return localize(locale, "STRING_LENGTH", actualLength, expectedLength);
+	static String STRING_LENGTH_PROBLEM(Locale locale, int actualLength, int expectedLength) {
+		return localize(locale, "STRING_LENGTH_PROBLEM", actualLength, expectedLength);
 	}
 
-	static String STRING_TOO_LONG(Locale locale, int actualLength, int limitLength) {
-		return localize(locale, "STRING_TOO_LONG", actualLength, limitLength);
+	static String STRING_TOO_LONG_PROBLEM(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "STRING_TOO_LONG_PROBLEM", actualLength, limitLength);
 	}
 	
-	static String STRING_TOO_SHORT(Locale locale, int actualLength, int limitLength) {
-		return localize(locale, "STRING_TOO_SHORT", actualLength, limitLength);
+	static String STRING_TOO_SHORT_PROBLEM(Locale locale, int actualLength, int limitLength) {
+		return localize(locale, "STRING_TOO_SHORT_PROBLEM", actualLength, limitLength);
 	}
 
-	static String STRING_PATTERN(Locale locale, JsonString value) {
-		return localize(locale, "STRING_PATTERN", value);
+	static String STRING_PATTERN_PROBLEM(Locale locale, JsonString value) {
+		return localize(locale, "STRING_PATTERN_PROBLEM", value);
 	}
 	
-	static String LESS_THAN_MINIMUM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
-		return localize(locale, "LESS_THAN_MINIMUM", value, lowerBound);
+	static String LESS_THAN_MINIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
+		return localize(locale, "LESS_THAN_MINIMUM_PROBLEM", value, lowerBound);
 	}
 	
-	static String MORE_THAN_MAXIMUM(Locale locale, JsonNumber value, BigDecimal upperBound) {
-		return localize(locale, "MORE_THAN_MAXIMUM", value, upperBound);
+	static String MORE_THAN_MAXIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
+		return localize(locale, "MORE_THAN_MAXIMUM_PROBLEM", value, upperBound);
 	}
 	
-	static String NOT_MORE_THAN_MINIMUM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
-		return localize(locale, "NOT_MORE_THAN_MINIMUM", value, lowerBound);
+	static String NOT_MORE_THAN_MINIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
+		return localize(locale, "NOT_MORE_THAN_MINIMUM_PROBLEM", value, lowerBound);
 	}
 
-	static String NOT_LESS_THAN_MAXIMUM(Locale locale, JsonNumber value, BigDecimal upperBound) {
-		return localize(locale, "NOT_LESS_THAN_MAXIMUM", value, upperBound);
+	static String NOT_LESS_THAN_MAXIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
+		return localize(locale, "NOT_LESS_THAN_MAXIMUM_PROBLEM", value, upperBound);
 	}
 
 	private static ResourceBundle getBundle(Locale locale) {

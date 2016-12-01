@@ -40,6 +40,6 @@ public class ArrayDuplicateItemProblem extends ValueProblem<JsonArray> {
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return Messages.DUPLICATE_ITEM(locale, getDuplicateIndex(), getDuplicateItem());
+		return Messages.DUPLICATE_ITEM_PROBLEM(locale, getDuplicateIndex(), getDuplicateItem());
 	}
 }

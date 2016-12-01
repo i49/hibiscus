@@ -42,6 +42,6 @@ public class StringTooShortProblem extends ValueProblem<JsonString> {
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.STRING_TOO_SHORT(locale, getActualLength(), getLimitLength());
+		return Messages.STRING_TOO_SHORT_PROBLEM(locale, getActualLength(), getLimitLength());
 	}
 }

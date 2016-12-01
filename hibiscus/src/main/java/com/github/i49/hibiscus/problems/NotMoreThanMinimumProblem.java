@@ -23,6 +23,6 @@ public class NotMoreThanMinimumProblem extends NumberRangeProblem {
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.NOT_MORE_THAN_MINIMUM(locale, getActualValue(), getBound().getValue());
+		return Messages.NOT_MORE_THAN_MINIMUM_PROBLEM(locale, getActualValue(), getBound().getValue());
 	}
 }
