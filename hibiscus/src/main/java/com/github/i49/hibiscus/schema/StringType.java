@@ -6,16 +6,16 @@ import java.util.regex.PatternSyntaxException;
 import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.EnumerationFacet;
+import com.github.i49.hibiscus.facets.LengthFacet;
+import com.github.i49.hibiscus.facets.MaxLengthFacet;
+import com.github.i49.hibiscus.facets.MinLengthFacet;
+import com.github.i49.hibiscus.facets.PatternFacet;
 import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
-import com.github.i49.hibiscus.schema.facets.LengthFacet;
-import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
-import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
-import com.github.i49.hibiscus.schema.facets.PatternFacet;
-import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 import static com.github.i49.hibiscus.schema.Enumerations.*;
 

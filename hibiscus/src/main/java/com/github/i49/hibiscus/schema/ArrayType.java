@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.LengthFacet;
+import com.github.i49.hibiscus.facets.MaxLengthFacet;
+import com.github.i49.hibiscus.facets.MinLengthFacet;
+import com.github.i49.hibiscus.facets.UniqueItemFacet;
 import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
-import com.github.i49.hibiscus.schema.facets.UniqueItemFacet;
-import com.github.i49.hibiscus.schema.facets.LengthFacet;
-import com.github.i49.hibiscus.schema.facets.MaxLengthFacet;
-import com.github.i49.hibiscus.schema.facets.MinLengthFacet;
 
 /**
  * JSON array which can have zero or more values as elements.

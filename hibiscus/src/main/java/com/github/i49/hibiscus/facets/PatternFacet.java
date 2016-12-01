@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema.facets;
+package com.github.i49.hibiscus.facets;
 
 import java.util.List;
 import java.util.regex.Matcher;

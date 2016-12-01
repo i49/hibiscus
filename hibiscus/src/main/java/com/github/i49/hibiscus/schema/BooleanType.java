@@ -3,8 +3,8 @@ package com.github.i49.hibiscus.schema;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.EnumerationFacet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
-import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 import static com.github.i49.hibiscus.schema.Enumerations.*;
 

@@ -6,11 +6,11 @@ import java.util.function.Predicate;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.EnumerationFacet;
+import com.github.i49.hibiscus.facets.MaxNumberFacet;
+import com.github.i49.hibiscus.facets.MinNumberFacet;
 import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
-import com.github.i49.hibiscus.schema.facets.MaxNumberFacet;
-import com.github.i49.hibiscus.schema.facets.MinNumberFacet;
-import com.github.i49.hibiscus.schema.facets.EnumerationFacet;
 
 import static com.github.i49.hibiscus.schema.Enumerations.*;
 

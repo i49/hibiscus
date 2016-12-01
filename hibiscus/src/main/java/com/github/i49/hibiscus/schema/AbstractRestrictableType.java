@@ -7,10 +7,10 @@ import java.util.function.Predicate;
 
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.facets.AssertionFacet;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.Problem;
-import com.github.i49.hibiscus.schema.facets.AssertionFacet;
-import com.github.i49.hibiscus.schema.facets.Facet;
 
 /**
  * {@code JsonType} to which facets can be applied.
