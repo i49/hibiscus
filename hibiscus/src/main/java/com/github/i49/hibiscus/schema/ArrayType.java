@@ -6,13 +6,6 @@ import java.util.function.Predicate;
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.facets.LengthFacet;
-import com.github.i49.hibiscus.facets.MaxLengthFacet;
-import com.github.i49.hibiscus.facets.MinLengthFacet;
-import com.github.i49.hibiscus.facets.UniqueItemFacet;
-import com.github.i49.hibiscus.problems.ArrayLengthProblem;
-import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
-import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -44,39 +37,25 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
  * <p>{@link #unique unique} specifies that each element in the array must be unique.</p>
  * <blockquote><pre>array(number()).unique();</pre></blockquote>
  */
-public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> implements CompositeType {
+public interface ArrayType extends CompositeType {
 
-	private TypeSet typeSet = TypeSet.empty();
-	
-	/**
-	 * Constructs this type.
-	 */
-	public ArrayType() {
-	}
-	
-	@Override
-	public TypeId getTypeId() {
+	default TypeId getTypeId() {
 		return TypeId.ARRAY;
 	}
-	
+
 	/**
 	 * Specifies allowed types for elements of this array. 
 	 * @param types the types allowed.
 	 * @return this array.
 	 * @exception SchemaException if one of types specified is {@code null}.
 	 */
-	public ArrayType items(JsonType... types) {
-		this.typeSet = TypeSet.of(types);
-		return this;
-	}
+	ArrayType items(JsonType... types);
 
 	/**
 	 * Returns the types allowed for elements of this array.
 	 * @return the set of types.
 	 */
-	public TypeSet getItemTypes() {
-		return typeSet;
-	}
+	TypeSet getItemTypes();
 
 	/**
 	 * Specifies the number of elements in this array. 
@@ -84,11 +63,7 @@ public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> im
 	 * @return this array.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType length(int length) {
-		verifyLength(length);
-		addFacet(new LengthFacet<JsonArray>(length, ArrayType::getLength, ArrayLengthProblem::new));
-		return this;
-	}
+	ArrayType length(int length);
 	
 	/**
 	 * Specifies the minimum number of elements in this array. 
@@ -96,11 +71,7 @@ public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> im
 	 * @return this array.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType minLength(int length) {
-		verifyLength(length);
-		addFacet(new MinLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooShortProblem::new));
-		return this;
-	}
+	ArrayType minLength(int length);
 
 	/**
 	 * Specifies the maximum number of elements in this array. 
@@ -108,42 +79,19 @@ public class ArrayType extends AbstractRestrictableType<JsonArray, ArrayType> im
 	 * @return this array.
 	 * @exception SchemaException if length specified is negative.
 	 */
-	public ArrayType maxLength(int length) {
-		verifyLength(length);
-		addFacet(new MaxLengthFacet<JsonArray>(length, ArrayType::getLength, ArrayTooLongProblem::new));
-		return this;
-	}
+	ArrayType maxLength(int length);
 	
 	/**
 	 * Specifies that each element of this array must be unique.
 	 * @return this array.
 	 */
-	public ArrayType unique() {
-		addFacet(UniqueItemFacet.INSTANCE);
-		return this;
-	}
-	
-	@Override
-	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description) {
-		return super.assertion(predicate, description);
-	}
-
-	/**
-	 * Returns the number of elements in array.
-	 * @param value the array value.
-	 * @return length of array.
-	 */
-	private static int getLength(JsonArray value) {
-		return value.size();
-	}
+	ArrayType unique();
 	
 	/**
-	 * Verifies value specified as length of array.
-	 * @param length the length specified for arrays.
+	 * Specifies assertion on this type.
+	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
+	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * @return this type.
 	 */
-	private static void verifyLength(int length) {
-		if (length < 0) {
-			throw new SchemaException(Messages.ARRAY_SIZE_IS_NEGATIVE(length));
-		}
-	}
+	ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description);
 }

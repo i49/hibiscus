@@ -6,27 +6,14 @@ import java.util.function.Predicate;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.facets.EnumerationFacet;
-import com.github.i49.hibiscus.facets.MaxNumberFacet;
-import com.github.i49.hibiscus.facets.MinNumberFacet;
-import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
-
-import static com.github.i49.hibiscus.schema.Enumerations.*;
 
 /**
  * JSON type for numeric value, including integer.
  */
-public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType> implements AtomicType {
+public interface NumberType extends AtomicType {
 
-	/**
-	 * Constructs this type.
-	 */
-	public NumberType() {
-	}
-
-	@Override
-	public TypeId getTypeId() {
+	default TypeId getTypeId() {
 		return TypeId.NUMBER;
 	}
 	
@@ -35,95 +22,69 @@ public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType>
 	 * @param value the inclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType minInclusive(long value) {
-		return minInclusive(BigDecimal.valueOf(value));
-	}
+	NumberType minInclusive(long value);
 
 	/**
 	 * Specifies the exclusive lower bound of the value space for this type.
 	 * @param value the exclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType minExclusive(long value) {
-		return minExclusive(BigDecimal.valueOf(value));
-	}
+	NumberType minExclusive(long value);
 
 	/**
 	 * Specifies the inclusive lower bound of the value space for this type.
 	 * @param value the inclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType minInclusive(BigDecimal value) {
-		addFacet(new MinNumberFacet(value, false));
-		return this;
-	}
+	NumberType minInclusive(BigDecimal value);
 
 	/**
 	 * Specifies the exclusive lower bound of the value space for this type.
 	 * @param value the exclusive lower bound value.
 	 * @return this type.
 	 */
-	public NumberType minExclusive(BigDecimal value) {
-		addFacet(new MinNumberFacet(value, true));
-		return this;
-	}
+	NumberType minExclusive(BigDecimal value);
 
 	/**
 	 * Specifies the inclusive upper bound of the value space for this type.
 	 * @param value the inclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType maxInclusive(long value) {
-		return maxInclusive(BigDecimal.valueOf(value));
-	}
+	NumberType maxInclusive(long value);
 
 	/**
 	 * Specifies the exclusive upper bound of the value space for this type.
 	 * @param value the exclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType maxExclusive(long value) {
-		return maxExclusive(BigDecimal.valueOf(value));
-	}
+	NumberType maxExclusive(long value);
 	
 	/**
 	 * Specifies the inclusive upper bound of the value space for this type.
 	 * @param value the inclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType maxInclusive(BigDecimal value) {
-		addFacet(new MaxNumberFacet(value, false));
-		return this;
-	}
+	NumberType maxInclusive(BigDecimal value);
 	
 	/**
 	 * Specifies the exclusive upper bound of the value space for this type.
 	 * @param value the exclusive upper bound value.
 	 * @return this type.
 	 */
-	public NumberType maxExclusive(BigDecimal value) {
-		addFacet(new MaxNumberFacet(value, true));
-		return this;
-	}
+	NumberType maxExclusive(BigDecimal value);
 	
 	/**
 	 * Specifies values allowed for this type.
 	 * @return this type.
 	 */
-	public NumberType enumeration() {
-		addFacet(EnumerationFacet.ofEmpty());
-		return this;
-	}
+	NumberType enumeration();
 
 	/**
 	 * Specifies values allowed for this type.
 	 * @param values the values allowed.
 	 * @return this type.
 	 */
-	public NumberType enumeration(long... values) {
-		addFacet(EnumerationFacet.of(valueSet(values)));
-		return this;
-	}
+	NumberType enumeration(long... values);
 	
 	/**
 	 * Specifies values allowed for this type.
@@ -131,13 +92,13 @@ public class NumberType extends AbstractRestrictableType<JsonNumber, NumberType>
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is null.
 	 */
-	public NumberType enumeration(BigDecimal... values) {
-		addFacet(EnumerationFacet.of(valueSet(JsonValues::createNumber, values)));
-		return this;
-	}
+	NumberType enumeration(BigDecimal... values);
 
-	@Override
-	public NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description) {
-		return super.assertion(predicate, description);
-	}
+	/**
+	 * Specifies assertion on this type.
+	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
+	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * @return this type.
+	 */
+	NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description);
 }

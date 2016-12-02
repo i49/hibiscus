@@ -4,7 +4,6 @@ import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
 
 import javax.json.JsonString;
 
-import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.EnumerationFacet;
 import com.github.i49.hibiscus.facets.LengthFacet;
 import com.github.i49.hibiscus.facets.MaxLengthFacet;
@@ -20,14 +19,9 @@ import com.github.i49.hibiscus.problems.StringTooShortProblem;
  */
 class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> implements StringType {
 
-	public StringTypeImpl() {
+	StringTypeImpl() {
 	}
 
-	@Override
-	public TypeId getTypeId() {
-		return TypeId.STRING;
-	}
-	
 	@Override
 	public StringType length(int length) {
 		verifyLength(length);

@@ -2,6 +2,7 @@ package com.github.i49.hibiscus.schema;
 
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 import java.util.function.Predicate;
@@ -11,6 +12,10 @@ import java.util.function.Predicate;
  */
 public interface BooleanType extends AtomicType {
 	
+	default TypeId getTypeId() {
+		return TypeId.BOOLEAN;
+	}
+
 	/**
 	 * Specifies values allowed for this type.
 	 * @param values the values allowed.

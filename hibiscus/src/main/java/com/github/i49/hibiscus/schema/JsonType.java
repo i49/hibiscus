@@ -24,5 +24,6 @@ public interface JsonType {
 	 * @param value the value in JSON document. Cannot be {@code null}.
 	 * @param problems the list to which detected problems to be added. Cannot be {@code null}.
 	 */
-	void validateInstance(JsonValue value, List<Problem> problems);
+	default void validateInstance(JsonValue value, List<Problem> problems) {
+	}
  }

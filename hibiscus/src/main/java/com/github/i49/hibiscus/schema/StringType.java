@@ -5,6 +5,7 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
 
+import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -42,6 +43,11 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
  * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
  */
 public interface StringType extends AtomicType {
+	
+	default TypeId getTypeId() {
+		return TypeId.STRING;
+	}
+	
 	
 	/**
 	 * Specifies the number of characters expected in this string. 

@@ -28,7 +28,7 @@ public final class SchemaComponents {
 	 * @return created array type.
 	 */
 	public static ArrayType array() {
-		return new ArrayType();
+		return new ArrayTypeImpl();
 	}
 
 	/**
@@ -56,7 +56,7 @@ public final class SchemaComponents {
 	 * @return integer type.
 	 */
 	public static IntegerType integer() {
-		return new IntegerType();
+		return new IntegerTypeImpl();
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public final class SchemaComponents {
 	 * @return number type.
 	 */
 	public static NumberType number() {
-		return new NumberType();
+		return new NumberTypeImpl();
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public final class SchemaComponents {
 	 * @return object type.
 	 */
 	public static ObjectType object() {
-		return new ObjectType();
+		return new ObjectTypeImpl();
 	}
 	
 	/**

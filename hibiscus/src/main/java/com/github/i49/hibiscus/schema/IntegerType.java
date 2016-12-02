@@ -11,76 +11,33 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
 /**
  * JSON type for numeric value without a fraction or exponent part.
  */
-public class IntegerType extends NumberType {
+public interface IntegerType extends NumberType {
 
-	/**
-	 * Constructs this type.
-	 */
-	public IntegerType() {
-	}
-	
-	@Override
-	public TypeId getTypeId() {
+	default TypeId getTypeId() {
 		return TypeId.INTEGER;
 	}
 
-	@Override
-	public IntegerType minInclusive(long value) {
-		return (IntegerType)super.minInclusive(value);
-	}
+	IntegerType minInclusive(long value);
 
-	@Override
-	public IntegerType minExclusive(long value) {
-		return (IntegerType)super.minExclusive(value);
-	}
+	IntegerType minExclusive(long value);
 
-	@Override
-	public IntegerType minInclusive(BigDecimal value) {
-		return (IntegerType)super.minInclusive(value);
-	}
+	IntegerType minInclusive(BigDecimal value);
 
-	@Override
-	public IntegerType minExclusive(BigDecimal value) {
-		return (IntegerType)super.minExclusive(value);
-	}
+	IntegerType minExclusive(BigDecimal value);
 
-	@Override
-	public IntegerType maxInclusive(long value) {
-		return (IntegerType)super.maxInclusive(value);
-	}
+	IntegerType maxInclusive(long value);
 
-	@Override
-	public IntegerType maxExclusive(long value) {
-		return (IntegerType)super.maxExclusive(value);
-	}
+	IntegerType maxExclusive(long value);
 
-	@Override
-	public IntegerType maxInclusive(BigDecimal value) {
-		return (IntegerType)super.maxInclusive(value);
-	}
+	IntegerType maxInclusive(BigDecimal value);
 	
-	@Override
-	public IntegerType maxExclusive(BigDecimal value) {
-		return (IntegerType)super.maxExclusive(value);
-	}
+	IntegerType maxExclusive(BigDecimal value);
 	
-	@Override
-	public IntegerType enumeration() {
-		return (IntegerType)super.enumeration();
-	}
+	IntegerType enumeration();
 	
-	@Override
-	public IntegerType enumeration(long... values) {
-		return (IntegerType)super.enumeration(values);
-	}
+	IntegerType enumeration(long... values);
 
-	@Override
-	public IntegerType enumeration(BigDecimal... values) {
-		return (IntegerType)super.enumeration(values);
-	}
+	IntegerType enumeration(BigDecimal... values);
 
-	@Override
-	public IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description) {
-		return (IntegerType)super.assertion(predicate, description);
-	}
+	IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description);
 }

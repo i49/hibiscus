@@ -4,7 +4,6 @@ import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.EnumerationFacet;
 
 /**
@@ -12,12 +11,10 @@ import com.github.i49.hibiscus.facets.EnumerationFacet;
  */
 class BooleanTypeImpl extends AbstractRestrictableType<JsonValue, BooleanType> implements BooleanType {
 
-	public BooleanTypeImpl() {
-	}
-
-	@Override
-	public TypeId getTypeId() {
-		return TypeId.BOOLEAN;
+	/**
+	 * Constructs this type.
+	 */
+	BooleanTypeImpl() {
 	}
 
 	@Override
