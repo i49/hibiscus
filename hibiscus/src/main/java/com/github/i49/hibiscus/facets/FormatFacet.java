@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.formats.Format;
+import com.github.i49.hibiscus.problems.InvalidFormatProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
@@ -27,7 +28,8 @@ public class FormatFacet<V extends JsonValue> implements Facet<V> {
 	@Override
 	public void apply(V value, List<Problem> problems) {
 		for (Format<V> format: formats) {
-			if (!format.test(value)) {
+			if (!format.matches(value)) {
+				problems.add(new InvalidFormatProblem<V>(value, formats));
 			}
 		}
 	}

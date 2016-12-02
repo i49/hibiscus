@@ -1,5 +1,8 @@
 package com.github.i49.hibiscus.schema;
 
+import com.github.i49.hibiscus.formats.EmailFormat;
+import com.github.i49.hibiscus.formats.StringFormat;
+
 /**
  * Provides utility methods to create building blocks of the schema.
  * <p>All methods of this class are static and this class cannot be instantiated.</p>
@@ -137,6 +140,14 @@ public final class SchemaComponents {
 	 */
 	public static Property pattern(String pattern, JsonType type, JsonType... moreTypes) {
 		return new PatternProperty(pattern, type, moreTypes);
+	}
+	
+	/**
+	 * Returns the format that represents email addresses.
+	 * @return the format for email addresses.
+	 */
+	public static StringFormat email() {
+		return EmailFormat.getInstance();
 	}
 	
 	private SchemaComponents() {

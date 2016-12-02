@@ -6,6 +6,7 @@ import java.util.regex.PatternSyntaxException;
 import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -47,7 +48,6 @@ public interface StringType extends AtomicType {
 	default TypeId getTypeId() {
 		return TypeId.STRING;
 	}
-	
 	
 	/**
 	 * Specifies the number of characters expected in this string. 
@@ -98,4 +98,12 @@ public interface StringType extends AtomicType {
 	 * @return this type.
 	 */
 	StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier<JsonString> description);
+
+	/**
+	 * Specifies formats allowed for this type.
+	 * @param format first format allowed.
+	 * @param moreFormats other formats allowed.
+	 * @return this type.
+	 */
+	StringType format(StringFormat format, StringFormat... moreFormats);
 }

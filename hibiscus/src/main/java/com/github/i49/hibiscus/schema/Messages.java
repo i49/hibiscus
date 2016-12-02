@@ -41,6 +41,10 @@ class Messages {
 		return localize("ONE_OF_VALUES_IS_NULL", index);
 	}
 	
+	static String ONE_OF_FORMAT_IS_NULL(int index) {
+		return localize("ONE_OF_FORMAT_IS_NULL", index);
+	}
+	
 	static String STRING_LENGTH_IS_NEGATIVE(int length) {
 		return localize("STRING_LENGTH_IS_NEGATIVE", length);
 	}

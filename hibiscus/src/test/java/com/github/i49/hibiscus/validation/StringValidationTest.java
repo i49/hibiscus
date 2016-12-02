@@ -22,40 +22,46 @@ import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
-public class StringValidationTest extends BaseValidationTest {
+public class StringValidationTest {
 
-	@Test
-	public void emptyString() {
-		String json = "[\"\"]";
-		Schema schema = schema(array(string()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
+	public static class StringTest extends BaseValidationTest {
+		
+		@Test
+		public void emptyString() {
+			String json = "[\"\"]";
+			Schema schema = schema(array(string()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+		
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void normalString() {
+			String json = "[\"abc\"]";
+			Schema schema = schema(array(string()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+		
+			assertFalse(result.hasProblems());
+		}
 	}
 
-	@Test
-	public void normalString() {
-		String json = "[\"abc\"]";
-		Schema schema = schema(array(string()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void notStringButInteger() {
-		String json = "[123]";
-		Schema schema = schema(array(string()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
-		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.INTEGER, p.getActualType());
-		assertNotNull(p.getDescription());
+	public static class TypeMismatchTest extends BaseValidationTest {
+	
+		@Test
+		public void notStringButInteger() {
+			String json = "[123]";
+			Schema schema = schema(array(string()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.INTEGER, p.getActualType());
+			assertNotNull(p.getDescription());
+		}
 	}
 
 	public static class EnumerationTest extends BaseValidationTest {

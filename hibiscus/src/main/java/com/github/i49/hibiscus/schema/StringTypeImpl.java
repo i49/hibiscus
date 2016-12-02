@@ -2,13 +2,19 @@ package com.github.i49.hibiscus.schema;
 
 import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.json.JsonString;
 
 import com.github.i49.hibiscus.facets.EnumerationFacet;
+import com.github.i49.hibiscus.facets.FormatFacet;
 import com.github.i49.hibiscus.facets.LengthFacet;
 import com.github.i49.hibiscus.facets.MaxLengthFacet;
 import com.github.i49.hibiscus.facets.MinLengthFacet;
 import com.github.i49.hibiscus.facets.PatternFacet;
+import com.github.i49.hibiscus.formats.Format;
+import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
@@ -19,6 +25,9 @@ import com.github.i49.hibiscus.problems.StringTooShortProblem;
  */
 class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> implements StringType {
 
+	/**
+	 * Constructs this type.
+	 */
 	StringTypeImpl() {
 	}
 
@@ -75,5 +84,24 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 		if (length < 0) {
 			throw new SchemaException(Messages.STRING_LENGTH_IS_NEGATIVE(length));
 		}
+	}
+
+	@Override
+	public StringType format(StringFormat format, StringFormat... moreFormats) {
+		Set<Format<JsonString>> set = new HashSet<>();
+		if (format == null) {
+			throw new SchemaException(Messages.ONE_OF_FORMAT_IS_NULL(0));
+		}
+		set.add(format);
+		int index = 1;
+		for (Format<JsonString> other: moreFormats) {
+			if (other == null) {
+				throw new SchemaException(Messages.ONE_OF_FORMAT_IS_NULL(index));
+			}
+			set.add(other);
+			index++;
+		}
+		addFacet(new FormatFacet<JsonString>(set));
+		return this;
 	}
 }
