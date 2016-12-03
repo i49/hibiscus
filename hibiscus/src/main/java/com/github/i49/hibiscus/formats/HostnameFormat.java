@@ -5,28 +5,16 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.DomainValidator;
 
 /**
- * String format which represents hostname.
+ * String format which represents Internet host names.
  */
 public class HostnameFormat extends AbstractFormat<JsonString> implements StringFormat {
 
 	/**
-	 * The one and only instance of this format.
+	 * The Singleton instance of this format.
 	 */
-	private static final HostnameFormat INSTANCE = new HostnameFormat();
+	public static final HostnameFormat INSTANCE = new HostnameFormat();
 	
-	/**
-	 * Returns the Singleton instance of this format.
-	 * @return the instance of this class.
-	 */
-	public static HostnameFormat getInstance() {
-		return INSTANCE;
-	}
-
-	/**
-	 * Constructs this format.
-	 */
-	private HostnameFormat() {
-	}
+	HostnameFormat() {}
 	
 	@Override
 	public String getName() {

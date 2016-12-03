@@ -3,16 +3,21 @@ package com.github.i49.hibiscus.formats;
 import java.util.Locale;
 
 import javax.json.JsonValue;
+import com.github.i49.hibiscus.problems.InvalidFormatProblem;
 
 /**
- * Base type of all formats.
+ * The base type of all format classes.
+ *
+ * <p>All classes that implement this interface can be applied to JSON types
+ * to declare the detailed format of the type.</p>
  *
  * @param <V> The type of the JSON values.
  */
 public interface Format<V extends JsonValue> {
 
 	/**
-	 * Returns the name of this format.
+	 * Returns the name of this format. 
+	 * Every format must have unique name.
 	 * @return the name of this format.
 	 */
 	String getName();
@@ -22,10 +27,13 @@ public interface Format<V extends JsonValue> {
 	 * @param locale the locale of the text representing the name.
 	 * @return the name of this format.
 	 */
-	String getLocalizedString(Locale locale);
+	String getLocalizedName(Locale locale);
 	
 	/**
-	 * Tests whether the given value matches this format or not. 
+	 * Tests whether the given value matches this format or not.
+	 *  
+	 * <p>If this method returns {@code false}, {@link InvalidFormatProblem} will be reported.</p>
+	 * 
 	 * @param value JSON value to test. 
 	 * @return {@code true} if the input argument matches the format, otherwise {@code false}.
 	 */

@@ -180,7 +180,7 @@ final class Messages {
 		Locale locale = bundle.getLocale();
 		String pattern = bundle.getString("format");
 		List<String> items = formats.stream().
-				map(f->f.getLocalizedString(locale)).
+				map(f->f.getLocalizedName(locale)).
 				map(s->format(pattern, s)).
 				collect(Collectors.toList());
 		return join(bundle, items);

@@ -15,7 +15,7 @@ abstract class AbstractFormat<V extends JsonValue> implements Format<V> {
 	private static final String BUNDLE_BASE_NAME = AbstractFormat.class.getPackage().getName() + ".messages";
 	
 	@Override
-	public String getLocalizedString(Locale locale) {
+	public String getLocalizedName(Locale locale) {
 		String name = getName();
 		if (name == null) {
 			return null;

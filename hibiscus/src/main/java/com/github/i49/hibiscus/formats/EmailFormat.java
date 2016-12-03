@@ -10,23 +10,11 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class EmailFormat extends AbstractFormat<JsonString> implements StringFormat {
 
 	/**
-	 * The one and only instance of this format.
+	 * The Singleton instance of this format.
 	 */
-	private static final EmailFormat INSTANCE = new EmailFormat();
+	public static final EmailFormat INSTANCE = new EmailFormat();
 	
-	/**
-	 * Returns the Singleton instance of this format.
-	 * @return the instance of this class.
-	 */
-	public static EmailFormat getInstance() {
-		return INSTANCE;
-	}
-	
-	/**
-	 * Constructs this format.
-	 */
-	private EmailFormat() {
-	}
+	EmailFormat() {}
 
 	@Override
 	public String getName() {

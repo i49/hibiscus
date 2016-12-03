@@ -221,14 +221,14 @@ public class StringFormatTest {
 		}
 	}
 	
-	public static class UriTest extends BaseValidationTest {
+	public static class AnyURITest extends BaseValidationTest {
 
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
 			super.setUp();
-			schema = schema(array(string().format(uri())));
+			schema = schema(array(string().format(anyURI())));
 		}
 
 		@Test
@@ -247,6 +247,74 @@ public class StringFormatTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void relative() {
+			String json = "[\"../path/to/index.html\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void includingSpace() {
+			String json = "[\"http://example.com/ index.html\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
+			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
+			assertEquals("http://example.com/ index.html", ((JsonString)p.getActualValue()).getString());
+			Format<?> f = p.getExpectedFormats().iterator().next();
+			assertEquals("anyURI", f.getName());
+			assertNotNull(p.getDescription());
+		}
+	}	
+
+	public static class AbsoluteURITest extends BaseValidationTest {
+
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().format(absoluteURI())));
+		}
+
+		@Test
+		public void url() {
+			String json = "[\"http://www.ietf.org/rfc/rfc2396.txt\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void urn() {
+			String json = "[\"urn:oasis:names:specification:docbook:dtd:xml:4.1.2\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void relativeURI() {
+			String json = "[\"../path/to/index.html\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
+			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
+			assertEquals("../path/to/index.html", ((JsonString)p.getActualValue()).getString());
+			Format<?> f = p.getExpectedFormats().iterator().next();
+			assertEquals("absoluteURI", f.getName());
+			assertNotNull(p.getDescription());
 		}
 	}	
 }

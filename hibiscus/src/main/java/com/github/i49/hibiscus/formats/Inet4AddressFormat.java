@@ -5,25 +5,16 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
- * String format which represents IPv4 addresses.
+ * String format which represents Internet Protocol Version 4 address.
  */
 public class Inet4AddressFormat extends AbstractFormat<JsonString> implements StringFormat {
 
 	/**
-	 * The one and only instance of this format.
+	 * The Singleton instance of this format.
 	 */
-	private static final Inet4AddressFormat INSTANCE = new Inet4AddressFormat();
+	public static final Inet4AddressFormat INSTANCE = new Inet4AddressFormat();
 	
-	/**
-	 * Returns the Singleton instance of this format.
-	 * @return the instance of this class.
-	 */
-	public static Inet4AddressFormat getInstance() {
-		return INSTANCE;
-	}
-
-	private Inet4AddressFormat() {
-	}
+	Inet4AddressFormat() {}
 
 	@Override
 	public String getName() {
