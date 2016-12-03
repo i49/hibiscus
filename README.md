@@ -147,7 +147,9 @@ Schema schema = schema(
 
 Please see the document for [Schema Basics](schema-basics.md). 
 
-## Installation
+## Installation by Maven
+
+Hibiscus can be built and installed into your local Maven repository as follows.
 
 ```bash
 $ git clone https://github.com/i49/Hibiscus.git
@@ -155,15 +157,39 @@ $ cd hibiscus
 $ mvn install
 ```
 
-## Library dependencies
-
-Hibiscus requires at runtime one of the API implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/). In addition to Hibiscus itself, you need to add the dependency to your application explicitly. If your choice is the reference implementation offered by jsonp project hosted on [java.net](http://java.net), you can specify it in your pom.xml as follows.   
+Please add a dependency to pom.xml of your application in order to use this library.
 
 ```xml
 <dependency>
-    <groupId>org.glassfish</groupId>
-    <artifactId>javax.json</artifactId>
-    <version>1.0.4</version>
+  <groupId>com.github.i49</groupId>
+  <artifactId>hibiscus</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
+
+Hibiscus requires at runtime one of the implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/).
+Hibiscus is currently tested with the API implementations listed below.
+* [Reference Implementation](https://jsonp.java.net/), provided by glassfish.org
+* [Apache Johnzon](https://johnzon.apache.org/)
+
+You need to add one of the implementations as a dependency to your pom.xml in addition to Hibiscus iteself.
+If your choice is the Reference Implementation, you can specify it in your pom.xml as listed below.
+
+```xml
+<dependency>
+  <groupId>org.glassfish</groupId>
+  <artifactId>javax.json</artifactId>
+  <version>1.0.4</version>
+</dependency>
+```
+
+In the case that your choice is Apache Johnzon, you can specify it as follows.
+
+```xml
+<dependency>
+  <groupId>org.apache.johnzon</groupId>
+  <artifactId>johnzon-core</artifactId>
+  <version>0.9.5</version>
 </dependency>
 ```
 
