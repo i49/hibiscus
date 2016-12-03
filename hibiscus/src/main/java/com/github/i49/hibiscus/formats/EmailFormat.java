@@ -5,7 +5,7 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.EmailValidator;
 
 /**
- * String format representing email.
+ * String format which represents email address.
  */
 public class EmailFormat extends AbstractFormat<JsonString> implements StringFormat {
 
@@ -14,8 +14,6 @@ public class EmailFormat extends AbstractFormat<JsonString> implements StringFor
 	 */
 	private static final EmailFormat INSTANCE = new EmailFormat();
 	
-	private static final EmailValidator validator = EmailValidator.getInstance();
-
 	/**
 	 * Returns the Singleton instance of this format.
 	 * @return the instance of this class.
@@ -37,6 +35,6 @@ public class EmailFormat extends AbstractFormat<JsonString> implements StringFor
 
 	@Override
 	public boolean matches(JsonString value) {
-		return validator.isValid(value.getString());
+		return EmailValidator.getInstance().isValid(value.getString());
 	}
 }
