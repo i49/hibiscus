@@ -6,7 +6,7 @@ The top level component of your schema is `Schema` that can be instantiated by c
 `SchemaComponents.schema()` class method.
 
 ```java
-  import static com.github.i49.hibiscus.schena.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.SchemaComponents.*;
   Schema s = schema(/* types definitions here. */);  
 ```
 The parameters of this method are types that allowed to be at root of JSON documents. All types that are useful to write schema will be introduced in the next section.
@@ -28,7 +28,7 @@ string    | `StringType`  | `string()`      | "hello"
 All methods that will create these types are defined in `SchemaComponents` class as static methods.
 
 ```java
-  import static com.github.i49.hibiscus.schena.SchemaComponents.*;
+  import static com.github.i49.hibiscus.schema.SchemaComponents.*;
   string(); // creates an instance of string type.
   array();  // creates an instance of array type.
   object(); // creates an instance of object type.
@@ -97,17 +97,18 @@ All currently supported facets are shown in the next table.
 
 facet         |applicable types                        |description
 --------------|----------------------------------------|-----------------------------------------------------
-`length`      |`string`, `array`                       |restricts values to a specific length
-`minLength`   |`string`, `array`                       |limits the lower bound of length  
-`maxLength`   |`string`, `array`                       |limits the upper bound of length
-`minInclusive`|`number`, `integer`                     |lower bound of values
-`minExclusive`|`number`, `integer`                     |lower bound of values, excluding the bound
-`maxInclusive`|`number`, `integer`                     |upper bound of values
-`maxExclusive`|`number`, `integer`                     |upper bound of values, excluding the bound
-`pattern`     |`string`                                |restricts string values by a regular expression
-`unique`      |`array`                                 |each element of array must be unique   
-`enumeration` |`boolean`, `string`, `number`, `integer`|restricts the value space to a set of distinct values
-`assertion`   |all but `null`                          |adds arbitrary assertions on the type
+`length`      |`string`, `array`                       |accepts only values of a specific length.
+`minLength`   |`string`, `array`                       |limits the lower bound of length.
+`maxLength`   |`string`, `array`                       |limits the upper bound of length.
+`minInclusive`|`number`, `integer`                     |limits the lower bound of values.
+`minExclusive`|`number`, `integer`                     |same as `minInclusive` but excludes the bound.
+`maxInclusive`|`number`, `integer`                     |limits the upper bound of values.
+`maxExclusive`|`number`, `integer`                     |same as `maxInclusive` but excludes the bound.
+`pattern`     |`string`                                |restricts string values by a regular expression.
+`unique`      |`array`                                 |forces each element of array to be unique.
+`enumeration` |`boolean`, `string`, `number`, `integer`|restricts the value space to a set of distinct values.
+`assertion`   |all but `null`                          |adds arbitrary assertions on the type.
+`format`      |`string`                                |specifies detailed format of the type.
 
 ### 3.1. length
 The `length` facet allows you to restrict values to have a specific length. It can be applied to `string` and `array` types.
@@ -144,7 +145,17 @@ The following `integer` type accepts only values from 1 to 12.
   integer().minInclusive(1).maxInclusive(12);
 ```
 
-### 3.4 unique
+### 3.4. pattern
+`pattern` facet limits the values of the type to the pattern specified by a regular expression.
+The regular expression must be the dialect for Java language, not ECMA 262 regular expression for JavaScript.
+This facet can be applied only to `string` type.
+
+The following `string` type accepts Social Security number in United States.
+```java
+  string().pattern("\\d{3}-?\\d{2}-?\\d{4}");
+```
+
+### 3.5. unique
 `unique` facet can be applied to `array` type.
 When this facet is applied to an `array`, each element in the array must have a unique value.
 
@@ -153,4 +164,71 @@ The following property "tags" must have unique values of `string`.
   object(optional("tags", array(string()).unique()));
 ```
 
-To be continued...
+### 3.6. enumeration
+`enumeration` facet allows you to restrict the value space of the type to a set of distinct values.
+This facet can be applied to `boolean`, `string`, `number`, `integer` types.
+
+The following `string` type accepts "small", "medium" or "large" and rejects any other values.
+```java
+  string().enumeration("small", "medium", "large");
+```
+
+The following `integer` type accepts only 8, 10, and 16..
+```java
+  integer().enumeration(8, 10, 16);
+```
+
+### 3.7. assertion
+`assertion` facet is so powerful tool that it allows you to add arbitrary assertions on the type.
+This facet can be all types except `null` type.
+
+`assertion` facet receives two lambda expressions as its parameters.
+The first one is `Predicate` functional interface that returns `true` if the assertion succeeded and
+returns `false` if the assertion failed.
+The second parameter supplies a message for problem to be reported when the assertion failed.
+
+The following `integer` type accepts only even numbers.
+```java
+  integer().assertion(
+    v->((v.intValue() % 2) == 0), 
+    (v, l)->"Value must be a even number."
+  );
+```
+In the following `object` type definition, `comment` property is required if value of `rate` property is less than perfect.
+```java
+  object(
+    required("rate", integer().minInclusive(1).maxInclusive(5)),
+    optional("comment", string())
+  ).assertion(
+    (JsonObject o)->{
+      if (o.getInt("rate") < 5) {
+        return o.containsKey("comment");
+      } else {
+        return true;
+      }
+    },
+    (v, l)->"Any comments please."
+  );
+
+```
+
+### 3.8. format
+`format` facet allows you to specify the detailed format of the type.
+All currently supported formats are listed below:
+* `email`
+* `hostname`
+* `ipv4`
+* `ipv6`
+* `anyURI`
+* `absoluteURI`
+
+These formats can be obtained by the class methods defined in `Formats` class
+and can be applied only to `string` type.
+
+
+The following `string` type accepts values that represent email addresses.
+```java
+  import static com.github.i49.hibiscus.formats.Formats.*;
+  string().format(email());
+```
+
