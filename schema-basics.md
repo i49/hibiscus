@@ -2,7 +2,7 @@
 
 ## 1. Schema object
 
-The top level component of your schema is `Schema` that can be instantiated by calling
+The top level component of your schema is `Schema` object that can be instantiated by calling
 `SchemaComponents.schema()` class method.
 
 ```java
@@ -66,7 +66,7 @@ Object type can contain zero or more key/value pairs, which are called *properti
 Object types can be created as follows:
 ```java
   /* static import statement omitted */
-  object(/* property definitions here*/);
+  object(/* property definitions here */);
 ```
 
 Each property contained in object type can be created by methods `required()` or `optional()`, those are also provided by `SchemaComponents` class. Properties created by `required()` is mandatory for the object and must exist always in the values of the type. Properties created by `optional()` is not mandatory, therefore may be omitted in some values of the type.
@@ -180,12 +180,12 @@ The following `integer` type accepts only 8, 10, and 16..
 
 ### 3.7. assertion
 `assertion` facet is so powerful tool that it allows you to add arbitrary assertions on the type.
-This facet can be all types except `null` type.
+This facet can be applied to all types except `null` type.
 
 `assertion` facet receives two lambda expressions as its parameters.
 The first one is `Predicate` functional interface that returns `true` if the assertion succeeded and
 returns `false` if the assertion failed.
-The second parameter supplies a message for problem to be reported when the assertion failed.
+The second parameter supplies a message for the problem to be reported when the assertion failed.
 
 The following `integer` type accepts only even numbers.
 ```java
