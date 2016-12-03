@@ -2,6 +2,7 @@ package com.github.i49.hibiscus.validation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
@@ -45,6 +46,7 @@ public class StringFormatTest {
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("email", f.getName());
 			assertEquals("email", f.getLocalizedString(Locale.US));
+			assertNotNull(p.getDescription());
 		}
 	}
 }

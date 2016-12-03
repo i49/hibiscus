@@ -3,6 +3,7 @@ package com.github.i49.hibiscus.problems;
 import java.math.BigDecimal;
 import static java.text.MessageFormat.format;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.formats.Format;
 
 /**
  * Messages for validation problems.
@@ -105,6 +107,10 @@ final class Messages {
 	static String NOT_LESS_THAN_MAXIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
 		return localize(locale, "NOT_LESS_THAN_MAXIMUM_PROBLEM", value, upperBound);
 	}
+	
+	static <V extends JsonValue> String INVALID_FORMAT_PROBLEM(Locale locale, JsonValue value, Set<Format<V>> formats) {
+		return localize(locale, "INVALID_FORMAT_PROBLEM", value, formats);
+	}
 
 	private static ResourceBundle getBundle(Locale locale) {
 		return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale);
@@ -113,19 +119,19 @@ final class Messages {
 	private static String localize(Locale locale, String key, Object... arguments) {
 		ResourceBundle bundle = getBundle(locale);
 		String pattern = bundle.getString(key);
-		Object[] decorated = decorate(bundle, arguments);
+		Object[] decorated = decorateObjects(bundle, arguments);
 		return format(pattern, decorated);
 	}
-	
-	private static Object[] decorate(ResourceBundle bundle, Object[] arguments) {
-		return Arrays.stream(arguments).map(o->decorate(bundle, o)).toArray();
+
+	private static Object[] decorateObjects(ResourceBundle bundle, Object[] arguments) {
+		return Arrays.stream(arguments).map(o->decorateObject(bundle, o)).toArray();
 	}
-	
-	private static Object decorate(ResourceBundle bundle, Object object) {
+
+	private static Object decorateObject(ResourceBundle bundle, Object object) {
 		if (object instanceof TypeId) {
-			object = decorate(bundle, (TypeId)object);
+			object = decorateType(bundle, (TypeId)object);
 		} if (object instanceof JsonValue) {
-			object = decorate(bundle, (JsonValue)object);
+			object = decorateValue(bundle, (JsonValue)object);
 		} else if (object instanceof Set<?>) {
 			Set<?> set = (Set<?>)object;
 			if (set.size() > 0) {
@@ -138,34 +144,70 @@ final class Messages {
 					@SuppressWarnings("unchecked")
 					Set<JsonValue> valueSet = (Set<JsonValue>)set;
 					object = decorateValueSet(bundle, valueSet);
-				}
+				} else if (entry instanceof Format) {
+					@SuppressWarnings("unchecked")
+					Set<Format<?>> formatSet = (Set<Format<?>>)set;
+					object = decorateFormatSet(bundle, formatSet);
+									}
+			} else {
+				object = decorateEmptySet(bundle);
 			}
 		}
 		return object;
 	}
 
-	private static String decorate(ResourceBundle bundle, TypeId type) {
-		String pattern = bundle.getString("type");
-		return format(pattern, type);
+	private static String decorateType(ResourceBundle bundle, TypeId type) {
+		return format(bundle.getString("type"), type);
 	}
 	
 	private static String decorateTypeSet(ResourceBundle bundle, Set<TypeId> types) {
-		String separator = bundle.getString("type.separator");
-		String joined = types.stream().map(type->decorate(bundle, type)).collect(Collectors.joining(separator));
-		String pattern = bundle.getString("type.set");
-		return format(pattern, joined);
+		String pattern = bundle.getString("type");
+		List<String> items = types.stream().map(type->format(pattern, type)).collect(Collectors.toList());
+		return join(bundle, items);
 	}
 	
-	private static String decorate(ResourceBundle bundle, JsonValue value) {
-		String pattern = bundle.getString("value");
-		return format(pattern, value);
+	private static String decorateValue(ResourceBundle bundle, JsonValue value) {
+		return format(bundle.getString("value"), value);
 	}
 
 	private static String decorateValueSet(ResourceBundle bundle, Set<JsonValue> values) {
-		String separator = bundle.getString("value.separator");
-		String joined = values.stream().map(value->decorate(bundle, value)).collect(Collectors.joining(separator));
-		String pattern = bundle.getString("value.set");
-		return format(pattern, joined);
+		String pattern = bundle.getString("value");
+		List<String> items = values.stream().map(value->format(pattern, value)).collect(Collectors.toList());
+		return join(bundle, items);
+	}
+	
+	private static String decorateFormatSet(ResourceBundle bundle, Set<Format<?>> formats) {
+		Locale locale = bundle.getLocale();
+		String pattern = bundle.getString("format");
+		List<String> items = formats.stream().
+				map(f->f.getLocalizedString(locale)).
+				map(s->format(pattern, s)).
+				collect(Collectors.toList());
+		return join(bundle, items);
+	}
+	
+	private static String decorateEmptySet(ResourceBundle bundle) {
+		return join(bundle, Arrays.asList(bundle.getString("empty")));
+	}
+	
+	private static String join(ResourceBundle bundle, List<String> items) {
+		String opening = bundle.getString("list.open");
+		String closing = bundle.getString("list.close");
+		String separator = bundle.getString("list.separator");
+		String lastSeparator = bundle.getString("list.separator.last");
+		StringBuilder b = new StringBuilder(opening);
+		int count = 0;
+		int size = items.size();
+		for (String item: items) {
+			if (count == size - 1 && size > 1) {
+				b.append(lastSeparator);
+			} else if (count > 0) {
+				b.append(separator);
+			}
+			b.append(item);
+			count++;
+		}
+		return b.append(closing).toString();
 	}
 
 	private Messages() {

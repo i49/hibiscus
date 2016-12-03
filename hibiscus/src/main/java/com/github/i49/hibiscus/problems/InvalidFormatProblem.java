@@ -36,7 +36,6 @@ public class InvalidFormatProblem<V extends JsonValue> extends ValueProblem<V> {
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
+		return Messages.INVALID_FORMAT_PROBLEM(locale, getActualValue(), getExpectedFormats());
 	}
 }
