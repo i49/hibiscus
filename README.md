@@ -145,7 +145,7 @@ Schema schema = schema(
 
 ## Schema basics
 
-Please see the document for [Schema Basics](schema-basics.md). 
+Please see the document for [Schema Basics](hibiscus-doc/01_schema-basics.md). 
 
 ## Installation by Maven
 
