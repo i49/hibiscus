@@ -11,6 +11,14 @@ import com.github.i49.hibiscus.schema.StringType;
 public final class Formats {
 
 	/**
+	 * Returns the format which represents date and time defined in RFC 3339.
+	 * @return the format for date and time.
+	 */
+	public static StringFormat datetime() {
+		return DateTimeFormat.INSTANCE;
+	}
+	
+	/**
 	 * Returns the format which represents email addresses.
 	 * @return the format for email addresses.
 	 */

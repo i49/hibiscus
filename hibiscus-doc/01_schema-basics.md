@@ -91,7 +91,7 @@ Putting these together, the complete object type is defined as below:
 ```
 
 ## 3. Restrictions on types
-All types except `null` type can be restricted by various kinds of *facets*. Each facet will limit the value space of the type to which it is applied in its own way.
+All types except `null` type can be restricted further by means of various kinds of *facets*. Each facet allows you to limit the value space of the type to which it is applied in its own way.
 
 All currently supported facets are shown in the next table.
 
@@ -190,7 +190,7 @@ The second parameter supplies a message for the problem to be reported when the 
 The following `integer` type accepts only even numbers.
 ```java
   integer().assertion(
-    v->((v.intValue() % 2) == 0), 
+    v->((v.intValue() % 2) == 0),
     (v, l)->"Value must be a even number."
   );
 ```
@@ -215,6 +215,7 @@ In the following `object` type definition, `comment` property is required if val
 ### 3.8. format
 `format` facet allows you to specify the detailed format of the type.
 All currently supported formats are listed below:
+* `datetime`
 * `email`
 * `hostname`
 * `ipv4`
@@ -231,4 +232,3 @@ The following `string` type accepts values that represent email addresses.
   import static com.github.i49.hibiscus.formats.Formats.*;
   string().format(email());
 ```
-

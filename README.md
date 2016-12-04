@@ -145,7 +145,7 @@ Schema schema = schema(
 
 ## Schema basics
 
-Please see the document for [Schema Basics](hibiscus-doc/01_schema-basics.md). 
+Please see the document for [Schema Basics](hibiscus-doc/01_schema-basics.md).
 
 ## Installation by Maven
 
@@ -168,7 +168,7 @@ Please add a dependency to pom.xml of your application in order to use this libr
 ```
 
 Hibiscus requires at runtime one of the implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/).
-Hibiscus is currently tested with the API implementations listed below.
+It is currently tested with the API implementations listed below.
 * [Reference Implementation](https://jsonp.java.net/), provided by glassfish.org
 * [Apache Johnzon](https://johnzon.apache.org/)
 

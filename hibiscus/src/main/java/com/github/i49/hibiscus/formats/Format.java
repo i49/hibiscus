@@ -27,7 +27,9 @@ public interface Format<V extends JsonValue> {
 	 * @param locale the locale of the text representing the name.
 	 * @return the name of this format.
 	 */
-	String getLocalizedName(Locale locale);
+	default String getLocalizedName(Locale locale) {
+		return getName();
+	}
 	
 	/**
 	 * Tests whether the given value matches this format or not.

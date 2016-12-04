@@ -21,6 +21,68 @@ import com.github.i49.hibiscus.schema.Schema;
 
 public class StringFormatTest {
 
+	public static class DateTimeTest extends BaseValidationTest {
+
+		private Schema schema;
+		
+		@Before
+		public void setUp() {
+			super.setUp();
+			schema = schema(array(string().format(datetime())));
+		}
+
+		@Test
+		public void dateTimeInUTC() {
+			String json = "[\"1985-04-12T23:20:50.52Z\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void dateTimeWithOffset() {
+			String json = "[\"1996-12-19T16:39:57-08:00\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void dateTimeWithLeapSecond() {
+			String json = "[\"1990-12-31T15:59:60-08:00\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void dateTimeInNetherlands() {
+			String json = "[\"1937-01-01T12:00:27.87+00:20\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void invalidDateTime() {
+			String json = "[\"1985-04-12 23:20:50.52Z\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
+			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
+			assertEquals("1985-04-12 23:20:50.52Z", ((JsonString)p.getActualValue()).getString());
+			Format<?> f = p.getExpectedFormats().iterator().next();
+			assertEquals("datetime", f.getName());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
 	public static class EmailTest extends BaseValidationTest {
 		
 		private Schema schema;
