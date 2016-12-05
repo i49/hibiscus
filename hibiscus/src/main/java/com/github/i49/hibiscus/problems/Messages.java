@@ -150,44 +150,34 @@ final class Messages {
 					object = decorateFormatSet(bundle, formatSet);
 									}
 			} else {
-				object = decorateEmptySet(bundle);
+				object = bundle.getString("list.empty");
 			}
 		}
 		return object;
 	}
 
 	private static String decorateType(ResourceBundle bundle, TypeId type) {
-		return format(bundle.getString("type"), type);
+		return bundle.getString(type.name());
 	}
 	
 	private static String decorateTypeSet(ResourceBundle bundle, Set<TypeId> types) {
-		String pattern = bundle.getString("type");
-		List<String> items = types.stream().map(type->format(pattern, type)).collect(Collectors.toList());
+		List<String> items = types.stream().map(type->decorateType(bundle, type)).collect(Collectors.toList());
 		return join(bundle, items);
 	}
 	
 	private static String decorateValue(ResourceBundle bundle, JsonValue value) {
-		return format(bundle.getString("value"), value);
+		return value.toString();
 	}
 
 	private static String decorateValueSet(ResourceBundle bundle, Set<JsonValue> values) {
-		String pattern = bundle.getString("value");
-		List<String> items = values.stream().map(value->format(pattern, value)).collect(Collectors.toList());
+		List<String> items = values.stream().map(JsonValue::toString).collect(Collectors.toList());
 		return join(bundle, items);
 	}
 	
 	private static String decorateFormatSet(ResourceBundle bundle, Set<Format<?>> formats) {
 		Locale locale = bundle.getLocale();
-		String pattern = bundle.getString("format");
-		List<String> items = formats.stream().
-				map(f->f.getLocalizedName(locale)).
-				map(s->format(pattern, s)).
-				collect(Collectors.toList());
+		List<String> items = formats.stream().map(f->f.getLocalizedName(locale)).collect(Collectors.toList());
 		return join(bundle, items);
-	}
-	
-	private static String decorateEmptySet(ResourceBundle bundle) {
-		return join(bundle, Arrays.asList(bundle.getString("empty")));
 	}
 	
 	private static String join(ResourceBundle bundle, List<String> items) {
