@@ -92,20 +92,20 @@ final class Messages {
 		return localize(locale, "STRING_PATTERN_PROBLEM", value);
 	}
 	
-	static String LESS_THAN_MINIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
-		return localize(locale, "LESS_THAN_MINIMUM_PROBLEM", value, lowerBound);
-	}
-	
-	static String MORE_THAN_MAXIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
-		return localize(locale, "MORE_THAN_MAXIMUM_PROBLEM", value, upperBound);
-	}
-	
-	static String NOT_MORE_THAN_MINIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
-		return localize(locale, "NOT_MORE_THAN_MINIMUM_PROBLEM", value, lowerBound);
+	static String EXCLUSIVE_LOWER_BOUND_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
+		return localize(locale, "EXCLUSIVE_LOWER_BOUND_PROBLEM", value, lowerBound);
 	}
 
-	static String NOT_LESS_THAN_MAXIMUM_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
-		return localize(locale, "NOT_LESS_THAN_MAXIMUM_PROBLEM", value, upperBound);
+	static String EXCLUSIVE_UPPER_BOUND_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
+		return localize(locale, "EXCLUSIVE_UPPER_BOUND_PROBLEM", value, upperBound);
+	}
+	
+	static String INCLUSIVE_LOWER_BOUND_PROBLEM(Locale locale, JsonNumber value, BigDecimal lowerBound) {
+		return localize(locale, "INCLUSIVE_LOWER_BOUND_PROBLEM", value, lowerBound);
+	}
+	
+	static String INCLUSIVE_UPPER_BOUND_PROBLEM(Locale locale, JsonNumber value, BigDecimal upperBound) {
+		return localize(locale, "INCLUSIVE_UPPER_BOUND_PROBLEM", value, upperBound);
 	}
 	
 	static <V extends JsonValue> String INVALID_FORMAT_PROBLEM(Locale locale, JsonValue value, Set<Format<V>> formats) {

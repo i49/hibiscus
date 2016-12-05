@@ -8,21 +8,21 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.common.Bound;
 
 /**
- * Problem that instance number is greater or equal to maximum value of given range.
+ * Problem that numeric value is greater than or equal to exclusive upper bound of allowed range.
  */
-public class NotLessThanMaximumProblem extends NumberRangeProblem {
+public class ExclusiveUpperBoundProblem extends NumericRangeProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value in JSON instance.
+	 * @param value the actual value in JSON document.
 	 * @param bound the upper bound of the range allowed for the number type.
 	 */
-	public NotLessThanMaximumProblem(JsonNumber value, Bound<BigDecimal> bound) {
+	public ExclusiveUpperBoundProblem(JsonNumber value, Bound<BigDecimal> bound) {
 		super(value, bound);
 	}
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.NOT_LESS_THAN_MAXIMUM_PROBLEM(locale, getActualValue(), getBound().getValue());
+		return Messages.EXCLUSIVE_UPPER_BOUND_PROBLEM(locale, getActualValue(), getBound().getValue());
 	}
 }

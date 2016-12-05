@@ -6,8 +6,8 @@ import java.util.List;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.Bound;
-import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
-import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
+import com.github.i49.hibiscus.problems.InclusiveUpperBoundProblem;
+import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
@@ -32,11 +32,11 @@ public class MaxNumberFacet implements Facet<JsonNumber> {
 		int result = decimal.compareTo(bound.getValue());
 		if (bound.isExclusive()) {
 			if (result >= 0) {
-				problems.add(new NotLessThanMaximumProblem(value, bound));
+				problems.add(new ExclusiveUpperBoundProblem(value, bound));
 			}
 		} else {
 			if (result > 0) {
-				problems.add(new MoreThanMaximumProblem(value, bound));
+				problems.add(new InclusiveUpperBoundProblem(value, bound));
 			}
 		}
 	}

@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
-import com.github.i49.hibiscus.problems.MoreThanMaximumProblem;
-import com.github.i49.hibiscus.problems.NotLessThanMaximumProblem;
-import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
+import com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem;
+import com.github.i49.hibiscus.problems.InclusiveUpperBoundProblem;
+import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
+import com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownValueProblem;
@@ -88,8 +88,8 @@ public class NumberValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof LessThanMinimumProblem);
-		LessThanMinimumProblem p = (LessThanMinimumProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof InclusiveLowerBoundProblem);
+		InclusiveLowerBoundProblem p = (InclusiveLowerBoundProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("12.33"), p.getActualValue().bigDecimalValue());
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
@@ -117,8 +117,8 @@ public class NumberValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof NotMoreThanMinimumProblem);
-		NotMoreThanMinimumProblem p = (NotMoreThanMinimumProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerBoundProblem);
+		ExclusiveLowerBoundProblem p = (ExclusiveLowerBoundProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("12.340"), p.getActualValue().bigDecimalValue());
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());
@@ -146,8 +146,8 @@ public class NumberValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof MoreThanMaximumProblem);
-		MoreThanMaximumProblem p = (MoreThanMaximumProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof InclusiveUpperBoundProblem);
+		InclusiveUpperBoundProblem p = (InclusiveUpperBoundProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("56.79"), p.getActualValue().bigDecimalValue());
 		Bound<BigDecimal> bound = p.getBound();
 		assertFalse(bound.isExclusive());
@@ -175,8 +175,8 @@ public class NumberValidationTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof NotLessThanMaximumProblem);
-		NotLessThanMaximumProblem p = (NotLessThanMaximumProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperBoundProblem);
+		ExclusiveUpperBoundProblem p = (ExclusiveUpperBoundProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("56.780"), p.getActualValue().bigDecimalValue());
 		Bound<BigDecimal> bound = p.getBound();
 		assertTrue(bound.isExclusive());

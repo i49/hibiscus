@@ -6,8 +6,8 @@ import java.util.List;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.Bound;
-import com.github.i49.hibiscus.problems.LessThanMinimumProblem;
-import com.github.i49.hibiscus.problems.NotMoreThanMinimumProblem;
+import com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem;
+import com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
@@ -32,11 +32,11 @@ public class MinNumberFacet implements Facet<JsonNumber> {
 		int result = decimal.compareTo(bound.getValue());
 		if (bound.isExclusive()) {
 			if (result <= 0) {
-				problems.add(new NotMoreThanMinimumProblem(value, bound));
+				problems.add(new ExclusiveLowerBoundProblem(value, bound));
 			}
 		} else {
 			if (result < 0) {
-				problems.add(new LessThanMinimumProblem(value, bound));
+				problems.add(new InclusiveLowerBoundProblem(value, bound));
 			}
 		}
 	}

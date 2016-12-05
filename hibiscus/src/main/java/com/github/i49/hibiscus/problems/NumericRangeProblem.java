@@ -9,7 +9,7 @@ import com.github.i49.hibiscus.common.Bound;
 /**
  * Problem that numeric value is out of range.
  */
-public abstract class NumberRangeProblem extends ValueProblem<JsonNumber> {
+public abstract class NumericRangeProblem extends ValueProblem<JsonNumber> {
 	
 	private final Bound<BigDecimal> bound;
 
@@ -18,7 +18,7 @@ public abstract class NumberRangeProblem extends ValueProblem<JsonNumber> {
 	 * @param value actual value in JSON instance.
 	 * @param bound the lower or upper bound of the range allowed for the number type.
 	 */
-	public NumberRangeProblem(JsonNumber value, Bound<BigDecimal> bound) {
+	public NumericRangeProblem(JsonNumber value, Bound<BigDecimal> bound) {
 		super(value);
 		this.bound = bound;
 	}
