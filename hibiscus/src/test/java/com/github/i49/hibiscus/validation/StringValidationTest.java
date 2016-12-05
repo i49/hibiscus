@@ -19,7 +19,7 @@ import com.github.i49.hibiscus.problems.StringPatternProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 public class StringValidationTest {
@@ -74,8 +74,8 @@ public class StringValidationTest {
 			result = validator.validate(new StringReader(json));
 			
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Spring\"", p.getActualValue().toString());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(0, expected.size());
@@ -100,8 +100,8 @@ public class StringValidationTest {
 			result = validator.validate(new StringReader(json));
 			
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Spring\"", p.getActualValue().toString());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(1, expected.size());
@@ -127,8 +127,8 @@ public class StringValidationTest {
 			result = validator.validate(new StringReader(json));
 			
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Q2\"", p.getActualValue().toString());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(4, expected.size());

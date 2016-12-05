@@ -6,9 +6,9 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 /**
- * Problem that value in JSON instance does not match any value allowed for the type.
+ * Problem that value in JSON document is not defined in enumeration for the type.
  */
-public class UnknownValueProblem extends ValueProblem<JsonValue> {
+public class NoSuchEnumeratorProblem extends ValueProblem<JsonValue> {
 
 	private final Set<JsonValue> expected;
 	
@@ -17,7 +17,7 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	 * @param value the value in JSON instance.
 	 * @param expected the set of values allowed for the type.
 	 */
-	public UnknownValueProblem(JsonValue value, Set<JsonValue> expected) {
+	public NoSuchEnumeratorProblem(JsonValue value, Set<JsonValue> expected) {
 		super(value);
 		this.expected = expected;
 	}
@@ -32,6 +32,6 @@ public class UnknownValueProblem extends ValueProblem<JsonValue> {
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.UNKNOWN_VALUE_PROBLEM(locale, getActualValue(), getExpectedValues());
+		return Messages.NO_SUCH_ENUMERATOR_PROBLEM(locale, getActualValue(), getExpectedValues());
 	}
 }

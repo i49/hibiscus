@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.Problem;
-import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 
 /**
  * Facet to restrict a value space of type to a set of distinct values. 
@@ -49,7 +49,7 @@ public class EnumerationFacet<V extends JsonValue> implements Facet<V> {
 	@Override
 	public void apply(V value, List<Problem> problems) {
 		if (!valueSet.contains(value)) {
-			problems.add(new UnknownValueProblem(value, new HashSet<JsonValue>(valueSet)));
+			problems.add(new NoSuchEnumeratorProblem(value, new HashSet<JsonValue>(valueSet)));
 		}
 	}
 }

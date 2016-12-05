@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
@@ -60,8 +60,8 @@ public class BooleanValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.TRUE, p.getActualValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(0, expected.size());
@@ -86,8 +86,8 @@ public class BooleanValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.TRUE, p.getActualValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(1, expected.size());
@@ -113,8 +113,8 @@ public class BooleanValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.FALSE, p.getActualValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(0, expected.size());
@@ -129,8 +129,8 @@ public class BooleanValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.FALSE, p.getActualValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(1, expected.size());

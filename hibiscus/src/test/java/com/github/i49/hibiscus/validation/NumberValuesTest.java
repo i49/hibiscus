@@ -10,7 +10,7 @@ import javax.json.JsonNumber;
 
 import org.junit.Test;
 
-import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 public class NumberValuesTest extends BaseValidationTest {
@@ -33,8 +33,8 @@ public class NumberValuesTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+		NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("789"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 		assertNotNull(p.getDescription());
 	}
@@ -57,8 +57,8 @@ public class NumberValuesTest extends BaseValidationTest {
 		result = validator.validate(new StringReader(json));
 
 		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-		UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+		assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+		NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 		assertEquals(new BigDecimal("56.78"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 		assertNotNull(p.getDescription());
 	}

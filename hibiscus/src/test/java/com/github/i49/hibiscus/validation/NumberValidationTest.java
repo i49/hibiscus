@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
 import com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
-import com.github.i49.hibiscus.problems.UnknownValueProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
@@ -194,8 +194,8 @@ public class NumberValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(0, expected.size());
@@ -220,8 +220,8 @@ public class NumberValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(1, expected.size());
@@ -246,8 +246,8 @@ public class NumberValidationTest extends BaseValidationTest {
 			result = validator.validate(new StringReader(json));
 	
 			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof UnknownValueProblem);
-			UnknownValueProblem p = (UnknownValueProblem)result.getProblems().get(0);
+			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
+			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(new BigDecimal("3.14"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 			Set<JsonValue> expected = p.getExpectedValues();
 			assertEquals(2, expected.size());

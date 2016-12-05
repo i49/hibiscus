@@ -48,8 +48,8 @@ final class Messages {
 		return localize(locale, "TYPE_MISMATCH_PROBLEM", actualType, expectedTypes);
 	}
 	
-	static String UNKNOWN_VALUE_PROBLEM(Locale locale, JsonValue value, Set<JsonValue> allowedValues) {
-		return localize(locale, "UNKNOWN_VALUE_PROBLEM", value, allowedValues);
+	static String NO_SUCH_ENUMERATOR_PROBLEM(Locale locale, JsonValue value, Set<JsonValue> allowedValues) {
+		return localize(locale, "NO_SUCH_ENUMERATOR_PROBLEM", value, allowedValues);
 	}
 	
 	static String ARRAY_LENGTH_PROBLEM(Locale locale, int actualLength, int expectedLength) {
