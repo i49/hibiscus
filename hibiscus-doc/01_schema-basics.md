@@ -190,8 +190,8 @@ The second parameter supplies a message for the problem to be reported when the 
 The following `integer` type accepts only even numbers.
 ```java
   integer().assertion(
-    v->((v.intValue() % 2) == 0),
-    (v, l)->"Value must be a even number."
+    value->((value.intValue() % 2) == 0),
+    (value, locale)->"Value must be a even number."
   );
 ```
 In the following `object` type definition, `comment` property is required if value of `rate` property is less than perfect.
@@ -200,14 +200,14 @@ In the following `object` type definition, `comment` property is required if val
     required("rate", integer().minInclusive(1).maxInclusive(5)),
     optional("comment", string())
   ).assertion(
-    (JsonObject o)->{
-      if (o.getInt("rate") < 5) {
-        return o.containsKey("comment");
+    (JsonObject value)->{
+      if (value.getInt("rate") < 5) {
+        return value.containsKey("comment");
       } else {
         return true;
       }
     },
-    (v, l)->"Any comments please."
+    (value, locale)->"Any comments please."
   );
 
 ```

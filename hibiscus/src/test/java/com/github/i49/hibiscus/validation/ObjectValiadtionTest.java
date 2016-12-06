@@ -284,14 +284,14 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 					required("rate", integer().minInclusive(1).maxInclusive(5)),
 					optional("comment", string())
 				).assertion(
-					(JsonObject o)->{
-						if (o.getInt("rate") < 5) {
-							return o.containsKey("comment");
+					(JsonObject value)->{
+						if (value.getInt("rate") < 5) {
+							return value.containsKey("comment");
 						} else {
 							return true;
 						}
 					},
-					(v, l)->"Any comments please."
+					(value, locale)->"Any comments please."
 				)
 			);
 		}
