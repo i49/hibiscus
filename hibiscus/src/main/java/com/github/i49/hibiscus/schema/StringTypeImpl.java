@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.schema;
 
-import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +13,6 @@ import com.github.i49.hibiscus.facets.MinLengthFacet;
 import com.github.i49.hibiscus.facets.PatternFacet;
 import com.github.i49.hibiscus.formats.Format;
 import com.github.i49.hibiscus.formats.StringFormat;
-import com.github.i49.hibiscus.json.JsonValues;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
@@ -54,7 +51,16 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 	
 	@Override
 	public StringType enumeration(String... values) {
-		addFacet(EnumerationFacet.of(valueSet(JsonValues::createString, values)));
+		Set<Object> enumerators = new HashSet<>();
+		int i = 0;
+		for (String value: values) {
+			if (value == null) {
+				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(i));
+			}
+			enumerators.add(value);
+			i++;
+		}
+		addFacet(EnumerationFacet.of(enumerators, JsonString::getString));
 		return this;
 	}
 	

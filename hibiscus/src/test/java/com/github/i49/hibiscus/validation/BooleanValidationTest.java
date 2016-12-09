@@ -63,7 +63,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.TRUE, p.getActualValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
 		}
@@ -89,9 +89,9 @@ public class BooleanValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.TRUE, p.getActualValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
-			assertTrue(expected.contains(JsonValue.FALSE));
+			assertTrue(expected.contains(Boolean.FALSE));
 			assertNotNull(p.getDescription());
 		}
 
@@ -116,7 +116,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.FALSE, p.getActualValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
 		}
@@ -132,9 +132,9 @@ public class BooleanValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(JsonValue.FALSE, p.getActualValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
-			assertTrue(expected.contains(JsonValue.TRUE));
+			assertTrue(expected.contains(Boolean.TRUE));
 			assertNotNull(p.getDescription());
 		}
 

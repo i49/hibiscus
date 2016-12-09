@@ -48,7 +48,7 @@ final class Messages {
 		return localize(locale, "TYPE_MISMATCH_PROBLEM", actualType, expectedTypes);
 	}
 	
-	static String NO_SUCH_ENUMERATOR_PROBLEM(Locale locale, JsonValue value, Set<JsonValue> allowedValues) {
+	static String NO_SUCH_ENUMERATOR_PROBLEM(Locale locale, JsonValue value, Set<Object> allowedValues) {
 		return localize(locale, "NO_SUCH_ENUMERATOR_PROBLEM", value, allowedValues);
 	}
 	
@@ -131,7 +131,7 @@ final class Messages {
 		if (object instanceof TypeId) {
 			object = decorateType(bundle, (TypeId)object);
 		} if (object instanceof JsonValue) {
-			object = decorateValue(bundle, (JsonValue)object);
+			object = decorateJsonValue(bundle, (JsonValue)object);
 		} else if (object instanceof Set<?>) {
 			Set<?> set = (Set<?>)object;
 			if (set.size() > 0) {
@@ -140,15 +140,19 @@ final class Messages {
 					@SuppressWarnings("unchecked")
 					Set<TypeId> typeSet = (Set<TypeId>)set;
 					object = decorateTypeSet(bundle, typeSet);
-				} else if (entry instanceof JsonValue) {
-					@SuppressWarnings("unchecked")
-					Set<JsonValue> valueSet = (Set<JsonValue>)set;
-					object = decorateValueSet(bundle, valueSet);
 				} else if (entry instanceof Format) {
 					@SuppressWarnings("unchecked")
 					Set<Format<?>> formatSet = (Set<Format<?>>)set;
 					object = decorateFormatSet(bundle, formatSet);
-									}
+				} else if (entry instanceof String) {
+					@SuppressWarnings("unchecked")
+					Set<String> stringSet = (Set<String>)set;
+					object = decorateStringSet(bundle, stringSet);
+				} else {
+					@SuppressWarnings("unchecked")
+					Set<Object> objectSet = (Set<Object>)set;
+					object = decorateObjectSet(bundle, objectSet);
+				}
 			} else {
 				object = bundle.getString("list.empty");
 			}
@@ -165,12 +169,17 @@ final class Messages {
 		return join(bundle, items);
 	}
 	
-	private static String decorateValue(ResourceBundle bundle, JsonValue value) {
+	private static String decorateJsonValue(ResourceBundle bundle, JsonValue value) {
 		return value.toString();
 	}
 
-	private static String decorateValueSet(ResourceBundle bundle, Set<JsonValue> values) {
-		List<String> items = values.stream().map(JsonValue::toString).collect(Collectors.toList());
+	private static String decorateStringSet(ResourceBundle bundle, Set<String> values) {
+		List<String> items = values.stream().map(s->'"' + s + '"').collect(Collectors.toList());
+		return join(bundle, items);
+	}
+
+	private static String decorateObjectSet(ResourceBundle bundle, Set<Object> values) {
+		List<String> items = values.stream().map(Object::toString).collect(Collectors.toList());
 		return join(bundle, items);
 	}
 	

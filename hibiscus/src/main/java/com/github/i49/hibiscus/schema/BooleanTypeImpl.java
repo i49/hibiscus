@@ -1,6 +1,7 @@
 package com.github.i49.hibiscus.schema;
 
-import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.json.JsonValue;
 
@@ -19,7 +20,21 @@ class BooleanTypeImpl extends AbstractRestrictableType<JsonValue, BooleanType> i
 
 	@Override
 	public BooleanType enumeration(boolean... values) {
-		addFacet(EnumerationFacet.of(valueSet(values)));
+		Set<Object> enumerators = new HashSet<>();
+		for (boolean value: values) {
+			enumerators.add(value);
+		}
+		addFacet(EnumerationFacet.of(enumerators, BooleanTypeImpl::mapValue));
 		return this;
+	}
+	
+	private static Boolean mapValue(JsonValue value) {
+		if (value == JsonValue.TRUE) {
+			return Boolean.TRUE;
+		} else if (value == JsonValue.FALSE) {
+			return Boolean.FALSE;
+		} else {
+			return null;
+		}
 	}
 }

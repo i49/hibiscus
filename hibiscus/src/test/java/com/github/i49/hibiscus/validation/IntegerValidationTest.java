@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.json.JsonNumber;
-import javax.json.JsonValue;
 
 public class IntegerValidationTest extends BaseValidationTest {
 
@@ -123,7 +122,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(1, ((JsonNumber)p.getActualValue()).intValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
 		}
@@ -149,7 +148,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(12, ((JsonNumber)p.getActualValue()).intValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertNotNull(p.getDescription());
 		}
@@ -175,7 +174,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals(42, ((JsonNumber)p.getActualValue()).intValue());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(3, expected.size());
 			assertNotNull(p.getDescription());
 		}

@@ -1,15 +1,15 @@
 package com.github.i49.hibiscus.schema;
 
-import static com.github.i49.hibiscus.schema.Enumerations.valueSet;
-
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.facets.EnumerationFacet;
 import com.github.i49.hibiscus.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.facets.MinNumberFacet;
-import com.github.i49.hibiscus.json.JsonValues;
 
 /**
  * Skeletal class to implement {@code NumberType}.
@@ -63,21 +63,32 @@ abstract class AbstractNumberType<T extends NumberType> extends AbstractRestrict
 	}
 
 	public T enumeration() {
-		addFacet(EnumerationFacet.ofEmpty());
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return addEnumerationFacet(Collections.emptySet());
 	}
 
 	public T enumeration(long... values) {
-		addFacet(EnumerationFacet.of(valueSet(values)));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		Set<Object> enumerators = new HashSet<>();
+		for (long value: values) {
+			enumerators.add(BigDecimal.valueOf(value));
+		}
+		return addEnumerationFacet(enumerators);
 	}
 	
 	public T enumeration(BigDecimal... values) {
-		addFacet(EnumerationFacet.of(valueSet(JsonValues::createNumber, values)));
+		Set<Object> enumerators = new HashSet<>();
+		int i = 0;
+		for (BigDecimal value: values) {
+			if (value == null) {
+				throw new SchemaException(Messages.ONE_OF_VALUES_IS_NULL(i));
+			}
+			enumerators.add(value);
+			i++;
+		}
+		return addEnumerationFacet(enumerators);
+	}
+	
+	private T addEnumerationFacet(Set<Object> enumerators) {
+		addFacet(EnumerationFacet.of(enumerators, JsonNumber::bigDecimalValue));
 		@SuppressWarnings("unchecked")
 		T self = (T)this;
 		return self;

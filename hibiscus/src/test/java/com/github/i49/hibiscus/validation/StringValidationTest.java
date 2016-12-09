@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.util.Set;
 
 import javax.json.JsonString;
-import javax.json.JsonValue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -77,7 +76,7 @@ public class StringValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Spring\"", p.getActualValue().toString());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
 		}
@@ -103,9 +102,9 @@ public class StringValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Spring\"", p.getActualValue().toString());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
-			assertTrue(((JsonString)expected.iterator().next()).getString().equals("Summer"));
+			assertEquals("Summer", (String)expected.iterator().next());
 			assertNotNull(p.getDescription());
 		}
 
@@ -130,7 +129,7 @@ public class StringValidationTest {
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
 			assertEquals("\"Q2\"", p.getActualValue().toString());
-			Set<JsonValue> expected = p.getExpectedValues();
+			Set<Object> expected = p.getEnumerators();
 			assertEquals(4, expected.size());
 			assertNotNull(p.getDescription());
 		}

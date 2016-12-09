@@ -6,32 +6,32 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 /**
- * Problem that value in JSON document is not defined in enumeration for the type.
+ * Problem that the value in JSON document does not match any enumerators allowed for the type.
  */
 public class NoSuchEnumeratorProblem extends ValueProblem<JsonValue> {
 
-	private final Set<JsonValue> expected;
+	private final Set<Object> enumerators;
 	
 	/**
 	 * Constructs this problem.
 	 * @param value the value in JSON instance.
-	 * @param expected the set of values allowed for the type.
+	 * @param enumerators the set of the distinct values allowed for the type.
 	 */
-	public NoSuchEnumeratorProblem(JsonValue value, Set<JsonValue> expected) {
+	public NoSuchEnumeratorProblem(JsonValue value, Set<Object> enumerators) {
 		super(value);
-		this.expected = expected;
+		this.enumerators = enumerators;
 	}
 	
 	/**
-	 * Returns set of values allowed for the type.
-	 * @return set of values.
+	 * Returns the set of the distinct values allowed for the type.
+	 * @return the set of the distinct values.
 	 */
-	public Set<JsonValue> getExpectedValues() {
-		return expected;
+	public Set<Object> getEnumerators() {
+		return enumerators;
 	}
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.NO_SUCH_ENUMERATOR_PROBLEM(locale, getActualValue(), getExpectedValues());
+		return Messages.NO_SUCH_ENUMERATOR_PROBLEM(locale, getActualValue(), getEnumerators());
 	}
 }
