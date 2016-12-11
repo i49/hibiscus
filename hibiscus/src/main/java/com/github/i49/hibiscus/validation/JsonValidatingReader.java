@@ -14,7 +14,7 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.json.JsonValues;
+import com.github.i49.hibiscus.json.JsonValueFactory;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
@@ -32,18 +32,21 @@ import com.github.i49.hibiscus.schema.TypeSet;
 class JsonValidatingReader {
 
 	private final JsonParser parser;
-	private final JsonBuilderFactory factory;
+	private final JsonBuilderFactory builderFactory;
+	private final JsonValueFactory valueFactory;
 	private final List<Problem> problems = new ArrayList<>();
 	private final List<Problem> lastProblems = new ArrayList<>();
 
 	/**
 	 * Constructs this reader.
-	 * @param parser JSON parser which conforms to JSON Processing API.
-	 * @param factory JSON builder which conforms to JSON Processing API. 
+	 * @param parser the JSON parser which conforms to JSON Processing API.
+	 * @param builderFactory the JSON builder which conforms to JSON Processing API.
+	 * @param valueFactory the factory to create JSON values. 
 	 */
-	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory factory) {
+	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory builderFactory, JsonValueFactory valueFactory) {
 		this.parser = parser;
-		this.factory = factory;
+		this.builderFactory = builderFactory;
+		this.valueFactory = valueFactory;
 	}
 	
 	/**
@@ -76,7 +79,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonArray readArray(ArrayType type) {
-		JsonArrayBuilder builder = this.factory.createArrayBuilder();
+		JsonArrayBuilder builder = this.builderFactory.createArrayBuilder();
 		TypeSet itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
@@ -101,7 +104,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonObject readObject(ObjectType objectType) {
-		JsonObjectBuilder builder = this.factory.createObjectBuilder();
+		JsonObjectBuilder builder = this.builderFactory.createObjectBuilder();
 		while (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.END_OBJECT) {
@@ -156,18 +159,18 @@ class JsonValidatingReader {
 				type = matchType(TypeId.INTEGER, candidates);
 				long longValue = parser.getLong();
 				if (Integer.MIN_VALUE <= longValue && longValue <= Integer.MAX_VALUE) {
-					value = JsonValues.createNumber(Math.toIntExact(longValue));
+					value = valueFactory.createNumber(Math.toIntExact(longValue));
 				} else {
-					value = JsonValues.createNumber(longValue);
+					value = valueFactory.createNumber(longValue);
 				}
 			} else {
 				type = matchType(TypeId.NUMBER, candidates);
-				value = JsonValues.createNumber(parser.getBigDecimal());
+				value = valueFactory.createNumber(parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
 			type = matchType(TypeId.STRING, candidates);
-			value = JsonValues.createString(parser.getString());
+			value = valueFactory.createString(parser.getString());
 			break;
 		case VALUE_TRUE:
 			type = matchType(TypeId.BOOLEAN, candidates);

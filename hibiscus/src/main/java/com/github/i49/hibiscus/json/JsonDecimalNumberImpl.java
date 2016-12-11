@@ -10,6 +10,9 @@ class JsonDecimalNumberImpl extends JsonNumberImpl {
 	private final BigDecimal value;
 	
 	public static JsonNumber valueOf(BigDecimal value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
 		return new JsonDecimalNumberImpl(value);
 	}
 
