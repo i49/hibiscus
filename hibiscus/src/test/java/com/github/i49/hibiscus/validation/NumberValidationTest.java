@@ -21,172 +21,75 @@ import java.util.Set;
 
 import javax.json.JsonNumber;
 
-public class NumberValidationTest extends BaseValidationTest {
+public class NumberValidationTest {
 
-	@Test
-	public void postiveNumber() {
-		String json = "[123.45]";
-		Schema schema = schema(array(number()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void negativeNumber() {
-		String json = "[-123.45]";
-		Schema schema = schema(array(number()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void integralNumber() {
-		String json = "[123]";
-		Schema schema = schema(array(number()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void notNumberButString() {
-		String json = "[\"123.45\"]";
-		Schema schema = schema(array(bool()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		Problem p = result.getProblems().get(0);
-		assertTrue(p instanceof TypeMismatchProblem);
-		assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void numberOfMinimum() {
-		String json = "[12.340]";
-		Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void numberLessThanMinimum() {
-		String json = "[12.33]";
-		Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof InclusiveLowerBoundProblem);
-		InclusiveLowerBoundProblem p = (InclusiveLowerBoundProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("12.33"), p.getActualValue().bigDecimalValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertFalse(bound.isExclusive());
-		assertEquals(new BigDecimal("12.34"), bound.getValue());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void numberMoreThanExlusiveMinimum() {
-		String json = "[12.35]";
-		Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void numberEqualToExlusiveMinimum() {
-		String json = "[12.340]";
-		Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerBoundProblem);
-		ExclusiveLowerBoundProblem p = (ExclusiveLowerBoundProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("12.340"), p.getActualValue().bigDecimalValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertTrue(bound.isExclusive());
-		assertEquals(new BigDecimal("12.34"), bound.getValue());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void numberOfMaximum() {
-		String json = "[56.780]";
-		Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void numberGreaterThanMaximum() {
-		String json = "[56.79]";
-		Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof InclusiveUpperBoundProblem);
-		InclusiveUpperBoundProblem p = (InclusiveUpperBoundProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("56.79"), p.getActualValue().bigDecimalValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertFalse(bound.isExclusive());
-		assertEquals(new BigDecimal("56.78"), bound.getValue());
-		assertNotNull(p.getDescription());
-	}
-
-	@Test
-	public void numberLessThanExclusiveMaximum() {
-		String json = "[56.77]";
-		Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void numberEqualToExclusiveMaximum() {
-		String json = "[56.780]";
-		Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
-		
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperBoundProblem);
-		ExclusiveUpperBoundProblem p = (ExclusiveUpperBoundProblem)result.getProblems().get(0);
-		assertEquals(new BigDecimal("56.780"), p.getActualValue().bigDecimalValue());
-		Bound<BigDecimal> bound = p.getBound();
-		assertTrue(bound.isExclusive());
-		assertEquals(new BigDecimal("56.78"), bound.getValue());
-		assertNotNull(p.getDescription());
-	}
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class NumberValueTest extends BaseValidationTest {
 	
+		@Test
+		public void postiveNumber() {
+			String json = "[123.45]";
+			Schema schema = schema(array(number()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void negativeNumber() {
+			String json = "[-123.45]";
+			Schema schema = schema(array(number()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void zero() {
+			String json = "[0.0]";
+			Schema schema = schema(array(number()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void integralNumber() {
+			String json = "[123]";
+			Schema schema = schema(array(number()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	}
+
+	public static class TypeMismatchTest extends BaseValidationTest {
+	
+		@Test
+		public void notNumberButString() {
+			String json = "[\"123.45\"]";
+			Schema schema = schema(array(bool()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			Problem p = result.getProblems().get(0);
+			assertTrue(p instanceof TypeMismatchProblem);
+			assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
+			assertNotNull(p.getDescription());
+		}
+	}
+
 	public static class EnumerationTest extends BaseValidationTest {
 
 		@Test
-		public void noneOfNone() {
+		public void notExistInNone() {
 			String json = "[12.34]";
 			Schema schema = schema(array(number().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -202,7 +105,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void oneOfOne() {
+		public void existInOne() {
 			String json = "[12.34]";
 			Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"))));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -212,7 +115,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void noneOfOne() {
+		public void notExistInOne() {
 			String json = "[12.34]";
 			Schema schema = schema(array(number().enumeration(new BigDecimal("56.78"))));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -228,7 +131,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void oneOfMany() {
+		public void existInMany() {
 			String json = "[12.34]";
 			Schema schema = schema(array(number().enumeration(new BigDecimal("56.78"), new BigDecimal("12.34"))));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -238,7 +141,7 @@ public class NumberValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void noneOfMany() {
+		public void notExistInMany() {
 			String json = "[3.14]";
 			Schema schema = schema(array(number().enumeration(new BigDecimal("12.34"), new BigDecimal("56.78"))));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -250,6 +153,145 @@ public class NumberValidationTest extends BaseValidationTest {
 			assertEquals(new BigDecimal("3.14"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(2, expected.size());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class MinInclusiveTest extends BaseValidationTest {
+
+		@Test
+		public void lessThanMinimum() {
+			String json = "[12.33]";
+			Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof InclusiveLowerBoundProblem);
+			InclusiveLowerBoundProblem p = (InclusiveLowerBoundProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("12.33"), p.getActualValue().bigDecimalValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertFalse(bound.isExclusive());
+			assertEquals(new BigDecimal("12.34"), bound.getValue());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void equalToMinimum() {
+			String json = "[12.340]";
+			Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void moreThanMinimum() {
+			String json = "[12.35]";
+			Schema schema = schema(array(number().minInclusive(new BigDecimal("12.34"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	}
+
+	public static class MinExclusiveTest extends BaseValidationTest {
+
+		@Test
+		public void equalToMinimum() {
+			String json = "[12.340]";
+			Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerBoundProblem);
+			ExclusiveLowerBoundProblem p = (ExclusiveLowerBoundProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("12.340"), p.getActualValue().bigDecimalValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertTrue(bound.isExclusive());
+			assertEquals(new BigDecimal("12.34"), bound.getValue());
+			assertNotNull(p.getDescription());
+		}
+
+		@Test
+		public void moreThanMinimum() {
+			String json = "[12.35]";
+			Schema schema = schema(array(number().minExclusive(new BigDecimal("12.34"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	}
+
+	public static class MaxInclusiveTest extends BaseValidationTest {
+
+		@Test
+		public void equalToMaximum() {
+			String json = "[56.780]";
+			Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void moreThanMaximum() {
+			String json = "[56.79]";
+			Schema schema = schema(array(number().maxInclusive(new BigDecimal("56.78"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof InclusiveUpperBoundProblem);
+			InclusiveUpperBoundProblem p = (InclusiveUpperBoundProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("56.79"), p.getActualValue().bigDecimalValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertFalse(bound.isExclusive());
+			assertEquals(new BigDecimal("56.78"), bound.getValue());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class MaxExclusiveTest extends BaseValidationTest {
+
+		@Test
+		public void lessThanMaximum() {
+			String json = "[56.77]";
+			Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void equalToMaximum() {
+			String json = "[56.780]";
+			Schema schema = schema(array(number().maxExclusive(new BigDecimal("56.78"))));
+			
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperBoundProblem);
+			ExclusiveUpperBoundProblem p = (ExclusiveUpperBoundProblem)result.getProblems().get(0);
+			assertEquals(new BigDecimal("56.780"), p.getActualValue().bigDecimalValue());
+			Bound<BigDecimal> bound = p.getBound();
+			assertTrue(bound.isExclusive());
+			assertEquals(new BigDecimal("56.78"), bound.getValue());
 			assertNotNull(p.getDescription());
 		}
 	}

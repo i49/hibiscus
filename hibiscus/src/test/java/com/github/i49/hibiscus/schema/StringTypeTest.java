@@ -44,10 +44,10 @@ public class StringTypeTest {
 		}
 	}
 	
-	public static class ValuesTest {
+	public static class EnumerationTest {
 	
 		@Test(expected = SchemaException.class)
-		public void valueIsNull() {
+		public void enumeratorIsNull() {
 			string().enumeration("January", null, "March");
 		}
 	}

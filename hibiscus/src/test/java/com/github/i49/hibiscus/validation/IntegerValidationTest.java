@@ -23,12 +23,15 @@ import java.util.Set;
 
 import javax.json.JsonNumber;
 
-public class IntegerValidationTest extends BaseValidationTest {
+public class IntegerValidationTest {
 
-	public static class VariousKindsOfIntegerTest extends BaseValidationTest {
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class IntegerValueTest extends BaseValidationTest {
 
 		@Test
-		public void normalInteger() {
+		public void positiveInteger() {
 			String json = "[123]";
 			Schema schema = schema(array(integer()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -36,7 +39,27 @@ public class IntegerValidationTest extends BaseValidationTest {
 	
 			assertFalse(result.hasProblems());
 		}
-		
+
+		@Test
+		public void negativeInteger() {
+			String json = "[-456]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void zero() {
+			String json = "[0]";
+			Schema schema = schema(array(integer()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+
 		@Test
 		public void integerOfMaxInteger() {
 			String json = "[2147483647]";
@@ -112,7 +135,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 	public static class EnumerationTest extends BaseValidationTest {
 	
 		@Test
-		public void noneOfNone() {
+		public void notExistInNone() {
 			String json = "[1]";
 			Schema schema = schema(array(integer().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -128,7 +151,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void oneOfOne() {
+		public void existInOne() {
 			String json = "[123]";
 			Schema schema = schema(array(integer().enumeration(123)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -138,7 +161,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void noneOfOne() {
+		public void notExistInOne() {
 			String json = "[12]";
 			Schema schema = schema(array(integer().enumeration(123)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -154,7 +177,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void oneOfMany() {
+		public void existInMany() {
 			String json = "[12]";
 			Schema schema = schema(array(integer().enumeration(1, 12, 123)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -164,7 +187,7 @@ public class IntegerValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void noneOfMany() {
+		public void notExistInMany() {
 			String json = "[42]";
 			Schema schema = schema(array(integer().enumeration(1, 12, 123)));
 			JsonValidator validator = new BasicJsonValidator(schema);

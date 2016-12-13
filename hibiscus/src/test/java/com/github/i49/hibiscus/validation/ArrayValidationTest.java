@@ -19,9 +19,12 @@ import java.io.StringReader;
 import javax.json.JsonNumber;
 import javax.json.JsonString;
 
-public class ArrayValidationTest extends BaseValidationTest {
+public class ArrayValidationTest {
 
-	public static class ArrayTypeTest  extends BaseValidationTest {
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class ArrayValueTest  extends BaseValidationTest {
 
 		@Test
 		public void objectOrArray() {
@@ -41,7 +44,10 @@ public class ArrayValidationTest extends BaseValidationTest {
 			
 			assertFalse(result.hasProblems());
 		}
+	}
 
+	public static class TypeMismatchTest extends BaseValidationTest {
+			
 		@Test
 		public void notArrayButObject() {
 			String json = "{}";

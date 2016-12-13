@@ -23,7 +23,10 @@ import com.github.i49.hibiscus.schema.Schema;
 
 public class StringValidationTest {
 
-	public static class StringTest extends BaseValidationTest {
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class StringValueTest extends BaseValidationTest {
 		
 		@Test
 		public void emptyString() {
@@ -36,7 +39,17 @@ public class StringValidationTest {
 		}
 		
 		@Test
-		public void normalString() {
+		public void oneLetter() {
+			String json = "[\"a\"]";
+			Schema schema = schema(array(string()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+		
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void multipleLetters() {
 			String json = "[\"abc\"]";
 			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -66,7 +79,7 @@ public class StringValidationTest {
 	public static class EnumerationTest extends BaseValidationTest {
 	
 		@Test
-		public void noneOfNone() {
+		public void notExistInNone() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -82,7 +95,7 @@ public class StringValidationTest {
 		}
 
 		@Test
-		public void oneOfOne() {
+		public void existInOne() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Spring")));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -92,7 +105,7 @@ public class StringValidationTest {
 		}
 
 		@Test
-		public void noneOfOne() {
+		public void notExistInOne() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Summer")));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -109,7 +122,7 @@ public class StringValidationTest {
 		}
 
 		@Test
-		public void oneOfMany() {
+		public void existInMany() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -119,7 +132,7 @@ public class StringValidationTest {
 		}
 		
 		@Test
-		public void noneOfMany() {
+		public void notExistInMany() {
 			String json = "[\"Q2\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);

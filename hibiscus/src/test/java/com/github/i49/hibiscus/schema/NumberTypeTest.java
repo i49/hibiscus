@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 
 public class NumberTypeTest {
 
-	public static class ValuesTest {
+	public static class EnumerationTest {
 		
 		@Test(expected = SchemaException.class)
-		public void valueIsNull() {
+		public void enumeratorIsNull() {
 			number().enumeration(new BigDecimal("123.45"), new BigDecimal("678.90"), null);
 		}
 	}

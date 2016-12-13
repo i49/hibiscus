@@ -12,29 +12,35 @@ import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 
-public class NullValidationTest extends BaseValidationTest {
+public class NullValidationTest {
 	
-	@Test
-	public void matchNull() {
-		String json = "[null]";
-		Schema schema = schema(array(nil()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	public static class NullValueTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
+		@Test
+		public void matchNull() {
+			String json = "[null]";
+			Schema schema = schema(array(nil()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
-
-	@Test
-	public void notNullButInteger() {
-		String json = "[0]";
-		Schema schema = schema(array(bool()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		Problem p = result.getProblems().get(0);
-		assertTrue(p instanceof TypeMismatchProblem);
-		assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getActualType());
-		assertNotNull(p.getDescription());
+	
+	public static class TypeMismatchTest extends BaseValidationTest {
+	
+		@Test
+		public void notNullButInteger() {
+			String json = "[0]";
+			Schema schema = schema(array(bool()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			Problem p = result.getProblems().get(0);
+			assertTrue(p instanceof TypeMismatchProblem);
+			assertEquals(TypeId.INTEGER, ((TypeMismatchProblem)p).getActualType());
+			assertNotNull(p.getDescription());
+		}
 	}
 }

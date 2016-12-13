@@ -14,46 +14,55 @@ import java.util.Set;
 
 import javax.json.JsonValue;
 
-public class BooleanValidationTest extends BaseValidationTest {
+public class BooleanValidationTest {
 
-	@Test
-	public void booleanOfTrue() {
-		String json = "[true]";
-		Schema schema = schema(array(bool()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class BooleanValueTest extends BaseValidationTest {
 
-		assertFalse(result.hasProblems());
+		@Test
+		public void booleanOfTrue() {
+			String json = "[true]";
+			Schema schema = schema(array(bool()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
+	
+		@Test
+		public void booleanOfFalse() {
+			String json = "[false]";
+			Schema schema = schema(array(bool()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertFalse(result.hasProblems());
+		}
 	}
 
-	@Test
-	public void booleanOfFalse() {
-		String json = "[false]";
-		Schema schema = schema(array(bool()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertFalse(result.hasProblems());
-	}
-
-	@Test
-	public void notBooleanButString() {
-		String json = "[\"true\"]";
-		Schema schema = schema(array(bool()));
-		JsonValidator validator = new BasicJsonValidator(schema);
-		result = validator.validate(new StringReader(json));
-
-		assertEquals(1, result.getProblems().size());
-		assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
-		TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-		assertEquals(TypeId.STRING, p.getActualType());
-		assertNotNull(p.getDescription());
+	public static class TypeMismatchTest extends BaseValidationTest {
+	
+		@Test
+		public void notBooleanButString() {
+			String json = "[\"true\"]";
+			Schema schema = schema(array(bool()));
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+	
+			assertEquals(1, result.getProblems().size());
+			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertEquals(TypeId.STRING, p.getActualType());
+			assertNotNull(p.getDescription());
+		}
 	}
 	
 	public static class EnumerationTest extends BaseValidationTest {
 
 		@Test
-		public void trueOfNone() {
+		public void trueToNone() {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -69,7 +78,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void trueOfTrue() {
+		public void trueToTrue() {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(true)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -79,7 +88,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 	
 		@Test
-		public void trueOfFalse() {
+		public void trueToFalse() {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -96,7 +105,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void trueOfBoth() {
+		public void trueToBoth() {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(true, false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -106,7 +115,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void falseOfNone() {
+		public void falseToNone() {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -122,7 +131,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void falseOfTrue() {
+		public void falseToTrue() {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(true)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -139,7 +148,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void falseOfFalse() {
+		public void falseToFalse() {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
@@ -149,7 +158,7 @@ public class BooleanValidationTest extends BaseValidationTest {
 		}
 
 		@Test
-		public void falseOfBoth() {
+		public void falseToBoth() {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(true, false)));
 			JsonValidator validator = new BasicJsonValidator(schema);

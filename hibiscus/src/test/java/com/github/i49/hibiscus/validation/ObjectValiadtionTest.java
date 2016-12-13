@@ -38,7 +38,10 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 		return schema(createObjectType());
 	}
 	
-	public static class ObjectTypeTest extends BaseValidationTest {
+	/**
+	 * Tests of various kinds of values.
+	 */
+	public static class ObjectValueTest extends BaseValidationTest {
 
 		@Test
 		public void basicObject() {
@@ -87,7 +90,10 @@ public class ObjectValiadtionTest extends BaseValidationTest {
 			
 			assertFalse(result.hasProblems());
 		}
-		
+	}
+	
+	public static class TypeMismatchTest extends BaseValidationTest {
+	
 		@Test
 		public void notObjectButArray() {
 			String json = "[1, 2, 3]";
