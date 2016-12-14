@@ -22,9 +22,11 @@ public class EnumerationFacet<V extends JsonValue, E> implements Facet<V> {
 	
 	/**
 	 * Creates a facet.
-	 * @param valueSet the values in the enumeration.
+	 * @param enumerators the values in the enumeration.
+	 * @param mapper the mapper which will map JSON values to values of Java type. 
 	 * @return created facet.
 	 * @param <V> the type of values in JSON document.
+	 * @param <E> the type of enumerators.
 	 */
 	public static <V extends JsonValue, E> EnumerationFacet<V, E> of(Set<Object> enumerators, Function<V, E> mapper) {
 		return new EnumerationFacet<V, E>(enumerators, mapper);

@@ -60,6 +60,12 @@
         </executions>
         <configuration>
           <locale>en_US</locale>
+          <offlineLinks>
+            <offlineLink>
+              <url>https://static.javadoc.io/javax.json/javax.json-api/1.0</url>
+              <location>${basedir}/src/main/javadoc/javax/json/</location>
+            </offlineLink>
+          </offlineLinks>
         </configuration>
       </plugin>
     </plugins>
