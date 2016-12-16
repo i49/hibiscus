@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
 import javax.json.JsonObject;
+import javax.json.JsonString;
 import javax.json.stream.JsonParsingException;
 
 import org.junit.Test;
@@ -55,7 +56,33 @@ public class BasicJsonValidatorTest {
 		@Test(expected = IllegalArgumentException.class)
 		public void readerIsNull() {
 			JsonValidator validator = new BasicJsonValidator(personSchema());
-			validator.validate(null);
+			Reader reader = null;
+			validator.validate(reader);
+		}
+	}
+	
+	public static class InputStreamTest {
+	
+		@Test
+		public void utf16le() throws IOException {
+			JsonValidator validator = new BasicJsonValidator(personSchema());
+			ValidationResult result = null; 
+			try (InputStream stream = newInputStream("person-utf16le.json")) {
+				result = validator.validate(stream);
+			}
+			assertFalse(result.hasProblems());
+			assertTrue(result.getValue() instanceof JsonObject);
+		}
+
+		@Test
+		public void utf16be() throws IOException {
+			JsonValidator validator = new BasicJsonValidator(personSchema());
+			ValidationResult result = null; 
+			try (InputStream stream = newInputStream("person-utf16be.json")) {
+				result = validator.validate(stream);
+			}
+			assertFalse(result.hasProblems());
+			assertTrue(result.getValue() instanceof JsonObject);
 		}
 	}
 	
@@ -76,7 +103,8 @@ public class BasicJsonValidatorTest {
 		@Test(expected = IllegalArgumentException.class)
 		public void inputStreamIsNull() {
 			JsonValidator validator = new BasicJsonValidator(personSchema());
-			validator.validate(null, StandardCharsets.UTF_8);
+			InputStream stream = null;
+			validator.validate(stream, StandardCharsets.UTF_8);
 		}
 	
 		@Test(expected = IllegalArgumentException.class)
@@ -110,13 +138,16 @@ public class BasicJsonValidatorTest {
 			}
 		}
 
-		@Test(expected = JsonParsingException.class)
+		@Test
 		public void invalidRoot() throws IOException {
-			JsonValidator validator = new BasicJsonValidator(personSchema());
+			JsonValidator validator = new BasicJsonValidator(schema(string()));
+			ValidationResult result = null; 
 			try (InputStream stream = newInputStream("invalid-root.json")) {
-				validator.validate(stream, StandardCharsets.UTF_8);
-			} catch (Exception e) {
-				throw e;
+				result = validator.validate(stream, StandardCharsets.UTF_8);
+				assertFalse(result.hasProblems());
+				assertTrue(result.getValue() instanceof JsonString);
+			} catch (JsonParsingException e) {
+				// We ignore the exception thrown by the reference implementation.
 			}
 		}
 	}

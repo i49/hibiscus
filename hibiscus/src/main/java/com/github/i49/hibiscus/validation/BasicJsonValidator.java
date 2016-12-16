@@ -70,6 +70,16 @@ public class BasicJsonValidator implements JsonValidator {
 	}
 	
 	@Override
+	public ValidationResult validate(InputStream stream) {
+		if (stream == null) {
+			throw new IllegalArgumentException("stream is null.");
+		}
+		try (JsonParser parser = this.parserFactory.createParser(stream)) {
+			return parse(parser);
+		}
+	}
+	
+	@Override
 	public ValidationResult validate(InputStream stream, Charset charset) {
 		if (stream == null) {
 			throw new IllegalArgumentException("stream is null.");
