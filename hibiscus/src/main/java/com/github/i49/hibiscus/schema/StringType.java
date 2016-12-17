@@ -6,6 +6,7 @@ import java.util.regex.PatternSyntaxException;
 import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
@@ -48,6 +49,14 @@ public interface StringType extends AtomicType {
 	default TypeId getTypeId() {
 		return TypeId.STRING;
 	}
+	
+	/**
+	 * Adds a facet to this type.
+	 * @param facet the facet to be added. Cannot be {@code null}.
+	 * @return this type.
+	 * @exception SchemaException if facet specified is {@code null}.
+	 */
+	StringType facet(Facet<JsonString> facet);
 	
 	/**
 	 * Specifies the number of characters expected in this string. 

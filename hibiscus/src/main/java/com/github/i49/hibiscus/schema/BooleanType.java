@@ -3,12 +3,23 @@ package com.github.i49.hibiscus.schema;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 import java.util.function.Predicate;
 
 /**
  * JSON type for boolean value.
+ * 
+ * <h3>Boolean type constraints</h3>
+ * <p>Boolean type can have following facets constraining its value space.</p>
+ * <ul>
+ * <li>enumeration</li>
+ * </ul>
+ *
+ * <h4>enumeration</h4>
+ * <p>{@link #enumeration enumeration} specifies a distinct set of valid values for the type.
+ * <blockquote><pre>bool().enumeration(true);</pre></blockquote>
  */
 public interface BooleanType extends AtomicType {
 	
@@ -16,6 +27,14 @@ public interface BooleanType extends AtomicType {
 		return TypeId.BOOLEAN;
 	}
 
+	/**
+	 * Adds a facet to this type.
+	 * @param facet the facet to be added. Cannot be {@code null}.
+	 * @return this type.
+	 * @exception SchemaException if facet specified is {@code null}.
+	 */
+	BooleanType facet(Facet<JsonValue> facet);
+	
 	/**
 	 * Specifies values allowed for this type.
 	 * @param values the values allowed.

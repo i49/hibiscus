@@ -15,7 +15,7 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
-class ObjectTypeImpl extends AbstractRestrictableType<JsonObject, ObjectType> implements ObjectType {
+class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements ObjectType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();

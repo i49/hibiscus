@@ -20,7 +20,7 @@ import com.github.i49.hibiscus.problems.StringTooShortProblem;
 /**
  * Implementation of {@code StringType}.
  */
-class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> implements StringType {
+class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements StringType {
 
 	/**
 	 * Constructs this type.
@@ -31,22 +31,19 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 	@Override
 	public StringType length(int length) {
 		verifyLength(length);
-		addFacet(new LengthFacet<JsonString>(length, StringTypeImpl::getLength, StringLengthProblem::new));
-		return this;
+		return facet(new LengthFacet<JsonString>(length, StringTypeImpl::getLength, StringLengthProblem::new));
 	}
 	
 	@Override
 	public StringType minLength(int length) {
 		verifyLength(length);
-		addFacet(new MinLengthFacet<JsonString>(length, StringTypeImpl::getLength, StringTooShortProblem::new));
-		return this;
+		return facet(new MinLengthFacet<JsonString>(length, StringTypeImpl::getLength, StringTooShortProblem::new));
 	}
 	
 	@Override
 	public StringType maxLength(int length) {
 		verifyLength(length);
-		addFacet(new MaxLengthFacet<JsonString>(length, StringTypeImpl::getLength, StringTooLongProblem::new));
-		return this;
+		return facet(new MaxLengthFacet<JsonString>(length, StringTypeImpl::getLength, StringTooLongProblem::new));
 	}
 	
 	@Override
@@ -60,8 +57,7 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 			enumerators.add(value);
 			i++;
 		}
-		addFacet(EnumerationFacet.of(enumerators, JsonString::getString));
-		return this;
+		return facet(EnumerationFacet.of(enumerators, JsonString::getString));
 	}
 	
 	@Override
@@ -69,8 +65,7 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 		if (regex == null) {
 			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("pattern", "regex"));
 		}
-		addFacet(new PatternFacet(regex));
-		return this;
+		return facet(new PatternFacet(regex));
 	}
 	
 	@Override
@@ -88,8 +83,7 @@ class StringTypeImpl extends AbstractRestrictableType<JsonString, StringType> im
 			set.add(other);
 			index++;
 		}
-		addFacet(new FormatFacet<JsonString>(set));
-		return this;
+		return facet(new FormatFacet<JsonString>(set));
 	}
 
 	/**

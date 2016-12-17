@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javax.json.JsonObject;
 
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.schema.Property;
@@ -20,17 +21,22 @@ class UnknownObjectType implements ObjectType {
 
 	@Override
 	public ObjectType properties(Property... properties) {
-		return null;
+		return this;
 	}
 
 	@Override
 	public ObjectType moreProperties() {
-		return null;
+		return this;
+	}
+	
+	@Override
+	public ObjectType facet(Facet<JsonObject> facet) {
+		return this;
 	}
 
 	@Override
 	public ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier<JsonObject> description) {
-		return null;
+		return this;
 	}
 
 	@Override

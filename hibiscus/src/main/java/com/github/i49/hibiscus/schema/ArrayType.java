@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -57,6 +58,14 @@ public interface ArrayType extends CompositeType {
 	 */
 	TypeSet getItemTypes();
 
+	/**
+	 * Adds a facet to this type.
+	 * @param facet the facet to be added. Cannot be {@code null}.
+	 * @return this type.
+	 * @exception SchemaException if facet specified is {@code null}.
+	 */
+	ArrayType facet(Facet<JsonArray> facet);
+	
 	/**
 	 * Specifies the number of elements in this array. 
 	 * @param length the number of elements.

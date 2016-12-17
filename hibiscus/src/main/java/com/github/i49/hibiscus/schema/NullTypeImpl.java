@@ -5,7 +5,7 @@ import javax.json.JsonValue;
 /**
  * Implementation of {@code NullType}.
  */
-class NullTypeImpl extends AbstractJsonType<JsonValue> implements NullType {
+class NullTypeImpl extends AbstractJsonType<JsonValue, NullType> implements NullType {
 
 	/** The only available instance of this type. */
 	public static final NullType INSTANCE = new NullTypeImpl();

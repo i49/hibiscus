@@ -13,14 +13,15 @@ import com.github.i49.hibiscus.problems.Problem;
 public interface JsonType {
 
 	/**
-	 * Returns type identifier of this type.
+	 * Returns the type identifier of this type.
 	 * @return type identifier.
 	 */
 	TypeId getTypeId();
 	
 	/**
-	 * Validates a value of this type in JSON document.
-	 * Only JSON validators are allowed to use this method directly. 
+	 * Validates a value of this type in JSON document and reports problems.
+	 * This method is for internal use only and
+	 * {@code JsonValidator} implementations are allowed to call this method directly. 
 	 * @param value the value in JSON document. Cannot be {@code null}.
 	 * @param problems the list to which detected problems to be added. Cannot be {@code null}.
 	 */

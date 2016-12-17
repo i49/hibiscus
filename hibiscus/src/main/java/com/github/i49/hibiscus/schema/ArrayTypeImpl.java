@@ -16,7 +16,7 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
 /**
  * Implementation of {@code ArrayType}.
  */
-class ArrayTypeImpl extends AbstractRestrictableType<JsonArray, ArrayType> implements ArrayType {
+class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements ArrayType {
 
 	private TypeSet typeSet = TypeSet.empty();
 	
@@ -40,28 +40,24 @@ class ArrayTypeImpl extends AbstractRestrictableType<JsonArray, ArrayType> imple
 	@Override
 	public ArrayType length(int length) {
 		verifyLength(length);
-		addFacet(new LengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayLengthProblem::new));
-		return this;
+		return facet(new LengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayLengthProblem::new));
 	}
 	
 	@Override
 	public ArrayType minLength(int length) {
 		verifyLength(length);
-		addFacet(new MinLengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayTooShortProblem::new));
-		return this;
+		return facet(new MinLengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayTooShortProblem::new));
 	}
 
 	@Override
 	public ArrayType maxLength(int length) {
 		verifyLength(length);
-		addFacet(new MaxLengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayTooLongProblem::new));
-		return this;
+		return facet(new MaxLengthFacet<JsonArray>(length, ArrayTypeImpl::getLength, ArrayTooLongProblem::new));
 	}
 	
 	@Override
 	public ArrayType unique() {
-		addFacet(UniqueItemFacet.INSTANCE);
-		return this;
+		return facet(UniqueItemFacet.INSTANCE);
 	}
 	
 	@Override

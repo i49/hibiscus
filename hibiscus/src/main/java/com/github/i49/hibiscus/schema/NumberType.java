@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -16,6 +17,14 @@ public interface NumberType extends AtomicType {
 	default TypeId getTypeId() {
 		return TypeId.NUMBER;
 	}
+	
+	/**
+	 * Adds a facet to this type.
+	 * @param facet the facet to be added. Cannot be {@code null}.
+	 * @return this type.
+	 * @exception SchemaException if facet specified is {@code null}.
+	 */
+	NumberType facet(Facet<JsonNumber> facet);
 	
 	/**
 	 * Specifies the inclusive lower bound of the value space for this type.

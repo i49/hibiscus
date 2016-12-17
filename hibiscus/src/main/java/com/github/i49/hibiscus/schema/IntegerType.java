@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 
 /**
@@ -16,6 +17,8 @@ public interface IntegerType extends NumberType {
 	default TypeId getTypeId() {
 		return TypeId.INTEGER;
 	}
+	
+	IntegerType facet(Facet<JsonNumber> facet);
 
 	IntegerType minInclusive(long value);
 

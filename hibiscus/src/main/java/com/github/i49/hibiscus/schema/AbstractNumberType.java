@@ -16,7 +16,7 @@ import com.github.i49.hibiscus.facets.MinNumberFacet;
  *
  * @param <T> the interface to implement. {@code NumberType} or {@code IntegerType}. 
  */
-abstract class AbstractNumberType<T extends NumberType> extends AbstractRestrictableType<JsonNumber, T> {
+abstract class AbstractNumberType<T extends NumberType> extends AbstractJsonType<JsonNumber, T> {
 
 	public T minInclusive(long value) {
 		return minInclusive(BigDecimal.valueOf(value));
@@ -27,17 +27,11 @@ abstract class AbstractNumberType<T extends NumberType> extends AbstractRestrict
 	}
 
 	public T minInclusive(BigDecimal value) {
-		addFacet(new MinNumberFacet(value, false));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return facet(new MinNumberFacet(value, false));
 	}
 
 	public T minExclusive(BigDecimal value) {
-		addFacet(new MinNumberFacet(value, true));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return facet(new MinNumberFacet(value, true));
 	}
 
 	public T maxInclusive(long value) {
@@ -49,17 +43,11 @@ abstract class AbstractNumberType<T extends NumberType> extends AbstractRestrict
 	}
 	
 	public T maxInclusive(BigDecimal value) {
-		addFacet(new MaxNumberFacet(value, false));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return facet(new MaxNumberFacet(value, false));
 	}
 	
 	public T maxExclusive(BigDecimal value) {
-		addFacet(new MaxNumberFacet(value, true));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return facet(new MaxNumberFacet(value, true));
 	}
 
 	public T enumeration() {
@@ -88,9 +76,6 @@ abstract class AbstractNumberType<T extends NumberType> extends AbstractRestrict
 	}
 	
 	private T addEnumerationFacet(Set<Object> enumerators) {
-		addFacet(EnumerationFacet.of(enumerators, JsonNumber::bigDecimalValue));
-		@SuppressWarnings("unchecked")
-		T self = (T)this;
-		return self;
+		return facet(EnumerationFacet.of(enumerators, JsonNumber::bigDecimalValue));
 	}
 }

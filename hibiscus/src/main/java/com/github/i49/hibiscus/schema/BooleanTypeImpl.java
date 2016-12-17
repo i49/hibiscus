@@ -10,7 +10,7 @@ import com.github.i49.hibiscus.facets.EnumerationFacet;
 /**
  * Implementation of {@code BooleanType}.
  */
-class BooleanTypeImpl extends AbstractRestrictableType<JsonValue, BooleanType> implements BooleanType {
+class BooleanTypeImpl extends AbstractJsonType<JsonValue, BooleanType> implements BooleanType {
 
 	/**
 	 * Constructs this type.
@@ -24,8 +24,7 @@ class BooleanTypeImpl extends AbstractRestrictableType<JsonValue, BooleanType> i
 		for (boolean value: values) {
 			enumerators.add(value);
 		}
-		addFacet(EnumerationFacet.of(enumerators, BooleanTypeImpl::mapValue));
-		return this;
+		return facet(EnumerationFacet.of(enumerators, BooleanTypeImpl::mapValue));
 	}
 	
 	private static Boolean mapValue(JsonValue value) {

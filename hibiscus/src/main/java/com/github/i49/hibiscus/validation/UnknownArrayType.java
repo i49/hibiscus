@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javax.json.JsonArray;
 
+import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.schema.ArrayType;
 import com.github.i49.hibiscus.schema.JsonType;
@@ -26,31 +27,36 @@ class UnknownArrayType implements ArrayType {
 
 	@Override
 	public ArrayType items(JsonType... types) {
-		return null;
+		return this;
+	}
+	
+	@Override
+	public ArrayType facet(Facet<JsonArray> facet) {
+		return this;
 	}
 
 	@Override
 	public ArrayType length(int length) {
-		return null;
+		return this;
 	}
 
 	@Override
 	public ArrayType minLength(int length) {
-		return null;
+		return this;
 	}
 
 	@Override
 	public ArrayType maxLength(int length) {
-		return null;
+		return this;
 	}
 
 	@Override
 	public ArrayType unique() {
-		return null;
+		return this;
 	}
 
 	@Override
 	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description) {
-		return null;
+		return this;
 	}
 }
