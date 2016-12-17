@@ -248,10 +248,41 @@ public class StringFormatTest {
 			String json = "[\"2001:db8::\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
 			result = validator.validate(new StringReader(json));
-	
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void unspecifiedAddress() {
+			String json = "[\"::\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void loopbackAddress() {
+			String json = "[\"::1\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			assertFalse(result.hasProblems());
+		}
+		
+		@Test
+		public void ipv4CompatibleAddress() {
+			String json = "[\"::192.9.5.5\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
 			assertFalse(result.hasProblems());
 		}
 
+		@Test
+		public void ipv4MappedAddress() {
+			String json = "[\"::FFFF:129.144.52.38\"]";
+			JsonValidator validator = new BasicJsonValidator(schema);
+			result = validator.validate(new StringReader(json));
+			assertFalse(result.hasProblems());
+		}
+	
 		@Test
 		public void inet4address() {
 			String json = "[\"192.0.2.0\"]";

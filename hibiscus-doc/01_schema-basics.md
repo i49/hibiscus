@@ -91,7 +91,7 @@ Putting these together, the complete object type is defined as below:
 ```
 
 ## 3. Restrictions on types
-All types except `null` type can be restricted further by means of various kinds of *facets*. Each facet allows you to limit the value space of the type to which it is applied in its own way.
+All types in schema can be restricted further by means of various kinds of *facets*. Each facet allows you to limit the value space of the type to which it is applied in its own way.
 
 All currently supported facets are shown in the next table.
 
