@@ -12,7 +12,8 @@ public class AbsoluteURIFormat extends URIFormat {
 
 	public static final AbsoluteURIFormat INSTANCE = new AbsoluteURIFormat();
 	
-	AbsoluteURIFormat() {}
+	private AbsoluteURIFormat() {
+	}
 
 	@Override
 	public String getName() {

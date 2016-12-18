@@ -36,8 +36,8 @@ public interface Format<V extends JsonValue> {
 	 *  
 	 * <p>If this method returns {@code false}, {@link InvalidFormatProblem} will be reported.</p>
 	 * 
-	 * @param value JSON value to test. 
+	 * @param jsonValue JSON value to test. 
 	 * @return {@code true} if the input argument matches the format, otherwise {@code false}.
 	 */
-	boolean matches(V value);
+	boolean matches(V jsonValue);
 }

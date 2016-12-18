@@ -215,12 +215,22 @@ In the following `object` type definition, `comment` property is required if val
 ### 3.8. format
 `format` facet allows you to specify the detailed format of the type.
 All currently supported formats are listed below:
-* `datetime`
-* `email`
-* `hostname`
-* `ipv4`
-* `ipv6`
-* `anyURI`
+* `datetime`  
+  date and time format as defined in [RFC 3339](http://www.ietf.org/rfc/rfc3339.txt).
+* `email`  
+  email address format as defined in [RFC 822](http://www.ietf.org/rfc/rfc822.txt).
+* `hostname`  
+  Internet domain names as specified by [RFC1034](http://www.ietf.org/rfc/rfc1034.txt)/[RFC1123](http://www.ietf.org/rfc/rfc1123.txt).
+* `ipv4`  
+  Internet Protocol Version 4 address.
+* `ipv6`  
+  Internet Protocol Version 6 address.
+* `host`  
+  Internet host which may be `ipv4`, `ipv6` or `hostname`.
+* `hostport`  
+  Internet host optionally followed by port number.
+* `anyURI`  
+  any URI including relative URI.
 * `absoluteURI`
 
 These formats can be obtained by the class methods defined in `Formats` class

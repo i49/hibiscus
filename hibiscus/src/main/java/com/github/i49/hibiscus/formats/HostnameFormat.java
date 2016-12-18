@@ -5,7 +5,8 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.DomainValidator;
 
 /**
- * String format which represents Internet host names.
+ * String format which represents Internet host names
+ * as defined in RFC 1034 and RFC 1123. 
  */
 public class HostnameFormat extends AbstractFormat<JsonString> implements StringFormat {
 
@@ -14,7 +15,8 @@ public class HostnameFormat extends AbstractFormat<JsonString> implements String
 	 */
 	public static final HostnameFormat INSTANCE = new HostnameFormat();
 	
-	HostnameFormat() {}
+	private HostnameFormat() {
+	}
 	
 	@Override
 	public String getName() {
@@ -22,7 +24,7 @@ public class HostnameFormat extends AbstractFormat<JsonString> implements String
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
-		return DomainValidator.getInstance().isValid(value.getString());
+	public boolean matches(JsonString jsonValue) {
+		return DomainValidator.getInstance().isValid(jsonValue.getString());
 	}
 }

@@ -14,7 +14,8 @@ public class Inet6AddressFormat extends AbstractFormat<JsonString> implements St
 	 */
 	public static final Inet6AddressFormat INSTANCE = new Inet6AddressFormat();
 
-	Inet6AddressFormat() {}
+	private Inet6AddressFormat() {
+	}
 
 	@Override
 	public String getName() {
@@ -22,7 +23,7 @@ public class Inet6AddressFormat extends AbstractFormat<JsonString> implements St
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
-		return InetAddressValidator.getInstance().isValidInet6Address(value.getString());
+	public boolean matches(JsonString jsonValue) {
+		return InetAddressValidator.getInstance().isValidInet6Address(jsonValue.getString());
 	}
 }

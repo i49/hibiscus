@@ -15,7 +15,11 @@ public class URIFormat extends AbstractFormat<JsonString> implements StringForma
 	 */
 	public static final URIFormat INSTANCE = new URIFormat();
 
-	URIFormat() {}
+	/**
+	 * Constructs this format.
+	 */
+	protected URIFormat() {
+	}
 
 	@Override
 	public String getName() {
@@ -23,9 +27,9 @@ public class URIFormat extends AbstractFormat<JsonString> implements StringForma
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
+	public boolean matches(JsonString jsonValue) {
 		try {
-			new URI(value.getString());
+			new URI(jsonValue.getString());
 			return true;
 		} catch (URISyntaxException e) {
 			return false;

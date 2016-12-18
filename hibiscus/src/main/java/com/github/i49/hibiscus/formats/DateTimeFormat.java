@@ -31,8 +31,8 @@ public class DateTimeFormat extends AbstractFormat<JsonString> implements String
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
-		String[] parts = value.getString().split("T");
+	public boolean matches(JsonString jsonValue) {
+		String[] parts = jsonValue.getString().split("T");
 		if (parts.length != 2) {
 			return false;
 		}

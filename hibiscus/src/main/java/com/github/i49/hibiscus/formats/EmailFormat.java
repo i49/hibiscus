@@ -14,7 +14,8 @@ public class EmailFormat extends AbstractFormat<JsonString> implements StringFor
 	 */
 	public static final EmailFormat INSTANCE = new EmailFormat();
 	
-	EmailFormat() {}
+	private EmailFormat() {
+	}
 
 	@Override
 	public String getName() {
@@ -22,7 +23,7 @@ public class EmailFormat extends AbstractFormat<JsonString> implements StringFor
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
-		return EmailValidator.getInstance().isValid(value.getString());
+	public boolean matches(JsonString jsonValue) {
+		return EmailValidator.getInstance().isValid(jsonValue.getString());
 	}
 }
