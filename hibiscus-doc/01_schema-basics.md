@@ -231,7 +231,8 @@ All currently supported formats are listed below:
   Internet host optionally followed by port number.
 * `anyURI`  
   any URI including relative URI.
-* `absoluteURI`
+* `absoluteURI`  
+  absolute URI only.
 
 These formats can be obtained by the class methods defined in `Formats` class
 and can be applied only to `string` type.
