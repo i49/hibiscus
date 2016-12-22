@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Overview</title>
+</head>
+<body>
+<p>Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.</p>
+<h2>Schema example</h2>
+<p>As first example we assume that you have JSON document below that you would like to validate in your application.</p>
+<blockquote><pre><code>{
+  "firstName": "Jason",
+  "lastName": "Bourne",
+  "age": 46,
+  "hobbies": ["shooting", "recollection"]
+}
+</code></pre></blockquote>
+<p>Supposing that the first two properties of the object are mandatory and others are optional. 
+We can write the schema for this kind of document as Java code like following:</p>
+<blockquote><pre><code>Schema schema = schema(
+  object(
+    required("firstName", string()),
+    required("lastName", string()),
+    optional("age", integer()),
+    optional("hobbies", array(string()))
+  )  
+);
+</code></pre></blockquote>
+<h2>How to write your own JSON validator</h2>
+<ol>
+<li><p>Create a new class that extends <code>BasicJsonValidator</code> class.</p>
+<pre><code>import com.github.i49.hibiscus.validation.BasicJsonValidator;
+
+public class PersonValidator extends BasicJsonValidator {
+}
+</code></pre>
+</li>
+<li><p>Add <code>static import</code> statement which will make your schema building easier.</p>
+<pre><code>import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+</code></pre>
+</li>
+<li><p>Define your schema as a class constant of your validator.</p>
+<pre><code>import com.github.i49.hibiscus.validation.BasicJsonValidator;
+import com.github.i49.hibiscus.schema.Schema;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+
+public class PersonValidator extends BasicJsonValidator {
+  // Schema definition.
+  private static final Schema schema = schema(
+    object(
+      required("firstName", string()),
+      required("lastName", string()),
+      optional("age", integer()),
+      optional("hobbies", array(string()))
+    )
+  );  
+}
+</code></pre>
+</li>
+<li><p>Pass the schema to the constructor of superclass, and then your work is done.</p>
+<pre><code>import com.github.i49.hibiscus.validation.BasicJsonValidator;
+import com.github.i49.hibiscus.schema.Schema;
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+
+public class PersonValidator extends BasicJsonValidator {
+  // Schema definition.
+  private static final Schema schema = schema(
+    object(
+      required("firstName", string()),
+      required("lastName", string()),
+      optional("age", integer()),
+      optional("hobbies", array(string()))
+    )
+  );  
+
+  public PersonValidator() {
+    super(schema)
+  }
+}
+</code></pre>
+<p>The next section shows you how to use the validator you created.</p>
+</li>
+</ol>
+<h2>How to validate JSON documents with your validator</h2>
+<ol>
+<li><p>Create an instance of your validator.</p>
+<pre><code>PersonValidator validator = new PersonValidator();
+</code></pre>
+</li>
+<li><p>Validate JSON document with the validator.</p>
+<pre><code>// An object to retrieve validation result.
+ValidationResult result = null;
+try (Reader reader = new FileReader("person.json")) {
+  // Reads and validates JSON document here.
+  result = validator.validate(reader);
+}
+</code></pre>
+</li>
+<li><p>Process detected problems properly.</p>
+<pre><code>for (Problem problem: result.getProblems()) {
+  // Handles each problem here.
+  // We just print text representation of the problem here.
+  System.out.println(problem);
+}
+</code></pre>
+<p>One of the nice features of Hibiscus is that it reports where these problems occurred, such as line and column numbers. 
+This can be accomplished because the library do both loading and validating JSON document at the same time, 
+not after completely loading it and building a tree of JSON values.</p>
+</li>
+<li><p>Make use of retrieved JSON value as you like in your application.</p>
+<pre><code>JsonValue root = result.getValue();
+</code></pre>
+<p>Hibiscus returns JSON values defined in 
+<a href="http://json-processing-spec.java.net/">Java API for JSON Processing (JSR-353, JSON-P)</a>. 
+Please note that it returns JSON value even when the JSON document does not obey the given schema, 
+as long as the document is <i>well-formed</i> and not broken as JSON.</p>
+</li>
+</ol>
+</body>
+</html>
