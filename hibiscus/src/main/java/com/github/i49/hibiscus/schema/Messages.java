@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Messages for exceptions that will occur while building schema.
+ * Messages for exceptions that may occur while defining schema.
  */
 class Messages {
 
@@ -34,7 +34,8 @@ class Messages {
 	}
 	
 	static String ONE_OF_TYPES_IS_DUPLICATED(int index, TypeId typeId) {
-		return localize("ONE_OF_TYPES_IS_DUPLICATED", index, typeId);
+		String typeName = typeId.name().toLowerCase();
+		return localize("ONE_OF_TYPES_IS_DUPLICATED", index, typeName);
 	}
 	
 	static String ONE_OF_VALUES_IS_NULL(int index) {
