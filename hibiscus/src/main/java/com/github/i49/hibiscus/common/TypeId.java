@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.common;
 
 /**
- * Identifiers of basic types available in JSON schema definitions.
+ * Identifiers of seven built-in types available in JSON schema definitions.
  * <p>
  * Each constants in this enumeration has a corresponding type class
  * in {@link com.github.i49.hibiscus.schema} package.
@@ -9,8 +9,8 @@ package com.github.i49.hibiscus.common;
  * {@link com.github.i49.hibiscus.schema.SchemaComponents SchemaComponents}. 
  * </p>
  * <p>
- * Basically matching of types between JSON document and JSON schema will be
- * accomplished by comparing their identifiers defined in this enumeration.
+ * Basically, matching of types between JSON document and JSON schema will be
+ * achieved by comparing their identifiers defined in this enumeration.
  * </p>
  */
 public enum TypeId {
