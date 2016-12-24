@@ -149,7 +149,11 @@ Please see the document for [Schema Basics](hibiscus-doc/01_schema-basics.md).
 
 ## Installation by Maven
 
-Hibiscus can be built and installed into your local Maven repository as follows.
+All prerequisites in order to build Hibiscus are listed below:
+* JDK 8
+* Apache Maven 3.3.9
+
+The artifact can be built and installed into your local Maven repository as follows.
 
 ```bash
 $ git clone https://github.com/i49/Hibiscus.git

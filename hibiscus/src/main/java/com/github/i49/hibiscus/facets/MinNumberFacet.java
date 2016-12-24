@@ -12,7 +12,7 @@ import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>minInclusive</strong> and <strong>minExclusive</strong> facets
- * to restrict the value space to the numeric values in the range which has a specific lower bound.
+ * to restrict the value space to the numeric values included in the range which has a specific lower bound.
  * <p>
  * This facet is applicable to {@code number()} or {@code integer()} type.
  * If the value of the type is too small in comparison with the lower bound, 
