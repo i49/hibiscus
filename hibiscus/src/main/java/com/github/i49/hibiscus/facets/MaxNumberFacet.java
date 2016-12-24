@@ -11,7 +11,8 @@ import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Facet constraining a value space to values with a specific upper bound.  
+ * <strong>maxInclusive</strong> and <strong>maxExclusive</strong> facets
+ * to restrict the value space to the numeric values in the range which has a specific upper bound.
  */
 public class MaxNumberFacet implements Facet<JsonNumber> {
 
@@ -19,8 +20,8 @@ public class MaxNumberFacet implements Facet<JsonNumber> {
 	
 	/**
 	 * Constructs this facet.
-	 * @param limit the upper bound of value space.
-	 * @param exclusive {@code true} if the bound is exclusive, otherwise {@code false}.
+	 * @param limit the upper bound value of the value space.
+	 * @param exclusive {@code true} if the bound is excluded from the valid range, otherwise {@code false}.
 	 */
 	public MaxNumberFacet(BigDecimal limit, boolean exclusive) {
 		this.bound = Bound.of(limit, exclusive);

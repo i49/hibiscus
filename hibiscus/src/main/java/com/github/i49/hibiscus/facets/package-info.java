@@ -41,16 +41,6 @@
  * </td>
  * </tr>
  * <tr>
- * <td>minLength</td>
- * <td>restricts the lower bound of value length.</td>
- * <td>{@code string()}, {@code array()}</td>
- * <td>{@link com.github.i49.hibiscus.facets.MinLengthFacet MinLengthFacet}</td>
- * <td>
- * {@link com.github.i49.hibiscus.problems.ArrayTooShortProblem ArrayTooShortProblem}
- * {@link com.github.i49.hibiscus.problems.StringTooShortProblem StringTooShortProblem},
- * </td>
- * </tr>
- * <tr>
  * <td>maxLength</td>
  * <td>restricts the upper bound of value length.</td>
  * <td>{@code string()}, {@code array()}</td>
@@ -61,18 +51,14 @@
  * </td>
  * </tr>
  * <tr>
- * <td>minInclusive</td>
- * <td>restricts the lower bound of numeric range.</td>
- * <td>{@code number()}, {@code integer()}</td>
- * <td>{@link com.github.i49.hibiscus.facets.MinNumberFacet MinNumberFacet}</td>
- * <td>{@link com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem InclusiveLowerBoundProblem}</td>
- * </tr>
- * <tr>
- * <td>minExclusive</td>
- * <td>same as minInclusive while the boundary is excluded from the valid range.</td>
- * <td>{@code number()}, {@code integer()}</td>
- * <td>{@link com.github.i49.hibiscus.facets.MinNumberFacet MinNumberFacet}</td>
- * <td>{@link com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem ExclusiveLowerBoundProblem}</td>
+ * <td>minLength</td>
+ * <td>restricts the lower bound of value length.</td>
+ * <td>{@code string()}, {@code array()}</td>
+ * <td>{@link com.github.i49.hibiscus.facets.MinLengthFacet MinLengthFacet}</td>
+ * <td>
+ * {@link com.github.i49.hibiscus.problems.ArrayTooShortProblem ArrayTooShortProblem}
+ * {@link com.github.i49.hibiscus.problems.StringTooShortProblem StringTooShortProblem},
+ * </td>
  * </tr>
  * <tr>
  * <td>maxInclusive</td>
@@ -87,6 +73,20 @@
  * <td>{@code number()}, {@code integer()}</td>
  * <td>{@link com.github.i49.hibiscus.facets.MaxNumberFacet MaxNumberFacet}</td>
  * <td>{@link com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem ExclusiveUpperBoundProblem}</td>
+ * </tr>
+ * <tr>
+ * <td>minInclusive</td>
+ * <td>restricts the lower bound of numeric range.</td>
+ * <td>{@code number()}, {@code integer()}</td>
+ * <td>{@link com.github.i49.hibiscus.facets.MinNumberFacet MinNumberFacet}</td>
+ * <td>{@link com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem InclusiveLowerBoundProblem}</td>
+ * </tr>
+ * <tr>
+ * <td>minExclusive</td>
+ * <td>same as minInclusive while the boundary is excluded from the valid range.</td>
+ * <td>{@code number()}, {@code integer()}</td>
+ * <td>{@link com.github.i49.hibiscus.facets.MinNumberFacet MinNumberFacet}</td>
+ * <td>{@link com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem ExclusiveLowerBoundProblem}</td>
  * </tr>
  * <tr>
  * <td>pattern</td>

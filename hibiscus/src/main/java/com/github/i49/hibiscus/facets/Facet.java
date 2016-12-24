@@ -26,7 +26,7 @@ import com.github.i49.hibiscus.problems.Problem;
  * it will reports one or more corresponding problems.
  * All problems to be reported by the facets are defined in {@link com.github.i49.hibiscus.problems} package.</p>
  * 
- * @param <V> the type of JSON values to which this facet will be applied.
+ * @param <V> the type of {@link JsonValue} to which this facet will be applied.
  * 
  * @see com.github.i49.hibiscus.facets
  */
@@ -36,7 +36,7 @@ public interface Facet<V extends JsonValue> {
 	 * Applies this facet to the value in JSON document and 
 	 * when the value is out of valid value space, it reports one or more corresponding problems. 
 	 * 
-	 * @param value the value to be validated.
+	 * @param value {@link JsonValue} in JSON document to be validated.
 	 * @param problems the list of problems to which new problems found by this facet will be added.
 	 */
 	void apply(V value, List<Problem> problems);

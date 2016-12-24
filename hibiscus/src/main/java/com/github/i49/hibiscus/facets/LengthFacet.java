@@ -8,8 +8,9 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Facet constraining a value space to values of the specific length. 
- * @param <V> the type of values in JSON document. 
+ * <strong>length</strong> facet to restrict the value space to the values of the specific length.
+ *
+ * @param <V> the type of {@link JsonValue} to which this facet will be applied.
  */
 public class LengthFacet<V extends JsonValue> implements Facet<V> {
 

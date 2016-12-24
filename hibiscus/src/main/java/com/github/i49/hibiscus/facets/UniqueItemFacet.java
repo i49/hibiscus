@@ -10,8 +10,14 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.ArrayDuplicateItemProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
+/**
+ * <strong>unique</strong> facet to enforce each element in array to be unique. 
+ */
 public class UniqueItemFacet implements Facet<JsonArray> {
 
+	/**
+	 * The Singleton instance of this facet.
+	 */
 	public static final UniqueItemFacet INSTANCE = new UniqueItemFacet(); 
 	
 	@Override

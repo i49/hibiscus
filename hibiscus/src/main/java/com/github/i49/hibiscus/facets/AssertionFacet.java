@@ -10,15 +10,27 @@ import com.github.i49.hibiscus.problems.DescriptionSupplier;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Facet that specifies additional restriction on the values of the type. 
+ * <strong>assertion</strong> facet to add arbitrary assertions on the type. 
+ * <p>
+ * This facet is applicable to all but {@code nil()} types.
+ * If the assertion failed, {@link AssertionFailureProblem} will be reported 
+ * by this facet.
+ * </p>
  *
- * @param <V> the type of {@code JsonValue}.
+ * @param <V> the type of {@link JsonValue} to which this facet will be applied.
  */
 public class AssertionFacet<V extends JsonValue> implements Facet<V> {
 
 	private final Predicate<V> predicate;
 	private final DescriptionSupplier<V> description;
 	
+	/**
+	 * Constructs this facet.
+	 * @param predicate the predicate to test the assertion on the value in JSON document 
+	 *                  and return {@code true} when the assertion succeeded, 
+	 *                  or {@code false} when the assertion failed.
+	 * @param description the supplier which will supply the description of the problem when the assertion failed.
+	 */
 	public AssertionFacet(Predicate<V> predicate, DescriptionSupplier<V> description) {
 		this.predicate = predicate;
 		this.description = description;

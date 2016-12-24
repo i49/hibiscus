@@ -11,7 +11,8 @@ import com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Facet constraining a value space to values with a specific lower bound.  
+ * <strong>minInclusive</strong> and <strong>minExclusive</strong> facets
+ * to restrict the value space to the numeric values in the range which has a specific lower bound.
  */
 public class MinNumberFacet implements Facet<JsonNumber> {
 
@@ -20,7 +21,7 @@ public class MinNumberFacet implements Facet<JsonNumber> {
 	/**
 	 * Constructs this facet.
 	 * @param limit the lower bound of value space.
-	 * @param exclusive {@code true} if the bound is exclusive, otherwise {@code false}.
+	 * @param exclusive {@code true} if the bound is excluded from the valid range, otherwise {@code false}.
 	 */
 	public MinNumberFacet(BigDecimal limit, boolean exclusive) {
 		this.bound = Bound.of(limit, exclusive);
