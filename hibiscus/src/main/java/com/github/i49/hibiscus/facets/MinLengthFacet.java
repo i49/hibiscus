@@ -9,7 +9,14 @@ import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>minLength</strong> facet to restrict the value space to the values
- * that are more than or equal to a specific length.
+ * that have lengths more than or equal to a specific length.
+ * <p>
+ * This facet is applicable to {@code string()} or {@code array()} type.
+ * If the value of the type has the length shorter than the expected length,
+ * a problem will be reported by this facet. 
+ * The type of the problem to be reported is determined by {@link LengthProblemFactory}
+ * which is passed in to the constructor. 
+ * </p>
  *
  * @param <V> the type of {@link JsonValue} to which this facet will be applied.
  */
@@ -22,8 +29,8 @@ public class MinLengthFacet<V extends JsonValue> implements Facet<V> {
 	/**
 	 * Constructs this facet.
 	 * @param minLength the minimum length allowed for the type.
-	 * @param lengthMapper the mapper object to retrieve the length of the value.
-	 * @param problemFactory the factory object to create a new problem.
+	 * @param lengthMapper the mapper used to retrieve the length of the value.
+	 * @param problemFactory the factory used to create a new problem when given value has an invalid length.
 	 */
 	public MinLengthFacet(int minLength, ToIntFunction<V> lengthMapper, LengthProblemFactory<V> problemFactory) {
 		this.minLength = minLength;

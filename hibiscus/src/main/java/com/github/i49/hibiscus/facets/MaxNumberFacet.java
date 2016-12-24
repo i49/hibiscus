@@ -13,6 +13,14 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * <strong>maxInclusive</strong> and <strong>maxExclusive</strong> facets
  * to restrict the value space to the numeric values in the range which has a specific upper bound.
+ * <p>
+ * This facet is applicable to {@code number()} or {@code integer()} type.
+ * If the value of the type is too large in comparison with the upper bound,
+ * a problem will be reported by this facet.
+ * The type of the problem to be reported depends on the inclusion of the bound in the valid range.
+ * If the upper bound is specified as included in the valid range, {@link InclusiveUpperBoundProblem} will be reported,
+ * and if the bound is specified as excluded from the range, {@link ExclusiveUpperBoundProblem} will be reported.
+ * </p>
  */
 public class MaxNumberFacet implements Facet<JsonNumber> {
 
@@ -20,11 +28,12 @@ public class MaxNumberFacet implements Facet<JsonNumber> {
 	
 	/**
 	 * Constructs this facet.
-	 * @param limit the upper bound value of the value space.
-	 * @param exclusive {@code true} if the bound is excluded from the valid range, otherwise {@code false}.
+	 * @param bound the upper bound value of the valid range.
+	 * @param exclusive {@code true} if the bound is excluded from the valid range, 
+	 *                  {@code false} if the bound is included in the valid range.
 	 */
-	public MaxNumberFacet(BigDecimal limit, boolean exclusive) {
-		this.bound = Bound.of(limit, exclusive);
+	public MaxNumberFacet(BigDecimal bound, boolean exclusive) {
+		this.bound = Bound.of(bound, exclusive);
 	}
 
 	@Override

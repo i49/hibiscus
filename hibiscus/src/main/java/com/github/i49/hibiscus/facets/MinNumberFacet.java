@@ -13,6 +13,14 @@ import com.github.i49.hibiscus.problems.Problem;
 /**
  * <strong>minInclusive</strong> and <strong>minExclusive</strong> facets
  * to restrict the value space to the numeric values in the range which has a specific lower bound.
+ * <p>
+ * This facet is applicable to {@code number()} or {@code integer()} type.
+ * If the value of the type is too small in comparison with the lower bound, 
+ * a problem will be reported by this facet.
+ * The type of the problem to be reported depends on the inclusion of the bound in the valid range.
+ * If the lower bound is specified as included in the valid range, {@link InclusiveLowerBoundProblem} will be reported,
+ * and if the bound is specified as excluded from the range, {@link ExclusiveLowerBoundProblem} will be reported.
+ * </p>
  */
 public class MinNumberFacet implements Facet<JsonNumber> {
 
@@ -20,11 +28,12 @@ public class MinNumberFacet implements Facet<JsonNumber> {
 	
 	/**
 	 * Constructs this facet.
-	 * @param limit the lower bound of value space.
-	 * @param exclusive {@code true} if the bound is excluded from the valid range, otherwise {@code false}.
+	 * @param bound the lower bound value of the valid range.
+	 * @param exclusive {@code true} if the bound is excluded from the valid range, 
+	 *                  {@code false} if the bound is included in the valid range.
 	 */
-	public MinNumberFacet(BigDecimal limit, boolean exclusive) {
-		this.bound = Bound.of(limit, exclusive);
+	public MinNumberFacet(BigDecimal bound, boolean exclusive) {
+		this.bound = Bound.of(bound, exclusive);
 	}
 
 	@Override
