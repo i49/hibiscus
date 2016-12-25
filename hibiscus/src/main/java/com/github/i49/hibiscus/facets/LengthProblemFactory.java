@@ -5,7 +5,7 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * A supportive interface which will create problems that report the values have invalid lengths,
+ * A helper interface which will create problems that report the values have invalid lengths,
  * on behalf of {@link LengthFacet}, {@link MinLengthFacet} and {@link MaxLengthFacet} classes.
  * 
  * @param <V> the type of JSON values which may have invalid lengths.

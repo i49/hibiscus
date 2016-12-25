@@ -10,11 +10,11 @@ package com.github.i49.hibiscus.formats;
  * datetime();
  * </code></pre></blockquote>
  * <p>
- * All formats available are shown in <a href="package-summary.html#list-of-formats">the list of formats</a>.
+ * All formats available are shown in <a href="package-summary.html#list-of-formats">List of formats</a>.
  * </p>
  * 
  * @see Format
- * @see com.github.i49.hibiscus.formats
+ * @see <a href="package-summary.html#list-of-formats">List of formats</a>
  */
 public final class Formats {
 

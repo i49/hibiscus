@@ -1,6 +1,9 @@
 /**
  * Provides various kinds of <i>formats</i> that allow you to specify the known format for
  * values of types defined in JSON schema.
+ * 
+ * <h2 id="introducing-formats">1. Introducing formats</h2>
+ * 
  * <p>
  * A <strong>format</strong> is one of restrictions on the value spaces of the types.
  * Types in schema can select a format from predefined ones such as email address or IPv4 address.
@@ -13,13 +16,17 @@
  * </p>
  * <p>
  * These formats can be obtained by static methods of {@link com.github.i49.hibiscus.formats.Formats Formats} class.
- * Formats can be applied to the built-in types with help of {@link com.github.i49.hibiscus.facets.FormatFacet FormatFacet},
+ * Each format can be applied to the built-in types with help of {@link com.github.i49.hibiscus.facets.FormatFacet FormatFacet},
  * which is one of <i>facets</i> provided by {@link com.github.i49.hibiscus.facets} package.
  * All formats currently available can be applied only to {@code string()} type.
  * </p>
  * 
- * <p>The table shown below lists all formats defined in this package.</p>
- * <table id="list-of-formats" border="1" cellpadding="5" style="border-collapse: collapse;">
+ * <h2 id="list-of-formats">2. List of formats</h2>
+ * 
+ * <p>
+ * The table shown below lists all formats defined in this package.
+ * </p>
+ * <table border="1" cellpadding="5" style="border-collapse: collapse;">
  * <caption>The list of formats</caption>
  * <tr>
  * <th>Format Name</th>

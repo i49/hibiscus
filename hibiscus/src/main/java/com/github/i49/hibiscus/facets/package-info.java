@@ -1,6 +1,8 @@
 /**
  * Provides various kinds of <i>facets</i> that allow you to restrict the value spaces of built-in types in JSON schema.
  * 
+ * <h2 id="introducing-facets">1. Introducing facets</h2>
+ * 
  * <p>A <strong>facet</strong> is a single defining aspect of a value space of types.
  * Each of built-in types in JSON schema just provides default value space of its own.
  * By using facet, you can restrict the value spaces of these types as necessary.</p>
@@ -20,6 +22,8 @@
  * All problems to be reported by the facets are defined in {@link com.github.i49.hibiscus.problems} package.
  * </p>
  *
+ * <h2 id="list-of-facets">2. List of facets</h2>
+ * 
  * <p>The table shown below lists all facets defined in this package.</p>
  * 
  * <table border="1" cellpadding="5" style="border-collapse: collapse;">
