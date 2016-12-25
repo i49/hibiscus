@@ -5,7 +5,12 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.EmailValidator;
 
 /**
- * String format which represents email address.
+ * <strong>email</strong> format which represents email address as defined in RFC 822.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#email()} method.
+ * </p>
+ * 
+ * @see <a href="https://www.ietf.org/rfc/rfc822.txt">RFC 822: STANDARD FOR THE FORMAT OF ARPA INTERNET TEXT MESSAGES</a>
  */
 public class EmailFormat extends AbstractFormat<JsonString> implements StringFormat {
 

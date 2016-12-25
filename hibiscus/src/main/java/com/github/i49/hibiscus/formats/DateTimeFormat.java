@@ -8,10 +8,18 @@ import java.util.regex.Pattern;
 import javax.json.JsonString;
 
 /**
- * String format which represents date and time defined in RFC 3339.
+ * <strong>datetime</strong> format which represents date and time as defined in RFC 3339.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#datetime()} method.
+ * </p>
+ * 
+ * @see <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339: Date and Time on the Internet: Timestamps</a>
  */
 public class DateTimeFormat extends AbstractFormat<JsonString> implements StringFormat {
 
+	/**
+	 * The Singleton instance of this format.
+	 */
 	public static final DateTimeFormat INSTANCE = new DateTimeFormat();
 	
 	private static final Pattern PARTIAL_TIME_PATTERN;

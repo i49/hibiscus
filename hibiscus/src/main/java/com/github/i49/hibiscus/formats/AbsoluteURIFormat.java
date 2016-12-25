@@ -6,12 +6,23 @@ import java.net.URISyntaxException;
 import javax.json.JsonString;
 
 /**
- * String format which represents absolute URIs.
+ * <strong>absoluteURI</strong> format which represents URI excluding relative URI.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#absoluteURI()} method.
+ * </p>
+ * 
+ * @see Formats
  */
 public class AbsoluteURIFormat extends URIFormat {
 
+	/**
+	 * The Singleton instance of this format.
+	 */
 	public static final AbsoluteURIFormat INSTANCE = new AbsoluteURIFormat();
 	
+	/**
+	 * Constructs this format.
+	 */
 	private AbsoluteURIFormat() {
 	}
 

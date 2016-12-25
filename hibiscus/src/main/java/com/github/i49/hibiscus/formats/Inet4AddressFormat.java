@@ -5,7 +5,10 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
- * String format which represents Internet Protocol Version 4 address.
+ * <strong>ipv4</strong> format which represents Internet Protocol Version 4 address.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#ipv4()} method.
+ * </p>
  */
 public class Inet4AddressFormat extends AbstractFormat<JsonString> implements StringFormat {
 

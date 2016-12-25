@@ -29,7 +29,8 @@ public class PatternFacet implements Facet<JsonString> {
 	/**
 	 * Constructs this facet.
 	 * 
-	 * @param regex the regular expression which strictly conforms to Java specification detailed in {@link Pattern} class.
+	 * @param regex the regular expression which strictly conforms to Java specification
+	 *              accurately described in {@link Pattern} class.
 	 * @exception PatternSyntaxException If the expression's syntax is invalid.
 	 * 
 	 * @see Pattern

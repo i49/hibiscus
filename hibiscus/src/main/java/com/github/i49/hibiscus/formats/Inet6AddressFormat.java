@@ -5,7 +5,10 @@ import javax.json.JsonString;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
- * String format which represents Internet Protocol Version 6 address.
+ * <strong>ipv6</strong> format which represents Internet Protocol Version 6 address.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#ipv6()} method.
+ * </p>
  */
 public class Inet6AddressFormat extends AbstractFormat<JsonString> implements StringFormat {
 

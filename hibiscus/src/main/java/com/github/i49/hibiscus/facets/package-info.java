@@ -19,7 +19,7 @@
  * it will reports one or more corresponding problems.
  * All problems to be reported by the facets are defined in {@link com.github.i49.hibiscus.problems} package.
  * </p>
-
+ *
  * <p>The table shown below lists all facets defined in this package.</p>
  * 
  * <table border="1" cellpadding="5" style="border-collapse: collapse;">

@@ -9,24 +9,28 @@ import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
- * String format which represents Internet host and port.
+ * <strong>host</strong> and <strong>hostport</strong> formats which represent Internet host and port.
+ * <p>
  * Internet host may be either IPv4 address, IPv6 address or Internet domain name.
- * 
- * <p>Valid format for host and port is defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax,
- * amended by RFC 2732: Format for Literal IPv6 Addresses in URLs.</p>
+ * Valid format for host and port is defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax,
+ * amended by RFC 2732: Format for Literal IPv6 Addresses in URLs.
+ * </p>
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#host()} method.
+ * </p>
  *
- * @see <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</a>
- * @see <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC 2732: Format for Literal IPv6 Addresses in URLs</a>
+ * @see <a href="https://www.ietf.org/rfc/rfc2396.txt">RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</a>
+ * @see <a href="https://www.ietf.org/rfc/rfc2732.txt">RFC 2732: Format for Literal IPv6 Addresses in URLs</a>
  */
 public class HostFormat implements StringFormat {
 	
 	/**
-	 * The Singleton instance of this format representing Internet host, not followed by port.
+	 * The Singleton instance of this format representing Internet host, not followed by port number.
 	 */
 	public static final HostFormat INSTANCE = new HostFormat(false);
 
 	/**
-	 * The Singleton instance of this format representing Internet host and port.
+	 * The Singleton instance of this format representing Internet host and port number.
 	 */
 	public static final HostFormat INSTANCE_WITH_PORT = new HostFormat(true);
 

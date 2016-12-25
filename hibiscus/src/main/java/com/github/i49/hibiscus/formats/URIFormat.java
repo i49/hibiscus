@@ -6,7 +6,10 @@ import java.net.URISyntaxException;
 import javax.json.JsonString;
 
 /**
- * String format which represents URIs including relative URI.
+ * <strong>anyURI</strong> format which represents URI including relative URI.
+ * <p>
+ * An instance of this format can be obtained by {@link Formats#anyURI()} method.
+ * </p>
  */
 public class URIFormat extends AbstractFormat<JsonString> implements StringFormat {
 

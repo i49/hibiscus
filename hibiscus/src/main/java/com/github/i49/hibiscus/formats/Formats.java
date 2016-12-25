@@ -1,86 +1,99 @@
 package com.github.i49.hibiscus.formats;
 
-import com.github.i49.hibiscus.schema.StringType;
-
 /**
- * Provides methods to create various kinds of formats.
+ * A facade class to provide methods to create various kinds of formats 
+ * implementing {@link Format} interface.
  * 
- * <p>These formats can be arguments of {@link StringType#format StringType.format} method
- * to declare the detailed format of the {@link StringType}.</p>
+ * <p>For example, the following code shows how to obtain datetime format by means of this class.</p>
+ * <blockquote><pre><code>
+ * import static com.github.i49.hibiscus.formats.Formats;
+ * datetime();
+ * </code></pre></blockquote>
+ * <p>
+ * All formats available are shown in <a href="package-summary.html#list-of-formats">the list of formats</a>.
+ * </p>
+ * 
+ * @see Format
+ * @see com.github.i49.hibiscus.formats
  */
 public final class Formats {
 
 	/**
-	 * Returns the format which represents date and time defined in RFC 3339.
+	 * Returns the <strong>datetime</strong> format which represents date and time as defined in RFC 3339.
 	 * @return the format representing date and time.
+	 * @see DateTimeFormat
 	 */
 	public static StringFormat datetime() {
 		return DateTimeFormat.INSTANCE;
 	}
 	
 	/**
-	 * Returns the format which represents email addresses.
-	 * @return the format representing email addresses.
+	 * Returns the <strong>email</strong> format which represents email address as defined in RFC 822.
+	 * @return the format representing email address.
+	 * @see EmailFormat
 	 */
 	public static StringFormat email() {
 		return EmailFormat.INSTANCE;
 	}
 	
 	/**
-	 * Returns the format which represents Internet host names.
-	 * @return the format representing Internet host names.
+	 * Returns the <strong>hostname</strong> format which represents Internet host name as defined in RFC 1034 and RFC 1123.
+	 * @return the format representing Internet host name.
+	 * @see HostnameFormat
 	 */
 	public static StringFormat hostname() {
 		return HostnameFormat.INSTANCE;
 	}
 
 	/**
-	 * Returns the format which represents Internet Protocol Version 4 address.
+	 * Returns the <strong>ipv4</strong> format which represents Internet Protocol Version 4 address.
 	 * @return the format representing IPv4 address.
+	 * @see Inet4AddressFormat
 	 */
 	public static StringFormat ipv4() {
 		return Inet4AddressFormat.INSTANCE;
 	}
 
 	/**
-	 * Returns the format which represents Internet Protocol Version 6 address.
+	 * Returns the <strong>ipv6</strong> format which represents Internet Protocol Version 6 address.
 	 * @return the format representing IPv6 address.
+	 * @see Inet6AddressFormat
 	 */
 	public static StringFormat ipv6() {
 		return Inet6AddressFormat.INSTANCE;
 	}
 	
 	/**
-	 * Returns the format which represents Internet host
-	 * as defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax, 
-	 * amended by RFC 2732: Format for Literal IPv6 Addresses in URLs. 
+	 * Returns the <strong>host</strong> format which represents Internet host as defined by RFC 2396, amended by RFC 2732.
 	 * @return the format representing Internet host.
-	 * @see <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</a>
-	 * @see <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC 2732: Format for Literal IPv6 Addresses in URLs</a>
+	 * @see HostFormat
 	 */
 	public static StringFormat host() {
 		return HostFormat.INSTANCE;
 	}
 
 	/**
-	 * Returns the format which represents Internet host and port.
+	 * Returns the <strong>hostport</strong> format which represents Internet host followed by port number.
 	 * @return the format representing Internet host and port.
+	 * @see HostFormat
 	 */
 	public static StringFormat hostport() {
 		return HostFormat.INSTANCE_WITH_PORT;
 	}
 	
 	/**
-	 * Returns the format which represents any URIs including relative URIs.
-	 * @return the format representing any URIs.
+	 * Returns the <strong>anyURI</strong> format which represents URI including relative URI.
+	 * @return the format representing any URI.
+	 * @see URIFormat
 	 */
 	public static StringFormat anyURI() {
 		return URIFormat.INSTANCE;
 	}
 
 	/**
-	 * Returns the format which represents absolute URIs.
-	 * @return the format representing absolute URIs.
+	 * Returns the <strong>absouluteURI</strong> format which represents absolute URI.
+	 * @return the format representing absolute URI.
+	 * @see AbsoluteURIFormat
 	 */
 	public static StringFormat absoluteURI() {
 		return AbsoluteURIFormat.INSTANCE;
