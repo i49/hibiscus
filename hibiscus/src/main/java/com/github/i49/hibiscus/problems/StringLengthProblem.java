@@ -7,7 +7,7 @@ import javax.json.JsonString;
 /**
  * Problem that string does not have exactly the same as expected characters.
  */
-public class StringLengthProblem extends ValueProblem<JsonString> {
+public class StringLengthProblem extends JsonValueProblem<JsonString> {
 
 	private final int actualLength;
 	private final int expectedLength;

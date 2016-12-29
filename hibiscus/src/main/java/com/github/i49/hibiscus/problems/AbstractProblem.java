@@ -5,7 +5,7 @@ import java.util.Locale;
 import javax.json.stream.JsonLocation;
 
 /**
- * Skeletal class to implement {@link Problem}.
+ * A skeletal class which help implement {@link Problem} interface.
  */
 abstract class AbstractProblem implements Problem {
 
@@ -39,8 +39,9 @@ abstract class AbstractProblem implements Problem {
 	}
 	
 	/**
-	 * Returns a string representation of this problem, including location and description.
+	 * Returns a string representation of this problem which has the same content as {@link #getMessage()}.
 	 * @return a string representation of this problem. 
+	 * @see #getMessage()
 	 */
 	@Override
 	public String toString() {
@@ -48,9 +49,11 @@ abstract class AbstractProblem implements Problem {
 	}
 	
 	/**
-	 * Builds description of this problem.
-	 * @param locale the locale for the message. Cannot be null.
+	 * Builds the description of this problem.
+	 * The description built by this method will be obtained through {@link #getDescription(Locale)}.
+	 * @param locale the locale desired for the message. Cannot be {@code null}.
 	 * @return built description.
+	 * @see #getDescription(Locale)
 	 */
 	protected abstract String buildDescription(Locale locale); 
 }

@@ -5,26 +5,26 @@ import java.util.Locale;
 import javax.json.JsonValue;
 
 /**
- * Problem that assertion on specific type was failed. 
+ * Problem that an assertion on specific type was failed. 
  * 
- * @param V the type of the value in JSON document.
+ * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class AssertionFailureProblem<V extends JsonValue> extends ValueProblem<V> {
+public class AssertionFailureProblem<V extends JsonValue> extends JsonValueProblem<V> {
 
-	private final DescriptionSupplier<V> descriptionSupplier;
+	private final ProblemDescriber<V> describer;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value that is the cause of this problem.
-	 * @param descriptionSupplier supplying the description of this problem. 
+	 * @param value actual value which is the cause of this problem.
+	 * @param describer the object which will provide the description of this problem. 
 	 */
-	public AssertionFailureProblem(V value, DescriptionSupplier<V> descriptionSupplier) {
+	public AssertionFailureProblem(V value, ProblemDescriber<V> describer) {
 		super(value);
-		this.descriptionSupplier = descriptionSupplier;
+		this.describer = describer;
 	}
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return descriptionSupplier.getDescription(getActualValue(), locale);
+		return describer.describe(getActualValue(), locale);
 	}
 }

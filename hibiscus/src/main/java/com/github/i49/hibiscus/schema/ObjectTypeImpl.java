@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
@@ -54,7 +54,7 @@ class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements
 	}
 	
 	@Override
-	public ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier<JsonObject> description) {
+	public ObjectType assertion(Predicate<JsonObject> predicate, ProblemDescriber<JsonObject> description) {
 		return super.assertion(predicate, description);
 	}
 

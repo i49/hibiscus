@@ -7,7 +7,7 @@ import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * JSON array which can have zero or more values as elements.
@@ -102,5 +102,5 @@ public interface ArrayType extends CompositeType {
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description);
+	ArrayType assertion(Predicate<JsonArray> predicate, ProblemDescriber<JsonArray> description);
 }

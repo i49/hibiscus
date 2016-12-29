@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.AssertionFailureProblem;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
@@ -22,24 +22,24 @@ import com.github.i49.hibiscus.problems.Problem;
 public class AssertionFacet<V extends JsonValue> implements Facet<V> {
 
 	private final Predicate<V> predicate;
-	private final DescriptionSupplier<V> description;
+	private final ProblemDescriber<V> describer;
 	
 	/**
 	 * Constructs this facet.
 	 * @param predicate the predicate to test the assertion on the value in JSON document 
 	 *                  and return {@code true} when the assertion succeeded, 
 	 *                  or {@code false} when the assertion failed.
-	 * @param description the supplier which will supply the description of the problem when the assertion failed.
+	 * @param describer the object which will supply the description of the problem when the assertion failed.
 	 */
-	public AssertionFacet(Predicate<V> predicate, DescriptionSupplier<V> description) {
+	public AssertionFacet(Predicate<V> predicate, ProblemDescriber<V> describer) {
 		this.predicate = predicate;
-		this.description = description;
+		this.describer = describer;
 	}
 
 	@Override
 	public void apply(V value, List<Problem> problems) {
-		if (!predicate.test(value)) {
-			problems.add(new AssertionFailureProblem<V>(value, description));
+		if (!this.predicate.test(value)) {
+			problems.add(new AssertionFailureProblem<V>(value, this.describer));
 		}
 	}
 }

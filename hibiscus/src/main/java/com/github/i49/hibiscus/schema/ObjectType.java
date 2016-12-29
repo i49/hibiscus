@@ -6,7 +6,7 @@ import javax.json.JsonObject;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * JSON object which can hold zero or more key-value pairs as its members.
@@ -50,7 +50,7 @@ public interface ObjectType extends CompositeType {
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	ObjectType assertion(Predicate<JsonObject> predicate, DescriptionSupplier<JsonObject> description);
+	ObjectType assertion(Predicate<JsonObject> predicate, ProblemDescriber<JsonObject> description);
 
 	/**
 	 * Returns property which this object has.

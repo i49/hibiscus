@@ -8,7 +8,7 @@ import javax.json.JsonString;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.formats.StringFormat;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * JSON type for string value.
@@ -106,7 +106,7 @@ public interface StringType extends AtomicType {
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	StringType assertion(Predicate<JsonString> predicate, DescriptionSupplier<JsonString> description);
+	StringType assertion(Predicate<JsonString> predicate, ProblemDescriber<JsonString> description);
 
 	/**
 	 * Specifies formats allowed for this type.

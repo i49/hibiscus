@@ -7,7 +7,7 @@ import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * JSON type for numeric value without a fraction or exponent part.
@@ -42,5 +42,5 @@ public interface IntegerType extends NumberType {
 
 	IntegerType enumeration(BigDecimal... values);
 
-	IntegerType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description);
+	IntegerType assertion(Predicate<JsonNumber> predicate, ProblemDescriber<JsonNumber> description);
 }

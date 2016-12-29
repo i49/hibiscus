@@ -7,7 +7,7 @@ import javax.json.JsonArray;
 /**
  * Problem that the number of elements in the array does not equal to the expected.
  */
-public class ArrayLengthProblem extends ValueProblem<JsonArray> {
+public class ArrayLengthProblem extends JsonValueProblem<JsonArray> {
 
 	private final int actualLength;
 	private final int expectedLength;

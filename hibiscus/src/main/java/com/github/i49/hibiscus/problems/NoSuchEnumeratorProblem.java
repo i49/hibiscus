@@ -8,7 +8,7 @@ import javax.json.JsonValue;
 /**
  * Problem that the value in JSON document does not match any enumerators allowed for the type.
  */
-public class NoSuchEnumeratorProblem extends ValueProblem<JsonValue> {
+public class NoSuchEnumeratorProblem extends JsonValueProblem<JsonValue> {
 
 	private final Set<Object> enumerators;
 	

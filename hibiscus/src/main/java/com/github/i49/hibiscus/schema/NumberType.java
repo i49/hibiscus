@@ -7,7 +7,7 @@ import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * JSON type for numeric value, including integer.
@@ -109,5 +109,5 @@ public interface NumberType extends AtomicType {
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	NumberType assertion(Predicate<JsonNumber> predicate, DescriptionSupplier<JsonNumber> description);
+	NumberType assertion(Predicate<JsonNumber> predicate, ProblemDescriber<JsonNumber> description);
 }

@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.facets.UniqueItemFacet;
 import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
  * Implementation of {@code ArrayType}.
@@ -61,7 +61,7 @@ class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements Ar
 	}
 	
 	@Override
-	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description) {
+	public ArrayType assertion(Predicate<JsonArray> predicate, ProblemDescriber<JsonArray> description) {
 		return super.assertion(predicate, description);
 	}
 

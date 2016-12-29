@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 import javax.json.JsonArray;
 
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.schema.ArrayType;
 import com.github.i49.hibiscus.schema.JsonType;
 import com.github.i49.hibiscus.schema.TypeSet;
@@ -56,7 +56,7 @@ class UnknownArrayType implements ArrayType {
 	}
 
 	@Override
-	public ArrayType assertion(Predicate<JsonArray> predicate, DescriptionSupplier<JsonArray> description) {
+	public ArrayType assertion(Predicate<JsonArray> predicate, ProblemDescriber<JsonArray> description) {
 		return this;
 	}
 }

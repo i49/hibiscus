@@ -8,7 +8,7 @@ import javax.json.JsonValue;
 /**
  * Problem that array has a duplicate element.
  */
-public class ArrayDuplicateItemProblem extends ValueProblem<JsonArray> {
+public class ArrayDuplicateItemProblem extends JsonValueProblem<JsonArray> {
 
 	private final int itemIndex;
 	

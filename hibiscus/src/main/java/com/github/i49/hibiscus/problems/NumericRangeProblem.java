@@ -7,9 +7,9 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.common.Bound;
 
 /**
- * Problem that numeric value is out of range.
+ * An abstract class representing a problem that a numeric value in JSON document is out of the valid range.
  */
-public abstract class NumericRangeProblem extends ValueProblem<JsonNumber> {
+public abstract class NumericRangeProblem extends JsonValueProblem<JsonNumber> {
 	
 	private final Bound<BigDecimal> bound;
 

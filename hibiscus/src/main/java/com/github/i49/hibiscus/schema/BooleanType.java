@@ -4,7 +4,7 @@ import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 import java.util.function.Predicate;
 
@@ -48,5 +48,5 @@ public interface BooleanType extends AtomicType {
 	 * @param description the object to supply a description to be reported when the assertion failed.
 	 * @return this type.
 	 */
-	BooleanType assertion(Predicate<JsonValue> predicate, DescriptionSupplier<JsonValue> description);
+	BooleanType assertion(Predicate<JsonValue> predicate, ProblemDescriber<JsonValue> description);
 }

@@ -10,9 +10,9 @@ import com.github.i49.hibiscus.formats.Format;
 /**
  * Problem that the format of the value is invalid.
  *
- * @param <V> the type of JSON values.
+ * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class InvalidFormatProblem<V extends JsonValue> extends ValueProblem<V> {
+public class InvalidFormatProblem<V extends JsonValue> extends JsonValueProblem<V> {
 
 	private final Set<Format<V>> formats;
 	

@@ -3,7 +3,7 @@ package com.github.i49.hibiscus.problems;
 import java.util.Locale;
 
 /**
- * Problem that object has a property which is not explicitly defined in schema.
+ * Problem that an object has a property which is not explicitly declared in the schema.
  */
 public class UnknownPropertyProblem extends AbstractProblem {
 
@@ -11,15 +11,15 @@ public class UnknownPropertyProblem extends AbstractProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param propertyName the name of unknown property.
+	 * @param propertyName the name of the unknown property.
 	 */
 	public UnknownPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
 	/**
-	 * Returns the name of the unknown property.
-	 * @return property name.
+	 * Returns the name of the unknown property which is not declared in the schema.
+	 * @return the name of the unknown property which is not declared in the schema.
 	 */
 	public String getPropertyName() {
 		return propertyName;

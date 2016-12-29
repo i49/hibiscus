@@ -8,7 +8,7 @@ import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.facets.AssertionFacet;
 import com.github.i49.hibiscus.facets.Facet;
-import com.github.i49.hibiscus.problems.DescriptionSupplier;
+import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
@@ -67,7 +67,7 @@ abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> impleme
 	 * @return this type.
 	 * @exception SchemaException if any of specified parameters is {@code null}.
 	 */
-	public T assertion(Predicate<V> predicate, DescriptionSupplier<V> description) {
+	public T assertion(Predicate<V> predicate, ProblemDescriber<V> description) {
 		if (predicate == null) {
 			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "predicate"));
 		}

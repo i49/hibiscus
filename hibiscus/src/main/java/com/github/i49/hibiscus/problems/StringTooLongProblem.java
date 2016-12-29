@@ -7,7 +7,7 @@ import javax.json.JsonString;
 /**
  * Problem that string is longer than allowed.
  */
-public class StringTooLongProblem extends ValueProblem<JsonString> {
+public class StringTooLongProblem extends JsonValueProblem<JsonString> {
 
 	private final int actualLength;
 	private final int limitLength;

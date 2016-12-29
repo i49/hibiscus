@@ -7,7 +7,7 @@ import javax.json.JsonArray;
 /**
  * Problem that array is too short.
  */
-public class ArrayTooShortProblem extends ValueProblem<JsonArray> {
+public class ArrayTooShortProblem extends JsonValueProblem<JsonArray> {
 
 	private final int actualLength;
 	private final int limitLength;

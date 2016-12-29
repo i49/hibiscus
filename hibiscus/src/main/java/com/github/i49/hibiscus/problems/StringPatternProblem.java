@@ -7,7 +7,7 @@ import javax.json.JsonString;
 /**
  * Problems that string value does not match expected pattern.
  */
-public class StringPatternProblem extends ValueProblem<JsonString> {
+public class StringPatternProblem extends JsonValueProblem<JsonString> {
 
 	/**
 	 * Constructs this problem.

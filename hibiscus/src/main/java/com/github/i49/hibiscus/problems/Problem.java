@@ -5,7 +5,8 @@ import java.util.Locale;
 import javax.json.stream.JsonLocation;
 
 /**
- * Common interface which should be implemented by all problems that will be detected by JSON validator.
+ * Common interface which should be implemented by all classes representing problems 
+ * that will be detected by JSON validator.
  * 
  * <p>Please read <a href="package-summary.html#summary-of-problem">Summary of Problem</a> first.</p>
  * 
