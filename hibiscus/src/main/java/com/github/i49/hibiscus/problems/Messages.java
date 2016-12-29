@@ -18,8 +18,7 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.formats.Format;
 
 /**
- * Messages for validation problems.
- * Used internally by each {@link Problem} derived class.
+ * Localized messages used internally by each {@link Problem} implementation class.
  */
 final class Messages {
 
@@ -28,10 +27,10 @@ final class Messages {
 
 	/**
 	 * Returns the message that represents the problem as a whole.
-	 * @param locale the locale for the message.
+	 * @param locale the locale desired for the message.
 	 * @param location the location where the problem was found. This can be {@code null}.
 	 * @param description the description of the problem.
-	 * @return the message for the problem.
+	 * @return localized message for the problem.
 	 */
 	static String PROBLEM_MESSAGE(Locale locale, JsonLocation location, String description) {
 		ResourceBundle bundle = getBundle(locale);

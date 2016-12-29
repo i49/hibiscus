@@ -42,7 +42,7 @@ class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements
 		JsonObject object = (JsonObject)value;
 		for (String name: this.required) {
 			if (!object.containsKey(name)) {
-				problems.add(new MissingPropertyProblem(name));
+				problems.add(new MissingPropertyProblem(object, name));
 			}
 		}
 	}

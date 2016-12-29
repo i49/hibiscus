@@ -6,7 +6,13 @@ import javax.json.JsonArray;
 import javax.json.JsonValue;
 
 /**
- * Problem that array has a duplicate element.
+ * Problem that an element in an array has the same value as other element in that array.
+
+ * <p>This object will be instantiated each per duplication found in an array. 
+ * If more than two elements were found to have the coincident value, 
+ * each occurrence but the first one produces a new problem to be reported.</p>
+ *  
+ * <p>This problem can be caused by {@code array()} type only.</p>
  */
 public class ArrayDuplicateItemProblem extends JsonValueProblem<JsonArray> {
 
@@ -14,8 +20,8 @@ public class ArrayDuplicateItemProblem extends JsonValueProblem<JsonArray> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the array value that caused this problem.
-	 * @param itemIndex where the duplication was found.
+	 * @param value the array which has the duplicate element.
+	 * @param itemIndex zero-based index that indicates where the duplicated element was found.
 	 */
 	public ArrayDuplicateItemProblem(JsonArray value, int itemIndex) {
 		super(value);
@@ -23,19 +29,19 @@ public class ArrayDuplicateItemProblem extends JsonValueProblem<JsonArray> {
 	}
 	
 	/**
-	 * Returns the index of duplicate element.
-	 * @return the index of duplicate element. 
+	 * Returns the zero-based index of the duplicate element.
+	 * @return the zero-based index of the duplicate element. 
 	 */
 	public int getDuplicateIndex() {
 		return itemIndex;
 	}
 	
 	/**
-	 * Returns the duplicate item.
-	 * @return the duplicate item.
+	 * Returns the value of the duplicate element in the array.
+	 * @return the value of the duplicate element.
 	 */
 	public JsonValue getDuplicateItem() {
-		return getActualValue().get(itemIndex);
+		return getActualValue().get(this.itemIndex);
 	}
 
 	@Override

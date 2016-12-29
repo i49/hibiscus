@@ -5,7 +5,9 @@ import java.util.Locale;
 import javax.json.JsonString;
 
 /**
- * Problem that string is longer than allowed.
+ * Problem that a string is longer than specified explicitly in the schema.
+ *
+ * <p>This problem can be caused by {@code string()} type only.</p>
  */
 public class StringTooLongProblem extends JsonValueProblem<JsonString> {
 
@@ -14,8 +16,8 @@ public class StringTooLongProblem extends JsonValueProblem<JsonString> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value string value in JSON document. 
-	 * @param actualLength actual number of characters in the string.
+	 * @param value the string value which has invalid length and caused this problem. 
+	 * @param actualLength the actual number of characters in the string.
 	 * @param limitLength the maximum number of characters allowed for the type. 
 	 */
 	public StringTooLongProblem(JsonString value, int actualLength, int limitLength) {
@@ -25,16 +27,16 @@ public class StringTooLongProblem extends JsonValueProblem<JsonString> {
 	}
 
 	/**
-	 * Returns actual number of characters in string.
-	 * @return actual number of characters.
+	 * Returns the actual number of characters in the string.
+	 * @return the actual number of characters in the string.
 	 */
 	public int getActualLength() {
 		return actualLength;
 	}
 	
 	/**
-	 * Returns the maximum number of characters allowed. 
-	 * @return the maximum number of characters.
+	 * Returns the maximum number of characters allowed for the type. 
+	 * @return the maximum number of characters allowed for the type.
 	 */
 	public int getLimitLength() {
 		return limitLength;

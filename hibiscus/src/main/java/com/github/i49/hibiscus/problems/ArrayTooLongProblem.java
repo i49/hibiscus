@@ -5,7 +5,9 @@ import java.util.Locale;
 import javax.json.JsonArray;
 
 /**
- * Problem that array is too long.
+ * Problem that an array has too many elements than the specified explicitly in the schema.
+ * 
+ * <p>This problem can be caused by {@code array()} type only.</p>
  */
 public class ArrayTooLongProblem extends JsonValueProblem<JsonArray> {
 
@@ -14,9 +16,9 @@ public class ArrayTooLongProblem extends JsonValueProblem<JsonArray> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value in JSON document.
-	 * @param actualLength the actual number of elements in array value.
-	 * @param limitLength the maximum number of elements allowed in the array type. 
+	 * @param value the array which has invalid number of elements.
+	 * @param actualLength the actual number of elements in the array in JSON document.
+	 * @param limitLength the maximum number of elements in the array type declared in the schema. 
 	 */
 	public ArrayTooLongProblem(JsonArray value, int actualLength, int limitLength) {
 		super(value);
@@ -25,16 +27,16 @@ public class ArrayTooLongProblem extends JsonValueProblem<JsonArray> {
 	}
 
 	/**
-	 * Returns the actual number of elements in array instance.
-	 * @return actual number of elements.
+	 * Returns the actual number of elements in the array.
+	 * @return the actual number of elements.
 	 */
 	public int getActualLength() {
 		return actualLength;
 	}
 	
 	/**
-	 * Returns the number of elements allowed in array. 
-	 * @return the maximum number of elements.
+	 * Returns the maximum number of elements in the array type declared in the schema. 
+	 * @return the maximum number of elements in the array type.
 	 */
 	public int getLimitLength() {
 		return limitLength;

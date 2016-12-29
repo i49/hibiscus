@@ -4,6 +4,8 @@ import java.util.Locale;
 
 /**
  * Problem that an object has a property which is not explicitly declared in the schema.
+ *
+ * <p>This problem can be caused by {@code object()} type only.</p>
  */
 public class UnknownPropertyProblem extends AbstractProblem {
 
@@ -11,7 +13,7 @@ public class UnknownPropertyProblem extends AbstractProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param propertyName the name of the unknown property.
+	 * @param propertyName the name of the unknown property which caused this problem.
 	 */
 	public UnknownPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;

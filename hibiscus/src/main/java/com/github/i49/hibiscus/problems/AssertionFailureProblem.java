@@ -5,7 +5,9 @@ import java.util.Locale;
 import javax.json.JsonValue;
 
 /**
- * Problem that an assertion on specific type was failed. 
+ * Problem that an assertion made on specific type was failed. 
+ * 
+ * <p>This problem can be caused by all but {@code nil()} types.</p>
  * 
  * @param <V> the type of {@link JsonValue} which caused this problem.
  */

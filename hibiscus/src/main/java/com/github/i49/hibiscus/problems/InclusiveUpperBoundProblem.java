@@ -8,7 +8,11 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.common.Bound;
 
 /**
- * Problem that numeric value is more than inclusive upper bound of allowed range.
+ * Problem that a numeric value is greater than the upper bound of the valid range
+ * specified in the schema. The value of the upper bound is included in the valid range
+ * and therefore does not cause this problem.
+ *
+ * <p>This problem can be caused by {@code integer()} or {@code number()} type.</p>
  */
 public class InclusiveUpperBoundProblem extends NumericRangeProblem {
 

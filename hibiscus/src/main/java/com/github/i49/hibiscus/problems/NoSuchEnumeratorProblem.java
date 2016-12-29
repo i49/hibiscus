@@ -6,7 +6,10 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 /**
- * Problem that the value in JSON document does not match any enumerators allowed for the type.
+ * Problem that a value does not match any value in the enumeration allowed for the type.
+ * 
+ * <p>This problem can be caused by
+ * {@code boolean()}, {@code integer()}, {@code number()}, or {@code string()} type.</p>
  */
 public class NoSuchEnumeratorProblem extends JsonValueProblem<JsonValue> {
 
@@ -14,7 +17,7 @@ public class NoSuchEnumeratorProblem extends JsonValueProblem<JsonValue> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the value in JSON instance.
+	 * @param value the actual value which caused this problem.
 	 * @param enumerators the set of the distinct values allowed for the type.
 	 */
 	public NoSuchEnumeratorProblem(JsonValue value, Set<Object> enumerators) {
@@ -24,7 +27,7 @@ public class NoSuchEnumeratorProblem extends JsonValueProblem<JsonValue> {
 	
 	/**
 	 * Returns the set of the distinct values allowed for the type.
-	 * @return the set of the distinct values.
+	 * @return the set of the distinct values allowed for the type.
 	 */
 	public Set<Object> getEnumerators() {
 		return enumerators;

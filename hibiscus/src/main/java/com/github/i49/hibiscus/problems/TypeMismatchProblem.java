@@ -6,37 +6,42 @@ import java.util.Set;
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Problem that type of value in JSON instance does not match type specified in schema. 
+ * Problem that the type of a value in JSON document does not match any types declared in the schema.
+ * Note that the type matching is done by testing the equality of {@link TypeId} which is assigned to every type.
+ * 
+ * @see TypeId
  */
 public class TypeMismatchProblem extends AbstractProblem {
 	
 	private final TypeId actualType;
-	private final Set<TypeId> expectedType;
+	private final Set<TypeId> expectedTypes;
 
 	/**
 	 * Constructs this problem.
-	 * @param actualType the actual type found in JSON instance.
-	 * @param expectedType the expected types specified in schema.
+	 * @param actualType the actual type which caused this problem.
+	 * @param expectedTypes all expected types for the value, which are declared in the schema.
 	 */
-	public TypeMismatchProblem(TypeId actualType, Set<TypeId> expectedType) {
+	public TypeMismatchProblem(TypeId actualType, Set<TypeId> expectedTypes) {
 		this.actualType = actualType;
-		this.expectedType = expectedType;
+		this.expectedTypes = expectedTypes;
 	}
 	
 	/**
-	 * Returns actual type found in JSON instance.
-	 * @return actual type.
+	 * Returns the actual type of the value found in JSON document, which does not match any types
+	 * obtained by {@link #getExpectedTypes()}.
+	 * @return the actual type found in JSON document.
+	 * @see #getExpectedTypes()
 	 */
 	public TypeId getActualType() {
 		return actualType;
 	}
 
 	/**
-	 * Returns expected types specified in schema.
-	 * @return expected types. 
+	 * Returns all expected types for the value, which are declared in the schema.
+	 * @return all expected types for the value. 
 	 */
 	public Set<TypeId> getExpectedTypes() {
-		return expectedType;
+		return expectedTypes;
 	}
 
 	@Override

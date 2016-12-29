@@ -8,7 +8,11 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.common.Bound;
 
 /**
- * Problem that numeric value is less than or equal to exclusive lower bound of allowed range.
+ * Problem that a numeric value is less than or equal to the lower bound of the valid range
+ * specified in the schema. The value of the lower bound is not included in the valid range
+ * and therefore causes this problem to be reported.
+ * 
+ * <p>This problem can be caused by {@code integer()} or {@code number()} type.</p>
  */
 public class ExclusiveLowerBoundProblem extends NumericRangeProblem {
 

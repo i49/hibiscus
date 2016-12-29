@@ -5,7 +5,9 @@ import java.util.Locale;
 import javax.json.JsonString;
 
 /**
- * Problem that string does not have exactly the same as expected characters.
+ * Problem that an string does not have exactly the same as expected characters.
+ *
+ * <p>This problem can be caused by {@code string()} type only.</p>
  */
 public class StringLengthProblem extends JsonValueProblem<JsonString> {
 
@@ -14,9 +16,9 @@ public class StringLengthProblem extends JsonValueProblem<JsonString> {
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the string value in JSON document. 
+	 * @param value the string value which has invalid length and caused this problem. 
 	 * @param actualLength the actual number of characters in the string.
-	 * @param expectedLength the expected number of characters in the string.
+	 * @param expectedLength the expected number of characters for the type.
 	 */
 	public StringLengthProblem(JsonString value, int actualLength, int expectedLength) {
 		super(value);
@@ -25,16 +27,16 @@ public class StringLengthProblem extends JsonValueProblem<JsonString> {
 	}
 	
 	/**
-	 * Returns actual number of characters in string.
-	 * @return actual number of characters.
+	 * Returns the actual number of characters in the string.
+	 * @return the actual number of characters in the string.
 	 */
 	public int getActualLength() {
 		return actualLength;
 	}
 
 	/**
-	 * Returns the number of characters expected for the string. 
-	 * @return the number of characters expected.
+	 * Returns the number of characters expected for the type. 
+	 * @return the number of characters expected for the type.
 	 */
 	public int getExpectedLength() {
 		return expectedLength;

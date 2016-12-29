@@ -2,24 +2,30 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 
+import javax.json.JsonObject;
+
 /**
- * Problem that object does not have a property which is specified as mandatory.
+ * Problem that an object does not have a property which is specified as mandatory in the schema.
+ * 
+ * <p>This problem can be caused by {@code object()} type only.</p>
  */
-public class MissingPropertyProblem extends AbstractProblem {
+public class MissingPropertyProblem extends JsonValueProblem<JsonObject> {
 
 	private final String propertyName;
 	
 	/**
 	 * Constructs this problem.
-	 * @param propertyName the name of missing property.
+	 * @param object the JSON object which lacks the required property.
+	 * @param propertyName the name of the missing property.
 	 */
-	public MissingPropertyProblem(String propertyName) {
+	public MissingPropertyProblem(JsonObject object, String propertyName) {
+		super(object);
 		this.propertyName = propertyName;
 	}
 
 	/**
 	 * Returns the name of the missing property.
-	 * @return name of property.
+	 * @return the name of the missing property.
 	 */
 	public String getPropertyName() {
 		return propertyName;
