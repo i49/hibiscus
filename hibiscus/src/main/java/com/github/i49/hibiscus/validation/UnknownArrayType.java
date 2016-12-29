@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.schema.JsonType;
 import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
- * Unknown array type found during validation.
+ * A internal helper class which represents an unknown array found during validation.
  */
 class UnknownArrayType implements ArrayType {
 

@@ -7,7 +7,8 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Implementation class of {@code ValidationResult}.
+ * An implementation class of {@link ValidationResult} interface.
+ * This class is used internally by {@link BasicJsonValidator}.
  */
 class ValidationResultImpl implements ValidationResult {
 
@@ -16,8 +17,8 @@ class ValidationResultImpl implements ValidationResult {
 
 	/**
 	 * Constructs this result.
-	 * @param value the JSON value found at root of JSON document.
-	 * @param problems the problems detected by validation.
+	 * @param value the JSON value found at the root of the JSON document.
+	 * @param problems the problems detected in the process of the validation.
 	 */
 	public ValidationResultImpl(JsonValue value, List<Problem> problems) {
 		this.value = value;

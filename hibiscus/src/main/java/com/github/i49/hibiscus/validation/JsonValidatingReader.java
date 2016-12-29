@@ -26,8 +26,10 @@ import com.github.i49.hibiscus.schema.Schema;
 import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
- * JSON reader which reads and validates contents against specified schema.
- * This class is to be instantiated on each reading of JSON content.
+ * An internal class to be used to parse and validate JSON documents against specified schema.
+ * The object of this class should be instantiated on every reading of a new JSON document.
+ * 
+ * <p>All methods of this object are intended to be invoked from the same thread.</p>
  */
 class JsonValidatingReader {
 
@@ -39,8 +41,8 @@ class JsonValidatingReader {
 
 	/**
 	 * Constructs this reader.
-	 * @param parser the JSON parser which conforms to JSON Processing API.
-	 * @param builderFactory the JSON builder which conforms to JSON Processing API.
+	 * @param parser the JSON parser which conforms to Java API for JSON Processing.
+	 * @param builderFactory the JSON builder which conforms to Java API for JSON Processing.
 	 * @param valueFactory the factory to create JSON values. 
 	 */
 	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory builderFactory, JsonValueFactory valueFactory) {
@@ -50,9 +52,9 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Reads all contents of JSON document.
+	 * Reads all contents of the JSON document.
 	 * @param schema the schema against which this reader validates the JSON document.
-	 * @return JSON value found at root of JSON document.
+	 * @return the JSON value found at the root of the JSON document.
 	 */
 	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
@@ -63,7 +65,7 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Returns all problems found by validation against schema.
+	 * Returns all problems found by the validation against the schema.
 	 * @return all problems found.
 	 */
 	public List<Problem> getProblems() {
@@ -119,9 +121,9 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Reads a property of object. 
-	 * @param object object containing the property.
-	 * @param builder object builder.
+	 * Reads a property of the object. 
+	 * @param object the object type which has the property.
+	 * @param builder {@link JsonObjectBuilder} to be used to build JSON object.
 	 */
 	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
 		String propertyName = parser.getString();
@@ -143,10 +145,10 @@ class JsonValidatingReader {
 	}
 	
 	/**
-	 * Reads simple JSON value such as string, integer, number, boolean or null.
-	 * @param event event provided by Streaming API.
-	 * @param candidates candidates of type.
-	 * @return instance value read.
+	 * Reads an atomic JSON value such as boolean, integer, number, null and string.
+	 * @param event the event provided by Streaming API.
+	 * @param candidates the type candidates declared in the schema.
+	 * @return {@link JsonValue} found in the JSON document.
 	 */
 	private JsonValue readAtomicValue(JsonParser.Event event, TypeSet candidates) {
 		
@@ -226,8 +228,8 @@ class JsonValidatingReader {
 	}
 
 	/**
-	 * Adds problem found to list of problems.
-	 * @param problem problem found during the validation.
+	 * Adds a problem found to the list of the problems.
+	 * @param problem the problem found while validation the JSON document.
 	 */
 	private void addProblem(Problem problem) {
 		problem.setLocation(parser.getLocation());
@@ -235,8 +237,8 @@ class JsonValidatingReader {
 	}
 
 	/**
-	 * Adds multiple problems found to list of problems.
-	 * @param problems problems found during the validation.
+	 * Adds multiple problems found to the list of the problems.
+	 * @param problems the problems found while validation the JSON document.
 	 */
 	private void addProblems(Collection<Problem> problems) {
 		for (Problem p: problems) {
@@ -245,8 +247,8 @@ class JsonValidatingReader {
 	}
 
 	/**
-	 * Returns exception to be thrown when internal error was found.
-	 * @return exception which means internal error.
+	 * Returns the exception to be thrown when internal error occurred.
+	 * @return the exception which represents an internal error.
 	 */
 	private static JsonException internalError() {
 		return new JsonException("Internal Error");

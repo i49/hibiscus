@@ -10,7 +10,7 @@ import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.schema.Property;
 
 /**
- * Unknown object type found during validation.
+ * A internal helper class which represents an unknown object found during validation.
  */
 class UnknownObjectType implements ObjectType {
 	

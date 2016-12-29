@@ -17,7 +17,44 @@ import com.github.i49.hibiscus.json.JsonValueFactoryImpl;
 import com.github.i49.hibiscus.schema.Schema;
 
 /**
- * Implementation class of {@link JsonValidator} and base class of all custom JSON validators.  
+ * An implementation class of {@link JsonValidator} interface and the base class of all custom JSON validators.  
+ * This class is intended to be extended by application developers 
+ * to build their own validators which have application specific schema. 
+ * 
+ * <p>The schema to be used to validate JSON documents should be assigned to the object of this class 
+ * by passing it to the constructor.
+ * For more information about how to define schema, please read {@link com.github.i49.hibiscus.schema} package.
+ * </p>
+ * 
+ * <p>The following sample code shows how to write your own JSON validator by extending this class.</p>
+ * <blockquote><pre><code>
+ * import com.github.i49.hibiscus.validation.BasicJsonValidator;
+ * import com.github.i49.hibiscus.schema.Schema;
+ * import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+ * 
+ * public class PersonValidator extends BasicJsonValidator {
+ *   // Schema definition.
+ *   private static final Schema schema = schema(
+ *     object(
+ *       required("firstName", string()),
+ *       required("lastName", string()),
+ *       optional("age", integer()),
+ *       optional("hobbies", array(string()))
+ *     )
+ *   );  
+ * 
+ *   public PersonValidator() {
+ *     super(schema)
+ *   }
+ * }
+ * </code></pre></blockquote>
+ * 
+ * <p>For details about how to validate JSON documents by using this class,
+ * please see {@link JsonValidator} interface.
+ * </p>
+ * 
+ * @see JsonValidator
+ * @see com.github.i49.hibiscus.schema
  */
 public class BasicJsonValidator implements JsonValidator {
 
@@ -31,6 +68,7 @@ public class BasicJsonValidator implements JsonValidator {
 	 * Constructs this validator.
 	 * 
 	 * @param schema the schema to be used by this validator to validate JSON documents.
+	 *               Should not be modified once passed to this constructor. 
 	 * 
 	 * @exception IllegalArgumentException if schema is {@code null}.
 	 * @exception IllegalStateException if one of internal objects was not configured properly.
@@ -93,8 +131,8 @@ public class BasicJsonValidator implements JsonValidator {
 	}
 	
 	/**
-	 * Parses JSON document with specified parser and produces result.
-	 * @param parser the parser to parse the JSON document.
+	 * Parses the JSON document with specified parser and produces the validation result.
+	 * @param parser the parser to be used to parse the JSON document.
 	 * @return the result of the validation.
 	 */
 	private ValidationResult parse(JsonParser parser) {
@@ -104,8 +142,10 @@ public class BasicJsonValidator implements JsonValidator {
 	}
 	
 	/**
-	 * Creates and configures {@link javax.json.stream.JsonParserFactory} object which implements JSON Processing API.
-	 * @return created {@link javax.json.stream.JsonParserFactory} object.
+	 * Creates and configures {@link JsonParserFactory} object which implements Java API for JSON Processing.
+	 * @return created {@link JsonParserFactory} object to be used in the process of the validation.
+	 * @see JsonParserFactory
+	 * @see <a href="http://json-processing-spec.java.net/">JSR 353: Java API for JSON Processing</a>
 	 */
 	protected JsonParserFactory createParserFactory() {
 		Map<String, ?> config = new HashMap<>();
@@ -113,8 +153,10 @@ public class BasicJsonValidator implements JsonValidator {
 	}
 	
 	/**
-	 * Creates and configures {@link javax.json.JsonBuilderFactory} object which implements JSON Processing API.
-	 * @return created {@link javax.json.JsonBuilderFactory} object.
+	 * Creates and configures {@link JsonBuilderFactory} object which implements Java API for JSON Processing.
+	 * @return created {@link JsonBuilderFactory} object to be used in the process of the validation.
+	 * @see JsonBuilderFactory
+	 * @see <a href="http://json-processing-spec.java.net/">JSR 353: Java API for JSON Processing</a>
 	 */
 	protected JsonBuilderFactory createBuilderFactory() {
 		Map<String, ?> config = new HashMap<>();
@@ -123,7 +165,7 @@ public class BasicJsonValidator implements JsonValidator {
 	
 	/**
 	 * Creates and configures {@link JsonValueFactory} object.
-	 * @return created {@link JsonValueFactory} object.
+	 * @return created {@link JsonValueFactory} object to be used in the process of the validation.
 	 */
 	protected JsonValueFactory createValueFactory() {
 		return new JsonValueFactoryImpl();
