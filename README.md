@@ -194,7 +194,7 @@ In the case that your choice is Apache Johnzon, you can specify it as follows.
 <dependency>
   <groupId>org.apache.johnzon</groupId>
   <artifactId>johnzon-core</artifactId>
-  <version>0.9.5</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
