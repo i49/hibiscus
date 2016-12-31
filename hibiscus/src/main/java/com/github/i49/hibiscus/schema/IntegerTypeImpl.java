@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.schema;
 
 /**
- * Implementation of {@code NumberType}.
+ * The implementation class of {@link IntegerType}.
  */
 class IntegerTypeImpl extends AbstractNumberType<IntegerType> implements IntegerType {
 

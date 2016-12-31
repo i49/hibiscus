@@ -3,11 +3,11 @@ package com.github.i49.hibiscus.schema;
 import javax.json.JsonValue;
 
 /**
- * Implementation of {@code NullType}.
+ * The implementation class of {@link NullType}.
  */
 class NullTypeImpl extends AbstractJsonType<JsonValue, NullType> implements NullType {
 
-	/** The only available instance of this type. */
+	/** The Singleton instance of this type. */
 	public static final NullType INSTANCE = new NullTypeImpl();
 	
 	/**

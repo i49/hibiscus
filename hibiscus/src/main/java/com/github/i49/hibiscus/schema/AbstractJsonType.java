@@ -12,10 +12,10 @@ import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * Skeletal class to implement {@code JsonType}.
+ * A skeletal class to help implement {@link JsonType}.
  * 
- * @param <V> the type of JSON value.
- * @param <T> the type of actual class derived from this class.
+ * @param <V> the type of {@link JsonValue} to be validated by this class.
+ * @param <T> the type of the concrete class which is derived from this class.
  */
 abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> implements JsonType {
 
@@ -35,8 +35,8 @@ abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> impleme
 	}
 
 	/**
-	 * Returns a string representation of this type.
-	 * @return a string representation of the object. 
+	 * Returns a string representation of this {@link JsonType}.
+	 * @return a string representation of this {@link JsonType}. 
 	 */
 	@Override
 	public String toString() {
@@ -44,7 +44,7 @@ abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> impleme
 	}
 
 	/**
-	 * Adds a facet to this type.
+	 * Adds a {@link Facet} which restricts the value space of this type.
 	 * @param facet the facet to be added. Cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if facet specified is {@code null}.
@@ -61,20 +61,20 @@ abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> impleme
 	}
 	
 	/**
-	 * Specifies assertion on this type.
-	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
-	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * Makes a assertion on the values of this type.
+	 * @param predicate the lambda expression that will return {@code true} if the assertion succeeded or {@code false} if failed.
+	 * @param describer the object supplying the description of the problem to be reported when the assertion failed.
 	 * @return this type.
 	 * @exception SchemaException if any of specified parameters is {@code null}.
 	 */
-	public T assertion(Predicate<V> predicate, ProblemDescriber<V> description) {
+	public T assertion(Predicate<V> predicate, ProblemDescriber<V> describer) {
 		if (predicate == null) {
 			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "predicate"));
 		}
-		if (description == null) {
-			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "description"));
+		if (describer == null) {
+			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("assertion", "describer"));
 		}
-		facet(new AssertionFacet<V>(predicate, description));
+		facet(new AssertionFacet<V>(predicate, describer));
 		return self();
 	}
 

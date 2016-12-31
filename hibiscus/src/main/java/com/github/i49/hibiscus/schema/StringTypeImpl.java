@@ -18,7 +18,7 @@ import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
 
 /**
- * Implementation of {@code StringType}.
+ * The implementation class of {@link StringType}.
  */
 class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements StringType {
 
@@ -87,16 +87,16 @@ class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements
 	}
 
 	/**
-	 * Returns the number of characters in string.
+	 * Returns the number of characters in the string.
 	 * @param value the string value.
-	 * @return length of string.
+	 * @return the length of the string.
 	 */
 	private static int getLength(JsonString value) {
 		return value.getString().length();
 	}
 
 	/**
-	 * Verifies value specified as length of string.
+	 * Verifies the length specified for strings.
 	 * @param length the length specified for strings.
 	 */
 	private static void verifyLength(int length) {

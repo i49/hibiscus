@@ -1,7 +1,8 @@
 package com.github.i49.hibiscus.schema;
 
 /**
- * JSON type which can contain zero or more other JSON types.
+ * A {@link JsonType} which can be composed of other {@link JsonType}s.
+ * The classes derived from this type include array and object type only.
  */
 public interface CompositeType extends JsonType {
 }

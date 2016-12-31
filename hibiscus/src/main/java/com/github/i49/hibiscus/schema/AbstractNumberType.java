@@ -12,9 +12,9 @@ import com.github.i49.hibiscus.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.facets.MinNumberFacet;
 
 /**
- * Skeletal class to implement {@code NumberType}.
+ * A skeletal class to help implement {@link NumberType} and {@link IntegerType}.
  *
- * @param <T> the interface to implement. {@code NumberType} or {@code IntegerType}. 
+ * @param <T> the interface to be implemented, which is {@link NumberType} or {@link IntegerType}. 
  */
 abstract class AbstractNumberType<T extends NumberType> extends AbstractJsonType<JsonNumber, T> {
 

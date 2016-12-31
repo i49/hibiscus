@@ -10,7 +10,54 @@ import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
- * JSON type for numeric value, including integer.
+ * One of built-in types representing JSON number which has {@link TypeId#NUMBER} as a type identifier.
+ * This type represents a signed decimal number with or without a fractional part. 
+ * 
+ * <p>An instance of this type can be created through {@link SchemaComponents#number()}.</p>
+ * <blockquote><pre><code>
+ * import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+ * NumberType t = number();
+ * </code></pre></blockquote>
+ * 
+ * <h3>Restrictions on this type</h3>
+ * <p>This type allows you to impose following restrictions on the value space.</p>
+ * <ol>
+ * <li>minInclusive</li>
+ * <li>minExclusive</li>
+ * <li>maxInclusive</li>
+ * <li>maxExclusive</li>
+ * <li>enumeration</li>
+ * <li>assertion</li>
+ * </ol>
+ * 
+ * <h4>1. minInclusive</h4>
+ * <p><strong>minInclusive</strong> specifies the lower bound of the numeric range.
+ * The bound value is included in the valid range.</p>
+ * <blockquote><pre><code>number().minInclusive(42);</code></pre></blockquote>
+ * 
+ * <h4>2. minExclusive</h4>
+ * <p><strong>minExclusive</strong> specifies the lower bound of the numeric range.
+ * The bound value is excluded from the valid range.</p>
+ * <blockquote><pre><code>number().minExclusive(42);</code></pre></blockquote>
+ * 
+ * <h4>3. maxInclusive</h4>
+ * <p><strong>maxInclusive</strong> specifies the upper bound of the numeric range.
+ * The bound value is included in the valid range.</p>
+ * <blockquote><pre><code>number().maxInclusive(42);</code></pre></blockquote>
+ * 
+ * <h4>4. maxExclusive</h4>
+ * <p><strong>maxExclusive</strong> specifies the upper bound of the numeric range.
+ * The bound value is excluded from the valid range.</p>
+ * <blockquote><pre><code>number().maxExclusive(42);</code></pre></blockquote>
+ * 
+ * <h4>5. enumeration</h4>
+ * <p><strong>enumeration</strong> specifies the value space of this type as a set of distinct values.</p>
+ * <blockquote><pre><code>number().enumeration(1, 2, 3);</code></pre></blockquote>
+ * 
+ * <h4>6. assertion</h4>
+ * <p><strong>assertion</strong> allows you to make a arbitrary assertion on the values of this type.</p>
+ * 
+ * @see SchemaComponents
  */
 public interface NumberType extends AtomicType {
 
@@ -19,7 +66,7 @@ public interface NumberType extends AtomicType {
 	}
 	
 	/**
-	 * Adds a facet to this type.
+	 * Adds a {@link Facet} which restricts the value space of this type.
 	 * @param facet the facet to be added. Cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if facet specified is {@code null}.
@@ -83,31 +130,32 @@ public interface NumberType extends AtomicType {
 	NumberType maxExclusive(BigDecimal value);
 	
 	/**
-	 * Specifies values allowed for this type.
+	 * Specifies the value space of this type as empty.
 	 * @return this type.
 	 */
 	NumberType enumeration();
 
 	/**
-	 * Specifies values allowed for this type.
-	 * @param values the values allowed.
+	 * Specifies the value space of this type as a set of distinct values.
+	 * @param values the values allowed for this type.
 	 * @return this type.
 	 */
 	NumberType enumeration(long... values);
 	
 	/**
-	 * Specifies values allowed for this type.
-	 * @param values the values allowed.
+	 * Specifies the value space of this type as a set of distinct values.
+	 * @param values the values allowed for this type. Each value cannot be {@code null}.
 	 * @return this type.
-	 * @exception SchemaException if one of values specified is null.
+	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
 	NumberType enumeration(BigDecimal... values);
 
 	/**
-	 * Specifies assertion on this type.
-	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
-	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * Makes a assertion on the values of this type.
+	 * @param predicate the lambda expression that will return {@code true} if the assertion succeeded or {@code false} if failed.
+	 * @param describer the object supplying the description of the problem to be reported when the assertion failed.
 	 * @return this type.
+	 * @exception SchemaException if any of specified parameters is {@code null}.
 	 */
-	NumberType assertion(Predicate<JsonNumber> predicate, ProblemDescriber<JsonNumber> description);
+	NumberType assertion(Predicate<JsonNumber> predicate, ProblemDescriber<JsonNumber> describer);
 }

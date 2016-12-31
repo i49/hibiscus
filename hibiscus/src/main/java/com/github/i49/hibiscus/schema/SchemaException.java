@@ -9,7 +9,7 @@ public class SchemaException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a SchemaException with the specified detail message.
+	 * Constructs this exception with the specified detail message.
 	 * @param s the detail message.
 	 */
 	public SchemaException(String s) {

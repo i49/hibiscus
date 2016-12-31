@@ -1,23 +1,27 @@
 package com.github.i49.hibiscus.schema;
 
+import com.github.i49.hibiscus.common.TypeId;
+
 /**
- * Provides utility methods to create building blocks of your JSON schema.
- * <p>All methods of this class are static and this class cannot be instantiated.</p>
+ * The central class to create various kinds of schema components which are used to build
+ * your own schema to validate JSON documents.
  */
 public final class SchemaComponents {
 
 	/**
-	 * Creates a schema.
-	 * @return created schema object.
+	 * Creates an empty schema.
+	 * @return created schema.
 	 */
 	public static Schema schema() {
 		return new SchemaImpl();
 	}
 	
 	/**
-	 * Creates a schema with root types.
-	 * @param types the JSON types allowed to be at root of JSON document.
-	 * @return created schema object.
+	 * Creates a schema which expects specified types at the root of JSON documents.
+	 * @param types the {@link JsonType}s allowed to be at the root of JSON documents.
+	 *              Each type must have a unique {@link TypeId}.
+	 * @return created schema.
+	 * @exception SchemaException if one of types given has the same {@link TypeId} as others or {@code null}.
 	 */
 	public static Schema schema(JsonType... types) {
 		return schema().types(types);

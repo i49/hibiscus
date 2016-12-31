@@ -5,8 +5,9 @@
 </head>
 <body>
 <p>Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.</p>
-<h2>Getting started</h2>
-<h3>Schema example</h3>
+
+<h2>1. Introduction</h2>
+<h3>1.1 Schema example</h3>
 <p>As first example we assume that you have JSON document below that you would like to validate in your application.</p>
 <blockquote><pre><code>{
   "firstName": "Jason",
@@ -26,7 +27,8 @@ We can write the schema for this kind of document as Java code like following:</
   )  
 );
 </code></pre></blockquote>
-<h3>How to write your own JSON validator</h3>
+
+<h3>1.2. How to write your own JSON validator</h3>
 <ol>
 <li><p>Create a new class that extends <code>BasicJsonValidator</code> class.</p>
 <pre><code>import com.github.i49.hibiscus.validation.BasicJsonValidator;
@@ -81,7 +83,8 @@ public class PersonValidator extends BasicJsonValidator {
 <p>The next section shows you how to use the validator you created.</p>
 </li>
 </ol>
-<h3>How to validate JSON documents with your validator</h3>
+
+<h3>1.3. How to validate JSON documents with your validator</h3>
 <ol>
 <li><p>Create an instance of your validator.</p>
 <pre><code>PersonValidator validator = new PersonValidator();

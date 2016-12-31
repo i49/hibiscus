@@ -14,7 +14,7 @@ import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
- * Implementation of {@code ArrayType}.
+ * The implementation class of {@link ArrayType}.
  */
 class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements ArrayType {
 
@@ -66,16 +66,16 @@ class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements Ar
 	}
 
 	/**
-	 * Returns the number of elements in array.
+	 * Returns the number of elements in the array.
 	 * @param value the array value.
-	 * @return length of array.
+	 * @return  the number of elements in the array.
 	 */
 	private static int getLength(JsonArray value) {
 		return value.size();
 	}
 	
 	/**
-	 * Verifies value specified as length of array.
+	 * Verifies the length specified for arrays.
 	 * @param length the length specified for arrays.
 	 */
 	private static void verifyLength(int length) {

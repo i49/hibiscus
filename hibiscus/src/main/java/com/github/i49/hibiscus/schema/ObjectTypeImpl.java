@@ -15,6 +15,9 @@ import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
+/**
+ * The implementation class of {@link ObjectType}.
+ */
 class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements ObjectType {
 
 	private final Map<String, Property> properties = new HashMap<>();

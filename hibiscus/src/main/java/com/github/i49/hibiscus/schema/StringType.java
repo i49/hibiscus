@@ -11,38 +11,57 @@ import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
- * JSON type for string value.
+ * One of built-in types representing JSON string which has {@link TypeId#STRING} as a type identifier.
  * 
- * <h3>String type constraints</h3>
- * <p>String type can have following facets constraining its value space.</p>
- * <ul>
+ * <p>An instance of this type can be created through {@link SchemaComponents#string()}.</p>
+ * <blockquote><pre><code>
+ * import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+ * StringType t = string();
+ * </code></pre></blockquote>
+ * 
+ * <h3>Restrictions on this type</h3>
+ * <p>This type allows you to impose following restrictions on the value space.</p>
+ * <ol>
  * <li>length</li>
  * <li>minLength</li>
  * <li>maxLength</li>
  * <li>enumeration</li>
  * <li>pattern</li>
- * </ul>
+ * <li>assertion</li>
+ * <li>format</li>
+ * </ol>
  * 
- * <h4>length</h4>
- * <p>{@link #length length} restricts the string to have a specific length.
+ * <h4>1. length</h4>
+ * <p><strong>length</strong> restricts the string to have a specific length.
  * For instance, password string which consists of exactly eight characters are defined as follows.</p>
- * <blockquote><pre>string().length(8);</pre></blockquote>
+ * <blockquote><pre><code>string().length(8);</code></pre></blockquote>
  *
- * <h4>minLength</h4>
- * <p>{@link #minLength minLength} limits the length of string to the range with specific lower bound.</p>
- * <blockquote><pre>string().minLength(3);</pre></blockquote>
+ * <h4>2. minLength</h4>
+ * <p><strong>minLength</strong> restricts the length of the string to the range with specific lower bound.</p>
+ * <blockquote><pre><code>string().minLength(3);</code></pre></blockquote>
  *
- * <h4>maxLength</h4>
- * <p>{@link #maxLength maxLength} limits the length of string to the range with specific upper bound.</p>
- * <blockquote><pre>string().maxLength(10);</pre></blockquote>
+ * <h4>3. maxLength</h4>
+ * <p><strong>maxLength</strong> restricts the length of the string to the range with specific upper bound.</p>
+ * <blockquote><pre><code>string().maxLength(10);</code></pre></blockquote>
  *
- * <h4>enumeration</h4>
- * <p>{@link #enumeration enumeration} specifies a distinct set of valid values for the type.
- * <blockquote><pre>string().enumeration("Spring", "Summer", "Autumn", "Winter");</pre></blockquote>
+ * <h4>4. enumeration</h4>
+ * <p><strong>enumeration</strong> specifies the value space of this type as a set of distinct values.</p>
+ * <blockquote><pre><code>string().enumeration("Small", "Medium", "Large");</code></pre></blockquote>
  *
- * <h4>pattern</h4>
- * <p>{@link #pattern pattern} restricts the string to specified pattern represented by a regular expression.</p>
- * <blockquote><pre>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</pre></blockquote>
+ * <h4>5. pattern</h4>
+ * <p><strong>pattern</strong> restricts the string to specified pattern represented by a regular expression.</p>
+ * <blockquote><pre><code>string().pattern("\\d{3}-?\\d{2}-?\\d{4}");</code></pre></blockquote>
+ * 
+ * <h4>6. assertion</h4>
+ * <p><strong>assertion</strong> allows you to make a arbitrary assertion on the values of this type.</p>
+ * 
+ * <h4>7. format</h4>
+ * <p><strong>format</strong> allows you to select the format for the values of this type from predefined formats.</p>
+ * <blockquote><pre><code>
+ * import static com.github.i49.hibiscus.formats.Formats.*;
+ * string().format(email());</code></pre></blockquote>
+ * 
+ * @see SchemaComponents
  */
 public interface StringType extends AtomicType {
 	
@@ -51,7 +70,7 @@ public interface StringType extends AtomicType {
 	}
 	
 	/**
-	 * Adds a facet to this type.
+	 * Adds a {@link Facet} which restricts the value space of this type.
 	 * @param facet the facet to be added. Cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if facet specified is {@code null}.
@@ -67,7 +86,7 @@ public interface StringType extends AtomicType {
 	StringType length(int length);
 	
 	/**
-	 * Specifies the minimum number of characters in this string. 
+	 * Specifies the minimum number of characters required in this string. 
 	 * @param length the minimum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
@@ -75,7 +94,7 @@ public interface StringType extends AtomicType {
 	StringType minLength(int length);
 	
 	/**
-	 * Specifies the maximum number of characters in this string. 
+	 * Specifies the maximum number of characters allowed in this string. 
 	 * @param length the maximum number of characters. Must be non-negative value.
 	 * @return this type.
 	 * @exception SchemaException if length specified is negative.
@@ -83,15 +102,15 @@ public interface StringType extends AtomicType {
 	StringType maxLength(int length);
 	
 	/**
-	 * Specifies set of values allowed for this type.
-	 * @param values the values allowed. Each value cannot be {@code null}.
+	 * Specifies the value space of this type as a set of distinct values.
+	 * @param values the values allowed for this type. Each value cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if one of values specified is {@code null}.
 	 */
 	StringType enumeration(String... values);
 	
 	/**
-	 * Specifies the pattern of this string with regular expression.
+	 * Specifies the pattern of this string with a regular expression.
 	 * Note that the pattern string must be compatible with Java regular expression. 
 	 * @param regex the regular expression to which this string is to be matched. Cannot be {@code null}.
 	 * @return this type.
@@ -101,17 +120,18 @@ public interface StringType extends AtomicType {
 	StringType pattern(String regex);
 	
 	/**
-	 * Specifies assertion on this type.
-	 * @param predicate the lambda expression that will return true if the assertion succeeded or false if failed.
-	 * @param description the object to supply a description to be reported when the assertion failed.
+	 * Makes a assertion on the values of this type.
+	 * @param predicate the lambda expression that will return {@code true} if the assertion succeeded or {@code false} if failed.
+	 * @param describer the object supplying the description of the problem to be reported when the assertion failed.
 	 * @return this type.
+	 * @exception SchemaException if any of specified parameters is {@code null}.
 	 */
-	StringType assertion(Predicate<JsonString> predicate, ProblemDescriber<JsonString> description);
+	StringType assertion(Predicate<JsonString> predicate, ProblemDescriber<JsonString> describer);
 
 	/**
-	 * Specifies formats allowed for this type.
-	 * @param format first format allowed.
-	 * @param moreFormats other formats allowed.
+	 * Specifies the format for the values of this type, which is selected from predefined formats.
+	 * @param format the first format allowed.
+	 * @param moreFormats the other formats allowed.
 	 * @return this type.
 	 */
 	StringType format(StringFormat format, StringFormat... moreFormats);

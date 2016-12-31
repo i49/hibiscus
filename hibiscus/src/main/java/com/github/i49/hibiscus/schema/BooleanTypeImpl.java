@@ -8,7 +8,7 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.facets.EnumerationFacet;
 
 /**
- * Implementation of {@code BooleanType}.
+ * The implementation class of {@link BooleanType}.
  */
 class BooleanTypeImpl extends AbstractJsonType<JsonValue, BooleanType> implements BooleanType {
 

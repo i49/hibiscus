@@ -6,22 +6,26 @@ import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.validation.JsonValidator;
 
 /**
- * The interface representing all types in JSON schema.
+ * A base type of all built-in types available in schema definitions.
+ * These built-in types include array, boolean, integer, number, null, object and string.
  */
 public interface JsonType {
-
+	
 	/**
-	 * Returns the type identifier of this type.
-	 * @return type identifier.
+	 * Returns the type identifier of this built-in type.
+	 * @return the type identifier.
+	 * @see TypeId
 	 */
 	TypeId getTypeId();
 	
 	/**
-	 * Validates a value of this type in JSON document and reports problems.
-	 * This method is for internal use only and
-	 * {@code JsonValidator} implementations are allowed to call this method directly. 
+	 * Validates a value of this type in JSON document and reports problems if detected.
+	 * This method is for internal use only and only
+	 * {@link JsonValidator} implementations are allowed to call this method directly. 
+	 * 
 	 * @param value the value in JSON document. Cannot be {@code null}.
 	 * @param problems the list to which detected problems to be added. Cannot be {@code null}.
 	 */

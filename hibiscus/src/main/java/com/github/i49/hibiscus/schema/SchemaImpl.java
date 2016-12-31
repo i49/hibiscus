@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.schema;
 
 /**
- * Implementation of {@link Schema} interface.
+ * The implementation class of {@link Schema}.
  */
 class SchemaImpl implements Schema {
 
