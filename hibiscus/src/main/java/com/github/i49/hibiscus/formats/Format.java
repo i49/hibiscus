@@ -8,12 +8,27 @@ import javax.json.JsonValue;
  * Common interface to be implemented by all format classes.
  *
  * <p>
- * For readers unfamiliar with <i>formats</i>, please see <a href="package-summary.html#introducing-formats">Introducing formats</a> first.
+ * A <i>format</i> is one of restrictions on the value spaces of the types.
+ * Types in schema can select a format from predefined ones such as email address or IPv4 address.
+ * This makes it unnecessary to write complex regular expressions matching email address or IPv4 address.
+ * Most formats defined here are described by authoritative parties and considered as standard.
  * </p>
+ * <p>
+ * This package provides various kinds of format implementations, 
+ * and all these classes implement {@link Format} interface.
+ * </p>
+ * <p>
+ * These formats can be obtained by static methods of {@link Formats} class.
+ * Each format can be applied to the built-in types with help of {@link com.github.i49.hibiscus.facets.FormatFacet FormatFacet},
+ * which is one of <i>facets</i> provided by {@link com.github.i49.hibiscus.facets} package.
+ * All formats currently available can be applied only to {@code string()} type.
+ * </p>
+ *
+ * <p>All currently supported formats are shown in {@link com.github.i49.hibiscus.formats.Formats Formats} page.</p>
  *
  * @param <V> the type of {@link JsonValue} to be validated against this format.
  * 
- * @see <a href="package-summary.html#introducing-formats">Introducing formats</a>
+ * @see Formats
  */
 public interface Format<V extends JsonValue> {
 

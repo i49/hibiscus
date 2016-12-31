@@ -278,7 +278,7 @@ public final class SchemaComponents {
 	/**
 	 * Creates an object property which name matches the pattern specified as a Java regular expression.
 	 * Important note is that the pattern specified for this method must be compatible with Java regular expression,
-	 * not with JavaScript alternative of the ECMA 262 regular expression.
+	 * not with JavaScript alternative defined in the ECMA 262 specification.
 	 * 
 	 * @param pattern the pattern of the name specified as a Java regular expression. Cannot be {@code null}.
 	 * @param type the type of the property value. Cannot be {@code null}.

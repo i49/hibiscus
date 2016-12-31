@@ -1,10 +1,11 @@
 /**
- * Provides various kinds of <i>facets</i> that allow you to restrict the value spaces of built-in types in JSON schema.
+ * Provides various kinds of <i>facets</i> that allow you to restrict the value spaces of built-in types 
+ * in schema for JSON.
  * 
  * <h2 id="introducing-facets">1. Introducing Facets</h2>
  * 
  * <p>A <strong>facet</strong> is a single defining aspect of a value space of types.
- * Each of built-in types in JSON schema just provides default value space of its own.
+ * Each of built-in types in schema for JSON just provides default value space of its own.
  * By using facet, you can restrict the value spaces of these types as necessary.</p>
  * <p>For example, you can express restrictions listed below.</p>
  * <ul>

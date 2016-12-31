@@ -8,6 +8,7 @@ import javax.json.JsonString;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.facets.Facet;
+import com.github.i49.hibiscus.formats.Formats;
 import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 
@@ -62,7 +63,10 @@ import com.github.i49.hibiscus.problems.ProblemDescriber;
  * import static com.github.i49.hibiscus.formats.Formats.*;
  * string().format(email());</code></pre></blockquote>
  * 
+ * <p>All currently supported formats are shown in {@link Formats}.</p>
+ * 
  * @see SchemaComponents
+ * @see Formats
  */
 public interface StringType extends AtomicType {
 	
@@ -114,7 +118,7 @@ public interface StringType extends AtomicType {
 	 * Restricts the values of this type to match the pattern specified as a regular expression,
 	 * which must be compatible with Java regular expression. 
 	 * Important note is that the pattern specified for this method must be compatible with Java regular expression,
-	 * not with JavaScript alternative of the ECMA 262 regular expression.
+	 * not with JavaScript alternative defined in the ECMA 262 specification.
 	 * 
 	 * @param expression the regular expression to which this string is to be matched. Cannot be {@code null}.
 	 * @return this type.
@@ -135,10 +139,11 @@ public interface StringType extends AtomicType {
 	StringType assertion(Predicate<JsonString> predicate, ProblemDescriber<JsonString> describer);
 
 	/**
-	 * Specifies the format for the values of this type, which is selected from predefined formats.
+	 * Specifies the format for the values of this type, which is selected from predefined {@link Formats}.
 	 * @param format the first format allowed.
 	 * @param moreFormats the other formats allowed.
 	 * @return this type.
+	 * @see Formats
 	 */
 	StringType format(StringFormat format, StringFormat... moreFormats);
 }

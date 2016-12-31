@@ -1,5 +1,5 @@
 /**
- * Provides classes representing problems that will be detected by JSON validator.
+ * Provides classes representing problems that will be detected by validation of JSON document.
  * 
  * <h2 id="summary-of-problem">1. Summary of Problem</h2>
  * <p>When the JSON validator verifies a JSON document, 
