@@ -1,6 +1,7 @@
 package com.github.i49.hibiscus.schema;
 
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
@@ -110,14 +111,19 @@ public interface StringType extends AtomicType {
 	StringType enumeration(String... values);
 	
 	/**
-	 * Specifies the pattern of this string with a regular expression.
-	 * Note that the pattern string must be compatible with Java regular expression. 
-	 * @param regex the regular expression to which this string is to be matched. Cannot be {@code null}.
+	 * Restricts the values of this type to match the pattern specified as a regular expression,
+	 * which must be compatible with Java regular expression. 
+	 * Important note is that the pattern specified for this method must be compatible with Java regular expression,
+	 * not with JavaScript alternative of the ECMA 262 regular expression.
+	 * 
+	 * @param expression the regular expression to which this string is to be matched. Cannot be {@code null}.
 	 * @return this type.
 	 * @exception SchemaException if expression specified is null.
 	 * @exception PatternSyntaxException if the expression's syntax is invalid.
+	 * 
+	 * @see Pattern
 	 */
-	StringType pattern(String regex);
+	StringType pattern(String expression);
 	
 	/**
 	 * Makes a assertion on the values of this type.

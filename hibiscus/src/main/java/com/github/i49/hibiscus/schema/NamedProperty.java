@@ -1,7 +1,9 @@
 package com.github.i49.hibiscus.schema;
 
+import com.github.i49.hibiscus.common.TypeId;
+
 /**
- * Property that has a name. 
+ * An object property that has a determined name. 
  */
 class NamedProperty implements Property {
 
@@ -10,13 +12,13 @@ class NamedProperty implements Property {
 	private final boolean required;
 
 	/**
-	 * Creates new property.
-	 * @param name the name of this property.
-	 * @param type the type of this property value.
-	 * @param moreTypes the other types allowed for this property value.
+	 * Constructs this property.
+	 * @param name the name of this property. Cannot be {@code null}.
+	 * @param type the type of this property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for this property value. Each type cannot be {@code null}.
 	 * @param required whether this property is required or not in the containing object.
-	 * @return new property.
-	 * @exception SchemaException if name is {@code null} or one of types is {@code null} or duplicated.
+	 * @exception SchemaException if name is {@code null} or
+	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
 	 */
 	NamedProperty(String name, JsonType type, JsonType[] moreTypes, boolean required) {
 		if (name == null) {

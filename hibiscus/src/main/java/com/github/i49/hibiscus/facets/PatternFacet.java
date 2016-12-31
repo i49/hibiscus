@@ -19,7 +19,7 @@ import com.github.i49.hibiscus.problems.StringPatternProblem;
  * </p>
  * <p>
  * Important note is that the pattern specified for this facet must be compatible with Java regular expression
- * and not with JavaScript alternative.
+ * and not with JavaScript alternative of the ECMA 262 regular expression.
  * </p>
  */
 public class PatternFacet implements Facet<JsonString> {

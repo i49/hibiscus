@@ -36,20 +36,25 @@ public interface ObjectType extends CompositeType {
 	}
 
 	/**
-	 * Declares all properties which this object may have.
-	 * <p>If this method is called multiple times for the same object,
-	 * all previously declared properties are removed from this object.
+	 * Declares all instances of {@link Property} which this object type may contain.
+	 * <p>
+	 * If this method is called multiple times on the same instance,
+	 * all previously declared properties are not preserved and removed from this type.
 	 * </p>
 	 * 
-	 * @param properties the properties this object may have.
+	 * @param properties the properties which object may contain. Each property cannot be {@code null}. 
 	 * @return this type.
 	 * @exception SchemaException if one of properties specified is {@code null}.
 	 */
 	ObjectType properties(Property... properties);
 	
 	/**
-	 * Allows this object to have properties more than explicitly declared.
-	 * By default it will be reported as a problem by validation that an object has properties not declared. 
+	 * Makes this object type accept properties not declared explicitly for this type.
+	 * Invoking this method once relaxes the validation not to report problems
+	 * even when objects of this type in JSON document have properties not declared.
+	 * By default the validation reports problems when it found unknown properties
+	 * of objects in JSON document.
+	 * 
 	 * @return this type.
 	 */
 	ObjectType moreProperties();
@@ -72,15 +77,15 @@ public interface ObjectType extends CompositeType {
 	ObjectType assertion(Predicate<JsonObject> predicate, ProblemDescriber<JsonObject> describer);
 
 	/**
-	 * Returns the property of this object which has the specified name. 
+	 * Returns the {@link Property} of this object which has the specified name. 
 	 * @param name the name of the property to be returned. Cannot be {@code null}.
 	 * @return a property if this object has the property of specified name, or {@code null} if this object does not have such a property. 
 	 */
 	Property getProperty(String name);
 	
 	/**
-	 * Returns {@code true} if this object can have properties more than explicitly declared.
-	 * @return {@code true} if this object can have properties more than explicitly declared, or {@code false} if it cannot have. 
+	 * Returns {@code true} if this object allows properties not declared explicitly.
+	 * @return {@code true} if this object allows properties not declared explicitly, {@code false} otherwise.
 	 * @see #moreProperties()
 	 */
 	boolean allowsMoreProperties();

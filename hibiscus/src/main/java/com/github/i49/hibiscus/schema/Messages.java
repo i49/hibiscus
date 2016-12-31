@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Messages for exceptions that may occur while defining schema.
+ * Localized messages for exceptions which can occur while defining schema.
  */
 class Messages {
 

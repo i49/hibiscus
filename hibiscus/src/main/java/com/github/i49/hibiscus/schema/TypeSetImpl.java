@@ -7,7 +7,7 @@ import java.util.Set;
 import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Implementation of {@code TypeSet}.
+ * The implementation class of {@link TypeSet}.
  */
 class TypeSetImpl implements TypeSet {
 
@@ -64,7 +64,7 @@ class TypeSetImpl implements TypeSet {
 
 	/**
 	 * Adds another type to this set.
-	 * @param type the type to be added.
+	 * @param type the type to be added to this set.
 	 */
 	private void addType(JsonType type) {
 		if (type == null) {

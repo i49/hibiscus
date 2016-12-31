@@ -61,11 +61,11 @@ class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements
 	}
 	
 	@Override
-	public StringType pattern(String regex) {
-		if (regex == null) {
-			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("pattern", "regex"));
+	public StringType pattern(String expression) {
+		if (expression == null) {
+			throw new SchemaException(Messages.METHOD_PARAMETER_IS_NULL("pattern", "expression"));
 		}
-		return facet(new PatternFacet(regex));
+		return facet(new PatternFacet(expression));
 	}
 	
 	@Override

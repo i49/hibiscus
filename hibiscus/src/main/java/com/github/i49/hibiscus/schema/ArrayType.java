@@ -59,16 +59,23 @@ public interface ArrayType extends CompositeType {
 	}
 
 	/**
-	 * Specifies types allowed for elements of this array. 
-	 * @param types the types allowed.
+	 * Specifies all {@link JsonType}s allowed for elements of this array. 
+	 * <p>
+	 * If this method is called multiple times on the same instance,
+	 * all previously declared types are not preserved and removed from this array.
+	 * </p>
+	 * @param types the {@link JsonType}s allowed for elements of this array.
+	 *              Each type must have a unique {@link TypeId} and cannot be {@code null}.
 	 * @return this type.
-	 * @exception SchemaException if one of types specified is {@code null}.
+	 * @exception SchemaException if one of types given has the same {@link TypeId} as others or {@code null}.
 	 */
 	ArrayType items(JsonType... types);
 
 	/**
-	 * Returns the set of types allowed for elements of this array.
-	 * @return the set of types.
+	 * Returns the set of all {@link JsonType}s allowed for elements of this array.
+	 * @return the set of all {@link JsonType}s allowed for elements of this array.
+	 * 
+	 * @see #items
 	 */
 	TypeSet getItemTypes();
 

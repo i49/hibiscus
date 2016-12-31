@@ -2,9 +2,12 @@ package com.github.i49.hibiscus.schema;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import com.github.i49.hibiscus.common.TypeId;
 
 /**
- * Property which name is specified as a regular expression.
+ * An object property which name is specified as a regular expression.
  */
 class PatternProperty implements Property {
 
@@ -13,11 +16,12 @@ class PatternProperty implements Property {
 
 	/**
 	 * Constructs this property.
-	 * @param pattern
-	 * @param type the type of this property value.
-	 * @param moreTypes the other types allowed for this property value.
-	 * @return new property.
-	 * @exception SchemaException if pattern is {@code null} or one of types is {@code null} or duplicated.
+	 * @param pattern the pattern of the name specified as a Java regular expression. Cannot be {@code null}.
+	 * @param type the type of this property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for this property value. Each type cannot be {@code null}.
+	 * @exception SchemaException if pattern is {@code null} or
+	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
+	 * @exception PatternSyntaxException if pattern's syntax is invalid.
 	 */
 	public PatternProperty(String pattern, JsonType type, JsonType[] moreTypes) {
 		if (pattern == null) {
@@ -43,12 +47,12 @@ class PatternProperty implements Property {
 	}
 
 	/**
-	 * Matches given name to this property.
-	 * @param name the name of property which may match this property.
-	 * @return {@code true} if the name given matched this property or {@code false} it does not match.
+	 * Matches the given name to this property.
+	 * @param name the name of the property which may match this property.
+	 * @return {@code true} if the name given matched this property, {@code false} otherwise.
 	 */
 	boolean matches(String name) {
-		Matcher m = pattern.matcher(name);
+		Matcher m = this.pattern.matcher(name);
 		return m.matches();
 	}
 }

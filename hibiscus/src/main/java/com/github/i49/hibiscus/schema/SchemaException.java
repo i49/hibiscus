@@ -2,7 +2,7 @@ package com.github.i49.hibiscus.schema;
 
 /**
  * Thrown to indicate that a method has been passed an illegal or inappropriate argument
- * while building schema.
+ * while defining a schema.
  */
 public class SchemaException extends IllegalArgumentException {
 
@@ -10,9 +10,9 @@ public class SchemaException extends IllegalArgumentException {
 
 	/**
 	 * Constructs this exception with the specified detail message.
-	 * @param s the detail message.
+	 * @param message the detail message.
 	 */
-	public SchemaException(String s) {
-		super(s);
+	public SchemaException(String message) {
+		super(message);
 	}
 }
