@@ -15,6 +15,7 @@ import javax.json.stream.JsonParserFactory;
 import com.github.i49.hibiscus.json.JsonValueFactory;
 import com.github.i49.hibiscus.json.JsonValueFactoryImpl;
 import com.github.i49.hibiscus.schema.Schema;
+import com.github.i49.hibiscus.schema.SchemaComponents;
 
 /**
  * An implementation class of {@link JsonValidator} interface and the base class of all custom JSON validators.  
@@ -23,7 +24,7 @@ import com.github.i49.hibiscus.schema.Schema;
  * 
  * <p>The schema to be used to validate JSON documents should be assigned to the object of this class 
  * by passing it to the constructor.
- * For more information about how to define schema, please read {@link com.github.i49.hibiscus.schema} package.
+ * For more information about how to define schema, please see {@link SchemaComponents} class.
  * </p>
  * 
  * <p>The following sample code shows how to write your own JSON validator by extending this class.</p>
@@ -53,8 +54,8 @@ import com.github.i49.hibiscus.schema.Schema;
  * please see {@link JsonValidator} interface.
  * </p>
  * 
+ * @see SchemaComponents
  * @see JsonValidator
- * @see com.github.i49.hibiscus.schema
  */
 public class BasicJsonValidator implements JsonValidator {
 

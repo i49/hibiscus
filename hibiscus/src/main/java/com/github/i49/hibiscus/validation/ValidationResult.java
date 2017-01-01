@@ -8,8 +8,28 @@ import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * A interface to inspect the result of the validation of JSON document.
- * {@link JsonValidator} returns an object implementing this interface
+ * 
+ * <p>{@link JsonValidator} returns an object implementing this interface
  * as result of the validation.
+ * This interface provides the following information for validator users.
+ * </p>
+ * 
+ * <ul>
+ * <li><p>JSON values parsed.</p>
+ * <p>{@link #getValue()}
+ * returns the JSON value found at the root of the input JSON document including its descendant values.
+ * The classes representing the values returned by this method are all defined in
+ * <a href="http://json-processing-spec.java.net/">JSR 353: Java API for JSON Processing.</a>
+ * </p>
+ * </li>
+ * <li><p>Problems detected.</p>
+ * <p>{@link #getProblems()}
+ * returns all problems against the schema found in the process of the validation.
+ * These problems returned are encapsulated as classes provided by
+ * {@link com.github.i49.hibiscus.problems} package.
+ * All problems which can be detected are listed on {@link Problem} page.</p>
+ * </li>
+ * </ul>
  * 
  * <p>The following code shows how to retrieve the JSON value found at the root of the input JSON document.</p>
  * <blockquote><pre><code>
@@ -27,6 +47,7 @@ import com.github.i49.hibiscus.problems.Problem;
  * </code></pre></blockquote>
  * 
  *  @see JsonValidator
+ *  @see Problem
  */
 public interface ValidationResult {
 	
@@ -57,11 +78,12 @@ public interface ValidationResult {
 	 * Each kind of problems is encapsulated as a class which implements {@link Problem} common interface.
 	 * These classes of the problems are provided by {@link com.github.i49.hibiscus.problems} package.
 	 * 
+	 * <p>All problems which can be detected are listed on {@link Problem} page.</p>
+	 * 
 	 * @return the list of problems, which never be {@code null}.
 	 * 
 	 * @see #hasProblems()
 	 * @see Problem
-	 * @see com.github.i49.hibiscus.problems
 	 */
 	List<Problem> getProblems();
 }
