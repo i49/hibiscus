@@ -22,7 +22,7 @@ import org.apache.commons.validator.routines.InetAddressValidator;
  * @see <a href="https://www.ietf.org/rfc/rfc2396.txt">RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</a>
  * @see <a href="https://www.ietf.org/rfc/rfc2732.txt">RFC 2732: Format for Literal IPv6 Addresses in URLs</a>
  */
-public class HostFormat implements StringFormat {
+public class HostFormat extends AbstractFormat<JsonString> implements StringFormat {
 	
 	/**
 	 * The Singleton instance of this format representing Internet host, not followed by port number.
@@ -45,7 +45,7 @@ public class HostFormat implements StringFormat {
 
 	@Override
 	public String getName() {
-		return hasPort ? "hostport" : "port";
+		return hasPort ? "hostport" : "host";
 	}
 
 	@Override

@@ -140,9 +140,10 @@ public interface StringType extends AtomicType {
 
 	/**
 	 * Specifies the format for the values of this type, which is selected from predefined {@link Formats}.
-	 * @param format the first format allowed.
-	 * @param moreFormats the other formats allowed.
+	 * @param format the first format allowed. Cannot be {@code null}.
+	 * @param moreFormats the other formats allowed. Each one cannot be {@code null}.
 	 * @return this type.
+	 * @exception SchemaException if one of formats specified is {@code null}.
 	 * @see Formats
 	 */
 	StringType format(StringFormat format, StringFormat... moreFormats);

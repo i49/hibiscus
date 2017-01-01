@@ -46,9 +46,7 @@ public interface Format<V extends JsonValue> {
 	 * @return the localized name of this format.
 	 * @see #getName()
 	 */
-	default String getLocalizedName(Locale locale) {
-		return getName();
-	}
+	String getLocalizedName(Locale locale);
 	
 	/**
 	 * Tests whether the given value matches this format
