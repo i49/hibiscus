@@ -6,7 +6,9 @@
 Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.
 
 ## 1. Introduction
+
 ### 1.1 Why do we write JSON schema in Java?
+
 Writing JSON schema in Java has following advantages for Java developers.
 
 * Your favorite IDE compiles it and detects syntactical errors automatically.
