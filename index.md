@@ -122,7 +122,7 @@ Schema schema = schema(
      // Reads and validates JSON document here.
      result = validator.validate(reader);
    }
-  ```
+   ```
 
 3. Process detected problems properly.
 
