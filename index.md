@@ -48,111 +48,111 @@ Schema schema = schema(
 
 1. Create a new class that extends `BasicJsonValidator` class.
 
-    ```java
-    import com.github.i49.hibiscus.validation.BasicJsonValidator;
-
-    public class PersonValidator extends BasicJsonValidator {
-    }
-    ```
+   ```java
+   import com.github.i49.hibiscus.validation.BasicJsonValidator;
+   
+   public class PersonValidator extends BasicJsonValidator {
+   }
+   ```
 
 2. Add `static import` statement which will make your schema building easier.
 
-    ```java
-    import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-    ```
+   ```java
+   import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+   ```
 
 3. Define your schema as a class constant of your validator.
 
-    ```java
-    import com.github.i49.hibiscus.validation.BasicJsonValidator;
-    import com.github.i49.hibiscus.schema.Schema;
-    import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-
-    public class PersonValidator extends BasicJsonValidator {
-      // Schema definition.
-      private static final Schema schema = schema(
-        object(
-          required("firstName", string()),
-          required("lastName", string()),
-          optional("age", integer()),
-          optional("hobbies", array(string()))
-        )
-      );  
-    }
-    ```
+   ```java
+   import com.github.i49.hibiscus.validation.BasicJsonValidator;
+   import com.github.i49.hibiscus.schema.Schema;
+   import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+   
+   public class PersonValidator extends BasicJsonValidator {
+     // Schema definition.
+     private static final Schema schema = schema(
+       object(
+         required("firstName", string()),
+         required("lastName", string()),
+         optional("age", integer()),
+         optional("hobbies", array(string()))
+       )
+     );  
+   }
+   ```
 
 4. Pass the schema to the constructor of superclass, and then your work is done.
 
-    ```java
-    import com.github.i49.hibiscus.validation.BasicJsonValidator;
-    import com.github.i49.hibiscus.schema.Schema;
-    import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-
-    public class PersonValidator extends BasicJsonValidator {
-      // Schema definition.
-      private static final Schema schema = schema(
-        object(
-          required("firstName", string()),
-          required("lastName", string()),
-          optional("age", integer()),
-          optional("hobbies", array(string()))
-        )
-      );  
-
-      public PersonValidator() {
-        super(schema)
-      }
-    }
-    ```
+   ```java
+   import com.github.i49.hibiscus.validation.BasicJsonValidator;
+   import com.github.i49.hibiscus.schema.Schema;
+   import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+   
+   public class PersonValidator extends BasicJsonValidator {
+     // Schema definition.
+     private static final Schema schema = schema(
+       object(
+         required("firstName", string()),
+         required("lastName", string()),
+         optional("age", integer()),
+         optional("hobbies", array(string()))
+       )
+     );  
+   
+     public PersonValidator() {
+       super(schema)
+     }
+   }
+   ```
 
 ### 1.4. How to validate JSON documents with your validator
 
 1. Create an instance of your validator.
 
-    ```java
-    PersonValidator validator = new PersonValidator();
-    ```
+   ```java
+   PersonValidator validator = new PersonValidator();
+   ```
 
 2. Validate JSON document with the validator.
 
-    ```java
-    // An object to retrieve validation result.
-    ValidationResult result = null;
-    try (Reader reader = new FileReader("person.json")) {
-      // Reads and validates JSON document here.
-      result = validator.validate(reader);
-    }
-   ```
+   ```java
+   // An object to retrieve validation result.
+   ValidationResult result = null;
+   try (Reader reader = new FileReader("person.json")) {
+     // Reads and validates JSON document here.
+     result = validator.validate(reader);
+   }
+  ```
 
 3. Process detected problems properly.
 
-    ```java
-    for (Problem problem: result.getProblems()) {
-      // Handles each problem here.
-      // We just print text representation of the problem here.
-      System.out.println(problem);
-    }
-    ```
+   ```java
+   for (Problem problem: result.getProblems()) {
+     // Handles each problem here.
+     // We just print text representation of the problem here.
+     System.out.println(problem);
+   }
+   ```
 
-    One of the nice features of Hibiscus is that it reports *where* these problems occurred,
-    such as line and column numbers. This can be accomplished because the library do
-    both loading and validating JSON document at the same time, not after completely loading it
-    and building a tree of JSON values.
+   One of the nice features of Hibiscus is that it reports *where* these problems occurred,
+   such as line and column numbers. This can be accomplished because the library do
+   both loading and validating JSON document at the same time, not after completely loading it
+   and building a tree of JSON values.
 
 4. Make use of retrieved JSON value as you like in your application.
 
-    ```java
-    JsonValue root = result.getValue();
-    ```
+   ```java
+   JsonValue root = result.getValue();
+   ```
 
-    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353,  JSON-P)](http://json-processing-spec.java.net/).
-    Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is *well-formed* and not broken as JSON.
+   Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353,  JSON-P)](http://json-processing-spec.java.net/).
+   Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is *well-formed* and not broken as JSON.
 
 ## 2. Documentation
 
 For more details about this library, please see following documents.
 
-* [Schema Basics](hibiscus-doc/01_schema-basics.md) which show you how to write schema
+* [Schema Basics](https://github.com/i49/Hibiscus/blob/master/hibiscus-doc/01_schema-basics.md) which show you how to write schema
 * [Javadoc API Reference](https://i49.github.io/Hibiscus/apidocs/index.html)
 
 ## 3. Installation
