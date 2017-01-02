@@ -119,5 +119,109 @@ Please note that it returns JSON value even when the JSON document does not obey
 as long as the document is <i>well-formed</i> and not broken as JSON.</p>
 </li>
 </ol>
+
+<h2>2. Schema Basics</h2>
+<h3>2.1. Schema</h3>
+
+<p>The top level component of your schema is <code>Schema</code> which can be instantiated by calling
+<code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#schema--">SchemaComponents.schema()</a></code>
+class method.
+</p>
+
+<blockquote><pre><code>
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+Schema s = schema(/* type declarations here. */);  
+</code></pre></blockquote>
+
+<p>The parameters of this method are types that allowed to be at the root of JSON documents. 
+All types that are useful to write schema will be introduced in the next section.
+</p>
+
+<h3>2.2. Built-in Types</h3>
+
+<p>This library offers following built-in types which can be used to define schemas for JSON.</p>
+
+<table border="1" cellpadding="4" style="border-collapse: collapse;">
+<caption>The list of built-in types</caption>
+<tr>
+<th>No.</th>
+<th>Type Name</th>
+<th>Creation Method</th>
+<th>Interface</th>
+<th>Description</th>
+<th>Sample Values</th>
+</tr>
+<tr>
+<td>1</td>
+<td>array</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#array--">SchemaComponents.array()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/ArrayType.html">ArrayType</a></code></td>
+<td>JSON array</td>
+<td><code>["milk", "bread", "eggs"]</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>bool</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#bool--">SchemaComponents.bool()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/BooleanType.html">BooleanType</a></code></td>
+<td>JSON boolean</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>integer</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#integer--">SchemaComponents.integer()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/IntegerType.html">IntegerType</a></code></td>
+<td>JSON number without a fractional part</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>number</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#number--">SchemaComponents.number()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/NumberType.html">NumberType</a></code></td>
+<td>JSON number</td>
+<td><code>3.14</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>null</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#nil--">SchemaComponents.nil()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/NullType.html">NullType</a></code></td>
+<td>JSON null</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>object</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#object--">SchemaComponents.object()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/ObjectType.html">ObjectType</a></code></td>
+<td>JSON object</td>
+<td><code>{"name": "John", "age": 33}</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>string</td>
+<td><code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html#string--">SchemaComponents.string()</a></code></td>
+<td><code><a href="com/github/i49/hibiscus/schema/StringType.html">StringType</a></code></td>
+<td>JSON string</td>
+<td><code>"hello"</code></td>
+</tr>
+</table>
+
+<p>
+All methods that will create these built-in types are provided as
+<code><a href="com/github/i49/hibiscus/schema/SchemaComponents.html">SchemaComponents</a></code> class methods.
+</p>
+
+<blockquote><pre><code>
+import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+BooleanType b = bool();
+IntegerType i = integer();
+NumberType n = number();
+NullType nil = nil();
+StringType s = string();
+</code></pre></blockquote>
+
 </body>
 </html>
