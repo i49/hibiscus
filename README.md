@@ -5,7 +5,9 @@
 
 Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.
 
-## Why do we write JSON schema in Java?
+## 1. Introduction
+
+### 1.1. Why do we write JSON schema in Java?
 Writing JSON schema in Java has following advantages for Java developers.
 
 * Your favorite IDE compiles it and detects syntactical errors automatically.
@@ -14,7 +16,7 @@ Writing JSON schema in Java has following advantages for Java developers.
 * Avoids troubles in missing "$ref" links.
 * Can extend validation logic with Java code as much as needed.
 
-## Schema example
+### 1.2. Schema example
 
 As first example we assume that you have JSON document below that you would like to validate in your application.
 
@@ -41,7 +43,7 @@ Schema schema = schema(
 );
 ```
 
-## How to write your own JSON validator
+### 1.3. How to write your own JSON validator
 
 1. Create a new class that extends `BasicJsonValidator` class.
 
@@ -101,7 +103,7 @@ Schema schema = schema(
   }
   ```
 
-## How to validate JSON documents with your validator
+### 1.4. How to validate JSON documents with your validator
 
 1. Create an instance of your validator.
 
@@ -144,13 +146,17 @@ Schema schema = schema(
    Hibiscus returns JSON primitive values defined in [Java API for JSON Processing (JSR-353, JSON-P)](http://json-processing-spec.java.net/).
    Please note that it returns JSON value even when the JSON document does not obey the given schema, as long as the document is *well-formed* and not broken as JSON.
 
-## Schema basics
+## 2. Documentation
 
-Please see the document for [Schema Basics](hibiscus-doc/01_schema-basics.md).
+For more details about this library, please see following documents.
 
-## Installation by Maven
+* [Schema Basics](hibiscus-doc/01_schema-basics.md) which show you how to write schema
+* [Javadoc API Reference](https://i49.github.io/Hibiscus/apidocs/index.html)
+
+## 3. Installation
 
 All prerequisites in order to build Hibiscus are listed below:
+
 * JDK 8
 * Apache Maven 3.3.9
 
@@ -174,6 +180,7 @@ Please add a dependency to pom.xml of your application in order to use this libr
 
 Hibiscus requires at runtime one of the implementations of [Java API for JSON Processing](http://json-processing-spec.java.net/).
 It is currently tested with the API implementations listed below.
+
 * [Reference Implementation](https://jsonp.java.net/), provided by glassfish.org
 * [Apache Johnzon](https://johnzon.apache.org/)
 
@@ -198,11 +205,11 @@ In the case that your choice is Apache Johnzon, you can specify it as follows.
 </dependency>
 ```
 
-## Validator examples
+## 4. Validator examples
 
 Some examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
 
-## And other solutions
+## 5. And other solutions
 
 If you prefer programming language agnostic approach, [JSON Schema](http://json-schema.org/) is the way to go.
 But I have a belief that it is preferable to write schema by internal DSL using host language, especially for the validation purpose.
