@@ -10,6 +10,9 @@ import javax.json.JsonValue;
  */
 public abstract class TypedJsonValueProblem<V extends JsonValue> extends JsonValueProblem {
 
+	/**
+	 * Constructs this problem.
+	 */
 	public TypedJsonValueProblem() {
 		super();
 	}

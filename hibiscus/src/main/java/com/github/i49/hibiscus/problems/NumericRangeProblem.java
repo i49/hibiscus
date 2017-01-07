@@ -15,7 +15,6 @@ public abstract class NumericRangeProblem extends TypedJsonValueProblem<JsonNumb
 
 	/**
 	 * Constructs this problem.
-	 * @param value actual value which is out of the valid range.
 	 * @param bound the lower or upper bound of the valid range for the type declared in the schema.
 	 */
 	public NumericRangeProblem(Bound<BigDecimal> bound) {

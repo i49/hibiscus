@@ -16,7 +16,6 @@ public class ExclusiveUpperBoundProblem extends NumericRangeProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value in JSON document.
 	 * @param bound the upper bound of the range allowed for the number type.
 	 */
 	public ExclusiveUpperBoundProblem(Bound<BigDecimal> bound) {

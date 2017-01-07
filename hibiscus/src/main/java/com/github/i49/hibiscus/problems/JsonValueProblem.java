@@ -1,16 +1,16 @@
 package com.github.i49.hibiscus.problems;
 
+import java.util.function.Supplier;
+
 import javax.json.JsonValue;
 
 /**
  * An abstract base class of the classes representing the problems caused by the value in JSON document,
  * which has a valid type but is out of the valid value space.
- *
- * @param <V> the type of {@link JsonValue} which is out of the valid value space and caused this problem.
  */
 public abstract class JsonValueProblem extends AbstractProblem {
 
-	private JsonValue value;
+	private Supplier<JsonValue> valueSupplier;
 	
 	/**
 	 * Constructs this problem.
@@ -23,10 +23,14 @@ public abstract class JsonValueProblem extends AbstractProblem {
 	 * @return the actual value which caused this problem.
 	 */
 	public JsonValue getActualValue() {
-		return value;
+		return valueSupplier.get();
 	}
 	
-	public void setActualValue(JsonValue value) {
-		this.value = value;
+	/**
+	 * Assigns a supplier of the actual value that caused this problem.
+	 * @param valueSupplier the supplier of the actual value.
+	 */
+	public void setActualValueSupplier(Supplier<JsonValue> valueSupplier) {
+		this.valueSupplier = valueSupplier;
 	}
 }

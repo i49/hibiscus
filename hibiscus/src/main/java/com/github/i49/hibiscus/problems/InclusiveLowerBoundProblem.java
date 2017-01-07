@@ -16,7 +16,6 @@ public class InclusiveLowerBoundProblem extends NumericRangeProblem {
 
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value in JSON document.
 	 * @param bound the lower bound of the range allowed for the number type.
 	 */
 	public InclusiveLowerBoundProblem(Bound<BigDecimal> bound) {

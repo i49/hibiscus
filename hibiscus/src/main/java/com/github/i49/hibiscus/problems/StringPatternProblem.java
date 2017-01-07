@@ -13,7 +13,6 @@ public class StringPatternProblem extends TypedJsonValueProblem<JsonString> {
 
 	/**
 	 * Constructs this problem.
-	 * @param value the string value which did not match the expected pattern and caused this problem.
 	 */
 	public StringPatternProblem() {
 	}

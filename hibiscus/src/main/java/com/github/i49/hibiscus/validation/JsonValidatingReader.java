@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonException;
 import javax.json.JsonObject;
@@ -38,7 +37,8 @@ class JsonValidatingReader {
 	private final JsonValueFactory valueFactory;
 	private final List<Problem> problems = new ArrayList<>();
 	private final List<JsonValueProblem> valueProblems = new ArrayList<>();
-
+	private final Transient transientValue = new Transient();
+	
 	/**
 	 * Constructs this reader.
 	 * @param parser the JSON parser which conforms to Java API for JSON Processing.
@@ -58,7 +58,9 @@ class JsonValidatingReader {
 	 */
 	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
-			return readValue(parser.next(), schema.getTypeSet());
+			RootContainer container = new RootContainer(this.builderFactory);
+			readValue(parser.next(), schema.getTypeSet(), container);
+			return container.getRootValue();
 		} else {
 			return null;
 		}
@@ -75,23 +77,20 @@ class JsonValidatingReader {
 	private JsonArray readArray(TypeSet expected) {
 		JsonType type = matchType(TypeId.ARRAY, expected);
 		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UnknownArrayType.INSTANCE;
-		JsonArray value = readArray(arrayType);
-		validateInstance(arrayType, value);
+		JsonArray value = buildArray(arrayType);
+		validateValue(arrayType, value);
 		return value;
 	}
 	
-	private JsonArray readArray(ArrayType type) {
-		JsonArrayBuilder builder = this.builderFactory.createArrayBuilder();
+	private JsonArray buildArray(ArrayType type) {
+		ArrayContainer container = new ArrayContainer(this.valueFactory, this.builderFactory);
 		TypeSet itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
 			if (event == JsonParser.Event.END_ARRAY) {
-				return builder.build();
+				return container.build();
 			} else {
-				JsonValue item = readValue(event, itemTypes);
-				if (item != null) {
-					builder.add(item);
-				}
+				readValue(event, itemTypes, container);
 			}
 		}
 		throw internalError();
@@ -100,19 +99,19 @@ class JsonValidatingReader {
 	private JsonObject readObject(TypeSet expected) {
 		JsonType type = matchType(TypeId.OBJECT, expected);
 		ObjectType objectType = (type != null) ? ((ObjectType)type) : UnknownObjectType.INSTANCE;
-		JsonObject value = readObject(objectType);
-		validateInstance(objectType, value);
+		JsonObject value = buildObject(objectType);
+		validateValue(objectType, value);
 		return value;
 	}
 	
-	private JsonObject readObject(ObjectType objectType) {
-		JsonObjectBuilder builder = this.builderFactory.createObjectBuilder();
+	private JsonObject buildObject(ObjectType objectType) {
+		ObjectContainer container = new ObjectContainer(this.valueFactory, this.builderFactory);
 		while (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.END_OBJECT) {
-				return builder.build();
+				return container.build();
 			} else if (e == JsonParser.Event.KEY_NAME) {
-				readProperty(objectType, builder);
+				readProperty(objectType, container);
 			} else {
 				throw internalError();
 			}
@@ -125,22 +124,20 @@ class JsonValidatingReader {
 	 * @param object the object type which has the property.
 	 * @param builder {@link JsonObjectBuilder} to be used to build JSON object.
 	 */
-	private void readProperty(ObjectType object, JsonObjectBuilder builder) {
-		String propertyName = parser.getString();
-		TypeSet typeCandidates = findPropertyType(object, propertyName);
-		JsonValue propertyValue = readValue(parser.next(), typeCandidates);
-		if (propertyValue != null) {
-			builder.add(propertyName, propertyValue);
-		}
+	private void readProperty(ObjectType object, ObjectContainer container) {
+		String name = parser.getString();
+		TypeSet typeCandidates = findPropertyType(object, name);
+		container.setNextName(name);
+		readValue(parser.next(), typeCandidates, container);
 	}
 	
-	private JsonValue readValue(JsonParser.Event event, TypeSet candidates) {
+	private void readValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
 		if (event == JsonParser.Event.START_ARRAY) {
-			return readArray(candidates);
+			container.add(readArray(candidates)).getTransientValue();
 		} else if (event == JsonParser.Event.START_OBJECT) {
-			return  readObject(candidates);
+			container.add(readObject(candidates)).getTransientValue();
 		} else {
-			return readAtomicValue(event, candidates);
+			readAtomicValue(event, candidates, container);
 		}
 	}
 	
@@ -150,10 +147,10 @@ class JsonValidatingReader {
 	 * @param candidates the type candidates declared in the schema.
 	 * @return {@link JsonValue} found in the JSON document.
 	 */
-	private JsonValue readAtomicValue(JsonParser.Event event, TypeSet candidates) {
+	private JsonValue readAtomicValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
 		
 		JsonType type = null;
-		JsonValue value = null;
+		Transient value = null;
 
 		switch (event) {
 		case VALUE_NUMBER:
@@ -161,36 +158,37 @@ class JsonValidatingReader {
 				type = matchType(TypeId.INTEGER, candidates);
 				long longValue = parser.getLong();
 				if (Integer.MIN_VALUE <= longValue && longValue <= Integer.MAX_VALUE) {
-					value = valueFactory.createNumber(Math.toIntExact(longValue));
+					value = container.add(Math.toIntExact(longValue));
 				} else {
-					value = valueFactory.createNumber(longValue);
+					value = container.add(longValue);
 				}
 			} else {
 				type = matchType(TypeId.NUMBER, candidates);
-				value = valueFactory.createNumber(parser.getBigDecimal());
+				value = container.add(parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
 			type = matchType(TypeId.STRING, candidates);
-			value = valueFactory.createString(parser.getString());
+			value = container.add(parser.getString());
 			break;
 		case VALUE_TRUE:
 			type = matchType(TypeId.BOOLEAN, candidates);
-			value = JsonValue.TRUE;
+			value = container.add(JsonValue.TRUE);
 			break;
 		case VALUE_FALSE:
 			type = matchType(TypeId.BOOLEAN, candidates);
-			value = JsonValue.FALSE;
+			value = container.add(JsonValue.FALSE);
 			break;
 		case VALUE_NULL:
 			type = matchType(TypeId.NULL, candidates);
-			value = JsonValue.NULL;
+			value = container.add(JsonValue.NULL);
 			break;
 		default:
 			throw internalError();
 		}
 		
-		return validateInstance(type, value);
+		validateValue(type, value);
+		return value.getTransientValue();
 	}
 	
 	private JsonType matchType(TypeId actual, TypeSet candidates) {
@@ -204,20 +202,23 @@ class JsonValidatingReader {
 		return type;
 	}
 	
-	private JsonValue validateInstance(JsonType type, JsonValue value) {
-		if (type == null) {
-			return value;
-		}
+	private void validateValue(JsonType type, JsonValue value) {
+		validateValue(type, transientValue.assign(value));
+	}
+	
+	private void validateValue(JsonType type, Transient value) {
 		List<JsonValueProblem> problems = this.valueProblems;
-		type.validateInstance(value, problems);
+		problems.clear();
+		if (type == null) {
+			return;
+		}
+		type.validateInstance(value.getTransientValue(), problems);
 		if (!problems.isEmpty()) {
 			for (JsonValueProblem p: problems) {
-				p.setActualValue(value);
+				p.setActualValueSupplier(value.getFinalValue());
 				addProblem(p);
 			}
-			problems.clear();
 		}
-		return value;
 	}
 	
 	private TypeSet findPropertyType(ObjectType objectType, String propertyName) {
@@ -239,7 +240,7 @@ class JsonValidatingReader {
 		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
 	}
-
+	
 	/**
 	 * Returns the exception to be thrown when internal error occurred.
 	 * @return the exception which represents an internal error.
