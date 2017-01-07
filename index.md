@@ -1,7 +1,7 @@
 # Hibiscus
 
 [![Apache 2.0 License](https://img.shields.io/:license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0
-) [![Build Status](https://travis-ci.org/i49/hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
+) [![Build Status](https://travis-ci.org/i49/hibiscus.svg?branch=master)](https://travis-ci.org/i49/hibiscus)
 
 Hibiscus is a JSON validator to verify JSON documents against unique Java-based schemas.
 
