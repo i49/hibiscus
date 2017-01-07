@@ -1,9 +1,9 @@
 # Hibiscus
 
 [![Apache 2.0 License](https://img.shields.io/:license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0
-) [![Build Status](https://travis-ci.org/i49/Hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
+) [![Build Status](https://travis-ci.org/i49/hibiscus.svg?branch=master)](https://travis-ci.org/i49/Hibiscus)
 
-Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.
+Hibiscus is a JSON validator to verify JSON documents against unique Java-based schemas.
 
 ## 1. Introduction
 
@@ -152,8 +152,8 @@ Schema schema = schema(
 
 For more details about this library, please see following documents.
 
-* [Schema Basics](https://github.com/i49/Hibiscus/blob/master/hibiscus-doc/01_schema-basics.md) which show you how to write schema
-* [Javadoc API Reference](https://i49.github.io/Hibiscus/apidocs/index.html)
+* [Schema Basics](https://github.com/i49/hibiscus/blob/master/hibiscus-doc/01_schema-basics.md) which show you how to write schema
+* [Javadoc API Reference](apidocs/index.html)
 
 ## 3. Installation
 
@@ -165,7 +165,7 @@ All prerequisites in order to build Hibiscus are listed below:
 The artifact can be built and installed into your local Maven repository as follows.
 
 ```bash
-$ git clone https://github.com/i49/Hibiscus.git
+$ git clone https://github.com/i49/hibiscus.git
 $ cd hibiscus
 $ mvn install
 ```
@@ -209,4 +209,4 @@ In the case that your choice is Apache Johnzon, you can specify it as follows.
 
 ## 4. Validator examples
 
-Some examples of validators are available in [hibiscus-examples](https://github.com/i49/Hibiscus/tree/master/hibiscus-examples).
+Some examples of validators are available in [hibiscus-examples](https://github.com/i49/hibiscus/tree/master/hibiscus-examples).
