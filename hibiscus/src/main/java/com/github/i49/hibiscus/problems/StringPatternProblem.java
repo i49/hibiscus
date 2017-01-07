@@ -9,14 +9,13 @@ import javax.json.JsonString;
  *
  * <p>This problem can be caused by {@code string()} type only.</p>
  */
-public class StringPatternProblem extends JsonValueProblem<JsonString> {
+public class StringPatternProblem extends TypedJsonValueProblem<JsonString> {
 
 	/**
 	 * Constructs this problem.
 	 * @param value the string value which did not match the expected pattern and caused this problem.
 	 */
-	public StringPatternProblem(JsonString value) {
-		super(value);
+	public StringPatternProblem() {
 	}
 	
 	@Override

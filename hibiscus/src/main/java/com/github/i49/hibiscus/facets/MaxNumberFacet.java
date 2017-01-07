@@ -7,8 +7,8 @@ import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.problems.InclusiveUpperBoundProblem;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
-import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>maxInclusive</strong> and <strong>maxExclusive</strong> facets
@@ -37,16 +37,16 @@ public class MaxNumberFacet implements Facet<JsonNumber> {
 	}
 
 	@Override
-	public void apply(JsonNumber value, List<Problem> problems) {
+	public void apply(JsonNumber value, List<JsonValueProblem> problems) {
 		BigDecimal decimal = value.bigDecimalValue();
 		int result = decimal.compareTo(bound.getValue());
 		if (bound.isExclusive()) {
 			if (result >= 0) {
-				problems.add(new ExclusiveUpperBoundProblem(value, bound));
+				problems.add(new ExclusiveUpperBoundProblem(bound));
 			}
 		} else {
 			if (result > 0) {
-				problems.add(new InclusiveUpperBoundProblem(value, bound));
+				problems.add(new InclusiveUpperBoundProblem(bound));
 			}
 		}
 	}

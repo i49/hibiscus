@@ -14,17 +14,15 @@ import javax.json.JsonValue;
  *  
  * <p>This problem can be caused by {@code array()} type only.</p>
  */
-public class ArrayDuplicateItemProblem extends JsonValueProblem<JsonArray> {
+public class ArrayDuplicateItemProblem extends TypedJsonValueProblem<JsonArray> {
 
 	private final int itemIndex;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the array which has the duplicate element.
 	 * @param itemIndex zero-based index that indicates where the duplicated element was found.
 	 */
-	public ArrayDuplicateItemProblem(JsonArray value, int itemIndex) {
-		super(value);
+	public ArrayDuplicateItemProblem(int itemIndex) {
 		this.itemIndex = itemIndex;
 	}
 	

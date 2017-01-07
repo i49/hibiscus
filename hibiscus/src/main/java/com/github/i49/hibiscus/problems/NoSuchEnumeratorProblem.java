@@ -11,17 +11,15 @@ import javax.json.JsonValue;
  * <p>This problem can be caused by
  * {@code boolean()}, {@code integer()}, {@code number()}, or {@code string()} type.</p>
  */
-public class NoSuchEnumeratorProblem extends JsonValueProblem<JsonValue> {
+public class NoSuchEnumeratorProblem extends TypedJsonValueProblem<JsonValue> {
 
 	private final Set<Object> enumerators;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value which caused this problem.
 	 * @param enumerators the set of the distinct values allowed for the type.
 	 */
-	public NoSuchEnumeratorProblem(JsonValue value, Set<Object> enumerators) {
-		super(value);
+	public NoSuchEnumeratorProblem(Set<Object> enumerators) {
 		this.enumerators = enumerators;
 	}
 	

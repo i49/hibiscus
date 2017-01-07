@@ -11,17 +11,15 @@ import javax.json.JsonValue;
  * 
  * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class AssertionFailureProblem<V extends JsonValue> extends JsonValueProblem<V> {
+public class AssertionFailureProblem<V extends JsonValue> extends TypedJsonValueProblem<V> {
 
 	private final ProblemDescriber<V> describer;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value actual value which is the cause of this problem.
 	 * @param describer the object which will provide the description of this problem. 
 	 */
-	public AssertionFailureProblem(V value, ProblemDescriber<V> describer) {
-		super(value);
+	public AssertionFailureProblem(ProblemDescriber<V> describer) {
 		this.describer = describer;
 	}
 

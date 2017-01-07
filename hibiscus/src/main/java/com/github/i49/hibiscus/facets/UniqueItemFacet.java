@@ -8,7 +8,7 @@ import javax.json.JsonArray;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.ArrayDuplicateItemProblem;
-import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 
 /**
  * <strong>unique</strong> facet to enforce each element in array to be unique. 
@@ -27,12 +27,12 @@ public class UniqueItemFacet implements Facet<JsonArray> {
 	public static final UniqueItemFacet INSTANCE = new UniqueItemFacet(); 
 	
 	@Override
-	public void apply(JsonArray value, List<Problem> problems) {
+	public void apply(JsonArray value, List<JsonValueProblem> problems) {
 		Set<JsonValue> items = new HashSet<>();
 		int index = 0;
 		for (JsonValue item: value) {
 			if (items.contains(item)) {
-				problems.add(new ArrayDuplicateItemProblem(value, index));
+				problems.add(new ArrayDuplicateItemProblem(index));
 			} else {
 				items.add(item);
 			}

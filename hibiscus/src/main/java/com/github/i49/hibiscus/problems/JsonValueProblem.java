@@ -8,23 +8,25 @@ import javax.json.JsonValue;
  *
  * @param <V> the type of {@link JsonValue} which is out of the valid value space and caused this problem.
  */
-public abstract class JsonValueProblem<V extends JsonValue> extends AbstractProblem {
+public abstract class JsonValueProblem extends AbstractProblem {
 
-	private final V value;
+	private JsonValue value;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value in JSON document which caused this problem. Cannot be {@code null}.
 	 */
-	public JsonValueProblem(V value) {
-		this.value = value;
+	public JsonValueProblem() {
 	}
 	
 	/**
 	 * Returns the actual value which caused this problem.
 	 * @return the actual value which caused this problem.
 	 */
-	public V getActualValue() {
+	public JsonValue getActualValue() {
 		return value;
+	}
+	
+	public void setActualValue(JsonValue value) {
+		this.value = value;
 	}
 }

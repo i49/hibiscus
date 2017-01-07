@@ -14,17 +14,15 @@ import com.github.i49.hibiscus.formats.Format;
  * 
  * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class InvalidFormatProblem<V extends JsonValue> extends JsonValueProblem<V> {
+public class InvalidFormatProblem<V extends JsonValue> extends TypedJsonValueProblem<V> {
 
 	private final Set<Format<V>> formats;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the actual value which has an wrong format.
 	 * @param formats the expected formats declared in the schema.
 	 */
-	public InvalidFormatProblem(V value, Set<Format<V>> formats) {
-		super(value);
+	public InvalidFormatProblem(Set<Format<V>> formats) {
 		this.formats = formats;
 	}
 	

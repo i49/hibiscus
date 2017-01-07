@@ -7,8 +7,8 @@ import javax.json.JsonNumber;
 
 import com.github.i49.hibiscus.common.Bound;
 import com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.ExclusiveLowerBoundProblem;
-import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>minInclusive</strong> and <strong>minExclusive</strong> facets
@@ -37,16 +37,16 @@ public class MinNumberFacet implements Facet<JsonNumber> {
 	}
 
 	@Override
-	public void apply(JsonNumber value, List<Problem> problems) {
+	public void apply(JsonNumber value, List<JsonValueProblem> problems) {
 		BigDecimal decimal = value.bigDecimalValue();
 		int result = decimal.compareTo(bound.getValue());
 		if (bound.isExclusive()) {
 			if (result <= 0) {
-				problems.add(new ExclusiveLowerBoundProblem(value, bound));
+				problems.add(new ExclusiveLowerBoundProblem(bound));
 			}
 		} else {
 			if (result < 0) {
-				problems.add(new InclusiveLowerBoundProblem(value, bound));
+				problems.add(new InclusiveLowerBoundProblem(bound));
 			}
 		}
 	}

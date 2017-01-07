@@ -2,7 +2,7 @@ package com.github.i49.hibiscus.facets;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 
 /**
  * A helper interface which will create problems that report the values have invalid lengths,
@@ -16,10 +16,9 @@ public interface LengthProblemFactory<V extends JsonValue> {
 	/**
 	 * Creates a new problem when a value has an invalid length.
 	 * 
-	 * @param value the value which is the cause of the problem.
 	 * @param actualLength actual length of the value in JSON document.
 	 * @param expectedLength the length expected by facets.
 	 * @return created problem.
 	 */
-	Problem newProblem(V value, int actualLength, int expectedLength);
+	JsonValueProblem newProblem(int actualLength, int expectedLength);
 }

@@ -9,19 +9,17 @@ import javax.json.JsonString;
  *
  * <p>This problem can be caused by {@code string()} type only.</p>
  */
-public class StringLengthProblem extends JsonValueProblem<JsonString> {
+public class StringLengthProblem extends TypedJsonValueProblem<JsonString> {
 
 	private final int actualLength;
 	private final int expectedLength;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the string value which has invalid length and caused this problem. 
 	 * @param actualLength the actual number of characters in the string.
 	 * @param expectedLength the expected number of characters for the type.
 	 */
-	public StringLengthProblem(JsonString value, int actualLength, int expectedLength) {
-		super(value);
+	public StringLengthProblem(int actualLength, int expectedLength) {
 		this.actualLength = actualLength;
 		this.expectedLength = expectedLength;
 	}

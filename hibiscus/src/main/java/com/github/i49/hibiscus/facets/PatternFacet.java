@@ -7,7 +7,7 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.json.JsonString;
 
-import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.StringPatternProblem;
 
 /**
@@ -40,10 +40,10 @@ public class PatternFacet implements Facet<JsonString> {
 	}
 	
 	@Override
-	public void apply(JsonString value, List<Problem> problems) {
+	public void apply(JsonString value, List<JsonValueProblem> problems) {
 		Matcher m = pattern.matcher(value.getString());
 		if (!m.matches()) {
-			problems.add(new StringPatternProblem(value));
+			problems.add(new StringPatternProblem());
 		}
 	}
 }

@@ -12,8 +12,8 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.ProblemDescriber;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
-import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * The implementation class of {@link ObjectType}.
@@ -40,12 +40,12 @@ class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements
 	}
 	
 	@Override
-	public void validateInstance(JsonValue value, List<Problem> problems) {
+	public void validateInstance(JsonValue value, List<JsonValueProblem> problems) {
 		super.validateInstance(value, problems);
 		JsonObject object = (JsonObject)value;
 		for (String name: this.required) {
 			if (!object.containsKey(name)) {
-				problems.add(new MissingPropertyProblem(object, name));
+				problems.add(new MissingPropertyProblem(name));
 			}
 		}
 	}

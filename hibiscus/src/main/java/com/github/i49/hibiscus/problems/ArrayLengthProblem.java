@@ -9,19 +9,17 @@ import javax.json.JsonArray;
  *
  * <p>This problem can be caused by {@code array()} type only.</p>
  */
-public class ArrayLengthProblem extends JsonValueProblem<JsonArray> {
+public class ArrayLengthProblem extends TypedJsonValueProblem<JsonArray> {
 
 	private final int actualLength;
 	private final int expectedLength;
 	
 	/**
 	 * Constructs this problem.
-	 * @param value the array which has invalid number of elements.
 	 * @param actualLength the actual number of elements in the array in JSON document.
 	 * @param expectedLength the number of elements declared in the schema. 
 	 */
-	public ArrayLengthProblem(JsonArray value, int actualLength, int expectedLength) {
-		super(value);
+	public ArrayLengthProblem(int actualLength, int expectedLength) {
 		this.actualLength = actualLength;
 		this.expectedLength = expectedLength;
 	}

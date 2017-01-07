@@ -9,17 +9,15 @@ import javax.json.JsonObject;
  * 
  * <p>This problem can be caused by {@code object()} type only.</p>
  */
-public class MissingPropertyProblem extends JsonValueProblem<JsonObject> {
+public class MissingPropertyProblem extends TypedJsonValueProblem<JsonObject> {
 
 	private final String propertyName;
 	
 	/**
 	 * Constructs this problem.
-	 * @param object the JSON object which lacks the required property.
 	 * @param propertyName the name of the missing property.
 	 */
-	public MissingPropertyProblem(JsonObject object, String propertyName) {
-		super(object);
+	public MissingPropertyProblem(String propertyName) {
 		this.propertyName = propertyName;
 	}
 

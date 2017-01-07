@@ -1,7 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.json.JsonArray;
@@ -15,6 +14,7 @@ import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.json.JsonValueFactory;
+import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
@@ -37,7 +37,7 @@ class JsonValidatingReader {
 	private final JsonBuilderFactory builderFactory;
 	private final JsonValueFactory valueFactory;
 	private final List<Problem> problems = new ArrayList<>();
-	private final List<Problem> lastProblems = new ArrayList<>();
+	private final List<JsonValueProblem> valueProblems = new ArrayList<>();
 
 	/**
 	 * Constructs this reader.
@@ -208,10 +208,14 @@ class JsonValidatingReader {
 		if (type == null) {
 			return value;
 		}
-		type.validateInstance(value, lastProblems);
-		if (!lastProblems.isEmpty()) {
-			addProblems(lastProblems);
-			lastProblems.clear();
+		List<JsonValueProblem> problems = this.valueProblems;
+		type.validateInstance(value, problems);
+		if (!problems.isEmpty()) {
+			for (JsonValueProblem p: problems) {
+				p.setActualValue(value);
+				addProblem(p);
+			}
+			problems.clear();
 		}
 		return value;
 	}
@@ -234,16 +238,6 @@ class JsonValidatingReader {
 	private void addProblem(Problem problem) {
 		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
-	}
-
-	/**
-	 * Adds multiple problems found to the list of the problems.
-	 * @param problems the problems found while validation the JSON document.
-	 */
-	private void addProblems(Collection<Problem> problems) {
-		for (Problem p: problems) {
-			addProblem(p);
-		}
 	}
 
 	/**
