@@ -18,6 +18,8 @@ import com.github.i49.hibiscus.formats.Format;
 import com.github.i49.hibiscus.problems.InvalidFormatProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
 /**
  * Tests to test format() method provided by string type.
  */
@@ -26,7 +28,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for datetime() format.
 	 */
-	public static class DateTimeTest extends BaseValidationTest {
+	public static class DateTimeTest {
 
 		private static Schema createSchema() {
 			return schema(array(string().format(datetime())));
@@ -36,8 +38,9 @@ public class StringFormatTest {
 		public void dateTimeInUTC() {
 			String json = "[\"1985-04-12T23:20:50.52Z\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -45,8 +48,9 @@ public class StringFormatTest {
 		public void dateTimeWithOffset() {
 			String json = "[\"1996-12-19T16:39:57-08:00\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -54,8 +58,9 @@ public class StringFormatTest {
 		public void dateTimeWithLeapSecond() {
 			String json = "[\"1990-12-31T15:59:60-08:00\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -63,8 +68,9 @@ public class StringFormatTest {
 		public void dateTimeInNetherlands() {
 			String json = "[\"1937-01-01T12:00:27.87+00:20\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -72,8 +78,9 @@ public class StringFormatTest {
 		public void invalidDateTime() {
 			String json = "[\"1985-04-12 23:20:50.52Z\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -87,7 +94,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for email() format.
 	 */
-	public static class EmailTest extends BaseValidationTest {
+	public static class EmailTest {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(email())));
@@ -97,8 +104,9 @@ public class StringFormatTest {
 		public void validEmail() {
 			String json = "[\"someone@example.org\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -106,8 +114,9 @@ public class StringFormatTest {
 		public void invalidEmail() {
 			String json = "[\"John Smith\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -121,7 +130,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for hostname() format.
 	 */
-	public static class HostnameTest extends BaseValidationTest {
+	public static class HostnameTest {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(hostname())));
@@ -131,8 +140,9 @@ public class StringFormatTest {
 		public void validHostname() {
 			String json = "[\"www.example.com\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -140,8 +150,9 @@ public class StringFormatTest {
 		public void invalidHostname() {
 			String json = "[\"www._example_.com\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -155,8 +166,9 @@ public class StringFormatTest {
 		public void ipaddress() {
 			String json = "[\"192.168.80.1\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -170,8 +182,9 @@ public class StringFormatTest {
 		public void withPort() {
 			String json = "[\"www.example.com:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -185,7 +198,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for ipv4() format.
 	 */
-	public static class Ipv4Test extends BaseValidationTest {
+	public static class Ipv4Test {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(ipv4())));
@@ -195,8 +208,9 @@ public class StringFormatTest {
 		public void inet4address() {
 			String json = "[\"192.0.2.0\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -204,8 +218,9 @@ public class StringFormatTest {
 		public void inet6address() {
 			String json = "[\"2001:db8::\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -219,8 +234,9 @@ public class StringFormatTest {
 		public void hostname() {
 			String json = "[\"www.example.com\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -234,7 +250,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for ipv6() format.
 	 */
-	public static class Ipv6Test extends BaseValidationTest {
+	public static class Ipv6Test {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(ipv6())));
@@ -244,7 +260,9 @@ public class StringFormatTest {
 		public void inet6address() {
 			String json = "[\"2001:db8::\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -252,7 +270,9 @@ public class StringFormatTest {
 		public void unspecifiedAddress() {
 			String json = "[\"::\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -260,7 +280,9 @@ public class StringFormatTest {
 		public void loopbackAddress() {
 			String json = "[\"::1\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -268,7 +290,9 @@ public class StringFormatTest {
 		public void ipv4CompatibleAddress() {
 			String json = "[\"::192.9.5.5\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -276,7 +300,9 @@ public class StringFormatTest {
 		public void ipv4MappedAddress() {
 			String json = "[\"::FFFF:129.144.52.38\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -284,8 +310,9 @@ public class StringFormatTest {
 		public void inet4address() {
 			String json = "[\"192.0.2.0\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -299,8 +326,9 @@ public class StringFormatTest {
 		public void hostname() {
 			String json = "[\"www.example.com\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -314,7 +342,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for host() format.
 	 */
-	public static class HostTest extends BaseValidationTest {
+	public static class HostTest {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(host())));
@@ -324,7 +352,9 @@ public class StringFormatTest {
 		public void hostname() {
 			String json = "[\"www.example.org\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -332,7 +362,9 @@ public class StringFormatTest {
 		public void hostnameAndPort() {
 			String json = "[\"www.example.org:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -340,7 +372,9 @@ public class StringFormatTest {
 		public void inet4Address() {
 			String json = "[\"192.0.2.0\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -348,7 +382,9 @@ public class StringFormatTest {
 		public void inet4AddressAndPort() {
 			String json = "[\"192.0.2.0:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 		
@@ -356,7 +392,9 @@ public class StringFormatTest {
 		public void inet6Address() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -364,7 +402,9 @@ public class StringFormatTest {
 		public void shortInet6Address() {
 			String json = "[\"[2010:836B:4179::836B:4179]\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -372,7 +412,9 @@ public class StringFormatTest {
 		public void inet6AddressAndPort() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -380,7 +422,9 @@ public class StringFormatTest {
 		public void unmatchedSquareBrackets() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]]:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 	}
@@ -388,7 +432,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for hostport() format.
 	 */
-	public static class HostportTest extends BaseValidationTest {
+	public static class HostportTest {
 		
 		private static Schema createSchema() {
 			return schema(array(string().format(hostport())));
@@ -398,7 +442,9 @@ public class StringFormatTest {
 		public void hostname() {
 			String json = "[\"www.example.org\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -406,7 +452,9 @@ public class StringFormatTest {
 		public void hostnameAndPort() {
 			String json = "[\"www.example.org:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -414,7 +462,9 @@ public class StringFormatTest {
 		public void inet4Address() {
 			String json = "[\"192.0.2.0\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -422,7 +472,9 @@ public class StringFormatTest {
 		public void inet4AddressAndPort() {
 			String json = "[\"192.0.2.0:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -430,7 +482,9 @@ public class StringFormatTest {
 		public void inet6Address() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -438,7 +492,9 @@ public class StringFormatTest {
 		public void shortInet6Address() {
 			String json = "[\"[2010:836B:4179::836B:4179]\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -446,7 +502,9 @@ public class StringFormatTest {
 		public void inet6AddressAndPort() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -454,7 +512,9 @@ public class StringFormatTest {
 		public void unmatchedSquareBrackets() {
 			String json = "[\"[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]]:80\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -462,7 +522,9 @@ public class StringFormatTest {
 		public void notANumberPort() {
 			String json = "[\"www.example.org:abc\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 		}
 	}
@@ -470,7 +532,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for anyURI() format.
 	 */
-	public static class AnyURITest extends BaseValidationTest {
+	public static class AnyURITest {
 
 		private static Schema createSchema() {
 			return schema(array(string().format(anyURI())));
@@ -480,8 +542,9 @@ public class StringFormatTest {
 		public void url() {
 			String json = "[\"http://www.ietf.org/rfc/rfc2396.txt\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
-	
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -489,8 +552,9 @@ public class StringFormatTest {
 		public void urn() {
 			String json = "[\"urn:oasis:names:specification:docbook:dtd:xml:4.1.2\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -498,8 +562,9 @@ public class StringFormatTest {
 		public void relative() {
 			String json = "[\"../path/to/index.html\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -507,8 +572,9 @@ public class StringFormatTest {
 		public void includingSpace() {
 			String json = "[\"http://example.com/ index.html\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -522,7 +588,7 @@ public class StringFormatTest {
 	/**
 	 * Tests for absoluteURI() format.
 	 */
-	public static class AbsoluteURITest extends BaseValidationTest {
+	public static class AbsoluteURITest {
 
 		private static Schema createSchema() {
 			return schema(array(string().format(absoluteURI())));
@@ -532,8 +598,9 @@ public class StringFormatTest {
 		public void url() {
 			String json = "[\"http://www.ietf.org/rfc/rfc2396.txt\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -541,8 +608,9 @@ public class StringFormatTest {
 		public void urn() {
 			String json = "[\"urn:oasis:names:specification:docbook:dtd:xml:4.1.2\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -550,8 +618,9 @@ public class StringFormatTest {
 		public void relativeURI() {
 			String json = "[\"../path/to/index.html\"]";
 			JsonValidator validator = new BasicJsonValidator(createSchema());
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);

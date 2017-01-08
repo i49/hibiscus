@@ -14,20 +14,23 @@ import java.util.Set;
 
 import javax.json.JsonValue;
 
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
 public class BooleanValidationTest {
 
 	/**
 	 * Tests of various kinds of values.
 	 */
-	public static class BooleanValueTest extends BaseValidationTest {
+	public static class BooleanValueTest {
 
 		@Test
 		public void booleanOfTrue() {
 			String json = "[true]";
 			Schema schema = schema(array(bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -36,21 +39,23 @@ public class BooleanValidationTest {
 			String json = "[false]";
 			Schema schema = schema(array(bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	}
 
-	public static class TypeMismatchTest extends BaseValidationTest {
+	public static class TypeMismatchTest {
 	
 		@Test
 		public void notBooleanButString() {
 			String json = "[\"true\"]";
 			Schema schema = schema(array(bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
@@ -59,15 +64,16 @@ public class BooleanValidationTest {
 		}
 	}
 	
-	public static class EnumerationTest extends BaseValidationTest {
+	public static class EnumerationTest {
 
 		@Test
 		public void trueToNone() {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -82,8 +88,9 @@ public class BooleanValidationTest {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(true)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -92,8 +99,9 @@ public class BooleanValidationTest {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -109,8 +117,9 @@ public class BooleanValidationTest {
 			String json = "[true]";
 			Schema schema = schema(array(bool().enumeration(true, false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -119,8 +128,9 @@ public class BooleanValidationTest {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -135,8 +145,9 @@ public class BooleanValidationTest {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(true)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -152,8 +163,9 @@ public class BooleanValidationTest {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -162,8 +174,9 @@ public class BooleanValidationTest {
 			String json = "[false]";
 			Schema schema = schema(array(bool().enumeration(true, false)));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	}

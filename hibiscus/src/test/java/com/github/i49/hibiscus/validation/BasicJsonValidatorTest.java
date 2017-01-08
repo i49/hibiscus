@@ -18,6 +18,8 @@ import com.github.i49.hibiscus.schema.Schema;
 import static com.github.i49.hibiscus.schema.SchemaComponents.*;
 import static com.github.i49.hibiscus.validation.Resources.*;
 
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
 public class BasicJsonValidatorTest {
 
 	private static Schema personSchema() {
@@ -49,6 +51,7 @@ public class BasicJsonValidatorTest {
 				result = validator.validate(reader);
 			}
 		
+			assertValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -70,6 +73,7 @@ public class BasicJsonValidatorTest {
 			try (InputStream stream = newInputStream("person-utf16le.json")) {
 				result = validator.validate(stream);
 			}
+			assertValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -81,6 +85,7 @@ public class BasicJsonValidatorTest {
 			try (InputStream stream = newInputStream("person-utf16be.json")) {
 				result = validator.validate(stream);
 			}
+			assertValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -96,6 +101,7 @@ public class BasicJsonValidatorTest {
 				result = validator.validate(stream, StandardCharsets.UTF_8);
 			}
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -144,6 +150,7 @@ public class BasicJsonValidatorTest {
 			ValidationResult result = null; 
 			try (InputStream stream = newInputStream("invalid-root.json")) {
 				result = validator.validate(stream, StandardCharsets.UTF_8);
+				assertValid(result);
 				assertFalse(result.hasProblems());
 				assertTrue(result.getValue() instanceof JsonString);
 			} catch (JsonParsingException e) {

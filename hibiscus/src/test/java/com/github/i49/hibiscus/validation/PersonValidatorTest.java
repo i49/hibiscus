@@ -22,16 +22,15 @@ import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
-public class PersonValidatorTest extends BaseValidationTest {
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
+public class PersonValidatorTest {
 	
 	private JsonValidator validator;
 	
 	@Before
-	@Override
 	public void setUp() {
 
-		super.setUp();
-		
 		Schema schema = schema(
 			object(
 				required("firstName", string()),
@@ -47,10 +46,12 @@ public class PersonValidatorTest extends BaseValidationTest {
 	@Test
 	public void noProblem() throws IOException {
 
+		ValidationResult result = null;	
 		try (Reader reader = newReader("person.json")) {
 			result = validator.validate(reader);
 		}
 		
+		assertValid(result);
 		assertFalse(result.hasProblems());
 
 		JsonValue root = result.getValue();
@@ -64,10 +65,12 @@ public class PersonValidatorTest extends BaseValidationTest {
 	@Test
 	public void missingProperty() throws IOException {
 		
+		ValidationResult result = null;	
 		try (Reader reader = newReader("person-missing-property.json")) {
 			result = validator.validate(reader);
 		}
 		
+		assertValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();
@@ -81,10 +84,12 @@ public class PersonValidatorTest extends BaseValidationTest {
 	@Test
 	public void typeMismatch() throws IOException {
 
+		ValidationResult result = null;	
 		try (Reader reader = newReader("person-type-mismatch.json")) {
 			result = validator.validate(reader);
 		}
 		
+		assertValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();
@@ -115,10 +120,12 @@ public class PersonValidatorTest extends BaseValidationTest {
 	@Test
 	public void unknownProperties() throws IOException {
 		
+		ValidationResult result = null;	
 		try (Reader reader = newReader("person-unknown-property.json")) {
 			result = validator.validate(reader);
 		}
 		
+		assertValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();

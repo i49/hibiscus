@@ -21,20 +21,23 @@ import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.schema.Schema;
 
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
 public class StringValidationTest {
 
 	/**
 	 * Tests of various kinds of values.
 	 */
-	public static class StringValueTest extends BaseValidationTest {
+	public static class StringValueTest {
 		
 		@Test
 		public void emptyString() {
 			String json = "[\"\"]";
 			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 		
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -43,8 +46,9 @@ public class StringValidationTest {
 			String json = "[\"a\"]";
 			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 		
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -53,21 +57,23 @@ public class StringValidationTest {
 			String json = "[\"abc\"]";
 			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 		
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	}
 
-	public static class TypeMismatchTest extends BaseValidationTest {
+	public static class TypeMismatchTest {
 	
 		@Test
 		public void notStringButInteger() {
 			String json = "[123]";
 			Schema schema = schema(array(string()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
@@ -76,15 +82,16 @@ public class StringValidationTest {
 		}
 	}
 
-	public static class EnumerationTest extends BaseValidationTest {
+	public static class EnumerationTest {
 	
 		@Test
 		public void notExistInNone() {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 			
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -99,8 +106,9 @@ public class StringValidationTest {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Spring")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 			
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -109,8 +117,9 @@ public class StringValidationTest {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Summer")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 			
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -126,8 +135,9 @@ public class StringValidationTest {
 			String json = "[\"Spring\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 			
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -136,8 +146,9 @@ public class StringValidationTest {
 			String json = "[\"Q2\"]";
 			Schema schema = schema(array(string().enumeration("Spring", "Summer", "Autumn", "Winter")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 			
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -148,13 +159,12 @@ public class StringValidationTest {
 		}
 	}
 	
-	public static class MinLengthTest extends BaseValidationTest {
+	public static class MinLengthTest {
 
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().minLength(3)));
 		}
 
@@ -162,8 +172,9 @@ public class StringValidationTest {
 		public void moreThanMinLength() {
 			String json = "[\"abcd\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -171,8 +182,9 @@ public class StringValidationTest {
 		public void minLength() {
 			String json = "[\"abc\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -181,8 +193,9 @@ public class StringValidationTest {
 			
 			String json = "[\"ab\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
 			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
@@ -192,13 +205,12 @@ public class StringValidationTest {
 		}
 	}
 	
-	public static class MaxLengthTest extends BaseValidationTest {
+	public static class MaxLengthTest {
 
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().maxLength(3)));
 		}
 
@@ -207,8 +219,9 @@ public class StringValidationTest {
 			
 			String json = "[\"ab\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -217,8 +230,9 @@ public class StringValidationTest {
 			
 			String json = "[\"abc\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -227,8 +241,9 @@ public class StringValidationTest {
 			
 			String json = "[\"abcd\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
 			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
@@ -238,13 +253,12 @@ public class StringValidationTest {
 		}
 	}
 
-	public static class MinAndMaxLengthTest extends BaseValidationTest {
+	public static class MinAndMaxLengthTest {
 	
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().minLength(3).maxLength(5)));
 		}
 
@@ -252,8 +266,9 @@ public class StringValidationTest {
 		public void lessThanMinLength() {
 			String json = "[\"ab\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
 			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
@@ -266,8 +281,9 @@ public class StringValidationTest {
 		public void minLength() {
 			String json = "[\"abc\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -275,8 +291,9 @@ public class StringValidationTest {
 		public void betweenMinAndMaxLength() {
 			String json = "[\"abcd\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -284,8 +301,9 @@ public class StringValidationTest {
 		public void maxLength() {
 			String json = "[\"abcde\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -293,8 +311,9 @@ public class StringValidationTest {
 		public void moreThanMaxLength() {
 			String json = "[\"abcdef\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
 			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
@@ -304,13 +323,12 @@ public class StringValidationTest {
 		}
 	}
 	
-	public static class LenghTest extends BaseValidationTest {
+	public static class LenghTest {
 		
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().length(3)));
 		}
 
@@ -318,8 +336,9 @@ public class StringValidationTest {
 		public void same() {
 			String json = "[\"abc\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -327,8 +346,9 @@ public class StringValidationTest {
 		public void lessThanExpected() {
 			String json = "[\"ab\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -341,8 +361,9 @@ public class StringValidationTest {
 		public void moreThanExpected() {
 			String json = "[\"abcd\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -352,13 +373,12 @@ public class StringValidationTest {
 		}
 	}
 
-	public static class ZeroLenghTest extends BaseValidationTest {
+	public static class ZeroLenghTest {
 		
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().length(0)));
 		}
 
@@ -366,8 +386,9 @@ public class StringValidationTest {
 		public void same() {
 			String json = "[\"\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 
@@ -375,8 +396,9 @@ public class StringValidationTest {
 		public void notSame() {
 			String json = "[\"a\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -386,15 +408,16 @@ public class StringValidationTest {
 		}
 	}
 	
-	public static class PatternTest extends BaseValidationTest {
+	public static class PatternTest {
 		
 		@Test
 		public void valid() {
 			String json = "[\"123-45-6789\"]";
 			Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -403,8 +426,9 @@ public class StringValidationTest {
 			String json = "[\"9876-54-321\"]";
 			Schema schema = schema(array(string().pattern("\\d{3}-?\\d{2}-?\\d{4}")));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 			StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
@@ -413,13 +437,12 @@ public class StringValidationTest {
 		}
 	}
 
-	public static class AssertionTest extends BaseValidationTest {
+	public static class AssertionTest {
 	
 		private Schema schema;
 		
 		@Before
 		public void setUp() {
-			super.setUp();
 			schema = schema(array(string().assertion(
 					v->((v.getString().length() % 2) == 0), 
 					(v, l)->"Length must be a even number."
@@ -430,8 +453,9 @@ public class StringValidationTest {
 		public void success() {
 			String json = "[\"abcd\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -439,8 +463,9 @@ public class StringValidationTest {
 		public void failure() {
 			String json = "[\"abc\"]";
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);

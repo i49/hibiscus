@@ -12,30 +12,34 @@ import com.github.i49.hibiscus.schema.Schema;
 
 import java.io.StringReader;
 
+import static com.github.i49.hibiscus.validation.CustomAssertions.*;
+
 public class NullValidationTest {
 	
-	public static class NullValueTest extends BaseValidationTest {
+	public static class NullValueTest {
 
 		@Test
 		public void matchNull() {
 			String json = "[null]";
 			Schema schema = schema(array(nil()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertFalse(result.hasProblems());
 		}
 	}
 	
-	public static class TypeMismatchTest extends BaseValidationTest {
+	public static class TypeMismatchTest {
 	
 		@Test
 		public void notNullButInteger() {
 			String json = "[0]";
 			Schema schema = schema(array(bool()));
 			JsonValidator validator = new BasicJsonValidator(schema);
-			result = validator.validate(new StringReader(json));
+			ValidationResult result = validator.validate(new StringReader(json));
 	
+			assertValid(result);
 			assertEquals(1, result.getProblems().size());
 			Problem p = result.getProblems().get(0);
 			assertTrue(p instanceof TypeMismatchProblem);
