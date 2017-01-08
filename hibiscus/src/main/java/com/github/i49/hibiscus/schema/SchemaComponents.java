@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.schema;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -7,11 +8,12 @@ import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.schema.internal.ArrayTypeImpl;
 import com.github.i49.hibiscus.schema.internal.BooleanTypeImpl;
 import com.github.i49.hibiscus.schema.internal.IntegerTypeImpl;
-import com.github.i49.hibiscus.schema.internal.NamedProperty;
+import com.github.i49.hibiscus.schema.internal.NamedPropertyImpl;
 import com.github.i49.hibiscus.schema.internal.NullTypeImpl;
 import com.github.i49.hibiscus.schema.internal.NumberTypeImpl;
 import com.github.i49.hibiscus.schema.internal.ObjectTypeImpl;
-import com.github.i49.hibiscus.schema.internal.PatternProperty;
+import com.github.i49.hibiscus.schema.internal.PredicatePatternProperty;
+import com.github.i49.hibiscus.schema.internal.RegexPatternProperty;
 import com.github.i49.hibiscus.schema.internal.SchemaImpl;
 import com.github.i49.hibiscus.schema.internal.StringTypeImpl;
 
@@ -267,8 +269,8 @@ public final class SchemaComponents {
 	 * @exception SchemaException if name is {@code null} or
 	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
 	 */
-	public static Property optional(String name, JsonType type, JsonType... moreTypes) {
-		return new NamedProperty(name, type, moreTypes, false);
+	public static NamedProperty optional(String name, JsonType type, JsonType... moreTypes) {
+		return new NamedPropertyImpl(name, type, moreTypes, false);
 	}
 	
 	/**
@@ -281,8 +283,8 @@ public final class SchemaComponents {
 	 * @exception SchemaException if name is {@code null} or
 	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
 	 */
-	public static Property required(String name, JsonType type, JsonType... moreTypes) {
-		return new NamedProperty(name, type, moreTypes, true);
+	public static NamedProperty required(String name, JsonType type, JsonType... moreTypes) {
+		return new NamedPropertyImpl(name, type, moreTypes, true);
 	}
 	
 	/**
@@ -301,7 +303,22 @@ public final class SchemaComponents {
 	 * @see Pattern
 	 */
 	public static Property pattern(String pattern, JsonType type, JsonType... moreTypes) {
-		return new PatternProperty(pattern, type, moreTypes);
+		return new RegexPatternProperty(pattern, type, moreTypes);
+	}
+	
+	/**
+	 * Creates an object property which name matches the pattern specified as a predicate.
+	 * 
+	 * @param predicate the predicate to determine whether the name of the property is acceptable or not.
+	 *                  Cannot be {@code null}. 
+	 * @param type the type of the property value. Cannot be {@code null}.
+	 * @param moreTypes the other types allowed for the property value. Each type cannot be {@code null}.
+	 * @return created object property.
+	 * @exception SchemaException if predicate is {@code null} or
+	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
+	 */
+	public static Property pattern(Predicate<String> predicate, JsonType type, JsonType... moreTypes) {
+		return new PredicatePatternProperty(predicate, type, moreTypes);
 	}
 	
 	private SchemaComponents() {

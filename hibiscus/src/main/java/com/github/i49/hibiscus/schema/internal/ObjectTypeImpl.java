@@ -12,6 +12,7 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.ProblemDescriber;
+import com.github.i49.hibiscus.schema.NamedProperty;
 import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.schema.Property;
 import com.github.i49.hibiscus.schema.SchemaException;
@@ -23,10 +24,10 @@ import com.github.i49.hibiscus.problems.MissingPropertyProblem;
  */
 public class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements ObjectType {
 
-	private final Map<String, Property> properties = new HashMap<>();
+	private final Map<String, NamedProperty> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
 	private boolean moreProperties = false;
-	private List<PatternProperty> patternProperties;
+	private List<Property> patternProperties;
 	
 	/**
 	 * Constructs this type.
@@ -87,34 +88,34 @@ public class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> imp
 			if (p == null) {
 				throw new SchemaException(Messages.PROPERTY_IS_NULL(index));
 			}
-			if (p instanceof PatternProperty) {
-				addProperty((PatternProperty)p);
+			if (p instanceof NamedProperty) {
+				addNamedProperty((NamedProperty)p);
 			} else {
-				addProperty((NamedProperty)p);
+				addProperty(p);
 			}
 			index++;
 		}
 	}
 	
-	private void addProperty(PatternProperty property) {
-		if (patternProperties == null) {
-			patternProperties = new ArrayList<>();
-		}
-		patternProperties.add(property);
-	}
-
-	private void addProperty(NamedProperty property) {
+	private void addNamedProperty(NamedProperty property) {
 		this.properties.put(property.getName(), property);
 		if (property.isRequired()) {
 			this.required.add(property.getName());
 		}
 	}
+
+	private void addProperty(Property property) {
+		if (patternProperties == null) {
+			patternProperties = new ArrayList<>();
+		}
+		patternProperties.add(property);
+	}
 	
-	private PatternProperty findPatternProperty(String name) {
+	private Property findPatternProperty(String name) {
 		if (patternProperties == null) {
 			return null;
 		}
-		for (PatternProperty p: patternProperties) {
+		for (Property p: patternProperties) {
 			if (p.matches(name)) {
 				return p;
 			}

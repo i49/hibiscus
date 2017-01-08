@@ -29,6 +29,14 @@ class Messages {
 		return localize("PROPERTY_NAME_IS_NULL");
 	}
 	
+	static String REGULAR_EXPRESSION_IS_NULL() {
+		return localize("REGULAR_EXPRESSION_IS_NULL");
+	}
+	
+	static String PREDICATE_IS_NULL() {
+		return localize("PREDICATE_IS_NULL");
+	}
+	
 	static String ONE_OF_TYPES_IS_NULL(int index) {
 		return localize("ONE_OF_TYPES_IS_NULL", index);
 	}

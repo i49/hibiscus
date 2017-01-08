@@ -17,12 +17,6 @@ package com.github.i49.hibiscus.schema;
 public interface Property {
 
 	/**
-	 * Returns the name of this property.
-	 * @return the name of this property.
-	 */
-	String getName();
-	
-	/**
 	 * Returns the set of types allowed for this property.
 	 * @return the set of types allowed for this property.
 	 */
@@ -43,4 +37,11 @@ public interface Property {
 	default boolean isOptional() {
 		return !isRequired();
 	}
+
+	/**
+	 * Matches the given name to this property.
+	 * @param name the name of the property which may match this property.
+	 * @return {@code true} if the name given matched this property, {@code false} otherwise.
+	 */
+	boolean matches(String name);
 }

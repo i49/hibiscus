@@ -2,6 +2,8 @@ package com.github.i49.hibiscus.schema;
 
 import static org.junit.Assert.*;
 
+import java.util.function.Predicate;
+
 import org.junit.Test;
 
 import static com.github.i49.hibiscus.schema.SchemaComponents.*;
@@ -91,7 +93,7 @@ public class SchemaComponentsTest {
 
 		@Test
 		public void normal() {
-			Property p = optional("foo", string());
+			NamedProperty p = optional("foo", string());
 			assertNotNull(p);
 			assertEquals("foo", p.getName());
 		}
@@ -144,7 +146,7 @@ public class SchemaComponentsTest {
 
 		@Test
 		public void normal() {
-			Property p = required("foo", string());
+			NamedProperty p = required("foo", string());
 			assertNotNull(p);
 			assertEquals("foo", p.getName());
 		}
@@ -185,6 +187,46 @@ public class SchemaComponentsTest {
 				required("foo", array(), array());
 			} catch (SchemaException e) {
 				assertEquals("Type \"array\" at the index of 1 is duplicated.", e.getMessage());
+				throw e;
+			}
+		}
+	}
+	
+	public static class RegexPatternTest {
+		
+		@Test
+		public void validExpression() {
+			Property p = pattern("\\d+", string());
+			assertNotNull(p);
+		}
+		
+		@Test(expected = SchemaException.class)
+		public void expressionIsNull() {
+			try {
+				String expression = null;
+				pattern(expression, string());
+			} catch (SchemaException e) {
+				assertEquals("Regular expression is null.", e.getMessage());
+				throw e;
+			}
+		}
+	}
+	
+	public static class PredicatePatternTest {
+		
+		@Test
+		public void validPredicate() {
+			Property p = pattern(x->(x.length() > 3), string());
+			assertNotNull(p);
+		}
+
+		@Test(expected = SchemaException.class)
+		public void predicateIsNull() {
+			try {
+				Predicate<String> predicate = null;
+				pattern(predicate, string());
+			} catch (SchemaException e) {
+				assertEquals("Predicate is null.", e.getMessage());
 				throw e;
 			}
 		}
