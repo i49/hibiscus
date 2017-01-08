@@ -3,6 +3,7 @@ package com.github.i49.hibiscus.schema;
 import java.util.Set;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.schema.internal.TypeSetImpl;
 
 /**
  * An immutable set of {@link JsonType}s, each of which has an unique {@link TypeId}.

@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,16 +6,17 @@ import java.util.Set;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.facets.EnumerationFacet;
+import com.github.i49.hibiscus.schema.BooleanType;
 
 /**
  * The implementation class of {@link BooleanType}.
  */
-class BooleanTypeImpl extends AbstractJsonType<JsonValue, BooleanType> implements BooleanType {
+public class BooleanTypeImpl extends AbstractJsonType<JsonValue, BooleanType> implements BooleanType {
 
 	/**
 	 * Constructs this type.
 	 */
-	BooleanTypeImpl() {
+	public BooleanTypeImpl() {
 	}
 
 	@Override

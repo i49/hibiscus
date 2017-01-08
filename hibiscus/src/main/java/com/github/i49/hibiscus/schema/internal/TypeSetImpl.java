@@ -1,15 +1,18 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.SchemaException;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * The implementation class of {@link TypeSet}.
  */
-class TypeSetImpl implements TypeSet {
+public class TypeSetImpl implements TypeSet {
 
 	/** Empty set of this type. */
 	public static final TypeSet EMPTY = new TypeSetImpl();
@@ -19,20 +22,20 @@ class TypeSetImpl implements TypeSet {
 	/**
 	 * Constructs this object.
 	 */
-	TypeSetImpl() {
+	public TypeSetImpl() {
 	}
 	
-	TypeSetImpl(JsonType type) {
+	public TypeSetImpl(JsonType type) {
 		addType(type);
 	}
 
-	TypeSetImpl(JsonType... types) {
+	public TypeSetImpl(JsonType... types) {
 		for (JsonType type: types) {
 			addType(type);
 		}
 	}
 
-	TypeSetImpl(JsonType type, JsonType[] moreTypes) {
+	public TypeSetImpl(JsonType type, JsonType[] moreTypes) {
 		addType(type);
 		for (JsonType other: moreTypes) {
 			addType(other);

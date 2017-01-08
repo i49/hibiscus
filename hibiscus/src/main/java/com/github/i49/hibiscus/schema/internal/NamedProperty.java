@@ -1,11 +1,15 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.Property;
+import com.github.i49.hibiscus.schema.SchemaException;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * An object property that has a determined name. 
  */
-class NamedProperty implements Property {
+public class NamedProperty implements Property {
 
 	private final String name;
 	private final TypeSet typeSet;
@@ -20,7 +24,7 @@ class NamedProperty implements Property {
 	 * @exception SchemaException if name is {@code null} or
 	 *                            if one of types has the same {@link TypeId} as others or {@code null}.
 	 */
-	NamedProperty(String name, JsonType type, JsonType[] moreTypes, boolean required) {
+	public NamedProperty(String name, JsonType type, JsonType[] moreTypes, boolean required) {
 		if (name == null) {
 			throw new SchemaException(Messages.PROPERTY_NAME_IS_NULL());
 		}

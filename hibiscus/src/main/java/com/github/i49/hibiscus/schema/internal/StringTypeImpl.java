@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,16 +16,18 @@ import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.StringTooLongProblem;
 import com.github.i49.hibiscus.problems.StringTooShortProblem;
+import com.github.i49.hibiscus.schema.SchemaException;
+import com.github.i49.hibiscus.schema.StringType;
 
 /**
  * The implementation class of {@link StringType}.
  */
-class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements StringType {
+public class StringTypeImpl extends AbstractJsonType<JsonString, StringType> implements StringType {
 
 	/**
 	 * Constructs this type.
 	 */
-	StringTypeImpl() {
+	public StringTypeImpl() {
 	}
 
 	@Override

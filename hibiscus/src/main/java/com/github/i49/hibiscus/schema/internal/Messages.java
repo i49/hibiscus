@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;

@@ -1,9 +1,13 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
+
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.Schema;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * The implementation class of {@link Schema}.
  */
-class SchemaImpl implements Schema {
+public class SchemaImpl implements Schema {
 
 	private TypeSet typeSet = TypeSet.empty();
 	

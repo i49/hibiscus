@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.function.Predicate;
 
@@ -12,18 +12,22 @@ import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.ArrayTooLongProblem;
 import com.github.i49.hibiscus.problems.ArrayTooShortProblem;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
+import com.github.i49.hibiscus.schema.ArrayType;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.SchemaException;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * The implementation class of {@link ArrayType}.
  */
-class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements ArrayType {
+public class ArrayTypeImpl extends AbstractJsonType<JsonArray, ArrayType> implements ArrayType {
 
 	private TypeSet typeSet = TypeSet.empty();
 	
 	/**
 	 * Constructs this type.
 	 */
-	ArrayTypeImpl() {
+	public ArrayTypeImpl() {
 	}
 
 	@Override

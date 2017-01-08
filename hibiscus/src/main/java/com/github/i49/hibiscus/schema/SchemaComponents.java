@@ -4,6 +4,16 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.schema.internal.ArrayTypeImpl;
+import com.github.i49.hibiscus.schema.internal.BooleanTypeImpl;
+import com.github.i49.hibiscus.schema.internal.IntegerTypeImpl;
+import com.github.i49.hibiscus.schema.internal.NamedProperty;
+import com.github.i49.hibiscus.schema.internal.NullTypeImpl;
+import com.github.i49.hibiscus.schema.internal.NumberTypeImpl;
+import com.github.i49.hibiscus.schema.internal.ObjectTypeImpl;
+import com.github.i49.hibiscus.schema.internal.PatternProperty;
+import com.github.i49.hibiscus.schema.internal.SchemaImpl;
+import com.github.i49.hibiscus.schema.internal.StringTypeImpl;
 
 /**
  * The central class to create various kinds of schema components which are used to build

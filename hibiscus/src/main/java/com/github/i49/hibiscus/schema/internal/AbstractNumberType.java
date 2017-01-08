@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -10,6 +10,9 @@ import javax.json.JsonNumber;
 import com.github.i49.hibiscus.facets.EnumerationFacet;
 import com.github.i49.hibiscus.facets.MaxNumberFacet;
 import com.github.i49.hibiscus.facets.MinNumberFacet;
+import com.github.i49.hibiscus.schema.IntegerType;
+import com.github.i49.hibiscus.schema.NumberType;
+import com.github.i49.hibiscus.schema.SchemaException;
 
 /**
  * A skeletal class to help implement {@link NumberType} and {@link IntegerType}.

@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,13 +12,16 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.ProblemDescriber;
+import com.github.i49.hibiscus.schema.ObjectType;
+import com.github.i49.hibiscus.schema.Property;
+import com.github.i49.hibiscus.schema.SchemaException;
 import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
 
 /**
  * The implementation class of {@link ObjectType}.
  */
-class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements ObjectType {
+public class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements ObjectType {
 
 	private final Map<String, Property> properties = new HashMap<>();
 	private final Set<String> required = new HashSet<>();
@@ -28,7 +31,7 @@ class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> implements
 	/**
 	 * Constructs this type.
 	 */
-	ObjectTypeImpl() {
+	public ObjectTypeImpl() {
 	}
 
 	@Override

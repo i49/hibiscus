@@ -1,15 +1,19 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.Property;
+import com.github.i49.hibiscus.schema.SchemaException;
+import com.github.i49.hibiscus.schema.TypeSet;
 
 /**
  * An object property which name is specified as a regular expression.
  */
-class PatternProperty implements Property {
+public class PatternProperty implements Property {
 
 	private final Pattern pattern;
 	private final TypeSet typeSet;

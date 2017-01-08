@@ -1,4 +1,4 @@
-package com.github.i49.hibiscus.schema;
+package com.github.i49.hibiscus.schema.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.facets.AssertionFacet;
 import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
+import com.github.i49.hibiscus.schema.JsonType;
+import com.github.i49.hibiscus.schema.SchemaException;
 import com.github.i49.hibiscus.problems.JsonValueProblem;
 
 /**
