@@ -246,26 +246,21 @@ public class ObjectValiadtionTest {
 		}
 	}
 
-	public static class PatternPropertyTest {
+	public static class RegexPatternPropertyTest {
 
-		private Schema schema;
-
-		@Before
-		public void setUp() {
-			schema = schema(
-				object(
-					pattern("1st|2nd|3rd|[4-8]th", string())	
-				)
-			);
+		private static Schema createSchema() {
+			return schema(
+					object(
+						pattern("1st|2nd|3rd|[4-8]th", string())	
+					)
+				);
 		}
 		
 		@Test
-		public void allMatchPattern() {
-			
+		public void allMatch() {
 			String json = "{ \"1st\": \"Mercury\", \"4th\": \"Mars\" }";
 
-			JsonValidator validator = new BasicJsonValidator(schema);
-
+			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
 			assertValid(result);
@@ -273,12 +268,10 @@ public class ObjectValiadtionTest {
 		}
 
 		@Test
-		public void someNotMatchPattern() {
-			
+		public void someNotMatch() {
 			String json = "{ \"2nd\": \"Venus\", \"9th\": \"Pluto\" }";
 
-			JsonValidator validator = new BasicJsonValidator(schema);
-
+			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertValid(result);
@@ -286,6 +279,43 @@ public class ObjectValiadtionTest {
 			assertEquals(1, problems.size());
 			UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
 			assertEquals("9th", p.getPropertyName());
+			assertNotNull(p.getDescription());
+		}
+	}
+	
+	public static class PredicatePatternPropertyTest {
+		
+		private static Schema createSchema() {
+			return schema(
+					object(
+						pattern(s->s.startsWith("http:"), integer())	
+					)
+				);
+		}
+
+		@Test
+		public void allMatch() {
+			String json = "{ \"http://www.example.com/\": 123, \"http://www.example.org/\": 456 }";
+
+			JsonValidator validator = new BasicJsonValidator(createSchema());
+			ValidationResult result = validator.validate(new StringReader(json));
+			
+			assertValid(result);
+			assertFalse(result.hasProblems());
+		}
+
+		@Test
+		public void someNotMatch() {
+			String json = "{ \"http://www.example.com/\": 123, \"ftp://www.example.org/\": 456 }";
+
+			JsonValidator validator = new BasicJsonValidator(createSchema());
+			ValidationResult result = validator.validate(new StringReader(json));
+			
+			assertValid(result);
+			List<Problem> problems = result.getProblems();
+			assertEquals(1, problems.size());
+			UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
+			assertEquals("ftp://www.example.org/", p.getPropertyName());
 			assertNotNull(p.getDescription());
 		}
 	}
