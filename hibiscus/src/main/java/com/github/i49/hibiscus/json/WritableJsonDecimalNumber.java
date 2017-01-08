@@ -5,21 +5,46 @@ import java.math.BigInteger;
 
 import javax.json.JsonNumber;
 
-class JsonDecimalNumberImpl extends JsonNumberImpl {
+/**
+ * A writable decimal value which implements {@link JsonNumber}.
+ */
+public class WritableJsonDecimalNumber extends AbstractJsonNumber {
 	
-	private final BigDecimal value;
+	private BigDecimal value;
 	
-	public static JsonNumber valueOf(BigDecimal value) {
-		if (value == null) {
-			throw new IllegalArgumentException();
-		}
-		return new JsonDecimalNumberImpl(value);
+	/**
+	 * Constructs this JSON value with default value.
+	 */
+	public WritableJsonDecimalNumber() {
+		this.value = BigDecimal.ZERO;
 	}
 
-	private JsonDecimalNumberImpl(BigDecimal value) {
+	/**
+	 * Constructs this JSON value.
+	 * @param value the value to be assigned.
+	 * @exception IllegalArgumentException if the value is {@code null}.
+	 */
+	public WritableJsonDecimalNumber(BigDecimal value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value is null.");
+		}
 		this.value = value;
 	}
 
+	/**
+	 * Assigns a value to this JSON value.
+	 * @param value the value to be assigned.
+	 * @return this JSON value.
+	 * @exception IllegalArgumentException if the value is {@code null}.
+	 */
+	public WritableJsonDecimalNumber assign(BigDecimal value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value is null.");
+		}
+		this.value = value;
+		return this;
+	}
+	
 	@Override
 	public BigDecimal bigDecimalValue() {
 		return value;

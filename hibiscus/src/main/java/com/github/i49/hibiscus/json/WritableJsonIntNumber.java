@@ -5,25 +5,36 @@ import java.math.BigInteger;
 
 import javax.json.JsonNumber;
 
-class JsonLongNumberImpl extends JsonNumberImpl {
+/**
+ * A writable integer value which implements {@link JsonNumber}.
+ */
+public class WritableJsonIntNumber extends AbstractJsonNumber {
+	
+	private int value;
+	
+	/**
+	 * Constructs this JSON value with default value.
+	 */
+	public WritableJsonIntNumber() {
+		this.value = 0;
+	}
 
-	public static final JsonLongNumberImpl ZERO = new JsonLongNumberImpl(0);
-	public static final JsonLongNumberImpl ONE = new JsonLongNumberImpl(1);
-	
-	private final long value;
-	
-	public static JsonNumber valueOf(long value) {
-		if (value == 0L) {
-			return ZERO;
-		} else if (value == 1L) {
-			return ONE;
-		} else {
-			return new JsonLongNumberImpl(value);
-		}
+	/**
+	 * Constructs this JSON value.
+	 * @param value the value to be assigned.
+	 */
+	public WritableJsonIntNumber(int value) {
+		this.value = value;
 	}
 	
-	private JsonLongNumberImpl(long value) {
+	/**
+	 * Assigns a value to this JSON value.
+	 * @param value the value to be assigned.
+	 * @return this JSON value.
+	 */
+	public WritableJsonIntNumber assign(int value) {
 		this.value = value;
+		return this;
 	}
 
 	@Override
@@ -48,12 +59,12 @@ class JsonLongNumberImpl extends JsonNumberImpl {
 
 	@Override
 	public int intValue() {
-		return (int)value;
+		return value;
 	}
 
 	@Override
 	public int intValueExact() {
-		return Math.toIntExact(value);
+		return value;
 	}
 
 	@Override
@@ -73,9 +84,9 @@ class JsonLongNumberImpl extends JsonNumberImpl {
 	
 	@Override
 	public int hashCode() {
-		return Long.hashCode(value);
+		return Integer.hashCode(value);
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -94,6 +105,6 @@ class JsonLongNumberImpl extends JsonNumberImpl {
 	
 	@Override
 	public String toString() {
-		return Long.toString(value);
+		return Integer.toString(value);
 	}
 }

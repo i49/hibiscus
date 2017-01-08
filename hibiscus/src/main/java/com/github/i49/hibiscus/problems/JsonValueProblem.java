@@ -1,6 +1,6 @@
 package com.github.i49.hibiscus.problems;
 
-import java.util.function.Supplier;
+import java.util.concurrent.Future;
 
 import javax.json.JsonValue;
 
@@ -10,7 +10,7 @@ import javax.json.JsonValue;
  */
 public abstract class JsonValueProblem extends AbstractProblem {
 
-	private Supplier<JsonValue> valueSupplier;
+	private Future<JsonValue> value;
 	
 	/**
 	 * Constructs this problem.
@@ -23,14 +23,19 @@ public abstract class JsonValueProblem extends AbstractProblem {
 	 * @return the actual value which caused this problem.
 	 */
 	public JsonValue getActualValue() {
-		return valueSupplier.get();
+		try {
+			return value.get();
+		} catch (Exception e) {
+			// This never happens.
+			return null;
+		}
 	}
 	
 	/**
-	 * Assigns a supplier of the actual value that caused this problem.
-	 * @param valueSupplier the supplier of the actual value.
+	 * Assigns the future object that will provide the actual value that caused this problem.
+	 * @param value the future object that will provide the actual value.
 	 */
-	public void setActualValueSupplier(Supplier<JsonValue> valueSupplier) {
-		this.valueSupplier = valueSupplier;
+	public void setActualValue(Future<JsonValue> value) {
+		this.value = value;
 	}
 }

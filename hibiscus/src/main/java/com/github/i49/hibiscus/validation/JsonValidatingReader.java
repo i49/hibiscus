@@ -12,7 +12,6 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.json.JsonValueFactory;
 import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
@@ -34,21 +33,18 @@ class JsonValidatingReader {
 
 	private final JsonParser parser;
 	private final JsonBuilderFactory builderFactory;
-	private final JsonValueFactory valueFactory;
+	private final TransientValueProvider transientValueProvider = new TransientValueProvider();
 	private final List<Problem> problems = new ArrayList<>();
 	private final List<JsonValueProblem> valueProblems = new ArrayList<>();
-	private final Transient transientValue = new Transient();
 	
 	/**
 	 * Constructs this reader.
 	 * @param parser the JSON parser which conforms to Java API for JSON Processing.
 	 * @param builderFactory the JSON builder which conforms to Java API for JSON Processing.
-	 * @param valueFactory the factory to create JSON values. 
 	 */
-	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory builderFactory, JsonValueFactory valueFactory) {
+	public JsonValidatingReader(JsonParser parser, JsonBuilderFactory builderFactory) {
 		this.parser = parser;
 		this.builderFactory = builderFactory;
-		this.valueFactory = valueFactory;
 	}
 	
 	/**
@@ -83,7 +79,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonArray buildArray(ArrayType type) {
-		ArrayContainer container = new ArrayContainer(this.valueFactory, this.builderFactory);
+		ArrayContainer container = new ArrayContainer(this.transientValueProvider, this.builderFactory);
 		TypeSet itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
@@ -105,7 +101,7 @@ class JsonValidatingReader {
 	}
 	
 	private JsonObject buildObject(ObjectType objectType) {
-		ObjectContainer container = new ObjectContainer(this.valueFactory, this.builderFactory);
+		ObjectContainer container = new ObjectContainer(this.transientValueProvider, this.builderFactory);
 		while (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.END_OBJECT) {
@@ -133,9 +129,9 @@ class JsonValidatingReader {
 	
 	private void readValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
 		if (event == JsonParser.Event.START_ARRAY) {
-			container.add(readArray(candidates)).getTransientValue();
+			container.add(readArray(candidates)).get();
 		} else if (event == JsonParser.Event.START_OBJECT) {
-			container.add(readObject(candidates)).getTransientValue();
+			container.add(readObject(candidates)).get();
 		} else {
 			readAtomicValue(event, candidates, container);
 		}
@@ -147,10 +143,10 @@ class JsonValidatingReader {
 	 * @param candidates the type candidates declared in the schema.
 	 * @return {@link JsonValue} found in the JSON document.
 	 */
-	private JsonValue readAtomicValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
+	private void readAtomicValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
 		
 		JsonType type = null;
-		Transient value = null;
+		Transient<JsonValue> value = null;
 
 		switch (event) {
 		case VALUE_NUMBER:
@@ -188,7 +184,6 @@ class JsonValidatingReader {
 		}
 		
 		validateValue(type, value);
-		return value.getTransientValue();
 	}
 	
 	private JsonType matchType(TypeId actual, TypeSet candidates) {
@@ -202,22 +197,43 @@ class JsonValidatingReader {
 		return type;
 	}
 	
+	/**
+	 * Validates a JSON value.
+	 * @param type the type of JSON value.
+	 * @param value the value to be validated.
+	 */
 	private void validateValue(JsonType type, JsonValue value) {
-		validateValue(type, transientValue.assign(value));
-	}
-	
-	private void validateValue(JsonType type, Transient value) {
-		List<JsonValueProblem> problems = this.valueProblems;
-		problems.clear();
 		if (type == null) {
 			return;
 		}
-		type.validateInstance(value.getTransientValue(), problems);
+		List<JsonValueProblem> problems = this.valueProblems;
+		type.validateInstance(value, problems);
 		if (!problems.isEmpty()) {
 			for (JsonValueProblem p: problems) {
-				p.setActualValueSupplier(value.getFinalValue());
+				p.setActualValue(new Immediate<JsonValue>(value));
 				addProblem(p);
 			}
+			problems.clear();
+		}
+	}
+	
+	/**
+	 * Validates a transient JSON value.
+	 * @param type the type of JSON value.
+	 * @param value the value to be validated.
+	 */
+	private void validateValue(JsonType type, Transient<JsonValue> value) {
+		if (type == null) {
+			return;
+		}
+		List<JsonValueProblem> problems = this.valueProblems;
+		type.validateInstance(value.get(), problems);
+		if (!problems.isEmpty()) {
+			for (JsonValueProblem p: problems) {
+				p.setActualValue(value.getFinalValue());
+				addProblem(p);
+			}
+			problems.clear();
 		}
 	}
 	

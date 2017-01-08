@@ -12,8 +12,6 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParserFactory;
 
-import com.github.i49.hibiscus.json.JsonValueFactory;
-import com.github.i49.hibiscus.json.JsonValueFactoryImpl;
 import com.github.i49.hibiscus.schema.Schema;
 import com.github.i49.hibiscus.schema.SchemaComponents;
 
@@ -63,7 +61,6 @@ public class BasicJsonValidator implements JsonValidator {
 	
 	private final JsonParserFactory parserFactory;
 	private final JsonBuilderFactory builderFactory;
-	private final JsonValueFactory valueFactory;
 	
 	/**
 	 * Constructs this validator.
@@ -86,10 +83,6 @@ public class BasicJsonValidator implements JsonValidator {
 		this.builderFactory = createBuilderFactory();
 		if (this.builderFactory == null) {
 			throw new IllegalStateException("Failed to create a JsonBuilderFactory object.");
-		}
-		this.valueFactory = createValueFactory();
-		if (this.valueFactory == null) {
-			throw new IllegalStateException("Failed to create a JsonValueFactory object.");
 		}
 	}
 
@@ -137,7 +130,7 @@ public class BasicJsonValidator implements JsonValidator {
 	 * @return the result of the validation.
 	 */
 	private ValidationResult parse(JsonParser parser) {
-		JsonValidatingReader reader = new JsonValidatingReader(parser, this.builderFactory, this.valueFactory);
+		JsonValidatingReader reader = new JsonValidatingReader(parser, this.builderFactory);
 		JsonValue value = reader.readAll(getSchema());
 		return new ValidationResultImpl(value, reader.getProblems());
 	}
@@ -162,13 +155,5 @@ public class BasicJsonValidator implements JsonValidator {
 	protected JsonBuilderFactory createBuilderFactory() {
 		Map<String, ?> config = new HashMap<>();
 		return Json.createBuilderFactory(config);
-	}
-	
-	/**
-	 * Creates and configures {@link JsonValueFactory} object.
-	 * @return created {@link JsonValueFactory} object to be used in the process of the validation.
-	 */
-	protected JsonValueFactory createValueFactory() {
-		return new JsonValueFactoryImpl();
 	}
 }

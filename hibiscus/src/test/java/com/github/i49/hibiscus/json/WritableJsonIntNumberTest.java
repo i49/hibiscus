@@ -10,13 +10,13 @@ import javax.json.JsonValue.ValueType;
 
 import org.junit.Test;
 
-public class JsonIntNumberImplTest {
+public class WritableJsonIntNumberTest {
 	
 	public static class GetValueTypeTest {
 		
 		@Test
 		public void testGetValueType() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(ValueType.NUMBER, n.getValueType());
 		}
 	}
@@ -25,7 +25,7 @@ public class JsonIntNumberImplTest {
 		
 		@Test
 		public void testIsIntegral() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertTrue(n.isIntegral());
 		}
 	}
@@ -34,19 +34,19 @@ public class JsonIntNumberImplTest {
 		
 		@Test
 		public void testZero() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(0);
+			JsonNumber n = new WritableJsonIntNumber(0);
 			assertEquals(0, n.intValue());
 		}
 	
 		@Test
 		public void testOne() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(1);
+			JsonNumber n = new WritableJsonIntNumber(1);
 			assertEquals(1, n.intValue());
 		}
 
 		@Test
 		public void testInt() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(123456789, n.intValue());
 		}
 	}
@@ -55,7 +55,7 @@ public class JsonIntNumberImplTest {
 		
 		@Test
 		public void success() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(123456789, n.intValueExact());
 		}
 	}
@@ -64,7 +64,7 @@ public class JsonIntNumberImplTest {
 	
 		@Test
 		public void testLongValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(123456789L, n.longValue());
 		}
 	}
@@ -73,7 +73,7 @@ public class JsonIntNumberImplTest {
 		
 		@Test
 		public void testLongValueExact() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(123456789L, n.longValueExact());
 		}
 	}
@@ -82,7 +82,7 @@ public class JsonIntNumberImplTest {
 	
 		@Test
 		public void testDoubleValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(123456789., n.doubleValue(), 0.0001);
 		}
 	}
@@ -91,7 +91,7 @@ public class JsonIntNumberImplTest {
 
 		@Test
 		public void testBigDecimalValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(new BigDecimal("123456789"), n.bigDecimalValue());
 		}
 	}
@@ -100,7 +100,7 @@ public class JsonIntNumberImplTest {
 
 		@Test
 		public void testBigIntegerValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(new BigInteger("123456789"), n.bigIntegerValue());
 		}
 	}
@@ -109,7 +109,7 @@ public class JsonIntNumberImplTest {
 	
 		@Test
 		public void success() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n = new WritableJsonIntNumber(123456789);
 			assertEquals(new BigInteger("123456789"), n.bigIntegerValueExact());
 		}
 	}
@@ -118,29 +118,29 @@ public class JsonIntNumberImplTest {
 		
 		@Test
 		public void equal() {
-			JsonNumber n1 = JsonIntNumberImpl.valueOf(123456789);
-			JsonNumber n2 = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n1 = new WritableJsonIntNumber(123456789);
+			JsonNumber n2 = new WritableJsonIntNumber(123456789);
 			assertTrue(n1.equals(n2));
 		}
 		
 		@Test
 		public void notEqual() {
-			JsonNumber n1 = JsonIntNumberImpl.valueOf(123456789);
-			JsonNumber n2 = JsonIntNumberImpl.valueOf(987654321);
+			JsonNumber n1 = new WritableJsonIntNumber(123456789);
+			JsonNumber n2 = new WritableJsonIntNumber(987654321);
 			assertFalse(n1.equals(n2));
 		}
 	
 		@Test
 		public void intEqualsLong() {
-			JsonNumber n1 = JsonIntNumberImpl.valueOf(123456789);
-			JsonNumber n2 = JsonLongNumberImpl.valueOf(123456789L);
+			JsonNumber n1 = new WritableJsonIntNumber(123456789);
+			JsonNumber n2 = new WritableJsonLongNumber(123456789L);
 			assertTrue(n1.equals(n2));
 		}
 	
 		@Test
 		public void intNotEqualLong() {
-			JsonNumber n1 = JsonIntNumberImpl.valueOf(123456789);
-			JsonNumber n2 = JsonLongNumberImpl.valueOf(987654321L);
+			JsonNumber n1 = new WritableJsonIntNumber(123456789);
+			JsonNumber n2 = new WritableJsonLongNumber(987654321L);
 			assertFalse(n1.equals(n2));
 		}
 	}
@@ -149,13 +149,13 @@ public class JsonIntNumberImplTest {
 	
 		@Test
 		public void positiveValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(2147483647);
+			JsonNumber n = new WritableJsonIntNumber(2147483647);
 			assertEquals("2147483647", n.toString());
 		}
 	
 		@Test
 		public void negativeValue() {
-			JsonNumber n = JsonIntNumberImpl.valueOf(-2147483648);
+			JsonNumber n = new WritableJsonIntNumber(-2147483648);
 			assertEquals("-2147483648", n.toString());
 		}
 	}

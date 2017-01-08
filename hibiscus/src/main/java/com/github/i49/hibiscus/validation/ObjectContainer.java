@@ -1,7 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
-import java.util.function.Supplier;
+import java.util.concurrent.Future;
 
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonNumber;
@@ -10,22 +10,20 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.json.JsonValueFactory;
-
 /**
  * A container that corresponds to a {@JsonObject}.
  */
 class ObjectContainer implements ValueContainer {
 
-	private final JsonValueFactory factory;
+	private final TransientValueProvider valueProvider;
 	private final JsonObjectBuilder builder;
-	private final Transient transientValue = new ObjectTransient();
-	private final Transient effectiveValue = new Transient();
+	private final Transient<JsonValue> transientValue = new ObjectTransient();
+	private final Transient<JsonValue> effectiveValue = new Transient<JsonValue>();
 	private JsonObject object;
 	private String name;
 	
-	ObjectContainer(JsonValueFactory factory, JsonBuilderFactory builderFactory) {
-		this.factory = factory;
+	ObjectContainer(TransientValueProvider valueProvider, JsonBuilderFactory builderFactory) {
+		this.valueProvider = valueProvider;
 		this.builder = builderFactory.createObjectBuilder();
 	}
 	
@@ -34,35 +32,35 @@ class ObjectContainer implements ValueContainer {
 	}
 	
 	@Override
-	public Transient add(int value) {
+	public Transient<JsonValue> add(int value) {
 		builder.add(name, value);
-		JsonNumber number = factory.createNumber(value);
+		JsonNumber number = valueProvider.getNumber(value);
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(long value) {
+	public Transient<JsonValue> add(long value) {
 		builder.add(name, value);
-		JsonNumber number = factory.createNumber(value);
+		JsonNumber number = valueProvider.getNumber(value);
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(BigDecimal value) {
+	public Transient<JsonValue> add(BigDecimal value) {
 		builder.add(name, value);
-		JsonNumber number = factory.createNumber(value);
+		JsonNumber number = valueProvider.getNumber(value);
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(String value) {
+	public Transient<JsonValue> add(String value) {
 		builder.add(name, value);
-		JsonString string = factory.createString(value);
+		JsonString string = valueProvider.getString(value);
 		return transientValue.assign(string);
 	}
 
 	@Override
-	public Transient add(JsonValue value) {
+	public Transient<JsonValue> add(JsonValue value) {
 		builder.add(name, value);
 		return effectiveValue.assign(value);
 	}
@@ -75,29 +73,26 @@ class ObjectContainer implements ValueContainer {
 	/**
 	 * A special {@link Transient} implementation for {@link JsonObject} members. 
 	 */
-	private class ObjectTransient extends Transient {
+	private class ObjectTransient extends Transient<JsonValue> {
 		@Override
-		Supplier<JsonValue> getFinalValue() {
-			return new ObjectMemberSupplier(name);
+		Future<JsonValue> getFinalValue() {
+			return new FutureImpl(name);
 		}
 	}
 	
 	/**
-	 * A supplier that will supply the final {@link JsonValue} determined by a property name.
+	 * A future object that will provide the final {@link JsonValue} determined by a property name.
 	 */
-	private class ObjectMemberSupplier implements Supplier<JsonValue> {
+	private class FutureImpl extends AbstractFuture<JsonValue> {
 
 		private final String name;
 		
-		public ObjectMemberSupplier(String name) {
+		public FutureImpl(String name) {
 			this.name = name;
 		}
 		
 		@Override
 		public JsonValue get() {
-			if (object == null) {
-				return null;
-			}
 			return (JsonValue)object.get(this.name);
 		}
 	}

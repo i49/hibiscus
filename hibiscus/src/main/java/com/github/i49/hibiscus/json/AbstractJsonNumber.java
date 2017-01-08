@@ -3,7 +3,7 @@ package com.github.i49.hibiscus.json;
 import javax.json.JsonNumber;
 import javax.json.JsonValue;
 
-abstract class JsonNumberImpl implements JsonNumber {
+abstract class AbstractJsonNumber implements JsonNumber {
 
 	@Override
 	public ValueType getValueType() {

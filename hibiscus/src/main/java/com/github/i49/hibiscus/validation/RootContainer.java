@@ -13,43 +13,47 @@ import javax.json.JsonValue;
 class RootContainer implements ValueContainer {
 	
 	private final JsonBuilderFactory factory;
-	private final Transient transientValue = new Transient();
+	private final Transient<JsonValue> transientValue = new Transient<JsonValue>();
 
 	RootContainer(JsonBuilderFactory factory) {
 		this.factory = factory;
 	}
 	
 	@Override
-	public Transient add(int value) {
+	public Transient<JsonValue> add(int value) {
 		JsonNumber number = builder().add(value).build().getJsonNumber(0); 
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(long value) {
+	public Transient<JsonValue> add(long value) {
 		JsonNumber number = builder().add(value).build().getJsonNumber(0); 
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(BigDecimal value) {
+	public Transient<JsonValue> add(BigDecimal value) {
 		JsonNumber number = builder().add(value).build().getJsonNumber(0); 
 		return transientValue.assign(number);
 	}
 
 	@Override
-	public Transient add(String value) {
+	public Transient<JsonValue> add(String value) {
 		JsonNumber string = builder().add(value).build().getJsonNumber(0); 
 		return transientValue.assign(string);
 	}
 
 	@Override
-	public Transient add(JsonValue value) {
+	public Transient<JsonValue> add(JsonValue value) {
 		return transientValue.assign(value);
 	}
 	
+	/**
+	 * Returns the value at the root of the JSON document.
+	 * @return the value at the root of the JSON document.
+	 */
 	public JsonValue getRootValue() {
-		return transientValue.getTransientValue();
+		return transientValue.get();
 	}
 	
 	private JsonArrayBuilder builder() {

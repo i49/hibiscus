@@ -2,23 +2,44 @@ package com.github.i49.hibiscus.json;
 
 import javax.json.JsonString;
 
-class JsonStringImpl implements JsonString {
+/**
+ * A writable string value which implements {@link JsonString}.
+ */
+public class WritableJsonString implements JsonString {
 	
-	public static final JsonString BLANK = new JsonStringImpl("");
+	private String value;
 	
-	private final String value;
-	
-	public static JsonString valueOf(String value) {
-		if (value == null) {
-			throw new IllegalArgumentException();
-		} else if (value.isEmpty()) {
-			return BLANK;
-		}
-		return new JsonStringImpl(value);
+	/**
+	 * Constructs this JSON value with default value.
+	 */
+	public WritableJsonString() {
+		this.value = "";
 	}
-
-	private JsonStringImpl(String value) {
+	
+	/**
+	 * Constructs this JSON value.
+	 * @param value the value to be assigned.
+	 * @exception IllegalArgumentException if the value is {@code null}.
+	 */
+	public WritableJsonString(String value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value is null.");
+		}
 		this.value = value;
+	}
+	
+	/**
+	 * Assigns a value to this JSON value.
+	 * @param value the value to be assigned.
+	 * @return this JSON value.
+	 * @exception IllegalArgumentException if the value is {@code null}.
+	 */
+	public WritableJsonString assign(String value) {
+		if (value == null) {
+			throw new IllegalArgumentException("value is null.");
+		}
+		this.value = value;
+		return this;
 	}
 
 	@Override

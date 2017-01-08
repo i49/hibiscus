@@ -10,13 +10,13 @@ import javax.json.JsonValue.ValueType;
 
 import org.junit.Test;
 
-public class JsonDecimalNumberImplTest {
+public class WritableJsonDecimalNumberTest {
 
 	public static class GetValueTypeTest {
 		
 		@Test
 		public void testGetValueType() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			assertEquals(ValueType.NUMBER, n.getValueType());
 		}
 	}
@@ -25,13 +25,13 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void integral() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123"));
 			assertTrue(n.isIntegral());
 		}
 		
 		@Test
 		public void notIntegral() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			assertFalse(n.isIntegral());
 		}
 	}
@@ -40,7 +40,7 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void testIntValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			assertEquals(123, n.intValue());
 		}
 	}
@@ -49,13 +49,13 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void success() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123"));
 			assertEquals(123, n.intValueExact());
 		}
 	
 		@Test(expected = ArithmeticException.class)
 		public void failure() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			n.intValueExact();
 		}
 	}
@@ -64,7 +64,7 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void testLongValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789123456789.123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789123456789.123"));
 			assertEquals(123456789123456789L, n.longValue());
 		}
 	}
@@ -73,13 +73,13 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void success() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789123456789"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789123456789"));
 			assertEquals(123456789123456789L, n.longValueExact());
 		}
 	
 		@Test(expected = ArithmeticException.class)
 		public void failure() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789123456789.123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789123456789.123"));
 			n.longValueExact();
 		}
 	}
@@ -88,7 +88,7 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void testDoubleValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			assertEquals(123.45, n.doubleValue(), 0.0001);
 		}
 	}
@@ -97,7 +97,7 @@ public class JsonDecimalNumberImplTest {
 
 		@Test
 		public void testBigDecimalValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.45"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.45"));
 			assertEquals(new BigDecimal("123.45"), n.bigDecimalValue());
 		}
 	}
@@ -106,7 +106,7 @@ public class JsonDecimalNumberImplTest {
 
 		@Test
 		public void testBigIntegerValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789.123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789.123"));
 			assertEquals(new BigInteger("123456789"), n.bigIntegerValue());
 		}
 	}
@@ -115,13 +115,13 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void success() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789"));
 			assertEquals(new BigInteger("123456789"), n.bigIntegerValue());
 		}
 	
 		@Test(expected = ArithmeticException.class)
 		public void failure() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789.123"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123456789.123"));
 			assertEquals(new BigInteger("123456789"), n.bigIntegerValueExact());
 		}
 	}
@@ -130,29 +130,29 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void decimalEqualsDecimal() {
-			JsonNumber n1 = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.456"));
-			JsonNumber n2 = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.456"));
+			JsonNumber n1 = new WritableJsonDecimalNumber(new BigDecimal("123.456"));
+			JsonNumber n2 = new WritableJsonDecimalNumber(new BigDecimal("123.456"));
 			assertTrue(n1.equals(n2));
 		}
 	
 		@Test
 		public void decimalNotEqualsDecimal() {
-			JsonNumber n1 = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.456"));
-			JsonNumber n2 = JsonDecimalNumberImpl.valueOf(new BigDecimal("456.789"));
+			JsonNumber n1 = new WritableJsonDecimalNumber(new BigDecimal("123.456"));
+			JsonNumber n2 = new WritableJsonDecimalNumber(new BigDecimal("456.789"));
 			assertFalse(n1.equals(n2));
 		}
 		
 		@Test
 		public void decimalEqualsInt() {
-			JsonNumber n1 = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789"));
-			JsonNumber n2 = JsonIntNumberImpl.valueOf(123456789);
+			JsonNumber n1 = new WritableJsonDecimalNumber(new BigDecimal("123456789"));
+			JsonNumber n2 = new WritableJsonIntNumber(123456789);
 			assertTrue(n1.equals(n2));
 		}
 	
 		@Test
 		public void decimalEqualsLong() {
-			JsonNumber n1 = JsonDecimalNumberImpl.valueOf(new BigDecimal("123456789123456789"));
-			JsonNumber n2 = JsonLongNumberImpl.valueOf(123456789123456789L);
+			JsonNumber n1 = new WritableJsonDecimalNumber(new BigDecimal("123456789123456789"));
+			JsonNumber n2 = new WritableJsonLongNumber(123456789123456789L);
 			assertTrue(n1.equals(n2));
 		}
 	}
@@ -161,13 +161,13 @@ public class JsonDecimalNumberImplTest {
 		
 		@Test
 		public void positveValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("123.456"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("123.456"));
 			assertEquals("123.456", n.toString());
 		}
 	
 		@Test
 		public void negativeValue() {
-			JsonNumber n = JsonDecimalNumberImpl.valueOf(new BigDecimal("-123456.7890"));
+			JsonNumber n = new WritableJsonDecimalNumber(new BigDecimal("-123456.7890"));
 			assertEquals("-123456.7890", n.toString());
 		}
 	}

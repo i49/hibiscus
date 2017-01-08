@@ -9,13 +9,13 @@ import javax.json.JsonValue;
  */
 interface ValueContainer {
 
-	Transient add(int value);
+	Transient<JsonValue> add(int value);
 
-	Transient add(long value);
+	Transient<JsonValue> add(long value);
 
-	Transient add(BigDecimal value);
+	Transient<JsonValue> add(BigDecimal value);
 	
-	Transient add(String value);
+	Transient<JsonValue> add(String value);
 	
-	Transient add(JsonValue value);
+	Transient<JsonValue> add(JsonValue value);
 }
