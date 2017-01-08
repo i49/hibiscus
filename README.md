@@ -174,7 +174,7 @@ Please add a dependency to pom.xml of your application in order to use this libr
 <dependency>
   <groupId>com.github.i49</groupId>
   <artifactId>hibiscus</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
