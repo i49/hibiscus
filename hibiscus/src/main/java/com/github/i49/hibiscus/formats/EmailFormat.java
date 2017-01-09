@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.formats;
 
-import javax.json.JsonString;
-
 import org.apache.commons.validator.routines.EmailValidator;
 
 /**
@@ -12,7 +10,7 @@ import org.apache.commons.validator.routines.EmailValidator;
  * 
  * @see <a href="https://www.ietf.org/rfc/rfc822.txt">RFC 822: STANDARD FOR THE FORMAT OF ARPA INTERNET TEXT MESSAGES</a>
  */
-public class EmailFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class EmailFormat extends StringFormat {
 
 	/**
 	 * The Singleton instance of this format.
@@ -28,7 +26,7 @@ public class EmailFormat extends AbstractFormat<JsonString> implements StringFor
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
-		return EmailValidator.getInstance().isValid(jsonValue.getString());
+	public boolean test(String value) {
+		return EmailValidator.getInstance().isValid(value);
 	}
 }

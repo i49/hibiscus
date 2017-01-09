@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.formats;
 
-import javax.json.JsonString;
-
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
@@ -10,7 +8,7 @@ import org.apache.commons.validator.routines.InetAddressValidator;
  * An instance of this format can be obtained by {@link Formats#ipv6()} method.
  * </p>
  */
-public class Inet6AddressFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class Inet6AddressFormat extends StringFormat {
 
 	/**
 	 * The Singleton instance of this format.
@@ -26,7 +24,7 @@ public class Inet6AddressFormat extends AbstractFormat<JsonString> implements St
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
-		return InetAddressValidator.getInstance().isValidInet6Address(jsonValue.getString());
+	public boolean test(String value) {
+		return InetAddressValidator.getInstance().isValidInet6Address(value);
 	}
 }

@@ -5,8 +5,6 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.json.JsonString;
-
 /**
  * <strong>datetime</strong> format which represents date and time as defined in RFC 3339.
  * <p>
@@ -15,7 +13,7 @@ import javax.json.JsonString;
  * 
  * @see <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339: Date and Time on the Internet: Timestamps</a>
  */
-public class DateTimeFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class DateTimeFormat extends StringFormat {
 
 	/**
 	 * The Singleton instance of this format.
@@ -39,8 +37,8 @@ public class DateTimeFormat extends AbstractFormat<JsonString> implements String
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
-		String[] parts = jsonValue.getString().split("T");
+	public boolean test(String value) {
+		String[] parts = value.split("T");
 		if (parts.length != 2) {
 			return false;
 		}

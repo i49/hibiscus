@@ -3,15 +3,13 @@ package com.github.i49.hibiscus.formats;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.json.JsonString;
-
 /**
  * <strong>anyURI</strong> format which represents URI including relative URI.
  * <p>
  * An instance of this format can be obtained by {@link Formats#anyURI()} method.
  * </p>
  */
-public class URIFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class URIFormat extends StringFormat {
 
 	/**
 	 * The Singleton instance this format.
@@ -30,9 +28,9 @@ public class URIFormat extends AbstractFormat<JsonString> implements StringForma
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
+	public boolean test(String value) {
 		try {
-			new URI(jsonValue.getString());
+			new URI(value);
 			return true;
 		} catch (URISyntaxException e) {
 			return false;

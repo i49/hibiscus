@@ -3,8 +3,6 @@ package com.github.i49.hibiscus.formats;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.json.JsonString;
-
 /**
  * <strong>absoluteURI</strong> format which represents URI excluding relative URI.
  * <p>
@@ -32,9 +30,9 @@ public class AbsoluteURIFormat extends URIFormat {
 	}
 
 	@Override
-	public boolean matches(JsonString value) {
+	public boolean test(String value) {
 		try {
-			return new URI(value.getString()).isAbsolute();
+			return new URI(value).isAbsolute();
 		} catch (URISyntaxException e) {
 			return false;
 		}

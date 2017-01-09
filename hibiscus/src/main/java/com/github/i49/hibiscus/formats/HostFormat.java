@@ -3,8 +3,6 @@ package com.github.i49.hibiscus.formats;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.json.JsonString;
-
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
@@ -22,7 +20,7 @@ import org.apache.commons.validator.routines.InetAddressValidator;
  * @see <a href="https://www.ietf.org/rfc/rfc2396.txt">RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax</a>
  * @see <a href="https://www.ietf.org/rfc/rfc2732.txt">RFC 2732: Format for Literal IPv6 Addresses in URLs</a>
  */
-public class HostFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class HostFormat extends StringFormat {
 	
 	/**
 	 * The Singleton instance of this format representing Internet host, not followed by port number.
@@ -49,8 +47,7 @@ public class HostFormat extends AbstractFormat<JsonString> implements StringForm
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
-		String value = jsonValue.getString();
+	public boolean test(String value) {
 		Matcher m = INET6_AND_PORT.matcher(value);
 		if (m.matches()) {
 			if (!matchesInet6Address(m.group(1))) {

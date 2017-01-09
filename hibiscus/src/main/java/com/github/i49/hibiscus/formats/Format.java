@@ -50,10 +50,10 @@ public interface Format<V extends JsonValue> {
 	
 	/**
 	 * Tests whether the given value matches this format
-	 * and returns {@code true} if the value matches this format or otherwise returns {@code false}.
+	 * and returns {@code true} if the value matches this format, {@code false} otherwise.
 	 * 
 	 * @param jsonValue the JSON value to be tested whether it matches against this format or not. 
-	 * @return {@code true} if the input argument matches the format, otherwise {@code false}.
+	 * @return {@code true} if the input argument matches the format, {@code false} otherwise.
 	 */
 	boolean matches(V jsonValue);
 }

@@ -1,7 +1,5 @@
 package com.github.i49.hibiscus.formats;
 
-import javax.json.JsonString;
-
 import org.apache.commons.validator.routines.DomainValidator;
 
 /**
@@ -14,7 +12,7 @@ import org.apache.commons.validator.routines.DomainValidator;
  *  @see <a href="https://www.ietf.org/rfc/rfc1034.txt">RFC 1034: DOMAIN NAMES - CONCEPTS AND FACILITIES</a>
  *  @see <a href="https://www.ietf.org/rfc/rfc1123.txt">RFC 1123: Requirements for Internet Hosts -- Application and Support</a>
  */
-public class HostnameFormat extends AbstractFormat<JsonString> implements StringFormat {
+public class HostnameFormat extends StringFormat {
 
 	/**
 	 * The Singleton instance of this format.
@@ -30,7 +28,7 @@ public class HostnameFormat extends AbstractFormat<JsonString> implements String
 	}
 
 	@Override
-	public boolean matches(JsonString jsonValue) {
-		return DomainValidator.getInstance().isValid(jsonValue.getString());
+	public boolean test(String value) {
+		return DomainValidator.getInstance().isValid(value);
 	}
 }
