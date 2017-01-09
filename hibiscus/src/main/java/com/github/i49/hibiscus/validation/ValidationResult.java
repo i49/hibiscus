@@ -7,7 +7,7 @@ import javax.json.JsonValue;
 import com.github.i49.hibiscus.problems.Problem;
 
 /**
- * A interface to inspect the result of the validation of JSON document.
+ * An interface to inspect the result of the validation of JSON document.
  * 
  * <p>{@link JsonValidator} returns an object implementing this interface
  * as result of the validation.

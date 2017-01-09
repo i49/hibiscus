@@ -4,6 +4,8 @@ import javax.json.JsonString;
 
 /**
  * A writable string value which implements {@link JsonString}.
+ * 
+ * @see JsonString
  */
 public class WritableJsonString implements JsonString {
 	

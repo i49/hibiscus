@@ -10,7 +10,7 @@ import javax.json.stream.JsonParsingException;
 import com.github.i49.hibiscus.schema.Schema;
 
 /**
- * A core interface to be used to validate JSON documents against specified schema.
+ * A central interface to be used to validate JSON documents against specified schema.
  * An implementation of this interface is provided by {@link BasicJsonValidator} class.
  * 
  * <p>This interface provides three variations of the methods to validate input JSON documents.</p>

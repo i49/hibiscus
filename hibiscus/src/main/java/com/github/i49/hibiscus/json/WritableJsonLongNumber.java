@@ -7,6 +7,8 @@ import javax.json.JsonNumber;
 
 /**
  * A writable long value which implements {@link JsonNumber}.
+ * 
+ * @see JsonNumber
  */
 public class WritableJsonLongNumber extends AbstractJsonNumber {
 
