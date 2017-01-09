@@ -2,6 +2,8 @@ package com.github.i49.hibiscus.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import javax.json.JsonArray;
 import javax.json.JsonBuilderFactory;
@@ -69,6 +71,22 @@ class JsonValidatingReader {
 	public List<Problem> getProblems() {
 		return problems;
 	}
+
+	/**
+	 * Reads JSON array, object, or other values.
+	 * @param event the event which {@link JsonParser} emits.
+	 * @param candidates the type candidates of the value to be read. 
+	 * @param container the container of the value to be read.
+	 */
+	private void readValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
+		if (event == JsonParser.Event.START_ARRAY) {
+			container.add(readArray(candidates)).get();
+		} else if (event == JsonParser.Event.START_OBJECT) {
+			container.add(readObject(candidates)).get();
+		} else {
+			readAtomicValue(event, candidates, container);
+		}
+	}
 	
 	private JsonArray readArray(TypeSet expected) {
 		JsonType type = matchType(TypeId.ARRAY, expected);
@@ -125,16 +143,6 @@ class JsonValidatingReader {
 		TypeSet typeCandidates = findPropertyType(object, name);
 		container.setNextName(name);
 		readValue(parser.next(), typeCandidates, container);
-	}
-	
-	private void readValue(JsonParser.Event event, TypeSet candidates, ValueContainer container) {
-		if (event == JsonParser.Event.START_ARRAY) {
-			container.add(readArray(candidates)).get();
-		} else if (event == JsonParser.Event.START_OBJECT) {
-			container.add(readObject(candidates)).get();
-		} else {
-			readAtomicValue(event, candidates, container);
-		}
 	}
 	
 	/**
@@ -209,8 +217,9 @@ class JsonValidatingReader {
 		List<JsonValueProblem> problems = this.valueProblems;
 		type.validateInstance(value, problems);
 		if (!problems.isEmpty()) {
+			Future<JsonValue> future = CompletableFuture.completedFuture(value);
 			for (JsonValueProblem p: problems) {
-				p.setActualValue(new Immediate<JsonValue>(value));
+				p.setActualValue(future);
 				addProblem(p);
 			}
 			problems.clear();
@@ -229,8 +238,9 @@ class JsonValidatingReader {
 		List<JsonValueProblem> problems = this.valueProblems;
 		type.validateInstance(value.get(), problems);
 		if (!problems.isEmpty()) {
+			Future<JsonValue> future = value.getFinalValue();
 			for (JsonValueProblem p: problems) {
-				p.setActualValue(value.getFinalValue());
+				p.setActualValue(future);
 				addProblem(p);
 			}
 			problems.clear();

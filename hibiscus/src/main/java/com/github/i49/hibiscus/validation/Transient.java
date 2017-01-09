@@ -1,5 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import javax.json.JsonValue;
@@ -34,6 +35,6 @@ class Transient<V extends JsonValue> {
 	 * @return a future object to retrieve the final {@link JsonValue}.
 	 */
 	Future<V> getFinalValue() {
-		return new Immediate<V>(this.value);
+		return CompletableFuture.completedFuture(this.value);
 	}
 }
