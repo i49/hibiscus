@@ -1,20 +1,31 @@
 package com.github.i49.hibiscus.validation;
 
 import static com.github.i49.hibiscus.schema.SchemaComponents.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.util.List;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.problems.ArrayLengthProblem;
 import com.github.i49.hibiscus.problems.AssertionFailureProblem;
+import com.github.i49.hibiscus.problems.ExclusiveUpperBoundProblem;
+import com.github.i49.hibiscus.problems.InclusiveLowerBoundProblem;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
+import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
 import com.github.i49.hibiscus.problems.Problem;
+import com.github.i49.hibiscus.problems.StringLengthProblem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
 import com.github.i49.hibiscus.schema.ObjectType;
@@ -373,6 +384,69 @@ public class ObjectValiadtionTest {
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
 			assertEquals(1, ((JsonObject)p.getActualValue()).size());
 			assertEquals("Any comments please.", p.getDescription());
+		}
+	}
+	
+	public static class ObjectPropertyProblemTest {
+		
+		@Test
+		public void testProblemValues() {
+
+			Schema schema = schema(object(
+				required("a", string().length(3)),
+				required("b", integer().minInclusive(1)),
+				required("c", number().maxExclusive(new BigDecimal("10.0"))),
+				required("d", bool().enumeration(false)),
+				required("e", array(integer()).length(3)),
+				required("f", object(required("name", string())).moreProperties())
+			));
+
+			String json = "{"
+					+ "\"a\": \"abcd\","
+					+ "\"b\": -1,"
+					+ "\"c\": 20.0,"
+					+ "\"d\": true,"
+					+ "\"e\": [1, 2],"
+					+ "\"f\": {\"age\": 42}"
+					+ "}";
+
+			JsonValidator validator = new BasicJsonValidator(schema);
+			ValidationResult result = validator.validate(new StringReader(json));
+
+			assertValid(result);
+			assertEquals(6, result.getProblems().size());
+			
+			List<Problem> problems = result.getProblems();
+			
+			Problem p0 = problems.get(0); 
+			assertThat(p0, is(instanceOf(StringLengthProblem.class)));
+			assertThat(((StringLengthProblem)p0).getActualValue().getString(), equalTo("abcd"));
+
+			Problem p1 = problems.get(1); 
+			assertThat(p1, is(instanceOf(InclusiveLowerBoundProblem.class)));
+			assertThat(((InclusiveLowerBoundProblem)p1).getActualValue().intValue(), equalTo(-1));
+
+			Problem p2 = problems.get(2); 
+			assertThat(p2, is(instanceOf(ExclusiveUpperBoundProblem.class)));
+			assertThat(((ExclusiveUpperBoundProblem)p2).getActualValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
+
+			Problem p3 = problems.get(3); 
+			assertThat(p3, is(instanceOf(NoSuchEnumeratorProblem.class)));
+			assertThat(((NoSuchEnumeratorProblem)p3).getActualValue(), equalTo(JsonValue.TRUE));
+
+			Problem p4 = problems.get(4); 
+			assertThat(p4, is(instanceOf(ArrayLengthProblem.class)));
+			JsonValue v4 = ((ArrayLengthProblem)p4).getActualValue();
+			assertThat(v4, instanceOf(JsonArray.class));
+			assertThat(((JsonArray)v4).size(), equalTo(2));
+			assertThat(((JsonArray)v4).getInt(0), equalTo(1));
+			assertThat(((JsonArray)v4).getInt(1), equalTo(2));
+
+			Problem p5 = problems.get(5); 
+			assertThat(p5, is(instanceOf(MissingPropertyProblem.class)));
+			JsonValue v5 = ((MissingPropertyProblem)p5).getActualValue();
+			assertThat(v5, instanceOf(JsonObject.class));
+			assertThat(((JsonObject)v5).getInt("age"), equalTo(42));
 		}
 	}
 }

@@ -16,25 +16,23 @@ import javax.json.JsonValue;
 class ArrayContainer implements ValueContainer {
 
 	private final TransientValueProvider valueProvider;
-	private final JsonArrayBuilder builder;
+	private JsonArrayBuilder builder;
 	private final Transient<JsonValue> transientValue = new ArrayTransient();
 	private final Transient<JsonValue> effectiveValue = new Transient<JsonValue>();
 	private JsonArray array;
-	private int index;
+	private int lastIndex;
 	
 	ArrayContainer(TransientValueProvider valueProvider, JsonBuilderFactory builderFactory) {
 		this.valueProvider = valueProvider;
 		this.builder = builderFactory.createArrayBuilder();
+		this.lastIndex = -1;
 	}
 	
-	void setNextIndex(int index) {
-		this.index = index;
-	}
-
 	@Override
 	public Transient<JsonValue> add(int value) {
 		builder.add(value);
 		JsonNumber number = valueProvider.getNumber(value);
+		this.lastIndex++;
 		return transientValue.assign(number);
 	}
 
@@ -42,6 +40,7 @@ class ArrayContainer implements ValueContainer {
 	public Transient<JsonValue> add(long value) {
 		builder.add(value);
 		JsonNumber number = valueProvider.getNumber(value);
+		this.lastIndex++;
 		return transientValue.assign(number);
 	}
 
@@ -49,6 +48,7 @@ class ArrayContainer implements ValueContainer {
 	public Transient<JsonValue> add(BigDecimal value) {
 		builder.add(value);
 		JsonNumber number = valueProvider.getNumber(value);
+		this.lastIndex++;
 		return transientValue.assign(number);
 	}
 
@@ -56,17 +56,20 @@ class ArrayContainer implements ValueContainer {
 	public Transient<JsonValue> add(String value) {
 		builder.add(value);
 		JsonString string = valueProvider.getString(value);
+		this.lastIndex++;
 		return transientValue.assign(string);
 	}
 
 	@Override
 	public Transient<JsonValue> add(JsonValue value) {
 		builder.add(value);
+		this.lastIndex++;
 		return effectiveValue.assign(value);
 	}
 	
 	JsonArray build() {
-		this.array = builder.build();
+		this.array = this.builder.build();
+		this.builder = null;
 		return this.array;
 	}
 	
@@ -76,7 +79,7 @@ class ArrayContainer implements ValueContainer {
 	private class ArrayTransient extends Transient<JsonValue> {
 		@Override
 		Future<JsonValue> getFinalValue() {
-			return new FutureImpl(index);
+			return new FutureImpl(lastIndex);
 		}
 	}
 

@@ -8,6 +8,10 @@ import static org.junit.Assert.*;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import javax.json.JsonValue;
+
+import static org.hamcrest.CoreMatchers.*;
+
 public class CustomAssertions {
 	
 	private static final Logger log = Logger.getLogger(CustomAssertions.class.getName());
@@ -26,7 +30,10 @@ public class CustomAssertions {
 		
 		if (problem instanceof JsonValueProblem) {
 			JsonValueProblem valueProblem = (JsonValueProblem)problem;
-			assertNotNull(valueProblem.getActualValue());
+			JsonValue value = valueProblem.getActualValue();
+			assertNotNull(value);
+			String className = value.getClass().getName();
+			assertThat(className, not(startsWith("com.github.i49.hibiscus.")));
 		}
 
 		log.fine(problem.getMessage(Locale.ENGLISH));

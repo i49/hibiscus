@@ -16,7 +16,7 @@ import javax.json.JsonValue;
 class ObjectContainer implements ValueContainer {
 
 	private final TransientValueProvider valueProvider;
-	private final JsonObjectBuilder builder;
+	private JsonObjectBuilder builder;
 	private final Transient<JsonValue> transientValue = new ObjectTransient();
 	private final Transient<JsonValue> effectiveValue = new Transient<JsonValue>();
 	private JsonObject object;
@@ -66,7 +66,8 @@ class ObjectContainer implements ValueContainer {
 	}
 	
 	public JsonObject build() {
-		this.object =  builder.build();
+		this.object =  this.builder.build();
+		this.builder = null;
 		return this.object;
 	}
 	
