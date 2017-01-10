@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.github.i49.hibiscus.common.TypeId;
+import com.github.i49.hibiscus.formats.Formats;
+import com.github.i49.hibiscus.formats.StringFormat;
 import com.github.i49.hibiscus.schema.internal.ArrayTypeImpl;
 import com.github.i49.hibiscus.schema.internal.BooleanTypeImpl;
 import com.github.i49.hibiscus.schema.internal.IntegerTypeImpl;
@@ -308,6 +310,10 @@ public final class SchemaComponents {
 	
 	/**
 	 * Creates an object property which name matches the pattern specified as a predicate.
+	 * 
+	 * <p>Each {@link StringFormat} provided by {@link Formats} class, such as {@link Formats#datetime()}
+	 * or {@link Formats#email()}, can be utilized as a predicate and be passed in to this method.
+	 * </p>
 	 * 
 	 * @param predicate the predicate to determine whether the name of the property is acceptable or not.
 	 *                  Cannot be {@code null}. 

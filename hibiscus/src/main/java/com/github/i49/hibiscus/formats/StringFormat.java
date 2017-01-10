@@ -4,11 +4,14 @@ import java.util.function.Predicate;
 
 import javax.json.JsonString;
 
+import com.github.i49.hibiscus.schema.SchemaComponents;
+import com.github.i49.hibiscus.schema.JsonType;
+
 /**
- * A type of {@link Format} which can be applied to {@link JsonString} only.
+ * A type of {@link Format} which can be applied only to {@link JsonString} value.
  * 
- * <p>This class also implements {@link Predicate} so that it can be specified as 
- * predicates of pattern properties.
+ * <p>This class also implements {@code Predicate<String>} so that it can be specified as 
+ * predicates of pattern properties and passed in to {@link SchemaComponents#pattern(Predicate, JsonType, JsonType...)}.
  * </p> 
  */
 public abstract class StringFormat extends AbstractFormat<JsonString> implements Predicate<String> {
