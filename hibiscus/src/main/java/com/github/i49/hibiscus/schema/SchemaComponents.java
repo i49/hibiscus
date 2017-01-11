@@ -20,33 +20,34 @@ import com.github.i49.hibiscus.schema.internal.SchemaImpl;
 import com.github.i49.hibiscus.schema.internal.StringTypeImpl;
 
 /**
- * The central class to create various kinds of schema components which are used to build
- * your own schema to validate JSON documents.
+ * The central class used to create various kinds of schema components which can compose
+ * your schema for validating JSON documents.
  * 
- * <p>These schema components can be grouped as follows.</p>
- * <ul>
+ * <p>These schema components can be categorized into three groups listed below:</p>
+ * <ol>
  * <li><strong>schema</strong>, which is represented by {@link Schema}. </li>
  * <li><strong>build-in types</strong>, which are represented by {@link JsonType} and its subinterfaces.</li>
  * <li><strong>object properties</strong>, which are represented by {@link Property}.</li>
- * </ul>
+ * </ol>
  * 
- * <h3>Schema</h3>
+ * <h3>1. Schema</h3>
  * 
- * <p>The {@link Schema} object is the top level component 
- * which contains other schema components for any schema to be built.</p>
- * <p>The following code shows how to create a new schema.</p>
+ * <p>The {@link Schema} is the top level component of schema to be built
+ * and it is composed of other schema components.</p>
+ * <p>The following code shows how to create a new schema by calling {@code schema()} method.</p>
  * <blockquote><pre><code>
  * import static com.github.i49.hibiscus.schema.SchemaComponents.*;
- * Schema t = schema(type1, type2, ...);
+ * Schema s = schema(type1, type2, ...);
  * </code></pre></blockquote>
- * <p>{@code schema()} method above receives {@link JsonType}s expected at the root of JSON documents.</p>
+ * <p>{@link #schema(JsonType...)} method shown above receives one or more {@link JsonType}s, 
+ * any of which is allowed to be at the root of JSON documents.</p>
  * 
- * <h3>Built-in Types</h3>
+ * <h3>2. Built-in Types</h3>
  * 
  * <p>As the sample code shown above illustrates, a schema consists of several {@link JsonType}s 
  * that can be nested inside other types and form a tree-like structure as a whole. 
  * The validation will match the values in JSON document against types declared in schema 
- * from the root to the terminal values.</p>
+ * from the root to the leaf location.</p>
  *
  * <p>This library provides seven built-in types which can be used to compose schema for JSON.</p>
  * <table border="1" cellpadding="4" style="border-collapse: collapse;">
@@ -117,7 +118,7 @@ import com.github.i49.hibiscus.schema.internal.StringTypeImpl;
  * </tr>
  * </table>
  * 
- * <p>The following code shows how to create each of built-in types except array and object.</p>
+ * <p>The following code shows how to create each of these built-in types except array and object types.</p>
  * <blockquote><pre><code>
  * BooleanType b = bool();
  * IntegerType i = integer();
@@ -134,28 +135,33 @@ import com.github.i49.hibiscus.schema.internal.StringTypeImpl;
  * 
  * <p>The next section introduces how to create properties for object types.</p>
  * 
- * <h3>Object Properties</h3>
- * <p>JSON object can contain name-value pairs which are called <i>properties</i>.
- * There are three kinds of properties to be created as listed below.</p>
- * <ol>
- * <li>required property</li>
- * <li>optional property</li>
- * <li>pattern property</li>
- * </ol>
- * 
- * <p>Both of the first two types of property have determined names.
- * They can be distinguished by whether they are mandatory or not for the containing object.</p>
- * <p>The code listed below shows how to create these types of property respectively.</p>
+ * <h3>3. Object Properties</h3>
+ * <p>JSON object can contain zero or more name-value pairs which are called <i>properties</i>.
+ * <h4>3.1. Basic Property</h4>
+ * <p>Basic property is a property that has a name which is fixed and declared in schema beforehand.
+ * Two types of basic properties are provided, which is called <i>required</i> or <i>optional</i> property respectively. 
+ * They can be distinguished by whether they are mandatory or not for the containing JSON object.</p>
+ * <p>The code listed below shows how to create these types of property
+ * by calling {@code required()} and {@code optional()} respectively.</p>
  * <blockquote><pre><code>
- * Property p1 = required("name", string());
- * Property p2 = optional("age", integer());
+ * Property p1 = required("name", string()); // this property is mandatory.
+ * Property p2 = optional("age", integer()); // this property is optional.
  * </code></pre></blockquote>
  * 
- * <p>The last type of property does not have a determined name.
- * The name of this property has some range and is specified as a regular expression.</p>
- * <p>The code listed below shows how to create a pattern property.</p>
+ * <h4>3.2. Pattern Property</h4>
+ * <p>The other type of property is a property which does not have a determined name.
+ * The name of this type of property is allowed to have some variations 
+ * and is specified as a <i>pattern</i>,
+ * such as a regular expression or {@link Predicate} functional interface.</p>
+ * <p>The code listed below creates a property 
+ * which name is specified as a regular expression.</p>
  * <blockquote><pre><code>
  * Property p3 = pattern("1st|2nd|3rd|[4-8]th", string());
+ * </code></pre></blockquote>
+ * <p>The following code creates a property which name is specified as a lambda expression
+ * and must have a length of exactly three characters.</p>
+ * <blockquote><pre><code>
+ * Property p4 = pattern(s-&gt;s.length() == 3, integer());
  * </code></pre></blockquote>
  */
 public final class SchemaComponents {
@@ -309,7 +315,8 @@ public final class SchemaComponents {
 	}
 	
 	/**
-	 * Creates an object property which name matches the pattern specified as a predicate.
+	 * Creates an object property which name matches the pattern specified
+	 * as a {@link Predicate} functional interface that can be a lambda expression.
 	 * 
 	 * <p>Each {@link StringFormat} provided by {@link Formats} class, such as {@link Formats#datetime()}
 	 * or {@link Formats#email()}, can be utilized as a predicate and be passed in to this method.
