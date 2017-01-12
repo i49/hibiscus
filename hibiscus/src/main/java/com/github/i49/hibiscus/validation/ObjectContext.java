@@ -1,6 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.json.JsonBuilderFactory;
@@ -11,21 +12,30 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 
 /**
- * A builder class to build a {@link JsonObject}.
+ * A context class which will be created per an {@link JsonObject} while validating JSON documents.
  */
-class ObjectBuilder implements JsonBuilder {
+class ObjectContext implements JsonContext {
 
 	private final TransientValueProvider valueProvider;
 	private JsonObjectBuilder builder;
 	private String currentName;
 	private JsonObject result;
 	
-	ObjectBuilder(TransientValueProvider valueProvider, JsonBuilderFactory builderFactory) {
+	/**
+	 * Constructs this context.
+	 * @param valueProvider the transient {@link JsonValue} provider.
+	 * @param factory the factory to be used to build {@link JsonObject}.
+	 */
+	ObjectContext(TransientValueProvider valueProvider, JsonBuilderFactory factory) {
 		this.valueProvider = valueProvider;
-		this.builder = builderFactory.createObjectBuilder();
+		this.builder = factory.createObjectBuilder();
 	}
 	
-	void setNextName(String name) {
+	/**
+	 * Assigns the name of the next property in this object.
+	 * @param name the name of the property.
+	 */
+	void nextName(String name) {
 		this.currentName = name;
 	}
 	
@@ -60,18 +70,33 @@ class ObjectBuilder implements JsonBuilder {
 	}
 	
 	@Override
-	public Future<JsonValue> getFutureOf(JsonValue value) {
+	public Future<JsonValue> getFuture() {
 		return new PropertyValueFuture(this.currentName);
+	}
+	
+	public Future<JsonObject> getFutureOfObject() {
+		return new ObjectFuture();
 	}
 
 	/**
 	 * Builds the {@link JsonObject} which is composed of all added properties. 
 	 * @return the built {@link JsonObject}.
 	 */
-	public JsonObject build() {
+	public JsonObject getObject() {
 		this.result =  this.builder.build();
 		this.builder = null;
 		return this.result;
+	}
+	
+	/**
+	 * A future object that will provide the final {@link JsonObject} built by this context.
+	 */
+	private class ObjectFuture extends AbstractFuture<JsonObject> {
+
+		@Override
+		public JsonObject get() throws InterruptedException, ExecutionException {
+			return result;
+		}
 	}
 	
 	/**

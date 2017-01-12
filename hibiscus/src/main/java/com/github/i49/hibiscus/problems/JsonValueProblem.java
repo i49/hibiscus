@@ -10,7 +10,7 @@ import javax.json.JsonValue;
  */
 public abstract class JsonValueProblem extends AbstractProblem {
 
-	private Future<JsonValue> value;
+	private Future<? extends JsonValue> value;
 	
 	/**
 	 * Constructs this problem.
@@ -35,7 +35,7 @@ public abstract class JsonValueProblem extends AbstractProblem {
 	 * Assigns the future object that will provide the actual value that caused this problem.
 	 * @param value the future object that will provide the actual value.
 	 */
-	public void setActualValue(Future<JsonValue> value) {
+	public void setActualValue(Future<? extends JsonValue> value) {
 		this.value = value;
 	}
 }

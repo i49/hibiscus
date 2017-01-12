@@ -11,58 +11,65 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 
 /**
- * A builder class to build a {@link JsonArray}.
+ * A context class which will be created per an {@link JsonArray} while validating JSON documents.
  */
-class ArrayBuilder implements JsonBuilder {
+class ArrayContext implements JsonContext {
 
 	private final TransientValueProvider valueProvider;
 	private JsonArrayBuilder builder;
 	private int lastIndex;
 	private JsonArray result;
 	
-	ArrayBuilder(TransientValueProvider valueProvider, JsonBuilderFactory builderFactory) {
+	/**
+	 * Constructs this context.
+	 * @param valueProvider the transient {@link JsonValue} provider.
+	 * @param factory the factory to be used to build {@link JsonArray}.
+	 */
+	ArrayContext(TransientValueProvider valueProvider, JsonBuilderFactory factory) {
 		this.valueProvider = valueProvider;
-		this.builder = builderFactory.createArrayBuilder();
+		this.builder = factory.createArrayBuilder();
 		this.lastIndex = -1;
+	}
+	
+	/**
+	 * Moves to the next item in this array.
+	 */
+	void nextItem() {
+		this.lastIndex++;
 	}
 	
 	@Override
 	public JsonNumber add(int value) {
-		this.lastIndex++;
 		builder.add(value);
 		return valueProvider.getNumber(value);
 	}
 
 	@Override
 	public JsonNumber add(long value) {
-		this.lastIndex++;
 		builder.add(value);
 		return valueProvider.getNumber(value);
 	}
 
 	@Override
 	public JsonNumber add(BigDecimal value) {
-		this.lastIndex++;
 		builder.add(value);
 		return valueProvider.getNumber(value);
 	}
 
 	@Override
 	public JsonString add(String value) {
-		this.lastIndex++;
 		builder.add(value);
 		return valueProvider.getString(value);
 	}
 
 	@Override
 	public JsonValue add(JsonValue value) {
-		this.lastIndex++;
 		builder.add(value);
 		return value;
 	}
 
 	@Override
-	public Future<JsonValue> getFutureOf(JsonValue value) {
+	public Future<JsonValue> getFuture() {
 		return new ArrayItemFuture(this.lastIndex);
 	}
 	
@@ -70,7 +77,7 @@ class ArrayBuilder implements JsonBuilder {
 	 * Builds the {@link JsonArray} which is composed of all added elements.
 	 * @return the built {@link JsonArray}.
 	 */
-	public JsonArray build() {
+	public JsonArray getArray() {
 		this.result = this.builder.build();
 		this.builder = null;
 		return this.result;

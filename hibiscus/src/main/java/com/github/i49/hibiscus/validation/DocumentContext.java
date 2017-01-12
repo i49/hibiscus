@@ -2,6 +2,7 @@ package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.json.JsonArrayBuilder;
@@ -11,14 +12,18 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 
 /**
- * A builder class to build a JSON document.
+ * A context class which will be created per a JSON document.
  */
-class JsonDocumentBuilder implements JsonBuilder {
+class DocumentContext implements JsonContext {
 	
 	private final JsonBuilderFactory factory;
 	private JsonValue rootValue;
 
-	JsonDocumentBuilder(JsonBuilderFactory factory) {
+	/**
+	 * Constructs this context.
+	 * @param factory the factory to be used to build the JSON document.
+	 */
+	DocumentContext(JsonBuilderFactory factory) {
 		this.factory = factory;
 	}
 	
@@ -57,11 +62,20 @@ class JsonDocumentBuilder implements JsonBuilder {
 	}
 
 	@Override
-	public Future<JsonValue> getFutureOf(JsonValue value) {
-		return CompletableFuture.completedFuture(value);
+	public Future<JsonValue> getFuture() {
+		if (this.rootValue != null) {
+			// The root value has been determined already.
+			return CompletableFuture.completedFuture(this.rootValue);
+		} else {
+			return new RootValueFuture();
+		}
 	}
 	
-	public JsonDocument build() {
+	/**
+	 * Builds the JSON document. 
+	 * @return the built JSON document.
+	 */
+	public JsonDocument getDocument() {
 		if (this.rootValue == null) {
 			throw new IllegalStateException();
 		}
@@ -75,6 +89,13 @@ class JsonDocumentBuilder implements JsonBuilder {
 	private void setRootValue(JsonValue value) {
 		if (this.rootValue == null) {
 			this.rootValue = value;
+		}
+	}
+	
+	private class RootValueFuture extends AbstractFuture<JsonValue> {
+		@Override
+		public JsonValue get() throws InterruptedException, ExecutionException {
+			return rootValue;
 		}
 	}
 }

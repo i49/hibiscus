@@ -2,12 +2,14 @@ package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
 
+import javax.json.JsonObject;
+
 /**
  * Problem that an object has a property which is not explicitly declared in the schema.
  *
  * <p>This problem can be caused by {@code object()} type only.</p>
  */
-public class UnknownPropertyProblem extends AbstractProblem {
+public class UnknownPropertyProblem extends TypedJsonValueProblem<JsonObject> {
 
 	private final String propertyName;
 

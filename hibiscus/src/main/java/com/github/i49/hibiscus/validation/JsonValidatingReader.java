@@ -1,6 +1,8 @@
 package com.github.i49.hibiscus.validation;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -36,6 +38,7 @@ class JsonValidatingReader {
 	private final TransientValueProvider transientValueProvider = new TransientValueProvider();
 	private final List<Problem> problems = new ArrayList<>();
 	private final List<JsonValueProblem> valueProblems = new ArrayList<>();
+	private final Deque<JsonContext> contextStack = new ArrayDeque<>();
 	
 	/**
 	 * Constructs this reader.
@@ -54,9 +57,15 @@ class JsonValidatingReader {
 	 */
 	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
-			JsonDocumentBuilder builder = new JsonDocumentBuilder(this.builderFactory);
-			readValue(parser.next(), schema.getTypeSet(), builder);
-			return builder.build().getRootValue();
+			DocumentContext context = new DocumentContext(this.builderFactory);
+			pushContext(context);
+			readValue(parser.next(), schema.getTypeSet());
+			JsonValue rootValue = context.getDocument().getRootValue();
+			popContext();
+			if (!this.contextStack.isEmpty()) {
+				throw internalError();
+			}
+			return rootValue;
 		} else {
 			return null;
 		}
@@ -74,56 +83,60 @@ class JsonValidatingReader {
 	 * Reads JSON array, object, or other values.
 	 * @param event the event which {@link JsonParser} emits.
 	 * @param candidates the type candidates of the value to be read. 
-	 * @param builder the builder to be used to build the parent value.
 	 */
-	private void readValue(JsonParser.Event event, TypeSet candidates, JsonBuilder builder) {
+	private void readValue(JsonParser.Event event, TypeSet candidates) {
 		if (event == JsonParser.Event.START_ARRAY) {
-			readArray(candidates, builder);
+			readArray(candidates);
 		} else if (event == JsonParser.Event.START_OBJECT) {
-			readObject(candidates, builder);
+			readObject(candidates);
 		} else {
-			readAtomicValue(event, candidates, builder);
+			readAtomicValue(event, candidates);
 		}
 	}
 	
-	private void readArray(TypeSet expected, JsonBuilder builder) {
+	private void readArray(TypeSet expected) {
 		JsonType type = matchType(TypeId.ARRAY, expected);
 		ArrayType arrayType = (type != null) ? ((ArrayType)type) : UnknownArrayType.INSTANCE;
 		JsonArray value = buildArray(arrayType);
-		builder.add(value);
-		validateValue(arrayType, value, builder);
+		getCurrentContext().add(value);
+		validateValue(arrayType, value);
 	}
 	
 	private JsonArray buildArray(ArrayType type) {
-		ArrayBuilder builder = new ArrayBuilder(this.transientValueProvider, this.builderFactory);
+		ArrayContext context = new ArrayContext(this.transientValueProvider, this.builderFactory);
+		pushContext(context);
 		TypeSet itemTypes = type.getItemTypes();
 		while (parser.hasNext()) {
 			JsonParser.Event event = parser.next();
 			if (event == JsonParser.Event.END_ARRAY) {
-				return builder.build();
+				popContext();
+				return context.getArray();
 			} else {
-				readValue(event, itemTypes, builder);
+				context.nextItem();
+				readValue(event, itemTypes);
 			}
 		}
 		throw internalError();
 	}
 	
-	private void readObject(TypeSet expected, JsonBuilder builder) {
+	private void readObject(TypeSet expected) {
 		JsonType type = matchType(TypeId.OBJECT, expected);
 		ObjectType objectType = (type != null) ? ((ObjectType)type) : UnknownObjectType.INSTANCE;
 		JsonObject value = buildObject(objectType);
-		builder.add(value);
-		validateValue(objectType, value, builder);
+		getCurrentContext().add(value);
+		validateValue(objectType, value);
 	}
 	
 	private JsonObject buildObject(ObjectType objectType) {
-		ObjectBuilder builder = new ObjectBuilder(this.transientValueProvider, this.builderFactory);
+		ObjectContext context = new ObjectContext(this.transientValueProvider, this.builderFactory);
+		pushContext(context);
 		while (parser.hasNext()) {
 			JsonParser.Event e = parser.next();
 			if (e == JsonParser.Event.END_OBJECT) {
-				return builder.build();
+				popContext();
+				return context.getObject();
 			} else if (e == JsonParser.Event.KEY_NAME) {
-				readProperty(objectType, builder);
+				readProperty(objectType, context);
 			} else {
 				throw internalError();
 			}
@@ -134,24 +147,29 @@ class JsonValidatingReader {
 	/**
 	 * Reads a property of the object. 
 	 * @param object the object type which has the property.
-	 * @param builder the builder to be used to build a JSON object.
+	 * @param context the object building the object.
 	 */
-	private void readProperty(ObjectType object, ObjectBuilder builder) {
+	private void readProperty(ObjectType object, ObjectContext context) {
 		String name = parser.getString();
 		TypeSet typeCandidates = findPropertyType(object, name);
-		builder.setNextName(name);
-		readValue(parser.next(), typeCandidates, builder);
+		if (typeCandidates == null) {
+			if (!object.allowsMoreProperties()) {
+				addProblem(new UnknownPropertyProblem(name), context.getFutureOfObject());
+			}
+		}
+		context.nextName(name);
+		readValue(parser.next(), typeCandidates);
 	}
 	
 	/**
 	 * Reads an atomic JSON value such as boolean, integer, number, null and string.
 	 * @param event the event provided by Streaming API.
 	 * @param candidates the type candidates declared in the schema.
-	 * @param builder the builder to be used to build the parent value.
 	 * @return {@link JsonValue} found in the JSON document.
 	 */
-	private void readAtomicValue(JsonParser.Event event, TypeSet candidates, JsonBuilder builder) {
+	private void readAtomicValue(JsonParser.Event event, TypeSet candidates) {
 		
+		JsonContext context = getCurrentContext();
 		JsonType type = null;
 		JsonValue value = null;
 
@@ -161,36 +179,36 @@ class JsonValidatingReader {
 				type = matchType(TypeId.INTEGER, candidates);
 				long longValue = parser.getLong();
 				if (Integer.MIN_VALUE <= longValue && longValue <= Integer.MAX_VALUE) {
-					value = builder.add(Math.toIntExact(longValue));
+					value = context.add(Math.toIntExact(longValue));
 				} else {
-					value = builder.add(longValue);
+					value = context.add(longValue);
 				}
 			} else {
 				type = matchType(TypeId.NUMBER, candidates);
-				value = builder.add(parser.getBigDecimal());
+				value = context.add(parser.getBigDecimal());
 			}
 			break;
 		case VALUE_STRING:
 			type = matchType(TypeId.STRING, candidates);
-			value = builder.add(parser.getString());
+			value = context.add(parser.getString());
 			break;
 		case VALUE_TRUE:
 			type = matchType(TypeId.BOOLEAN, candidates);
-			value = builder.add(JsonValue.TRUE);
+			value = context.add(JsonValue.TRUE);
 			break;
 		case VALUE_FALSE:
 			type = matchType(TypeId.BOOLEAN, candidates);
-			value = builder.add(JsonValue.FALSE);
+			value = context.add(JsonValue.FALSE);
 			break;
 		case VALUE_NULL:
 			type = matchType(TypeId.NULL, candidates);
-			value = builder.add(JsonValue.NULL);
+			value = context.add(JsonValue.NULL);
 			break;
 		default:
 			throw internalError();
 		}
 		
-		validateValue(type, value, builder);
+		validateValue(type, value);
 	}
 	
 	private JsonType matchType(TypeId actual, TypeSet candidates) {
@@ -199,7 +217,7 @@ class JsonValidatingReader {
 		}
 		JsonType type = candidates.getType(actual);
 		if (type == null) {
-			addProblem(new TypeMismatchProblem(actual, candidates.getTypeIds()));
+			addProblem(new TypeMismatchProblem(actual, candidates.getTypeIds()), getCurrentContext().getFuture());
 		}
 		return type;
 	}
@@ -208,19 +226,17 @@ class JsonValidatingReader {
 	 * Validates a transient JSON value.
 	 * @param type the type of JSON value.
 	 * @param value the value to be validated.
-	 * @param builder the object building the container of the value.
 	 */
-	private void validateValue(JsonType type, JsonValue value, JsonBuilder builder) {
+	private void validateValue(JsonType type, JsonValue value) {
 		if (type == null) {
 			return;
 		}
 		List<JsonValueProblem> problems = this.valueProblems;
 		type.validateInstance(value, problems);
 		if (!problems.isEmpty()) {
-			Future<JsonValue> future = builder.getFutureOf(value);
+			Future<JsonValue> future = getCurrentContext().getFuture();
 			for (JsonValueProblem p: problems) {
-				p.setActualValue(future);
-				addProblem(p);
+				addProblem(p, future);
 			}
 			problems.clear();
 		}
@@ -228,22 +244,30 @@ class JsonValidatingReader {
 	
 	private TypeSet findPropertyType(ObjectType objectType, String propertyName) {
 		Property property = objectType.getProperty(propertyName);
-		if (property == null) {
-			if (!objectType.allowsMoreProperties()) {
-				addProblem(new UnknownPropertyProblem(propertyName));
-			}
-			return null;
-		}
-		return property.getTypeSet();
+		return (property == null) ? null : property.getTypeSet();
 	}
 
 	/**
 	 * Adds a problem found to the list of the problems.
-	 * @param problem the problem found while validation the JSON document.
+	 * @param problem the problem found while validating the JSON document.
+	 * @param value the proxy of the value which caused the problem.
 	 */
-	private void addProblem(Problem problem) {
+	private void addProblem(JsonValueProblem problem, Future<? extends JsonValue> value) {
+		problem.setActualValue(value);
 		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
+	}
+	
+	private void pushContext(JsonContext context) {
+		this.contextStack.addLast(context);
+	}
+	
+	private void popContext() {
+		this.contextStack.removeLast();
+	}
+	
+	private JsonContext getCurrentContext() {
+		return this.contextStack.peekLast();
 	}
 	
 	/**

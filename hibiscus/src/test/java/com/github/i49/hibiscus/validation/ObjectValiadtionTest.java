@@ -1,9 +1,7 @@
 package com.github.i49.hibiscus.validation;
 
 import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -11,7 +9,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 
 import org.junit.Before;
@@ -117,12 +117,13 @@ public class ObjectValiadtionTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertValid(result);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(TypeMismatchProblem.class));
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertEquals(TypeId.ARRAY, p.getActualType());
-			assertEquals(TypeId.OBJECT, p.getExpectedTypes().iterator().next());
-			assertNotNull(p.getDescription());
+			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			assertThat(p.getActualType(), is(TypeId.ARRAY));
+			assertThat(p.getExpectedTypes().iterator().next(), is(TypeId.OBJECT));
+			assertThat(p.getDescription(), is(notNullValue()));
 		}
 	}
 
@@ -145,13 +146,15 @@ public class ObjectValiadtionTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertValid(result);
-			assertEquals(1, result.getProblems().size());
+			assertThat(result.getProblems().size(), equalTo(1));
 			
-			Problem p = result.getProblems().get(0);
-			assertTrue(p instanceof TypeMismatchProblem);
-			assertTrue(((TypeMismatchProblem)p).getExpectedTypes().contains(TypeId.NUMBER));
-			assertEquals(TypeId.STRING, ((TypeMismatchProblem)p).getActualType());
-			assertNotNull(p.getDescription());
+			assertThat(result.getProblems().get(0),  instanceOf(TypeMismatchProblem.class));
+			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
+			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.STRING));
+			assertThat(((JsonString)p.getActualValue()).getString(), equalTo("123.45"));
+			assertThat(p.getActualType(), is(TypeId.STRING));
+			assertThat(p.getExpectedTypes(), hasItem(TypeId.NUMBER));
+			assertThat(p.getDescription(), is(notNullValue()));
 		}
 
 		@Test
@@ -172,22 +175,29 @@ public class ObjectValiadtionTest {
 	
 			assertValid(result);
 			List<Problem> problems = result.getProblems();
-			assertEquals(7, problems.size());
+			assertThat(problems.size(), equalTo(7));
 			
-			TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(0);
-			assertEquals(TypeId.INTEGER, p1.getActualType());
-			TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(1);
-			assertEquals(TypeId.BOOLEAN, p2.getActualType());
-			TypeMismatchProblem p3 = (TypeMismatchProblem)problems.get(2);
-			assertEquals(TypeId.STRING, p3.getActualType());
-			TypeMismatchProblem p4 = (TypeMismatchProblem)problems.get(3);
-			assertEquals(TypeId.NUMBER, p4.getActualType());
-			TypeMismatchProblem p5 = (TypeMismatchProblem)problems.get(4);
-			assertEquals(TypeId.OBJECT, p5.getActualType());
-			TypeMismatchProblem p6 = (TypeMismatchProblem)problems.get(5);
-			assertEquals(TypeId.ARRAY, p6.getActualType());
-			TypeMismatchProblem p7 = (TypeMismatchProblem)problems.get(6);
-			assertEquals(TypeId.NULL, p7.getActualType());
+			TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
+			assertThat(p0.getActualType(), is(TypeId.INTEGER));
+			assertThat(((JsonNumber)p0.getActualValue()).intValue(), equalTo(123));
+			TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
+			assertThat(p1.getActualType(), is(TypeId.BOOLEAN));
+			assertThat(p1.getActualValue(), is(JsonValue.TRUE));
+			TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
+			assertThat(p2.getActualType(), is(TypeId.STRING));
+			assertThat(((JsonString)p2.getActualValue()).getString(), equalTo("abc"));
+			TypeMismatchProblem p3 = (TypeMismatchProblem)problems.get(3);
+			assertThat(p3.getActualType(), is(TypeId.NUMBER));
+			assertThat(((JsonNumber)p3.getActualValue()).bigDecimalValue(), equalTo(new BigDecimal("123.45")));
+			TypeMismatchProblem p4 = (TypeMismatchProblem)problems.get(4);
+			assertThat(p4.getActualType(), is(TypeId.OBJECT));
+			assertThat(p4.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			TypeMismatchProblem p5 = (TypeMismatchProblem)problems.get(5);
+			assertThat(p5.getActualType(), is(TypeId.ARRAY));
+			assertThat(p5.getActualValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			TypeMismatchProblem p6 = (TypeMismatchProblem)problems.get(6);
+			assertThat(p6.getActualType(), is(TypeId.NULL));
+			assertThat(p6.getActualValue(), is(JsonValue.NULL));
 		}
 	}
 	
@@ -210,10 +220,12 @@ public class ObjectValiadtionTest {
 	
 			assertValid(result);
 			List<Problem> problems = result.getProblems();
-			assertEquals(1, problems.size());
+			assertThat(problems.size(), equalTo(1));
+			assertThat(problems.get(0), instanceOf(MissingPropertyProblem.class));
 			MissingPropertyProblem p = (MissingPropertyProblem)problems.get(0);
-			assertEquals("d", p.getPropertyName());
-			assertNotNull(p.getDescription());
+			assertThat(p.getPropertyName(), equalTo("d"));
+			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			assertThat(p.getDescription(), is(notNullValue()));
 		}
 	}
 	
@@ -238,10 +250,12 @@ public class ObjectValiadtionTest {
 	
 			assertValid(result);
 			List<Problem> problems = result.getProblems();
-			assertEquals(1, problems.size());
+			assertThat(problems.size(), equalTo(1));
+			assertThat(problems.get(0), instanceOf(UnknownPropertyProblem.class));
 			UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
-			assertEquals("h", p.getPropertyName());
-			assertNotNull(p.getDescription());
+			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			assertThat(p.getPropertyName(), equalTo("h"));
+			assertThat(p.getDescription(), is(notNullValue()));
 		}
 		
 		@Test
@@ -253,7 +267,7 @@ public class ObjectValiadtionTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertValid(result);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	}
 
@@ -292,7 +306,7 @@ public class ObjectValiadtionTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertValid(result);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 		
 		@Test
@@ -305,11 +319,11 @@ public class ObjectValiadtionTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertValid(result);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(AssertionFailureProblem.class));
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
-			assertEquals(1, ((JsonObject)p.getActualValue()).size());
-			assertEquals("Any comments please.", p.getDescription());
+			assertThat(((JsonObject)p.getActualValue()).size(), equalTo(1));
+			assertThat(p.getDescription(), equalTo("Any comments please."));
 		}
 	}
 	
