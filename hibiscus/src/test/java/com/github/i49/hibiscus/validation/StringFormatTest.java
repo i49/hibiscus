@@ -40,7 +40,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -50,7 +50,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -60,7 +60,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -70,7 +70,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -80,7 +80,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -106,7 +106,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -116,7 +116,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -142,7 +142,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -152,7 +152,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -168,7 +168,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -184,7 +184,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -210,7 +210,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -220,7 +220,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -236,7 +236,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -262,7 +262,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -272,7 +272,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -282,7 +282,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -292,7 +292,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -302,7 +302,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -312,7 +312,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -328,7 +328,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -354,7 +354,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -364,7 +364,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -374,7 +374,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -384,7 +384,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 		
@@ -394,7 +394,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -404,7 +404,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -414,7 +414,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -424,7 +424,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 	}
@@ -444,7 +444,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -454,7 +454,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -464,7 +464,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -474,7 +474,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -484,7 +484,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -494,7 +494,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -504,7 +504,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -514,7 +514,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 
@@ -524,7 +524,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 		}
 	}
@@ -544,7 +544,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -554,7 +554,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -564,7 +564,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -574,7 +574,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
@@ -600,7 +600,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -610,7 +610,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -620,7 +620,7 @@ public class StringFormatTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);

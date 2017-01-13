@@ -30,7 +30,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -41,7 +41,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	}
@@ -55,7 +55,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
@@ -73,7 +73,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -90,7 +90,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -101,7 +101,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -119,7 +119,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -130,7 +130,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -147,7 +147,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -165,7 +165,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -176,7 +176,7 @@ public class BooleanValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	}

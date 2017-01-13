@@ -51,7 +51,7 @@ public class PersonValidatorTest {
 			result = validator.validate(reader);
 		}
 		
-		assertValid(result);
+		assertResultValid(result);
 		assertFalse(result.hasProblems());
 
 		JsonValue root = result.getValue();
@@ -70,7 +70,7 @@ public class PersonValidatorTest {
 			result = validator.validate(reader);
 		}
 		
-		assertValid(result);
+		assertResultValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();
@@ -89,7 +89,7 @@ public class PersonValidatorTest {
 			result = validator.validate(reader);
 		}
 		
-		assertValid(result);
+		assertResultValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();
@@ -125,7 +125,7 @@ public class PersonValidatorTest {
 			result = validator.validate(reader);
 		}
 		
-		assertValid(result);
+		assertResultValid(result);
 		assertTrue(result.hasProblems());
 		
 		List<Problem> problems = result.getProblems();

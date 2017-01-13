@@ -51,7 +51,7 @@ public class BasicJsonValidatorTest {
 				result = validator.validate(reader);
 			}
 		
-			assertValid(result);
+			assertResultValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -73,7 +73,7 @@ public class BasicJsonValidatorTest {
 			try (InputStream stream = newInputStream("person-utf16le.json")) {
 				result = validator.validate(stream);
 			}
-			assertValid(result);
+			assertResultValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -85,7 +85,7 @@ public class BasicJsonValidatorTest {
 			try (InputStream stream = newInputStream("person-utf16be.json")) {
 				result = validator.validate(stream);
 			}
-			assertValid(result);
+			assertResultValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -101,7 +101,7 @@ public class BasicJsonValidatorTest {
 				result = validator.validate(stream, StandardCharsets.UTF_8);
 			}
 	
-			assertValid(result);
+			assertResultValid(result);
 			assertFalse(result.hasProblems());
 			assertTrue(result.getValue() instanceof JsonObject);
 		}
@@ -150,7 +150,7 @@ public class BasicJsonValidatorTest {
 			ValidationResult result = null; 
 			try (InputStream stream = newInputStream("invalid-root.json")) {
 				result = validator.validate(stream, StandardCharsets.UTF_8);
-				assertValid(result);
+				assertResultValid(result);
 				assertFalse(result.hasProblems());
 				assertTrue(result.getValue() instanceof JsonString);
 			} catch (JsonParsingException e) {

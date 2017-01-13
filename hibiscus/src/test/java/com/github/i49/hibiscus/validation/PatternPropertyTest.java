@@ -37,7 +37,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertThat(result.hasProblems(), is(false));
 
 			JsonValue v = result.getValue();
@@ -54,7 +54,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 
-			assertValid(result);
+			assertResultValid(result, json);
 			
 			List<Problem> problems = result.getProblems();
 			assertThat(problems.size(), equalTo(1));
@@ -97,7 +97,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertThat(result.hasProblems(), is(false));
 			
 			JsonValue v = result.getValue();
@@ -124,7 +124,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			
 			List<Problem> problems = result.getProblems();
 			assertThat(problems.size(), equalTo(1));
@@ -169,7 +169,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertThat(result.hasProblems(), is(false));
 
 			JsonValue v = result.getValue();
@@ -187,7 +187,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			List<Problem> problems = result.getProblems();
 			assertThat(problems.size(), equalTo(1));
 			assertThat(problems.get(0), is(instanceOf(UnknownPropertyProblem.class)));
@@ -225,7 +225,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertThat(result.hasProblems(), is(false));
 
 			JsonValue v = result.getValue();
@@ -247,7 +247,7 @@ public class PatternPropertyTest {
 			JsonValidator validator = new BasicJsonValidator(createSchema());
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 
 			List<Problem> problems = result.getProblems();
 			assertThat(problems.size(), equalTo(1));

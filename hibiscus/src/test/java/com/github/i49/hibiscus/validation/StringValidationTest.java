@@ -37,7 +37,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 		
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -48,7 +48,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 		
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -59,7 +59,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 		
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	}
@@ -73,7 +73,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
@@ -91,7 +91,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -108,7 +108,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -119,7 +119,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -137,7 +137,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -148,7 +148,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 			
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
@@ -174,7 +174,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -184,7 +184,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -195,7 +195,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
 			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
@@ -221,7 +221,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -232,7 +232,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -243,7 +243,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
 			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
@@ -268,7 +268,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooShortProblem);
 			StringTooShortProblem p = (StringTooShortProblem)result.getProblems().get(0);
@@ -283,7 +283,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 		
@@ -293,7 +293,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -303,7 +303,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -313,7 +313,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringTooLongProblem);
 			StringTooLongProblem p = (StringTooLongProblem)result.getProblems().get(0);
@@ -338,7 +338,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -348,7 +348,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -363,7 +363,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -388,7 +388,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 
@@ -398,7 +398,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringLengthProblem);
 			StringLengthProblem p = (StringLengthProblem)result.getProblems().get(0);
@@ -417,7 +417,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -428,7 +428,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 			StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
@@ -455,7 +455,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertFalse(result.hasProblems());
 		}
 	
@@ -465,7 +465,7 @@ public class StringValidationTest {
 			JsonValidator validator = new BasicJsonValidator(schema);
 			ValidationResult result = validator.validate(new StringReader(json));
 	
-			assertValid(result);
+			assertResultValid(result, json);
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
