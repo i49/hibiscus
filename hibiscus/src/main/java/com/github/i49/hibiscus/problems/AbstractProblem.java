@@ -1,7 +1,9 @@
 package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
+import java.util.concurrent.Future;
 
+import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
 /**
@@ -10,7 +12,8 @@ import javax.json.stream.JsonLocation;
 abstract class AbstractProblem implements Problem {
 
 	private JsonLocation location;
-
+	private Future<? extends JsonValue> causeValue;
+	
 	@Override
 	public JsonLocation getLocation() {
 		return location;
@@ -21,7 +24,23 @@ abstract class AbstractProblem implements Problem {
 		this.location = location;
 		return this;
 	}
+	
+	@Override
+	public JsonValue getCauseValue() {
+		try {
+			return causeValue.get();
+		} catch (Exception e) {
+			// This never happens.
+			return null;
+		}
+	}
 
+	@Override
+	public Problem setCauseValue(Future<? extends JsonValue> causeValue) {
+		this.causeValue = causeValue;
+		return this;
+	}
+	
 	@Override
 	public String getDescription(Locale locale) {
 		if (locale == null) {

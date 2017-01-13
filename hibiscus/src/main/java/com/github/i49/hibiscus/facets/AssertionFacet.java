@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.problems.AssertionFailureProblem;
-import com.github.i49.hibiscus.problems.JsonValueProblem;
+import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 
 /**
@@ -37,7 +37,7 @@ public class AssertionFacet<V extends JsonValue> implements Facet<V> {
 	}
 
 	@Override
-	public void apply(V value, List<JsonValueProblem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		if (!this.predicate.test(value)) {
 			problems.add(new AssertionFailureProblem<V>(this.describer));
 		}

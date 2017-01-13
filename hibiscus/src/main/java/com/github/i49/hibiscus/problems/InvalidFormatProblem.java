@@ -14,7 +14,7 @@ import com.github.i49.hibiscus.formats.Format;
  * 
  * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class InvalidFormatProblem<V extends JsonValue> extends TypedJsonValueProblem<V> {
+public class InvalidFormatProblem<V extends JsonValue> extends TypedProblem<V> {
 
 	private final Set<Format<V>> formats;
 	
@@ -36,6 +36,6 @@ public class InvalidFormatProblem<V extends JsonValue> extends TypedJsonValuePro
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return Messages.INVALID_FORMAT_PROBLEM(locale, getActualValue(), getExpectedFormats());
+		return Messages.INVALID_FORMAT_PROBLEM(locale, getCauseValue(), getExpectedFormats());
 	}
 }

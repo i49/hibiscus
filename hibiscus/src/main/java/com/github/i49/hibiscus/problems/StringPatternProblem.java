@@ -9,7 +9,7 @@ import javax.json.JsonString;
  *
  * <p>This problem can be caused by {@code string()} type only.</p>
  */
-public class StringPatternProblem extends TypedJsonValueProblem<JsonString> {
+public class StringPatternProblem extends TypedProblem<JsonString> {
 
 	/**
 	 * Constructs this problem.
@@ -19,6 +19,6 @@ public class StringPatternProblem extends TypedJsonValueProblem<JsonString> {
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.STRING_PATTERN_PROBLEM(locale, getActualValue());
+		return Messages.STRING_PATTERN_PROBLEM(locale, getCauseValue());
 	}
 }

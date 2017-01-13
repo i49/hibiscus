@@ -120,7 +120,7 @@ public class ObjectValiadtionTest {
 			assertThat(result.getProblems().size(), equalTo(1));
 			assertThat(result.getProblems().get(0), instanceOf(TypeMismatchProblem.class));
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.ARRAY));
 			assertThat(p.getActualType(), is(TypeId.ARRAY));
 			assertThat(p.getExpectedTypes().iterator().next(), is(TypeId.OBJECT));
 			assertThat(p.getDescription(), is(notNullValue()));
@@ -150,8 +150,8 @@ public class ObjectValiadtionTest {
 			
 			assertThat(result.getProblems().get(0),  instanceOf(TypeMismatchProblem.class));
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.STRING));
-			assertThat(((JsonString)p.getActualValue()).getString(), equalTo("123.45"));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.STRING));
+			assertThat(((JsonString)p.getCauseValue()).getString(), equalTo("123.45"));
 			assertThat(p.getActualType(), is(TypeId.STRING));
 			assertThat(p.getExpectedTypes(), hasItem(TypeId.NUMBER));
 			assertThat(p.getDescription(), is(notNullValue()));
@@ -179,25 +179,25 @@ public class ObjectValiadtionTest {
 			
 			TypeMismatchProblem p0 = (TypeMismatchProblem)problems.get(0);
 			assertThat(p0.getActualType(), is(TypeId.INTEGER));
-			assertThat(((JsonNumber)p0.getActualValue()).intValue(), equalTo(123));
+			assertThat(((JsonNumber)p0.getCauseValue()).intValue(), equalTo(123));
 			TypeMismatchProblem p1 = (TypeMismatchProblem)problems.get(1);
 			assertThat(p1.getActualType(), is(TypeId.BOOLEAN));
-			assertThat(p1.getActualValue(), is(JsonValue.TRUE));
+			assertThat(p1.getCauseValue(), is(JsonValue.TRUE));
 			TypeMismatchProblem p2 = (TypeMismatchProblem)problems.get(2);
 			assertThat(p2.getActualType(), is(TypeId.STRING));
-			assertThat(((JsonString)p2.getActualValue()).getString(), equalTo("abc"));
+			assertThat(((JsonString)p2.getCauseValue()).getString(), equalTo("abc"));
 			TypeMismatchProblem p3 = (TypeMismatchProblem)problems.get(3);
 			assertThat(p3.getActualType(), is(TypeId.NUMBER));
-			assertThat(((JsonNumber)p3.getActualValue()).bigDecimalValue(), equalTo(new BigDecimal("123.45")));
+			assertThat(((JsonNumber)p3.getCauseValue()).bigDecimalValue(), equalTo(new BigDecimal("123.45")));
 			TypeMismatchProblem p4 = (TypeMismatchProblem)problems.get(4);
 			assertThat(p4.getActualType(), is(TypeId.OBJECT));
-			assertThat(p4.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			assertThat(p4.getCauseValue().getValueType(), is(JsonValue.ValueType.OBJECT));
 			TypeMismatchProblem p5 = (TypeMismatchProblem)problems.get(5);
 			assertThat(p5.getActualType(), is(TypeId.ARRAY));
-			assertThat(p5.getActualValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			assertThat(p5.getCauseValue().getValueType(), is(JsonValue.ValueType.ARRAY));
 			TypeMismatchProblem p6 = (TypeMismatchProblem)problems.get(6);
 			assertThat(p6.getActualType(), is(TypeId.NULL));
-			assertThat(p6.getActualValue(), is(JsonValue.NULL));
+			assertThat(p6.getCauseValue(), is(JsonValue.NULL));
 		}
 	}
 	
@@ -224,7 +224,7 @@ public class ObjectValiadtionTest {
 			assertThat(problems.get(0), instanceOf(MissingPropertyProblem.class));
 			MissingPropertyProblem p = (MissingPropertyProblem)problems.get(0);
 			assertThat(p.getPropertyName(), equalTo("d"));
-			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.OBJECT));
 			assertThat(p.getDescription(), is(notNullValue()));
 		}
 	}
@@ -253,7 +253,7 @@ public class ObjectValiadtionTest {
 			assertThat(problems.size(), equalTo(1));
 			assertThat(problems.get(0), instanceOf(UnknownPropertyProblem.class));
 			UnknownPropertyProblem p = (UnknownPropertyProblem)problems.get(0);
-			assertThat(p.getActualValue().getValueType(), is(JsonValue.ValueType.OBJECT));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.OBJECT));
 			assertThat(p.getPropertyName(), equalTo("h"));
 			assertThat(p.getDescription(), is(notNullValue()));
 		}
@@ -322,7 +322,7 @@ public class ObjectValiadtionTest {
 			assertThat(result.getProblems().size(), equalTo(1));
 			assertThat(result.getProblems().get(0), instanceOf(AssertionFailureProblem.class));
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
-			assertThat(((JsonObject)p.getActualValue()).size(), equalTo(1));
+			assertThat(((JsonObject)p.getCauseValue()).size(), equalTo(1));
 			assertThat(p.getDescription(), equalTo("Any comments please."));
 		}
 	}
@@ -360,23 +360,23 @@ public class ObjectValiadtionTest {
 			
 			Problem p0 = problems.get(0); 
 			assertThat(p0, is(instanceOf(StringLengthProblem.class)));
-			assertThat(((StringLengthProblem)p0).getActualValue().getString(), equalTo("abcd"));
+			assertThat(((StringLengthProblem)p0).getCauseValue().getString(), equalTo("abcd"));
 
 			Problem p1 = problems.get(1); 
 			assertThat(p1, is(instanceOf(InclusiveLowerBoundProblem.class)));
-			assertThat(((InclusiveLowerBoundProblem)p1).getActualValue().intValue(), equalTo(-1));
+			assertThat(((InclusiveLowerBoundProblem)p1).getCauseValue().intValue(), equalTo(-1));
 
 			Problem p2 = problems.get(2); 
 			assertThat(p2, is(instanceOf(ExclusiveUpperBoundProblem.class)));
-			assertThat(((ExclusiveUpperBoundProblem)p2).getActualValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
+			assertThat(((ExclusiveUpperBoundProblem)p2).getCauseValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
 
 			Problem p3 = problems.get(3); 
 			assertThat(p3, is(instanceOf(NoSuchEnumeratorProblem.class)));
-			assertThat(((NoSuchEnumeratorProblem)p3).getActualValue(), equalTo(JsonValue.TRUE));
+			assertThat(((NoSuchEnumeratorProblem)p3).getCauseValue(), equalTo(JsonValue.TRUE));
 
 			Problem p4 = problems.get(4); 
 			assertThat(p4, is(instanceOf(ArrayLengthProblem.class)));
-			JsonValue v4 = ((ArrayLengthProblem)p4).getActualValue();
+			JsonValue v4 = ((ArrayLengthProblem)p4).getCauseValue();
 			assertThat(v4, instanceOf(JsonArray.class));
 			assertThat(((JsonArray)v4).size(), equalTo(2));
 			assertThat(((JsonArray)v4).getInt(0), equalTo(1));
@@ -384,7 +384,7 @@ public class ObjectValiadtionTest {
 
 			Problem p5 = problems.get(5); 
 			assertThat(p5, is(instanceOf(MissingPropertyProblem.class)));
-			JsonValue v5 = ((MissingPropertyProblem)p5).getActualValue();
+			JsonValue v5 = ((MissingPropertyProblem)p5).getCauseValue();
 			assertThat(v5, instanceOf(JsonObject.class));
 			assertThat(((JsonObject)v5).getInt("age"), equalTo(42));
 		}

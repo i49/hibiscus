@@ -1,6 +1,5 @@
 package com.github.i49.hibiscus.validation;
 
-import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.Problem;
 
 import static org.junit.Assert.*;
@@ -28,13 +27,10 @@ public class CustomAssertions {
 		assertNotNull(problem.getDescription());
 		assertNotNull(problem.getLocation());
 		
-		if (problem instanceof JsonValueProblem) {
-			JsonValueProblem valueProblem = (JsonValueProblem)problem;
-			JsonValue value = valueProblem.getActualValue();
-			assertNotNull(value);
-			String className = value.getClass().getName();
-			assertThat(className, not(startsWith("com.github.i49.hibiscus.")));
-		}
+		JsonValue value = problem.getCauseValue();
+		assertNotNull(value);
+		String className = value.getClass().getName();
+		assertThat(className, not(startsWith("com.github.i49.hibiscus.")));
 
 		log.fine(problem.getMessage(Locale.ENGLISH));
 	}

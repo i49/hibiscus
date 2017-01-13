@@ -95,7 +95,7 @@ public class StringValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals("\"Spring\"", p.getActualValue().toString());
+			assertEquals("\"Spring\"", p.getCauseValue().toString());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
@@ -123,7 +123,7 @@ public class StringValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals("\"Spring\"", p.getActualValue().toString());
+			assertEquals("\"Spring\"", p.getCauseValue().toString());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertEquals("Summer", (String)expected.iterator().next());
@@ -152,7 +152,7 @@ public class StringValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals("\"Q2\"", p.getActualValue().toString());
+			assertEquals("\"Q2\"", p.getCauseValue().toString());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(4, expected.size());
 			assertNotNull(p.getDescription());
@@ -432,7 +432,7 @@ public class StringValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof StringPatternProblem);
 			StringPatternProblem p = (StringPatternProblem)result.getProblems().get(0);
-			assertEquals("9876-54-321", p.getActualValue().getString());
+			assertEquals("9876-54-321", p.getCauseValue().getString());
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -469,7 +469,7 @@ public class StringValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
-			assertEquals("abc", ((JsonString)p.getActualValue()).getString());
+			assertEquals("abc", ((JsonString)p.getCauseValue()).getString());
 			assertEquals("Length must be a even number.", p.getDescription());
 		}
 	}

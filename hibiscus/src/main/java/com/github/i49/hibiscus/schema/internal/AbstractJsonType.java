@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.facets.Facet;
 import com.github.i49.hibiscus.problems.ProblemDescriber;
 import com.github.i49.hibiscus.schema.JsonType;
 import com.github.i49.hibiscus.schema.SchemaException;
-import com.github.i49.hibiscus.problems.JsonValueProblem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * A skeletal class to help implement {@link JsonType}.
@@ -24,7 +24,7 @@ abstract class AbstractJsonType<V extends JsonValue, T extends JsonType> impleme
 	private List<Facet<V>> facets;
 	
 	@Override
-	public void validateInstance(JsonValue value, List<JsonValueProblem> problems) {
+	public void validateInstance(JsonValue value, List<Problem> problems) {
 		if (this.facets == null) {
 			// Nothing to do.
 			return;

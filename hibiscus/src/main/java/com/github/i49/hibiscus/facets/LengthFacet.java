@@ -5,7 +5,7 @@ import java.util.function.ToIntFunction;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.JsonValueProblem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>length</strong> facet to restrict the value space to the values that have the specific length.
@@ -39,7 +39,7 @@ public class LengthFacet<V extends JsonValue> implements Facet<V> {
 	}
 
 	@Override
-	public void apply(V value, List<JsonValueProblem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		int length = lengthMapper.applyAsInt(value);
 		if (length != expectedLength) {
 			problems.add(problemFactory.newProblem(length, expectedLength));

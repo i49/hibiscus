@@ -5,7 +5,7 @@ import java.util.List;
 import javax.json.JsonValue;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.JsonValueProblem;
+import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.validation.JsonValidator;
 
 /**
@@ -29,6 +29,6 @@ public interface JsonType {
 	 * @param value the value in JSON document. Cannot be {@code null}.
 	 * @param problems the list to which detected problems to be added. Cannot be {@code null}.
 	 */
-	default void validateInstance(JsonValue value, List<JsonValueProblem> problems) {
+	default void validateInstance(JsonValue value, List<Problem> problems) {
 	}
  }

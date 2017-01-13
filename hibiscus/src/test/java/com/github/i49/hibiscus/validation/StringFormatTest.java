@@ -84,7 +84,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("1985-04-12 23:20:50.52Z", ((JsonString)p.getActualValue()).getString());
+			assertEquals("1985-04-12 23:20:50.52Z", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("datetime", f.getName());
 			assertNotNull(p.getDescription());
@@ -120,7 +120,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("John Smith", ((JsonString)p.getActualValue()).getString());
+			assertEquals("John Smith", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("email", f.getName());
 			assertNotNull(p.getDescription());
@@ -156,7 +156,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("www._example_.com", ((JsonString)p.getActualValue()).getString());
+			assertEquals("www._example_.com", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("hostname", f.getName());
 			assertNotNull(p.getDescription());
@@ -172,7 +172,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("192.168.80.1", ((JsonString)p.getActualValue()).getString());
+			assertEquals("192.168.80.1", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("hostname", f.getName());
 			assertNotNull(p.getDescription());
@@ -188,7 +188,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("www.example.com:80", ((JsonString)p.getActualValue()).getString());
+			assertEquals("www.example.com:80", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("hostname", f.getName());
 			assertNotNull(p.getDescription());
@@ -224,7 +224,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("2001:db8::", ((JsonString)p.getActualValue()).getString());
+			assertEquals("2001:db8::", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("ipv4", f.getName());
 			assertNotNull(p.getDescription());
@@ -240,7 +240,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("www.example.com", ((JsonString)p.getActualValue()).getString());
+			assertEquals("www.example.com", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("ipv4", f.getName());
 			assertNotNull(p.getDescription());
@@ -316,7 +316,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("192.0.2.0", ((JsonString)p.getActualValue()).getString());
+			assertEquals("192.0.2.0", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("ipv6", f.getName());
 			assertNotNull(p.getDescription());
@@ -332,7 +332,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("www.example.com", ((JsonString)p.getActualValue()).getString());
+			assertEquals("www.example.com", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("ipv6", f.getName());
 			assertNotNull(p.getDescription());
@@ -578,7 +578,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("http://example.com/ index.html", ((JsonString)p.getActualValue()).getString());
+			assertEquals("http://example.com/ index.html", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("anyURI", f.getName());
 			assertNotNull(p.getDescription());
@@ -624,7 +624,7 @@ public class StringFormatTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InvalidFormatProblem);
 			InvalidFormatProblem<?> p = (InvalidFormatProblem<?>)result.getProblems().get(0);
-			assertEquals("../path/to/index.html", ((JsonString)p.getActualValue()).getString());
+			assertEquals("../path/to/index.html", ((JsonString)p.getCauseValue()).getString());
 			Format<?> f = p.getExpectedFormats().iterator().next();
 			assertEquals("absoluteURI", f.getName());
 			assertNotNull(p.getDescription());

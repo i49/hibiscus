@@ -11,7 +11,7 @@ import javax.json.JsonValue;
  * 
  * @param <V> the type of {@link JsonValue} which caused this problem.
  */
-public class AssertionFailureProblem<V extends JsonValue> extends TypedJsonValueProblem<V> {
+public class AssertionFailureProblem<V extends JsonValue> extends TypedProblem<V> {
 
 	private final ProblemDescriber<V> describer;
 	
@@ -25,6 +25,6 @@ public class AssertionFailureProblem<V extends JsonValue> extends TypedJsonValue
 
 	@Override
 	protected String buildDescription(Locale locale) {
-		return describer.describe(getActualValue(), locale);
+		return describer.describe(getCauseValue(), locale);
 	}
 }

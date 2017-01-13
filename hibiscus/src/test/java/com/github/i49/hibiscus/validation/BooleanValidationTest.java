@@ -77,7 +77,7 @@ public class BooleanValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(JsonValue.TRUE, p.getActualValue());
+			assertEquals(JsonValue.TRUE, p.getCauseValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
@@ -105,7 +105,7 @@ public class BooleanValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(JsonValue.TRUE, p.getActualValue());
+			assertEquals(JsonValue.TRUE, p.getCauseValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertTrue(expected.contains(Boolean.FALSE));
@@ -134,7 +134,7 @@ public class BooleanValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(JsonValue.FALSE, p.getActualValue());
+			assertEquals(JsonValue.FALSE, p.getCauseValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
@@ -151,7 +151,7 @@ public class BooleanValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(JsonValue.FALSE, p.getActualValue());
+			assertEquals(JsonValue.FALSE, p.getCauseValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertTrue(expected.contains(Boolean.TRUE));

@@ -16,8 +16,8 @@ import com.github.i49.hibiscus.schema.NamedProperty;
 import com.github.i49.hibiscus.schema.ObjectType;
 import com.github.i49.hibiscus.schema.Property;
 import com.github.i49.hibiscus.schema.SchemaException;
-import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.MissingPropertyProblem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * The implementation class of {@link ObjectType}.
@@ -44,7 +44,7 @@ public class ObjectTypeImpl extends AbstractJsonType<JsonObject, ObjectType> imp
 	}
 	
 	@Override
-	public void validateInstance(JsonValue value, List<JsonValueProblem> problems) {
+	public void validateInstance(JsonValue value, List<Problem> problems) {
 		super.validateInstance(value, problems);
 		JsonObject object = (JsonObject)value;
 		for (String name: this.required) {

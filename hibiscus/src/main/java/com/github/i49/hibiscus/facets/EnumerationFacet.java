@@ -6,8 +6,8 @@ import java.util.function.Function;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.NoSuchEnumeratorProblem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * <strong>enumeration</strong> facet to restrict the value space of the type 
@@ -50,7 +50,7 @@ public class EnumerationFacet<V extends JsonValue, E> implements Facet<V> {
 	}
 
 	@Override
-	public void apply(V value, List<JsonValueProblem> problems) {
+	public void apply(V value, List<Problem> problems) {
 		if (!enumerators.contains(mapper.apply(value))) {
 			problems.add(new NoSuchEnumeratorProblem(enumerators));
 		}

@@ -156,7 +156,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(1, ((JsonNumber)p.getActualValue()).intValue());
+			assertEquals(1, ((JsonNumber)p.getCauseValue()).intValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
@@ -184,7 +184,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(12, ((JsonNumber)p.getActualValue()).intValue());
+			assertEquals(12, ((JsonNumber)p.getCauseValue()).intValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertNotNull(p.getDescription());
@@ -212,7 +212,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(42, ((JsonNumber)p.getActualValue()).intValue());
+			assertEquals(42, ((JsonNumber)p.getCauseValue()).intValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(3, expected.size());
 			assertNotNull(p.getDescription());
@@ -233,7 +233,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InclusiveLowerBoundProblem);
 			InclusiveLowerBoundProblem p = (InclusiveLowerBoundProblem)result.getProblems().get(0);
-			assertEquals(27, p.getActualValue().intValue());
+			assertEquals(27, p.getCauseValue().intValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertFalse(bound.isExclusive());
 			assertEquals(28, bound.getValue().intValue());
@@ -279,7 +279,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerBoundProblem);
 			ExclusiveLowerBoundProblem p = (ExclusiveLowerBoundProblem)result.getProblems().get(0);
-			assertEquals(28, p.getActualValue().intValue());
+			assertEquals(28, p.getCauseValue().intValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertTrue(bound.isExclusive());
 			assertEquals(28, bound.getValue().intValue());
@@ -325,7 +325,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InclusiveUpperBoundProblem);
 			InclusiveUpperBoundProblem p = (InclusiveUpperBoundProblem)result.getProblems().get(0);
-			assertEquals(32, p.getActualValue().intValue());
+			assertEquals(32, p.getCauseValue().intValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertFalse(bound.isExclusive());
 			assertEquals(31, bound.getValue().intValue());
@@ -359,7 +359,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperBoundProblem);
 			ExclusiveUpperBoundProblem p = (ExclusiveUpperBoundProblem)result.getProblems().get(0);
-			assertEquals(31, p.getActualValue().intValue());
+			assertEquals(31, p.getCauseValue().intValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertTrue(bound.isExclusive());
 			assertEquals(31, bound.getValue().intValue());
@@ -399,7 +399,7 @@ public class IntegerValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof AssertionFailureProblem);
 			AssertionFailureProblem<?> p = (AssertionFailureProblem<?>)result.getProblems().get(0);
-			assertEquals(31, ((JsonNumber)p.getActualValue()).intValue());
+			assertEquals(31, ((JsonNumber)p.getCauseValue()).intValue());
 			assertEquals("Value must be a even number.", p.getDescription());
 		}
 	}

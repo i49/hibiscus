@@ -14,7 +14,6 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
 import com.github.i49.hibiscus.common.TypeId;
-import com.github.i49.hibiscus.problems.JsonValueProblem;
 import com.github.i49.hibiscus.problems.Problem;
 import com.github.i49.hibiscus.problems.TypeMismatchProblem;
 import com.github.i49.hibiscus.problems.UnknownPropertyProblem;
@@ -37,7 +36,7 @@ class JsonValidatingReader {
 	private final JsonBuilderFactory builderFactory;
 	private final TransientValueProvider transientValueProvider = new TransientValueProvider();
 	private final List<Problem> problems = new ArrayList<>();
-	private final List<JsonValueProblem> valueProblems = new ArrayList<>();
+	private final List<Problem> valueProblems = new ArrayList<>();
 	private final Deque<JsonContext> contextStack = new ArrayDeque<>();
 	
 	/**
@@ -231,11 +230,11 @@ class JsonValidatingReader {
 		if (type == null) {
 			return;
 		}
-		List<JsonValueProblem> problems = this.valueProblems;
+		List<Problem> problems = this.valueProblems;
 		type.validateInstance(value, problems);
 		if (!problems.isEmpty()) {
 			Future<JsonValue> future = getCurrentContext().getFuture();
-			for (JsonValueProblem p: problems) {
+			for (Problem p: problems) {
 				addProblem(p, future);
 			}
 			problems.clear();
@@ -252,8 +251,8 @@ class JsonValidatingReader {
 	 * @param problem the problem found while validating the JSON document.
 	 * @param value the proxy of the value which caused the problem.
 	 */
-	private void addProblem(JsonValueProblem problem, Future<? extends JsonValue> value) {
-		problem.setActualValue(value);
+	private void addProblem(Problem problem, Future<? extends JsonValue> value) {
+		problem.setCauseValue(value);
 		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
 	}

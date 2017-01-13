@@ -24,6 +24,6 @@ public class ExclusiveLowerBoundProblem extends NumericRangeProblem {
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.EXCLUSIVE_LOWER_BOUND_PROBLEM(locale, getActualValue(), getBound().getValue());
+		return Messages.EXCLUSIVE_LOWER_BOUND_PROBLEM(locale, getCauseValue(), getBound().getValue());
 	}
 }

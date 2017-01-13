@@ -9,7 +9,7 @@ import javax.json.JsonArray;
  *
  * <p>This problem can be caused by {@code array()} type only.</p>
  */
-public class ArrayLengthProblem extends TypedJsonValueProblem<JsonArray> {
+public class ArrayLengthProblem extends TypedProblem<JsonArray> {
 
 	private final int actualLength;
 	private final int expectedLength;

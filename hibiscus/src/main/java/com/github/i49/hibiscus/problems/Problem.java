@@ -1,7 +1,9 @@
 package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
+import java.util.concurrent.Future;
 
+import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
 /**
@@ -183,6 +185,19 @@ public interface Problem {
 	 * @return this problem.
 	 */
 	Problem setLocation(JsonLocation location);
+	
+	/**
+	 * Returns the actual {@link JsonValue} which caused this problem.
+	 * @return the actual {@link JsonValue} which caused this problem.
+	 */
+	JsonValue getCauseValue();
+	
+	/**
+	 * Assigns the future object that will provide the actual {@link JsonValue} that caused this problem.
+	 * @param causeValue the future object that will provide the actual {@link JsonValue}.
+	 * @return this problem.
+	 */
+	Problem setCauseValue(Future<? extends JsonValue> causeValue);
 	
 	/**
 	 * Returns the description of this problem for the default locale.

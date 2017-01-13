@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.json.JsonValue;
 
-import com.github.i49.hibiscus.problems.JsonValueProblem;
+import com.github.i49.hibiscus.problems.Problem;
 
 /**
  * Common interface to be implemented by all facet classes.
@@ -163,5 +163,5 @@ public interface Facet<V extends JsonValue> {
 	 * @param value {@link JsonValue} in JSON document to be validated.
 	 * @param problems the list of problems to which new problems found by this facet will be added.
 	 */
-	void apply(V value, List<JsonValueProblem> problems);
+	void apply(V value, List<Problem> problems);
 }

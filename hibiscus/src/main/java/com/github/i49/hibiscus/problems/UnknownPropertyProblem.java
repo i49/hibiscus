@@ -9,7 +9,7 @@ import javax.json.JsonObject;
  *
  * <p>This problem can be caused by {@code object()} type only.</p>
  */
-public class UnknownPropertyProblem extends TypedJsonValueProblem<JsonObject> {
+public class UnknownPropertyProblem extends TypedProblem<JsonObject> {
 
 	private final String propertyName;
 

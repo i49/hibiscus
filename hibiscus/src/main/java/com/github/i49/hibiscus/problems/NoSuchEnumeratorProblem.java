@@ -3,15 +3,13 @@ package com.github.i49.hibiscus.problems;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.json.JsonValue;
-
 /**
  * Problem that a value does not match any value in the enumeration allowed for the type.
  * 
  * <p>This problem can be caused by
  * {@code boolean()}, {@code integer()}, {@code number()}, or {@code string()} type.</p>
  */
-public class NoSuchEnumeratorProblem extends TypedJsonValueProblem<JsonValue> {
+public class NoSuchEnumeratorProblem extends AbstractProblem {
 
 	private final Set<Object> enumerators;
 	
@@ -33,6 +31,6 @@ public class NoSuchEnumeratorProblem extends TypedJsonValueProblem<JsonValue> {
 	
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.NO_SUCH_ENUMERATOR_PROBLEM(locale, getActualValue(), getEnumerators());
+		return Messages.NO_SUCH_ENUMERATOR_PROBLEM(locale, getCauseValue(), getEnumerators());
 	}
 }

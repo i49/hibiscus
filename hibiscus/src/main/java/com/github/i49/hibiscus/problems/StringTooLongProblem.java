@@ -9,7 +9,7 @@ import javax.json.JsonString;
  *
  * <p>This problem can be caused by {@code string()} type only.</p>
  */
-public class StringTooLongProblem extends TypedJsonValueProblem<JsonString> {
+public class StringTooLongProblem extends TypedProblem<JsonString> {
 
 	private final int actualLength;
 	private final int limitLength;

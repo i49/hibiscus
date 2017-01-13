@@ -106,7 +106,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getCauseValue()).bigDecimalValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(0, expected.size());
 			assertNotNull(p.getDescription());
@@ -134,7 +134,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			assertEquals(new BigDecimal("12.34"), ((JsonNumber)p.getCauseValue()).bigDecimalValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(1, expected.size());
 			assertNotNull(p.getDescription());
@@ -162,7 +162,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof NoSuchEnumeratorProblem);
 			NoSuchEnumeratorProblem p = (NoSuchEnumeratorProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("3.14"), ((JsonNumber)p.getActualValue()).bigDecimalValue());
+			assertEquals(new BigDecimal("3.14"), ((JsonNumber)p.getCauseValue()).bigDecimalValue());
 			Set<Object> expected = p.getEnumerators();
 			assertEquals(2, expected.size());
 			assertNotNull(p.getDescription());
@@ -183,7 +183,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InclusiveLowerBoundProblem);
 			InclusiveLowerBoundProblem p = (InclusiveLowerBoundProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("12.33"), p.getActualValue().bigDecimalValue());
+			assertEquals(new BigDecimal("12.33"), p.getCauseValue().bigDecimalValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertFalse(bound.isExclusive());
 			assertEquals(new BigDecimal("12.34"), bound.getValue());
@@ -229,7 +229,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ExclusiveLowerBoundProblem);
 			ExclusiveLowerBoundProblem p = (ExclusiveLowerBoundProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("12.340"), p.getActualValue().bigDecimalValue());
+			assertEquals(new BigDecimal("12.340"), p.getCauseValue().bigDecimalValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertTrue(bound.isExclusive());
 			assertEquals(new BigDecimal("12.34"), bound.getValue());
@@ -275,7 +275,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof InclusiveUpperBoundProblem);
 			InclusiveUpperBoundProblem p = (InclusiveUpperBoundProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("56.79"), p.getActualValue().bigDecimalValue());
+			assertEquals(new BigDecimal("56.79"), p.getCauseValue().bigDecimalValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertFalse(bound.isExclusive());
 			assertEquals(new BigDecimal("56.78"), bound.getValue());
@@ -309,7 +309,7 @@ public class NumberValidationTest {
 			assertEquals(1, result.getProblems().size());
 			assertTrue(result.getProblems().get(0) instanceof ExclusiveUpperBoundProblem);
 			ExclusiveUpperBoundProblem p = (ExclusiveUpperBoundProblem)result.getProblems().get(0);
-			assertEquals(new BigDecimal("56.780"), p.getActualValue().bigDecimalValue());
+			assertEquals(new BigDecimal("56.780"), p.getCauseValue().bigDecimalValue());
 			Bound<BigDecimal> bound = p.getBound();
 			assertTrue(bound.isExclusive());
 			assertEquals(new BigDecimal("56.78"), bound.getValue());

@@ -14,7 +14,7 @@ import javax.json.JsonValue;
  *  
  * <p>This problem can be caused by {@code array()} type only.</p>
  */
-public class ArrayDuplicateItemProblem extends TypedJsonValueProblem<JsonArray> {
+public class ArrayDuplicateItemProblem extends TypedProblem<JsonArray> {
 
 	private final int itemIndex;
 	
@@ -39,7 +39,7 @@ public class ArrayDuplicateItemProblem extends TypedJsonValueProblem<JsonArray> 
 	 * @return the value of the duplicate element.
 	 */
 	public JsonValue getDuplicateItem() {
-		return getActualValue().get(this.itemIndex);
+		return getCauseValue().get(this.itemIndex);
 	}
 
 	@Override

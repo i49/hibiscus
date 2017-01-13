@@ -11,7 +11,7 @@ import com.github.i49.hibiscus.common.TypeId;
  * 
  * @see TypeId
  */
-public class TypeMismatchProblem extends JsonValueProblem {
+public class TypeMismatchProblem extends AbstractProblem {
 	
 	private final TypeId actualType;
 	private final Set<TypeId> expectedTypes;

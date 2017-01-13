@@ -542,23 +542,23 @@ public class ArrayValidationTest {
 			
 			Problem p0 = problems.get(0); 
 			assertThat(p0, is(instanceOf(StringLengthProblem.class)));
-			assertThat(((StringLengthProblem)p0).getActualValue().getString(), equalTo("abcd"));
+			assertThat(((StringLengthProblem)p0).getCauseValue().getString(), equalTo("abcd"));
 
 			Problem p1 = problems.get(1); 
 			assertThat(p1, is(instanceOf(InclusiveLowerBoundProblem.class)));
-			assertThat(((InclusiveLowerBoundProblem)p1).getActualValue().intValue(), equalTo(-1));
+			assertThat(((InclusiveLowerBoundProblem)p1).getCauseValue().intValue(), equalTo(-1));
 
 			Problem p2 = problems.get(2); 
 			assertThat(p2, is(instanceOf(ExclusiveUpperBoundProblem.class)));
-			assertThat(((ExclusiveUpperBoundProblem)p2).getActualValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
+			assertThat(((ExclusiveUpperBoundProblem)p2).getCauseValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
 
 			Problem p3 = problems.get(3); 
 			assertThat(p3, is(instanceOf(NoSuchEnumeratorProblem.class)));
-			assertThat(((NoSuchEnumeratorProblem)p3).getActualValue(), equalTo(JsonValue.TRUE));
+			assertThat(((NoSuchEnumeratorProblem)p3).getCauseValue(), equalTo(JsonValue.TRUE));
 
 			Problem p4 = problems.get(4); 
 			assertThat(p4, is(instanceOf(ArrayLengthProblem.class)));
-			JsonValue v4 = ((ArrayLengthProblem)p4).getActualValue();
+			JsonValue v4 = ((ArrayLengthProblem)p4).getCauseValue();
 			assertThat(v4, instanceOf(JsonArray.class));
 			assertThat(((JsonArray)v4).size(), equalTo(2));
 			assertThat(((JsonArray)v4).getInt(0), equalTo(1));
@@ -566,7 +566,7 @@ public class ArrayValidationTest {
 
 			Problem p5 = problems.get(5); 
 			assertThat(p5, is(instanceOf(MissingPropertyProblem.class)));
-			JsonValue v5 = ((MissingPropertyProblem)p5).getActualValue();
+			JsonValue v5 = ((MissingPropertyProblem)p5).getCauseValue();
 			assertThat(v5, instanceOf(JsonObject.class));
 			assertThat(((JsonObject)v5).getInt("age"), equalTo(42));
 		}

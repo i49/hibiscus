@@ -24,6 +24,6 @@ public class ExclusiveUpperBoundProblem extends NumericRangeProblem {
 
 	@Override
 	public String buildDescription(Locale locale) {
-		return Messages.EXCLUSIVE_UPPER_BOUND_PROBLEM(locale, getActualValue(), getBound().getValue());
+		return Messages.EXCLUSIVE_UPPER_BOUND_PROBLEM(locale, getCauseValue(), getBound().getValue());
 	}
 }
