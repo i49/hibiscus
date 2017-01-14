@@ -50,7 +50,7 @@ Schema schema = schema(
 
    ```java
    import com.github.i49.hibiscus.validation.BasicJsonValidator;
-   
+
    public class PersonValidator extends BasicJsonValidator {
    }
    ```
@@ -67,7 +67,7 @@ Schema schema = schema(
    import com.github.i49.hibiscus.validation.BasicJsonValidator;
    import com.github.i49.hibiscus.schema.Schema;
    import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-   
+
    public class PersonValidator extends BasicJsonValidator {
      // Schema definition.
      private static final Schema schema = schema(
@@ -87,7 +87,7 @@ Schema schema = schema(
    import com.github.i49.hibiscus.validation.BasicJsonValidator;
    import com.github.i49.hibiscus.schema.Schema;
    import static com.github.i49.hibiscus.schema.SchemaComponents.*;
-   
+
    public class PersonValidator extends BasicJsonValidator {
      // Schema definition.
      private static final Schema schema = schema(
@@ -98,7 +98,7 @@ Schema schema = schema(
          optional("hobbies", array(string()))
        )
      );  
-   
+
      public PersonValidator() {
        super(schema)
      }
@@ -176,7 +176,7 @@ Please add a dependency to pom.xml of your application in order to use this libr
 <dependency>
   <groupId>com.github.i49</groupId>
   <artifactId>hibiscus</artifactId>
-  <version>0.1.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
