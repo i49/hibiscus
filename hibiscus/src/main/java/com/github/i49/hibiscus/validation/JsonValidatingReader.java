@@ -56,11 +56,13 @@ class JsonValidatingReader {
 	 */
 	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
-			DocumentContext context = new DocumentContext(this.document, this.builderFactory);
+			DocumentContext context = new DocumentContext(this.builderFactory);
 			pushContext(context);
 			readValue(parser.next(), schema.getTypeSet());
 			popContext();
-			return this.document.getRootValue();
+			JsonValue rootValue = context.getRootValue();
+			this.document.setRootValue(rootValue);
+			return rootValue;
 		} else {
 			return null;
 		}

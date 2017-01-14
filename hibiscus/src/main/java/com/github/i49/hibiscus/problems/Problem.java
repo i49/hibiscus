@@ -28,20 +28,28 @@ import com.github.i49.hibiscus.common.JsonPointer;
  * 
  * <p>Each kind of problems is encapsulated in its own class defined in this package. 
  * These problem classes implement the common interface {@link Problem}.
- * This interface provides some useful methods in order to 
+ * This interface provides several useful methods in order to 
  * give users the clues on the found problem.
  * </p> 
  * <ol>
- * <li><p>The location of problem</p>
+ * <li><p>location of problem</p>
  * <p>{@link #getLocation()} method provides
  * <i>where</i> the problem was detected in original JSON document. The information includes
  * line and column numbers in the JSON document.</p>
  * </li>
- * <li><p>The description of problem</p>
+ * <li><p>value that caused problem</p>
+ * <p>{@link #getCauseValue()} method provides
+ * {@link JsonValue} that caused the problem.</p>
+ * </li>
+ * <li><p>JSON pointer</p>
+ * <p>{@link #getPointer()} method provides
+ * {@link JsonPointer} which refers to the JSON value that caused the problem.</p>
+ * </li>
+ * <li><p>description of problem</p>
  * <p>{@link #getDescription()} method gives
  * the textural description of the problem detected.</p>
  * </li>
- * <li><p>The string representing of problem</p>
+ * <li><p>string representing of problem</p>
  * <p>{@link #getMessage()} method gives
  * the string representation of the problem which includes the location and the description of the problem.
  * This is handy method to display the problem for the application users instantly.</p>
@@ -181,7 +189,7 @@ public interface Problem {
 	JsonLocation getLocation();
 
 	/**
-	 * Assigns the location where this problem was found to this problem.
+	 * Assigns the location where this problem was found.
 	 * @param location the location which indicates where this problem was found. 
 	 *                 {@code null} indicates the location is unknown.
 	 * @return this problem.
