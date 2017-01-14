@@ -1,7 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
-import java.util.concurrent.Future;
 
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -70,11 +69,6 @@ class ArrayContext extends AbstractJsonContext {
 		return value;
 	}
 
-	@Override
-	public Future<JsonValue> getCurrentValueFuture() {
-		return new ArrayItemFuture(this.currentIndex);
-	}
-	
 	/**
 	 * Builds the {@link JsonArray} which is composed of all added elements.
 	 * @return the built {@link JsonArray}.
@@ -89,22 +83,5 @@ class ArrayContext extends AbstractJsonContext {
 	public void buildCurrentPointer(JsonPointer.Builder builder) {
 		super.buildCurrentPointer(builder);
 		builder.append(this.currentIndex);
-	}
-	
-	/**
-	 * A future object that will provide the final {@link JsonValue} determined by the index of the item.
-	 */
-	private class ArrayItemFuture extends AbstractFuture<JsonValue> {
-
-		private final int index;
-		
-		public ArrayItemFuture(int index) {
-			this.index = index;
-		}
-
-		@Override
-		public JsonValue get() {
-			return result.get(this.index);
-		}
 	}
 }

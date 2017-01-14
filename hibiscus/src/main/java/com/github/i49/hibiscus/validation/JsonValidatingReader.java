@@ -2,7 +2,6 @@ package com.github.i49.hibiscus.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
 
 import javax.json.JsonArray;
 import javax.json.JsonBuilderFactory;
@@ -11,6 +10,7 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.json.stream.JsonParser;
 
+import com.github.i49.hibiscus.common.JsonDocument;
 import com.github.i49.hibiscus.common.JsonPointer;
 import com.github.i49.hibiscus.common.TypeId;
 import com.github.i49.hibiscus.problems.Problem;
@@ -36,6 +36,7 @@ class JsonValidatingReader {
 	private final TransientValueProvider transientValueProvider = new TransientValueProvider();
 	private final List<Problem> problems = new ArrayList<>();
 	private final List<Problem> valueProblems = new ArrayList<>();
+	private JsonDocument document = new JsonDocument();
 	private JsonContext currentContext;
 	
 	/**
@@ -55,11 +56,11 @@ class JsonValidatingReader {
 	 */
 	public JsonValue readAll(Schema schema) {
 		if (parser.hasNext()) {
-			DocumentContext context = new DocumentContext(this.builderFactory);
+			DocumentContext context = new DocumentContext(this.document, this.builderFactory);
 			pushContext(context);
 			readValue(parser.next(), schema.getTypeSet());
 			popContext();
-			return context.getDocument().getRootValue();
+			return this.document.getRootValue();
 		} else {
 			return null;
 		}
@@ -148,7 +149,7 @@ class JsonValidatingReader {
 		TypeSet typeCandidates = findPropertyType(object, name);
 		if (typeCandidates == null) {
 			if (!object.allowsMoreProperties()) {
-				addProblem(new UnknownPropertyProblem(name), context.getSelfFuture(), context.getSelfPointer());
+				addProblem(new UnknownPropertyProblem(name), context.getBasePointer());
 			}
 		}
 		context.nextName(name);
@@ -212,10 +213,7 @@ class JsonValidatingReader {
 		JsonType type = candidates.getType(actual);
 		if (type == null) {
 			JsonContext context = getContext();
-			addProblem(
-					new TypeMismatchProblem(actual, candidates.getTypeIds()), 
-					context.getCurrentValueFuture(),
-					context.getCurrentPointer());
+			addProblem(new TypeMismatchProblem(actual, candidates.getTypeIds()), context.getCurrentPointer());
 		}
 		return type;
 	}
@@ -233,10 +231,9 @@ class JsonValidatingReader {
 		type.validateInstance(value, problems);
 		if (!problems.isEmpty()) {
 			JsonContext context = getContext();
-			Future<JsonValue> future = context.getCurrentValueFuture();
 			JsonPointer pointer = context.getCurrentPointer();
 			for (Problem p: problems) {
-				addProblem(p, future, pointer);
+				addProblem(p, pointer);
 			}
 			problems.clear();
 		}
@@ -250,12 +247,10 @@ class JsonValidatingReader {
 	/**
 	 * Adds a problem found to the list of the problems.
 	 * @param problem the problem found while validating the JSON document.
-	 * @param value the proxy of the value which caused the problem.
 	 * @param pointer the JSON pointer which refers to the value that caused the problem.
 	 */
-	private void addProblem(Problem problem, Future<? extends JsonValue> value, JsonPointer pointer) {
-		problem.setCauseValue(value);
-		problem.setPointer(pointer);
+	private void addProblem(Problem problem, JsonPointer pointer) {
+		problem.setPointer(pointer, this.document);
 		problem.setLocation(parser.getLocation());
 		this.problems.add(problem);
 	}

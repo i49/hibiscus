@@ -1,7 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
-import java.util.concurrent.Future;
 
 import javax.json.JsonNumber;
 import javax.json.JsonString;
@@ -63,29 +62,17 @@ interface JsonContext {
 	JsonValue add(JsonValue value);
 	
 	/**
-	 * Returns the future of the current active value.
-	 * @return the future of the current active value.
+	 * Returns the JSON pointer of the value which owns this context.
+	 * @return the JSON pointer of the value which owns this context.
 	 */
-	Future<JsonValue> getCurrentValueFuture();
-
-	/**
-	 * Returns the future of the value which owns this context.
-	 * @return this future of the value which owns this context.
-	 */
-	Future<JsonValue> getSelfFuture();
-
+	JsonPointer getBasePointer();
+	
 	/**
 	 * Returns the JSON pointer of the current active value.
 	 * @return the JSON pointer of the current active value.
 	 */
 	JsonPointer getCurrentPointer();
 
-	/**
-	 * Returns the JSON pointer of the value which owns this context.
-	 * @return the JSON pointer of the value which owns this context.
-	 */
-	JsonPointer getSelfPointer();
-	
 	/**
 	 * Builds the JSON pointer of the current active value.
 	 * @param builder the builder of the JSON pointer.

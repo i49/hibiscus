@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,10 +13,10 @@ import java.util.List;
  * 
  * @see <a href="https://tools.ietf.org/rfc/rfc6901.txt">RFC 6901: JavaScript Object Notation (JSON) Pointer</a>
  */
-public class JsonPointer {
+public class JsonPointer implements Iterable<Object> {
 
 	private final List<Object> tokens;
-	private static final JsonPointer POINTER_TO_DOCUMENT = new JsonPointer(Collections.emptyList());
+	private static final JsonPointer DOCUMENT_ROOT = new JsonPointer(Collections.emptyList());
 			
 	/**
 	 * Creates a builder to build an instance of this class.
@@ -29,8 +30,8 @@ public class JsonPointer {
 	 * Returns the JSON pointer which represents the whole JSON document.
 	 * @return the JSON pointer to the whole JSON document.
 	 */
-	public static JsonPointer toDocument() {
-		return POINTER_TO_DOCUMENT;
+	public static JsonPointer getPointerToDocumentRoot() {
+		return DOCUMENT_ROOT;
 	}
 	
 	/**
@@ -65,6 +66,15 @@ public class JsonPointer {
 			return null;
 		}
 	}
+
+	/**
+	 * Returns an iterator that will iterates reference tokens of this pointer.
+	 * @return an iterator to iterate reference tokens.
+	 */
+	@Override
+	public Iterator<Object> iterator() {
+		return this.tokens.iterator();
+	}
 	
 	/**
 	 * Escapes the reference token.
@@ -91,7 +101,7 @@ public class JsonPointer {
 		 * @return this builder.
 		 */
 		public Builder append(int index) {
-			tokens.add(String.valueOf(index));
+			tokens.add(Integer.valueOf(index));
 			return this;
 		}
 
@@ -111,7 +121,7 @@ public class JsonPointer {
 		 */
 		public JsonPointer build() {
 			if (tokens.isEmpty()) {
-				return JsonPointer.toDocument();
+				return JsonPointer.getPointerToDocumentRoot();
 			} else {
 				return new JsonPointer(tokens);
 			}

@@ -51,6 +51,6 @@ public class JsonPointerTest {
 	
 	@Test
 	public void testWholeDocument() {
-		assertThat(JsonPointer.builder().build(), is(JsonPointer.toDocument()));
+		assertThat(JsonPointer.builder().build(), is(JsonPointer.getPointerToDocumentRoot()));
 	}	
 }

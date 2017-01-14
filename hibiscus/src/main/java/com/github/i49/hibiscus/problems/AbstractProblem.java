@@ -1,11 +1,11 @@
 package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
-import java.util.concurrent.Future;
 
 import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
+import com.github.i49.hibiscus.common.JsonDocument;
 import com.github.i49.hibiscus.common.JsonPointer;
 
 /**
@@ -14,8 +14,8 @@ import com.github.i49.hibiscus.common.JsonPointer;
 abstract class AbstractProblem implements Problem {
 
 	private JsonLocation location;
-	private Future<? extends JsonValue> causeValue;
 	private JsonPointer pointer;
+	private JsonDocument document;
 	
 	@Override
 	public JsonLocation getLocation() {
@@ -29,31 +29,24 @@ abstract class AbstractProblem implements Problem {
 	}
 	
 	@Override
-	public JsonValue getCauseValue() {
-		try {
-			return causeValue.get();
-		} catch (Exception e) {
-			// This never happens.
-			return null;
-		}
-	}
-
-	@Override
-	public Problem setCauseValue(Future<? extends JsonValue> causeValue) {
-		this.causeValue = causeValue;
-		return this;
-	}
-	
-	@Override
 	public JsonPointer getPointer() {
 		return pointer;
 	}
 	
 	@Override
-	public void setPointer(JsonPointer pointer) {
+	public void setPointer(JsonPointer pointer, JsonDocument document) {
 		this.pointer = pointer;
+		this.document = document;
 	}
 	
+	@Override
+	public JsonValue getCauseValue() {
+		if (this.document == null || this.pointer == null) {
+			return null;
+		}
+		return this.document.getValueByPointer(this.pointer);
+	}
+
 	@Override
 	public String getDescription(Locale locale) {
 		if (locale == null) {

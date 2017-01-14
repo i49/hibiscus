@@ -1,11 +1,11 @@
 package com.github.i49.hibiscus.problems;
 
 import java.util.Locale;
-import java.util.concurrent.Future;
 
 import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
+import com.github.i49.hibiscus.common.JsonDocument;
 import com.github.i49.hibiscus.common.JsonPointer;
 
 /**
@@ -189,19 +189,6 @@ public interface Problem {
 	Problem setLocation(JsonLocation location);
 	
 	/**
-	 * Returns the actual {@link JsonValue} which caused this problem.
-	 * @return the actual {@link JsonValue} which caused this problem.
-	 */
-	JsonValue getCauseValue();
-	
-	/**
-	 * Assigns the future object that will provide the actual {@link JsonValue} that caused this problem.
-	 * @param causeValue the future object that will provide the actual {@link JsonValue}.
-	 * @return this problem.
-	 */
-	Problem setCauseValue(Future<? extends JsonValue> causeValue);
-	
-	/**
 	 * Returns the JSON pointer which refers to the value that caused this problem.
 	 * @return the JSON pointer to the cause value.
 	 */
@@ -210,8 +197,15 @@ public interface Problem {
 	/**
 	 * Assigns the JSON pointer which refers to the value that caused this problem.
 	 * @param pointer the JSON pointer to the cause value.
+	 * @param document the JSON document to which the JSON pointer refers. 
 	 */
-	void setPointer(JsonPointer pointer);
+	void setPointer(JsonPointer pointer, JsonDocument document);
+	
+	/**
+	 * Returns the actual {@link JsonValue} which caused this problem.
+	 * @return the actual {@link JsonValue} which caused this problem.
+	 */
+	JsonValue getCauseValue();
 	
 	/**
 	 * Returns the description of this problem for the default locale.

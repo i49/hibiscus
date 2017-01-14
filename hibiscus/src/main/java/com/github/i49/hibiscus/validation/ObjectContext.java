@@ -1,7 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
-import java.util.concurrent.Future;
 
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonNumber;
@@ -70,11 +69,6 @@ class ObjectContext extends AbstractJsonContext {
 		return value;
 	}
 	
-	@Override
-	public Future<JsonValue> getCurrentValueFuture() {
-		return new PropertyValueFuture(this.currentName);
-	}
-	
 	/**
 	 * Builds the {@link JsonObject} which is composed of all added properties. 
 	 * @return the built {@link JsonObject}.
@@ -89,22 +83,5 @@ class ObjectContext extends AbstractJsonContext {
 	public void buildCurrentPointer(JsonPointer.Builder builder) {
 		super.buildCurrentPointer(builder);
 		builder.append(this.currentName);
-	}
-	
-	/**
-	 * A future object that will provide the final {@link JsonValue} determined by a property name.
-	 */
-	private class PropertyValueFuture extends AbstractFuture<JsonValue> {
-
-		private final String name;
-		
-		public PropertyValueFuture(String name) {
-			this.name = name;
-		}
-		
-		@Override
-		public JsonValue get() {
-			return (JsonValue)result.get(this.name);
-		}
 	}
 }
