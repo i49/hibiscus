@@ -1,3 +1,13 @@
+# Change Log
+
+## 0.3.0 (2017-01-14)
+
+**Enhancements:**
+* Every problem found while validation now returns the value that caused the problem and the JSON pointer that refers the value.
+
+**Fixed bugs:**
+* Fixed bug that array element problem returns wrong value which caused the problem.
+
 ## 0.2.0 (2017-01-08)
 
 * `ValidationResult.getValue()` now returns JSON values purely instantiated by JSON-P implementation. They do not include objects implemented by this library.
