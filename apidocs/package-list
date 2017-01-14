@@ -4,4 +4,5 @@ com.github.i49.hibiscus.formats
 com.github.i49.hibiscus.json
 com.github.i49.hibiscus.problems
 com.github.i49.hibiscus.schema
+com.github.i49.hibiscus.schema.internal
 com.github.i49.hibiscus.validation
