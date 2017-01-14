@@ -57,7 +57,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 			
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	}
 
@@ -71,11 +71,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(TypeMismatchProblem.class));
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertEquals(TypeId.OBJECT, p.getActualType());
-			assertEquals(TypeId.ARRAY, p.getExpectedTypes().iterator().next());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getActualType(), is(TypeId.OBJECT));
+			assertThat(p.getExpectedTypes().iterator().next(), is(TypeId.ARRAY));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -90,7 +91,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -101,7 +102,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -112,7 +113,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -123,7 +124,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -134,7 +135,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -145,7 +146,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -156,7 +157,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 		
 		@Test
@@ -167,7 +168,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -178,7 +179,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	}
 	
@@ -201,7 +202,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -211,7 +212,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -221,11 +222,13 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayTooShortProblem.class));
 			ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualLength());
-			assertEquals(3, p.getLimitLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			assertThat(p.getActualLength(), equalTo(2));
+			assertThat(p.getLimitLength(), equalTo(3));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -249,7 +252,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 	
 		@Test
@@ -259,7 +262,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 		
 		@Test
@@ -269,11 +272,13 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayTooLongProblem.class));
 			ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
-			assertEquals(5, p.getActualLength());
-			assertEquals(4, p.getLimitLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getCauseValue().getValueType(), is(JsonValue.ValueType.ARRAY));
+			assertThat(p.getActualLength(), equalTo(5));
+			assertThat(p.getLimitLength(), equalTo(4));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -297,11 +302,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayTooShortProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayTooShortProblem.class));
 			ArrayTooShortProblem p = (ArrayTooShortProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualLength());
-			assertEquals(3, p.getLimitLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getActualLength(), equalTo(2));
+			assertThat(p.getLimitLength(), equalTo(3));
 			assertNotNull(p.getDescription());
 		}
 
@@ -312,7 +318,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -322,7 +328,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -332,7 +338,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -342,11 +348,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayTooLongProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayTooLongProblem.class));
 			ArrayTooLongProblem p = (ArrayTooLongProblem)result.getProblems().get(0);
-			assertEquals(6, p.getActualLength());
-			assertEquals(5, p.getLimitLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getActualLength(), equalTo(6));
+			assertThat(p.getLimitLength(), equalTo(5));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -367,11 +374,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayLengthProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayLengthProblem.class));
 			ArrayLengthProblem p = (ArrayLengthProblem)result.getProblems().get(0);
-			assertEquals(2, p.getActualLength());
-			assertEquals(3, p.getExpectedLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getActualLength(), equalTo(2));
+			assertThat(p.getExpectedLength(), equalTo(3));
 			assertNotNull(p.getDescription());
 		}
 
@@ -382,7 +390,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -392,11 +400,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 	
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayLengthProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayLengthProblem.class));
 			ArrayLengthProblem p = (ArrayLengthProblem)result.getProblems().get(0);
-			assertEquals(4, p.getActualLength());
-			assertEquals(3, p.getExpectedLength());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getActualLength(), equalTo(4));
+			assertThat(p.getExpectedLength(), equalTo(3));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -412,7 +421,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -423,13 +432,29 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertEquals(3, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
-			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertEquals(TypeId.STRING, p.getActualType());
-			assertEquals(1, p.getExpectedTypes().size());
-			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
-			assertNotNull(p.getDescription());
+			assertThat(result.getProblems().size(), equalTo(3));
+
+			assertThat(result.getProblems().get(0), instanceOf(TypeMismatchProblem.class));
+			TypeMismatchProblem p0 = (TypeMismatchProblem)result.getProblems().get(0);
+			assertThat(p0.getPointer().toString(), equalTo("/0"));
+			assertThat(p0.getActualType(), is(TypeId.STRING));
+			assertThat(p0.getExpectedTypes().size(), equalTo(1));
+			assertThat(p0.getExpectedTypes(), hasItem(TypeId.NUMBER));
+			assertNotNull(p0.getDescription());
+
+			TypeMismatchProblem p1 = (TypeMismatchProblem)result.getProblems().get(1);
+			assertThat(p1.getPointer().toString(), equalTo("/1"));
+			assertThat(p1.getActualType(), is(TypeId.STRING));
+			assertThat(p1.getExpectedTypes().size(), equalTo(1));
+			assertThat(p1.getExpectedTypes(), hasItem(TypeId.NUMBER));
+			assertNotNull(p1.getDescription());
+
+			TypeMismatchProblem p2 = (TypeMismatchProblem)result.getProblems().get(2);
+			assertThat(p2.getPointer().toString(), equalTo("/2"));
+			assertThat(p2.getActualType(), is(TypeId.STRING));
+			assertThat(p2.getExpectedTypes().size(), equalTo(1));
+			assertThat(p2.getExpectedTypes(), hasItem(TypeId.NUMBER));
+			assertNotNull(p2.getDescription());
 		}
 		
 		@Test
@@ -440,7 +465,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -451,14 +476,16 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertEquals(3, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof TypeMismatchProblem);
+			assertThat(result.getProblems().size(), equalTo(3));
+
+			assertThat(result.getProblems().get(0), instanceOf(TypeMismatchProblem.class));
 			TypeMismatchProblem p = (TypeMismatchProblem)result.getProblems().get(0);
-			assertEquals(TypeId.STRING, p.getActualType());
-			assertEquals(3, p.getExpectedTypes().size());
-			assertTrue(p.getExpectedTypes().contains(TypeId.NUMBER));
-			assertTrue(p.getExpectedTypes().contains(TypeId.BOOLEAN));
-			assertTrue(p.getExpectedTypes().contains(TypeId.NULL));
+			assertThat(p.getPointer().toString(), equalTo("/0"));
+			assertThat(p.getActualType(), is(TypeId.STRING));
+			assertThat(p.getExpectedTypes().size(), equalTo(3));
+			assertThat(p.getExpectedTypes(), hasItem(TypeId.NUMBER));
+			assertThat(p.getExpectedTypes(), hasItem(TypeId.BOOLEAN));
+			assertThat(p.getExpectedTypes(), hasItem(TypeId.NULL));
 			assertNotNull(p.getDescription());
 		}
 	}
@@ -473,7 +500,7 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertFalse(result.hasProblems());
+			assertThat(result.hasProblems(), is(false));
 		}
 
 		@Test
@@ -484,11 +511,12 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertEquals(1, result.getProblems().size());
-			assertTrue(result.getProblems().get(0) instanceof ArrayDuplicateItemProblem);
+			assertThat(result.getProblems().size(), equalTo(1));
+			assertThat(result.getProblems().get(0), instanceOf(ArrayDuplicateItemProblem.class));
 			ArrayDuplicateItemProblem p = (ArrayDuplicateItemProblem)result.getProblems().get(0);
-			assertEquals(2, p.getDuplicateIndex());
-			assertEquals("club", ((JsonString)p.getDuplicateItem()).getString());
+			assertThat(p.getPointer().toString(), equalTo(""));
+			assertThat(p.getDuplicateIndex(), equalTo(2));
+			assertThat(((JsonString)p.getDuplicateItem()).getString(), equalTo("club"));
 			assertNotNull(p.getDescription());
 		}
 
@@ -500,18 +528,20 @@ public class ArrayValidationTest {
 			ValidationResult result = validator.validate(new StringReader(json));
 
 			assertResultValid(result, json);
-			assertEquals(2, result.getProblems().size());
+			assertThat(result.getProblems().size(), equalTo(2));
 
-			assertTrue(result.getProblems().get(0) instanceof ArrayDuplicateItemProblem);
+			assertThat(result.getProblems().get(0), instanceOf(ArrayDuplicateItemProblem.class));
 			ArrayDuplicateItemProblem p0 = (ArrayDuplicateItemProblem)result.getProblems().get(0);
-			assertEquals(2, p0.getDuplicateIndex());
-			assertEquals(456, ((JsonNumber)p0.getDuplicateItem()).intValue());
+			assertThat(p0.getPointer().toString(), equalTo(""));
+			assertThat(p0.getDuplicateIndex(), equalTo(2));
+			assertThat(((JsonNumber)p0.getDuplicateItem()).intValue(), equalTo(456));
 			assertNotNull(p0.getDescription());
 
-			assertTrue(result.getProblems().get(1) instanceof ArrayDuplicateItemProblem);
+			assertThat(result.getProblems().get(1), instanceOf(ArrayDuplicateItemProblem.class));
 			ArrayDuplicateItemProblem p1 = (ArrayDuplicateItemProblem)result.getProblems().get(1);
-			assertEquals(3, p1.getDuplicateIndex());
-			assertEquals(123, ((JsonNumber)p1.getDuplicateItem()).intValue());
+			assertThat(p1.getPointer().toString(), equalTo(""));
+			assertThat(p1.getDuplicateIndex(), equalTo(3));
+			assertThat(((JsonNumber)p1.getDuplicateItem()).intValue(), equalTo(123));
 			assertNotNull(p1.getDescription());
 		}
 	}
@@ -542,22 +572,32 @@ public class ArrayValidationTest {
 			
 			Problem p0 = problems.get(0); 
 			assertThat(p0, is(instanceOf(StringLengthProblem.class)));
+			assertThat(p0.getPointer().toString(), equalTo("/0"));
+			assertThat(p0.getCauseValue().getValueType(), is(JsonValue.ValueType.STRING));
 			assertThat(((StringLengthProblem)p0).getCauseValue().getString(), equalTo("abcd"));
 
 			Problem p1 = problems.get(1); 
 			assertThat(p1, is(instanceOf(InclusiveLowerBoundProblem.class)));
+			assertThat(p1.getPointer().toString(), equalTo("/1"));
+			assertThat(p1.getCauseValue().getValueType(), is(JsonValue.ValueType.NUMBER));
 			assertThat(((InclusiveLowerBoundProblem)p1).getCauseValue().intValue(), equalTo(-1));
 
 			Problem p2 = problems.get(2); 
 			assertThat(p2, is(instanceOf(ExclusiveUpperBoundProblem.class)));
+			assertThat(p2.getPointer().toString(), equalTo("/2"));
+			assertThat(p2.getCauseValue().getValueType(), is(JsonValue.ValueType.NUMBER));
 			assertThat(((ExclusiveUpperBoundProblem)p2).getCauseValue().bigDecimalValue(), equalTo(new BigDecimal("20.0")));
 
 			Problem p3 = problems.get(3); 
 			assertThat(p3, is(instanceOf(NoSuchEnumeratorProblem.class)));
+			assertThat(p3.getPointer().toString(), equalTo("/3"));
+			assertThat(p3.getCauseValue().getValueType(), is(JsonValue.ValueType.TRUE));
 			assertThat(((NoSuchEnumeratorProblem)p3).getCauseValue(), equalTo(JsonValue.TRUE));
 
 			Problem p4 = problems.get(4); 
 			assertThat(p4, is(instanceOf(ArrayLengthProblem.class)));
+			assertThat(p4.getPointer().toString(), equalTo("/4"));
+			assertThat(p4.getCauseValue().getValueType(), is(JsonValue.ValueType.ARRAY));
 			JsonValue v4 = ((ArrayLengthProblem)p4).getCauseValue();
 			assertThat(v4, instanceOf(JsonArray.class));
 			assertThat(((JsonArray)v4).size(), equalTo(2));
@@ -566,6 +606,8 @@ public class ArrayValidationTest {
 
 			Problem p5 = problems.get(5); 
 			assertThat(p5, is(instanceOf(MissingPropertyProblem.class)));
+			assertThat(p5.getPointer().toString(), equalTo("/5"));
+			assertThat(p5.getCauseValue().getValueType(), is(JsonValue.ValueType.OBJECT));
 			JsonValue v5 = ((MissingPropertyProblem)p5).getCauseValue();
 			assertThat(v5, instanceOf(JsonObject.class));
 			assertThat(((JsonObject)v5).getInt("age"), equalTo(42));

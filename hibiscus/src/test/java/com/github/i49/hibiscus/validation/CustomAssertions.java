@@ -52,6 +52,8 @@ public class CustomAssertions {
 		assertNotNull(value);
 		String className = value.getClass().getName();
 		assertThat(className, not(startsWith("com.github.i49.hibiscus.")));
+		
+		assertNotNull(problem.getPointer());
 
 		log.fine(problem.getMessage(Locale.ENGLISH));
 	}

@@ -6,6 +6,8 @@ import java.util.concurrent.Future;
 import javax.json.JsonValue;
 import javax.json.stream.JsonLocation;
 
+import com.github.i49.hibiscus.common.JsonPointer;
+
 /**
  * Common interface which should be implemented by all classes representing problems 
  * that will be detected by validation of JSON documents.
@@ -198,6 +200,18 @@ public interface Problem {
 	 * @return this problem.
 	 */
 	Problem setCauseValue(Future<? extends JsonValue> causeValue);
+	
+	/**
+	 * Returns the JSON pointer which refers to the value that caused this problem.
+	 * @return the JSON pointer to the cause value.
+	 */
+	JsonPointer getPointer();
+
+	/**
+	 * Assigns the JSON pointer which refers to the value that caused this problem.
+	 * @param pointer the JSON pointer to the cause value.
+	 */
+	void setPointer(JsonPointer pointer);
 	
 	/**
 	 * Returns the description of this problem for the default locale.

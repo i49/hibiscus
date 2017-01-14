@@ -14,7 +14,7 @@ import javax.json.JsonValue;
 /**
  * A context class which will be created per a JSON document.
  */
-class DocumentContext implements JsonContext {
+class DocumentContext extends AbstractJsonContext {
 	
 	private final JsonBuilderFactory factory;
 	private JsonValue rootValue;
@@ -62,7 +62,7 @@ class DocumentContext implements JsonContext {
 	}
 
 	@Override
-	public Future<JsonValue> getFuture() {
+	public Future<JsonValue> getCurrentValueFuture() {
 		if (this.rootValue != null) {
 			// The root value has been determined already.
 			return CompletableFuture.completedFuture(this.rootValue);
@@ -75,7 +75,7 @@ class DocumentContext implements JsonContext {
 	 * Builds the JSON document. 
 	 * @return the built JSON document.
 	 */
-	public JsonDocument getDocument() {
+	JsonDocument getDocument() {
 		if (this.rootValue == null) {
 			throw new IllegalStateException();
 		}

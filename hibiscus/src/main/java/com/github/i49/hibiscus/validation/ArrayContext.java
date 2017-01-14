@@ -10,14 +10,16 @@ import javax.json.JsonNumber;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.common.JsonPointer;
+
 /**
  * A context class which will be created per an {@link JsonArray} while validating JSON documents.
  */
-class ArrayContext implements JsonContext {
+class ArrayContext extends AbstractJsonContext {
 
 	private final TransientValueProvider valueProvider;
 	private JsonArrayBuilder builder;
-	private int lastIndex;
+	private int currentIndex;
 	private JsonArray result;
 	
 	/**
@@ -28,14 +30,14 @@ class ArrayContext implements JsonContext {
 	ArrayContext(TransientValueProvider valueProvider, JsonBuilderFactory factory) {
 		this.valueProvider = valueProvider;
 		this.builder = factory.createArrayBuilder();
-		this.lastIndex = -1;
+		this.currentIndex = -1;
 	}
 	
 	/**
 	 * Moves to the next item in this array.
 	 */
 	void nextItem() {
-		this.lastIndex++;
+		this.currentIndex++;
 	}
 	
 	@Override
@@ -69,18 +71,24 @@ class ArrayContext implements JsonContext {
 	}
 
 	@Override
-	public Future<JsonValue> getFuture() {
-		return new ArrayItemFuture(this.lastIndex);
+	public Future<JsonValue> getCurrentValueFuture() {
+		return new ArrayItemFuture(this.currentIndex);
 	}
 	
 	/**
 	 * Builds the {@link JsonArray} which is composed of all added elements.
 	 * @return the built {@link JsonArray}.
 	 */
-	public JsonArray getArray() {
+	JsonArray getArray() {
 		this.result = this.builder.build();
 		this.builder = null;
 		return this.result;
+	}
+
+	@Override
+	public void buildCurrentPointer(JsonPointer.Builder builder) {
+		super.buildCurrentPointer(builder);
+		builder.append(this.currentIndex);
 	}
 	
 	/**

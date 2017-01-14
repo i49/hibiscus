@@ -1,7 +1,6 @@
 package com.github.i49.hibiscus.validation;
 
 import java.math.BigDecimal;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.json.JsonBuilderFactory;
@@ -11,10 +10,12 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.common.JsonPointer;
+
 /**
  * A context class which will be created per an {@link JsonObject} while validating JSON documents.
  */
-class ObjectContext implements JsonContext {
+class ObjectContext extends AbstractJsonContext {
 
 	private final TransientValueProvider valueProvider;
 	private JsonObjectBuilder builder;
@@ -32,8 +33,8 @@ class ObjectContext implements JsonContext {
 	}
 	
 	/**
-	 * Assigns the name of the next property in this object.
-	 * @param name the name of the property.
+	 * Moves to the next property in this object.
+	 * @param name the name of the next property.
 	 */
 	void nextName(String name) {
 		this.currentName = name;
@@ -70,33 +71,24 @@ class ObjectContext implements JsonContext {
 	}
 	
 	@Override
-	public Future<JsonValue> getFuture() {
+	public Future<JsonValue> getCurrentValueFuture() {
 		return new PropertyValueFuture(this.currentName);
 	}
 	
-	public Future<JsonObject> getFutureOfObject() {
-		return new ObjectFuture();
-	}
-
 	/**
 	 * Builds the {@link JsonObject} which is composed of all added properties. 
 	 * @return the built {@link JsonObject}.
 	 */
-	public JsonObject getObject() {
+	JsonObject getObject() {
 		this.result =  this.builder.build();
 		this.builder = null;
 		return this.result;
 	}
-	
-	/**
-	 * A future object that will provide the final {@link JsonObject} built by this context.
-	 */
-	private class ObjectFuture extends AbstractFuture<JsonObject> {
 
-		@Override
-		public JsonObject get() throws InterruptedException, ExecutionException {
-			return result;
-		}
+	@Override
+	public void buildCurrentPointer(JsonPointer.Builder builder) {
+		super.buildCurrentPointer(builder);
+		builder.append(this.currentName);
 	}
 	
 	/**

@@ -7,11 +7,25 @@ import javax.json.JsonNumber;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.github.i49.hibiscus.common.JsonPointer;
+
 /**
  * A context class which will be created per a {@link JsonValue} container
  * such as JSON documents, arrays or objects. 
  */
 interface JsonContext {
+	
+	/**
+	 * Returns the parent context of this context. 
+	 * @return the parent context.
+	 */
+	JsonContext getParent();
+	
+	/**
+	 * Assigns the parent context of this context.
+	 * @param parent the parent context.
+	 */
+	void setParent(JsonContext parent);
 
 	/**
 	 * Adds an integer value to this context.
@@ -49,8 +63,32 @@ interface JsonContext {
 	JsonValue add(JsonValue value);
 	
 	/**
-	 * Returns the future of the currently processing value.
-	 * @return the future of the currently processing value.
+	 * Returns the future of the current active value.
+	 * @return the future of the current active value.
 	 */
-	Future<JsonValue> getFuture();
+	Future<JsonValue> getCurrentValueFuture();
+
+	/**
+	 * Returns the future of the value which owns this context.
+	 * @return this future of the value which owns this context.
+	 */
+	Future<JsonValue> getSelfFuture();
+
+	/**
+	 * Returns the JSON pointer of the current active value.
+	 * @return the JSON pointer of the current active value.
+	 */
+	JsonPointer getCurrentPointer();
+
+	/**
+	 * Returns the JSON pointer of the value which owns this context.
+	 * @return the JSON pointer of the value which owns this context.
+	 */
+	JsonPointer getSelfPointer();
+	
+	/**
+	 * Builds the JSON pointer of the current active value.
+	 * @param builder the builder of the JSON pointer.
+	 */
+	void buildCurrentPointer(JsonPointer.Builder builder);
 }
