@@ -3,7 +3,7 @@
 [![Apache 2.0 License](https://img.shields.io/:license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0
 ) [![Build Status](https://travis-ci.org/i49/hibiscus.svg?branch=master)](https://travis-ci.org/i49/hibiscus)
 
-Hibiscus is JSON validator that verifies JSON documents against your schema which can be written as Java code.
+Hibiscus is a JSON validator to verify JSON documents against unique Java-based schemas.
 
 ## 1. Introduction
 
@@ -174,7 +174,7 @@ Please add a dependency to pom.xml of your application in order to use this libr
 <dependency>
   <groupId>com.github.i49</groupId>
   <artifactId>hibiscus</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
