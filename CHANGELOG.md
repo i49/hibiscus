@@ -4,6 +4,7 @@
 
 **Enhancements:**
 * Every problem found while validation now returns the value that caused the problem and the JSON pointer that refers the value.
+* Added another pattern() method in SchemaComponents class that allows you to specify property names by string Predicate objects or any Format objects such as email or anyURI.
 
 **Fixed bugs:**
 * Fixed bug that array element problem returns wrong value which caused the problem.
